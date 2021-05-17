@@ -42,12 +42,12 @@ function Quotes() {
     <StackQuotes.Navigator>
       <StackQuotes.Screen
         name="ChooseCategorie"
-        component={CategorieOverview}
+        component={QuotesOverview}
         options={{ title: "Wähle Kategorie" }}
       />
       <StackQuotes.Screen
         name="Categorie"
-        component={CategorieQuotes}
+        component={QuotesOverview}
         options={{ title: "Zitate" }}
       />
     </StackQuotes.Navigator>

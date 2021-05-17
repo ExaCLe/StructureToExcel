@@ -8,34 +8,40 @@ import {
   ScrollView,
   TouchableHighlight,
 } from "react-native";
-import Constants from "expo-constants";
-import { createSwitchNavigator } from "react-navigation";
+
 import Ionicons from "react-native-vector-icons/Ionicons";
+import * as SQLite from "expo-sqlite";
 
 import Habit from "./Habit.js";
 import Divider from "./Divider.js";
+
+const db = SQLite.openDatabase("habits.db");
 
 export default class HabitOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      idCounter: 3,
-      habits: [
-        {
-          name: "Test",
-          fullfilled: false,
-          id: "1",
-        },
-        {
-          name: "Zahnseide verwenden",
-          fullfilled: false,
-          id: "2",
-        },
-      ],
+      habits: null,
     };
+    // create a table if not existing already
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, fullfilledToday INTEGER);"
+      );
+    });
+
+    // get the habits from the database
+    this.fetchData();
+  }
+
+  componentDidUpdate() {
+    this.fetchData();
   }
 
   componentDidMount() {
+    this.props.navigation.addListener("focus", (payload) => {
+      this.forceUpdate();
+    });
     this.props.navigation.setOptions({
       headerRight: () => (
         <TouchableHighlight
@@ -52,8 +58,64 @@ export default class HabitOverview extends React.Component {
     });
   }
 
+  // compares two arrays for equality
+  compareArrays(first, snd) {
+    if (first === null && snd === null) return true;
+    if (first === null) return false;
+    if (snd === null) return false;
+    // check for same length
+    if (first.length != snd.length) return false;
+    // iterate over the array and compare the objects
+    for (let i = 0; i < first.length; i++) {
+      if (typeof first[i] === "object") {
+        this.compareObjects(first[i], snd[i]);
+      } else if (!(first[i] === snd[i])) {
+        return false;
+      }
+    }
+
+    // if reached here arrays are equal
+    return true;
+  }
+
+  // compares two objects for equality
+  compareObjects(first, snd) {
+    if (first === null && snd === null) return true;
+    if (first === null) return false;
+    if (snd === null) return false;
+    // get the keys out of the objects
+    const keys = Object.keys(first);
+    // make sure the keys are equal
+    if (!this.compareArrays(keys, Object.keys(snd))) return false;
+
+    // iterate over the keys
+    for (let i = 0; i < keys.length; i++) {
+      if (typeof first[keys[i]] === "object") {
+        if (!this.compareArrays(first[keys[i]], snd[keys[i]])) return false;
+      } else if (!(first[keys[i]] === snd[keys[i]])) return false;
+    }
+
+    return true;
+  }
+
+  // gets the data for the habits out of the database
+  fetchData = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM habits;",
+        null,
+        (txObj, { rows: { _array } }) => {
+          if (!this.compareArrays(this.state.habits, _array))
+            this.setState({ habits: _array });
+        },
+        () => console.error("Fehler beim Lesen der Gewohnheiten. ")
+      );
+    });
+  };
+
   handleFullfilled = (habit) => {
     const index = this.state.habits.findIndex((ele) => ele === habit);
+    console.log(this.state.habits[index]);
     this.setState((prevState) => {
       prevState.habits[index].fullfilled = true;
       return { habits: [...prevState.habits] };
@@ -65,20 +127,6 @@ export default class HabitOverview extends React.Component {
     return <Habit habit={obj.item} handleFullfilled={this.handleFullfilled} />;
   };
 
-  // adds a new habit to the state
-  addHabit = (habit) => {
-    const newHabit = {
-      name: habit.name,
-      fullfilled: false,
-      id: "" + this.state.idCounter,
-    };
-    this.setState((prevState) => ({
-      idCounter: prevState.idCounter + 1,
-      habits: [...prevState.habits, newHabit],
-    }));
-    this.props.navigation.goBack();
-  };
-
   render() {
     return (
       <View style={[styles.margin, styles.flex]}>
@@ -86,7 +134,7 @@ export default class HabitOverview extends React.Component {
         <FlatList
           data={this.state.habits}
           renderItem={this.renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => String(item.id)}
         />
       </View>
     );
@@ -98,3 +146,37 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+/* Reseting the db for testing: 
+
+db.transaction((tx) => {
+      tx.executeSql(
+        "DELETE FROM habits",
+        null,
+        () => {
+          console.log("Deleted");
+        },
+        (txObj, error) => {
+          console.log("Fehler: ");
+          console.log(error);
+        }
+      );
+    });
+
+
+// Insert some data: 
+// insert some data for testing
+    db.transaction((tx) => {
+      tx.executeSql(
+        "INSERT INTO habits (name) VALUES (?);",
+        ["Lesen"],
+        (txObj, resultSet) => {
+          console.log("Success");
+        },
+        (txObj, err) => {
+          console.err(err);
+        }
+      );
+    });
+
+    */
