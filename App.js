@@ -11,6 +11,8 @@ import AddHabit from "./components/AddHabit.js";
 import QuotesOverview from "./components/QuotesOverview.js";
 import CategorieOverview from "./components/CategorieOverview.js";
 import CategorieQuotes from "./components/CategorieQuotes.js";
+import HabitsDetails from "./components/HabitsDetails.js";
+import EditHabit from "./components/EditHabit.js";
 
 const StackHabits = createStackNavigator();
 
@@ -33,6 +35,8 @@ function Habit() {
           title: "Gewohnheit hinzufügen",
         }}
       />
+      <StackHabits.Screen name="HabitDetails" component={HabitsDetails} />
+      <StackHabits.Screen name="EditHabit" component={EditHabit} />
     </StackHabits.Navigator>
   );
 }

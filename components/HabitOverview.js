@@ -124,7 +124,13 @@ export default class HabitOverview extends React.Component {
 
   // renders an habit entry in the flat list
   renderItem = (obj) => {
-    return <Habit habit={obj.item} handleFullfilled={this.handleFullfilled} />;
+    return (
+      <Habit
+        habit={obj.item}
+        handleFullfilled={this.handleFullfilled}
+        navigation={this.props.navigation}
+      />
+    );
   };
 
   render() {

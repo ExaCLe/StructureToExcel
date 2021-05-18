@@ -8,25 +8,35 @@ const Habit = (props) => {
   const handleFullfilled = props.handleFullfilled;
   return (
     <View>
-      <View style={styles.container}>
-        <Text style={styles.text}>{props.habit.name}</Text>
+      <TouchableHighlight
+        onPress={() => {
+          props.navigation.navigate("HabitDetails", { ...props.habit });
+        }}
+      >
         <View style={styles.container}>
-          {props.habit.fullfilled ? (
-            <Ionicons name="checkmark-circle-outline" size={25} color="#000" />
-          ) : (
-            <View style={styles.container}>
-              <Ionicons name="close-circle-outline" size={25} color="#000" />
-              <TouchableHighlight
-                onPress={() => handleFullfilled(props.habit)}
-                style={styles.button}
-                underlayColor="#ffffff"
-              >
-                <Text style={[styles.text, styles.blue]}>Erledigt</Text>
-              </TouchableHighlight>
-            </View>
-          )}
+          <Text style={styles.text}>{props.habit.name}</Text>
+          <View style={styles.container}>
+            {props.habit.fullfilled ? (
+              <Ionicons
+                name="checkmark-circle-outline"
+                size={25}
+                color="#000"
+              />
+            ) : (
+              <View style={styles.container}>
+                <Ionicons name="close-circle-outline" size={25} color="#000" />
+                <TouchableHighlight
+                  onPress={() => handleFullfilled(props.habit)}
+                  style={styles.button}
+                  underlayColor="#ffffff"
+                >
+                  <Text style={[styles.text, styles.blue]}>Erledigt</Text>
+                </TouchableHighlight>
+              </View>
+            )}
+          </View>
         </View>
-      </View>
+      </TouchableHighlight>
       <Divider></Divider>
     </View>
   );
