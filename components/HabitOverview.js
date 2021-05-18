@@ -60,15 +60,15 @@ export default class HabitOverview extends React.Component {
 
   // compares two arrays for equality
   compareArrays(first, snd) {
-    if (first === null && snd === null) return true;
-    if (first === null) return false;
-    if (snd === null) return false;
+    if (!first && !snd) return true;
+    if (!first) return false;
+    if (!snd) return false;
     // check for same length
     if (first.length != snd.length) return false;
     // iterate over the array and compare the objects
     for (let i = 0; i < first.length; i++) {
       if (typeof first[i] === "object") {
-        this.compareObjects(first[i], snd[i]);
+        if (!this.compareObjects(first[i], snd[i])) return false;
       } else if (!(first[i] === snd[i])) {
         return false;
       }
@@ -80,9 +80,10 @@ export default class HabitOverview extends React.Component {
 
   // compares two objects for equality
   compareObjects(first, snd) {
-    if (first === null && snd === null) return true;
-    if (first === null) return false;
-    if (snd === null) return false;
+    console.log("ddd");
+    if (!first && !snd) return true;
+    if (!first) return false;
+    if (!snd) return false;
     // get the keys out of the objects
     const keys = Object.keys(first);
     // make sure the keys are equal
@@ -105,6 +106,8 @@ export default class HabitOverview extends React.Component {
         "SELECT * FROM habits;",
         null,
         (txObj, { rows: { _array } }) => {
+          console.log("Array: ", _array);
+          console.log("State: ", this.state.habits);
           if (!this.compareArrays(this.state.habits, _array))
             this.setState({ habits: _array });
         },

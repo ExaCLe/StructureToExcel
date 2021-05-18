@@ -15,7 +15,7 @@ const HabitsDetails = (props) => {
           <TouchableHighlight
             style={styles.buttonTopBar}
             onPress={() => {
-              props.navigation.navigate("EditHabit", props.route.param);
+              props.navigation.navigate("EditHabit", props.route.params);
             }}
           >
             <Ionicons name="pencil" size={25} />
