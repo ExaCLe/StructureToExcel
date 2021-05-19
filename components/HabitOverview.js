@@ -23,10 +23,16 @@ export default class HabitOverview extends React.Component {
     this.state = {
       habits: null,
     };
-    // create a table if not existing already
+    // create a table for the habits if not existing already
     db.transaction((tx) => {
       tx.executeSql(
         "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, fullfilledToday INTEGER);"
+      );
+    });
+    // create table for the habits fullfilling
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE checkHabits (id INTEGER PRIMARY KEY, habit_id INTEGER, date TEXT, FOREIGN KEY(habit_id) REFERENCES habits(id));"
       );
     });
 
@@ -80,7 +86,6 @@ export default class HabitOverview extends React.Component {
 
   // compares two objects for equality
   compareObjects(first, snd) {
-    console.log("ddd");
     if (!first && !snd) return true;
     if (!first) return false;
     if (!snd) return false;
@@ -106,19 +111,62 @@ export default class HabitOverview extends React.Component {
         "SELECT * FROM habits;",
         null,
         (txObj, { rows: { _array } }) => {
-          console.log("Array: ", _array);
-          console.log("State: ", this.state.habits);
-          if (!this.compareArrays(this.state.habits, _array))
+          if (!this.compareHabits(this.state.habits, _array))
             this.setState({ habits: _array });
         },
         () => console.error("Fehler beim Lesen der Gewohnheiten. ")
       );
     });
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM checkHabits WHERE date = date('now');",
+        null,
+        (txObj, results) => {
+          this.addChecksToState(results);
+        }
+      );
+    });
+  };
+
+  compareHabits = (first, snd) => {
+    if (!first && !snd) return true;
+    if (!first) return false;
+    if (!snd) return false;
+    if (first.length != snd.length) return false;
+    // compare the names
+    for (let i = 0; i < first.length; i++) {
+      if (!(first[i].name === snd[i].name)) return false;
+    }
+    return true;
+  };
+
+  // expects to get only the checked Habits for today
+  addChecksToState = ({ rows: { _array } }) => {
+    let newState = this.state;
+    for (let i = 0; i < _array.length; i++) {
+      // get the index of the habit in the state
+      const index = this.state.habits.findIndex(
+        (ele) => ele.id === _array[i].habit_id
+      );
+      if (index) {
+        newState.habits[index].fullfilled = true;
+      }
+    }
+    if (!this.compareArrays(this.state.habits, newState.habits))
+      this.setState({ ...newState });
   };
 
   handleFullfilled = (habit) => {
     const index = this.state.habits.findIndex((ele) => ele === habit);
-    console.log(this.state.habits[index]);
+    const id = this.state.habits[index].id;
+    console.log("working");
+    // insert the entry into check habits
+    db.transaction((tx) => {
+      tx.executeSql(
+        "INSERT INTO checkHabits (habit_id, date) VALUES (?, date('now'))",
+        [id]
+      );
+    });
     this.setState((prevState) => {
       prevState.habits[index].fullfilled = true;
       return { habits: [...prevState.habits] };
