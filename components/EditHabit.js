@@ -25,13 +25,11 @@ class EditHabit extends React.Component {
         <Button
           onPress={() => {
             // handle change in the database
-            console.log(this.state.name);
             db.transaction((tx) => {
               tx.executeSql(
                 "UPDATE habits SET name=? WHERE id=?",
                 [this.state.name, this.state.id],
                 (txObj, resultSet) => {
-                  console.log(txObj, resultSet);
                   // navigate back
                   this.props.navigation.navigate("HabitDetails", {
                     ...this.state,
