@@ -22,6 +22,11 @@ class HabitsDetails extends React.Component {
       );
     });
   }
+  componentDidUpdate() {
+    this.props.navigation.setOptions({
+      title: this.props.route.params.name,
+    });
+  }
 
   componentDidMount() {
     // add the button to the top
