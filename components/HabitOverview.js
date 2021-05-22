@@ -148,7 +148,7 @@ export default class HabitOverview extends React.Component {
       const index = this.state.habits.findIndex(
         (ele) => ele.id === _array[i].habit_id
       );
-      if (index && newState.habits[index]) {
+      if (index != -1 && newState.habits[index]) {
         newState.habits[index].fullfilled = true;
       }
     }
