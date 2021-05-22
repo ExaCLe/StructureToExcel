@@ -5,17 +5,37 @@ import * as SQLite from "expo-sqlite";
 
 const db = SQLite.openDatabase("habits.db");
 
-const HabitsDetails = (props) => {
-  useEffect(() => {
+class HabitsDetails extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dates: [],
+    };
+    // get the fullfilled dates out of the db
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM checkHabits WHERE habit_id = ? GROUP BY date",
+        [this.props.route.params.id],
+        (txObj, { rows: { _array } }) => {
+          this.setState({ dates: _array });
+        }
+      );
+    });
+  }
+
+  componentDidMount() {
     // add the button to the top
-    props.navigation.setOptions({
-      title: props.route.params.name,
+    this.props.navigation.setOptions({
+      title: this.props.route.params.name,
       headerRight: () => (
         <View style={styles.row}>
           <TouchableHighlight
             style={styles.buttonTopBar}
             onPress={() => {
-              props.navigation.navigate("EditHabit", props.route.params);
+              this.props.navigation.navigate(
+                "EditHabit",
+                this.props.route.params
+              );
             }}
           >
             <Ionicons name="pencil" size={25} />
@@ -27,9 +47,9 @@ const HabitsDetails = (props) => {
               db.transaction((tx) => {
                 tx.executeSql(
                   "DELETE FROM habits WHERE id=?",
-                  [props.route.params.id],
+                  [this.props.route.params.id],
                   () => {
-                    props.navigation.goBack();
+                    this.props.navigation.goBack();
                   },
                   null
                 );
@@ -41,14 +61,20 @@ const HabitsDetails = (props) => {
         </View>
       ),
     });
-  }, null);
-  return (
-    <View style={styles.container}>
-      <Text style={styles.textSmall}>Name: </Text>
-      <Text style={styles.textBig}>{props.route.params.name}</Text>
-    </View>
-  );
-};
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.textSmall}>Name: </Text>
+        <Text style={styles.textBig}>{this.props.route.params.name}</Text>
+        <Text style={styles.textSmall}>
+          {this.state.dates.map((ele) => ele.date + "\n")}
+        </Text>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
