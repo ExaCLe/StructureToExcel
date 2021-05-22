@@ -112,7 +112,7 @@ export default class HabitOverview extends React.Component {
         null,
         (txObj, { rows: { _array } }) => {
           if (!this.compareHabits(this.state.habits, _array))
-            this.setState({ habits: _array });
+            this.insertIntoHabits(_array);
         },
         () => console.error("Fehler beim Lesen der Gewohnheiten. ")
       );
@@ -126,6 +126,54 @@ export default class HabitOverview extends React.Component {
         }
       );
     });
+  };
+
+  insertIntoHabits = (arr) => {
+    // check for a name change
+    if (!this.compareHabits(this.state.habits, arr)) {
+      if (!this.state.habits) {
+        this.setState({ habits: arr });
+      }
+      // check for more elements in db than in state
+      if (this.state.habits.length < arr.length) {
+        for (let i = 0; i < arr.length; i++) {
+          if (!this.state.habits.find((ele) => ele.id === arr[i].id)) {
+            // insert the element into the state
+            let newState = this.state;
+            newState.habits.push(arr[i]);
+            this.setState({ ...newState });
+          }
+        }
+      }
+      // check for more elements in state than in db
+      else if (this.state.habits.length > arr.length) {
+        for (let i = 0; i < this.state.habits.length; i++) {
+          if (!arr.find((ele) => ele.id === this.state.habits[i].id)) {
+            this.setState((prevState) => {
+              prevState.habits = prevState.habits.filter(
+                (ele) => ele.id !== this.state.habits[i].id
+              );
+              return prevState;
+            });
+          }
+        }
+      }
+      // compare all the names of the habits
+      else {
+        for (let i = 0; i < arr.length; i++) {
+          // find the ele in the state
+          const index = this.state.habits.findIndex(
+            (ele) => ele.id === arr[i].id
+          );
+          if (arr[i].name !== this.state.habits[index].name) {
+            this.setState((prevState) => {
+              prevState.habits[index].name = arr[i].name;
+              return prevState;
+            });
+          }
+        }
+      }
+    }
   };
 
   compareHabits = (first, snd) => {
