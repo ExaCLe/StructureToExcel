@@ -21,6 +21,7 @@ import PomodoroSettings from "./components/PomodoroSettings.js";
 import DailyOverviewGoals from "./components/DailyOverviewGoals.js";
 import WeeklyOverviewGoals from "./components/WeeklyOverviewGoals.js";
 import AddGoal from "./components/AddGoals.js";
+import EditGoal from "./components/EditGoal.js";
 
 const StackHabits = createStackNavigator();
 
@@ -112,6 +113,7 @@ function Goals() {
         component={AddGoal}
         options={{ title: "Ziel hinzufügen" }}
       />
+      <StackGoals.Screen name="EditGoal" component="EditGoal" />
     </StackGoals.Navigator>
   );
 }

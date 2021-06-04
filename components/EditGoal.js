@@ -7,7 +7,22 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 class EditGoal extends React.Component {
+  componentDidMount() {
+    this.props.navigation.setOptions({
+      headerRight: () => (
+        <View style={styles.container}>
+          <TouchableHighlight
+            underlayColor="#ffffff"
+            onPress={() => this.props.navigation.goBack()}
+          >
+            <Ionicons name="trash" size={25} />
+          </TouchableHighlight>
+        </View>
+      ),
+    });
+  }
   render() {
     return (
       <View>
