@@ -24,7 +24,7 @@ class HabitsDetails extends React.Component {
   }
   componentDidUpdate() {
     this.props.navigation.setOptions({
-      title: this.props.route.params.name,
+      title: this.props.route.params.name + " Details",
     });
   }
 
@@ -73,9 +73,11 @@ class HabitsDetails extends React.Component {
       <View style={styles.container}>
         <Text style={styles.textSmall}>Name: </Text>
         <Text style={styles.textBig}>{this.props.route.params.name}</Text>
+        <Text>Letzte Einträge:</Text>
         <Text style={styles.textSmall}>
           {this.state.dates.map((ele) => ele.date + "\n")}
         </Text>
+        <Text>Monatsstatistik:</Text>
       </View>
     );
   }

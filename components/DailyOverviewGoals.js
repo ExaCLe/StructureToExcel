@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-class MonthlyOverviewGoals extends React.Component {
+class DailyOverviewGoals extends React.Component {
   componentDidMount() {
     this.props.navigation.setOptions({
       headerRight: () => (
@@ -27,15 +27,15 @@ class MonthlyOverviewGoals extends React.Component {
       <View>
         <Text>Monatsübersicht</Text>
         <Button
-          title={"Tagesübersicht"}
-          onPress={() => {
-            this.props.navigation.navigate("DailyOverviewGoals");
-          }}
-        />
-        <Button
           title={"Wochenübersicht"}
           onPress={() => {
             this.props.navigation.navigate("WeeklyOverviewGoals");
+          }}
+        />
+        <Button
+          title={"Monatsübersicht"}
+          onPress={() => {
+            this.props.navigation.navigate("MonthlyOverviewGoals");
           }}
         />
       </View>
@@ -53,4 +53,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MonthlyOverviewGoals;
+export default DailyOverviewGoals;

@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableHighlight,
 } from "react-native";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
@@ -50,16 +51,24 @@ export default class HabitOverview extends React.Component {
     });
     this.props.navigation.setOptions({
       headerRight: () => (
-        <TouchableHighlight
-          underlayColor="#ffffff"
-          onPress={() =>
-            this.props.navigation.navigate("AddHabit", {
-              addHabit: this.addHabit,
-            })
-          }
-        >
-          <Ionicons name="add" size={25} />
-        </TouchableHighlight>
+        <View style={styles.container}>
+          <TouchableHighlight
+            underlayColor="#ffffff"
+            onPress={() =>
+              this.props.navigation.navigate("AddHabit", {
+                addHabit: this.addHabit,
+              })
+            }
+          >
+            <Ionicons name="add" size={25} />
+          </TouchableHighlight>
+          <TouchableHighlight
+            underlayColor="#ffffff"
+            onPress={() => this.props.navigation.navigate("HabitsQueue")}
+          >
+            <MaterialIcons name="queue" size={25} />
+          </TouchableHighlight>
+        </View>
       ),
     });
   }
@@ -249,6 +258,10 @@ export default class HabitOverview extends React.Component {
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
+  },
+  container: {
+    display: "flex",
+    flexDirection: "row",
   },
 });
 

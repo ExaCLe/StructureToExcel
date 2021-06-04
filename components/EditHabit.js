@@ -12,6 +12,12 @@ class EditHabit extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.navigation.setOptions({
+      title: "Edit " + this.props.route.params.name,
+    });
+  }
+
   // handle the name change in the input field
   handleChange = (text) => {
     this.setState({ name: text });
@@ -22,6 +28,14 @@ class EditHabit extends React.Component {
       <View>
         <Text>Name: </Text>
         <TextInput value={this.state.name} onChangeText={this.handleChange} />
+        <Text>Icon: </Text>
+        <Button title={"Wähle Icon"} />
+        <Text>Wie öft möchtest du sie erfüllen?</Text>
+        <TextInput value={"7"} />
+        <Text>Mal pro</Text>
+        <TextInput value={"Woche"} />
+        <Text>Priorität</Text>
+        <TextInput value={"Prioriät 1"} />
         <Button
           onPress={() => {
             // handle change in the database
@@ -39,8 +53,9 @@ class EditHabit extends React.Component {
               );
             });
           }}
-          title={"Bestätigen"}
+          title={"Speichern"}
         />
+        <Button title={"Zur Warteschlange"} />
       </View>
     );
   }

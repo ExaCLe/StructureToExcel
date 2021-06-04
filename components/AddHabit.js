@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, View, TextInput } from "react-native";
+import { Button, View, TextInput, Text } from "react-native";
 import * as SQLite from "expo-sqlite";
 
 // open the database for adding the habits
@@ -37,15 +37,25 @@ class AddHabit extends React.Component {
     const addHabit = this.addHabit;
     return (
       <View>
+        <Text>Name:</Text>
         <TextInput
           placeholder="Name"
           onChangeText={this.handleNameChange}
           value={this.state.name}
         />
+        <Text>Icon: </Text>
+        <Button title={"Wähle Icon"} />
+        <Text>Wie oft möchtest du sie erfüllen? </Text>
+        <TextInput value={"1"} />
+        <Text>Mal pro</Text>
+        <TextInput value={"Tag"} />
+        <Text>Priorität</Text>
+        <TextInput value={"Priorität 1"} />
         <Button
           onPress={() => addHabit({ name: this.state.name })}
-          title="Hinzufügen"
+          title="Speichern"
         />
+        <Button title={"Zur Warteschlange"} />
       </View>
     );
   }
