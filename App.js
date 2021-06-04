@@ -13,12 +13,21 @@ import CategorieOverview from "./components/CategorieOverview.js";
 import CategorieQuotes from "./components/CategorieQuotes.js";
 import HabitsDetails from "./components/HabitsDetails.js";
 import EditHabit from "./components/EditHabit.js";
+import TrackingOverview from "./components/TrackingOverview.js";
+import PomodoroTimer from "./components/PomodoroTimer.js";
+import MonthlyOverviewGoals from "./components/MonthlyOverviewGoals.js";
 
 const StackHabits = createStackNavigator();
 
 const StackQuotes = createStackNavigator();
 
 const Tab = createBottomTabNavigator();
+
+const StackPomodoro = createStackNavigator();
+
+const StackGoals = createStackNavigator();
+
+const StackTracking = createStackNavigator();
 
 function Habit() {
   return (
@@ -58,6 +67,40 @@ function Quotes() {
   );
 }
 
+function Pomodoro() {
+  return (
+    <StackPomodoro.Navigator>
+      <StackPomodoro.Screen
+        name="PomoTimer"
+        component={PomodoroTimer}
+        options={{ title: "Pomodoro Timer" }}
+      />
+    </StackPomodoro.Navigator>
+  );
+}
+function Goals() {
+  return (
+    <StackGoals.Navigator>
+      <StackGoals.Screen
+        name="MonthlyOverviewGoals"
+        component={MonthlyOverviewGoals}
+        options={{ title: "Zielübersicht Monat" }}
+      />
+    </StackGoals.Navigator>
+  );
+}
+function Tracking() {
+  return (
+    <StackTracking.Navigator>
+      <StackTracking.Screen
+        name="TrackingOverview"
+        component={TrackingOverview}
+        options={{ title: "Aktivitäten" }}
+      />
+    </StackTracking.Navigator>
+  );
+}
+
 export default function App() {
   return (
     <NavigationContainer>
@@ -73,6 +116,12 @@ export default function App() {
               return <Entypo name="quote" size={size} color={color} />;
             } else if (route.name === "Habits") {
               iconName = focused ? "body-sharp" : "body-outline";
+            } else if (route.name === "Pomodoro") {
+              iconName = focused ? "timer-sharp" : "timer-outline";
+            } else if (route.name === "Goals") {
+              iconName = focused ? "golf-sharp" : "golf-outline";
+            } else if (route.name === "Tracking") {
+              iconName = focused ? "time-sharp" : "time-outline";
             }
 
             // You can return any component that you like here!
@@ -85,7 +134,10 @@ export default function App() {
         }}
       >
         <Tab.Screen name="Habits" component={Habit} />
+        <Tab.Screen name="Pomodoro" component={Pomodoro} />
+        <Tab.Screen name="Goals" component={Goals} />
         <Tab.Screen name="Quotes" component={Quotes} />
+        <Tab.Screen name="Tracking" component={Tracking} />
       </Tab.Navigator>
     </NavigationContainer>
   );
