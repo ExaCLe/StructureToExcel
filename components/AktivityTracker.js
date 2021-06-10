@@ -5,7 +5,10 @@ class AktivityTracker extends React.Component {
   render() {
     return (
       <View>
-        <Text>Lesen</Text>
+        <TouchableHighlight>
+          <Text>Lesen</Text>
+        </TouchableHighlight>
+
         <TouchableHighlight>
           <Text>Start</Text>
         </TouchableHighlight>

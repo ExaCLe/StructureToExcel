@@ -20,6 +20,8 @@ import PomodoroSettings from "./components/PomodoroSettings.js";
 import DailyOverviewGoals from "./components/DailyOverviewGoals.js";
 import WeeklyOverviewGoals from "./components/WeeklyOverviewGoals.js";
 import AddGoal from "./components/AddGoals.js";
+import AddAktivity from "./components/AddAktivity.js";
+import EditAktivity from "./components/EditAktivity.js";
 
 const StackHabits = createStackNavigator();
 
@@ -123,6 +125,8 @@ function Tracking() {
         component={TrackingOverview}
         options={{ title: "Aktivitäten" }}
       />
+      <StackTracking.Screen name="AddAktivity" component={AddAktivity} />
+      <StackTracking.Screen name="EditAktivity" component={EditAktivity} />
     </StackTracking.Navigator>
   );
 }
