@@ -5,7 +5,7 @@ import Constants from "expo-constants";
 import Zitat from "./Zitat.js";
 import Quotes from "../assets/Quotes.js";
 
-const QuotesOverview = () => {
+const QuotesCategorie = () => {
   const [count, setCount] = useState(0);
   return (
     <View style={styles.container}>
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default QuotesOverview;
+export default QuotesCategorie;

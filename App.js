@@ -8,9 +8,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import HabitOverview from "./components/HabitOverview.js";
 import AddHabit from "./components/AddHabit.js";
-import QuotesOverview from "./components/QuotesOverview.js";
 import CategorieOverview from "./components/CategorieOverview.js";
-import CategorieQuotes from "./components/CategorieQuotes.js";
+import QuotesCategorie from "./components/QuotesCategorie";
 import HabitsDetails from "./components/HabitsDetails.js";
 import EditHabit from "./components/EditHabit.js";
 import TrackingOverview from "./components/TrackingOverview.js";
@@ -21,7 +20,6 @@ import PomodoroSettings from "./components/PomodoroSettings.js";
 import DailyOverviewGoals from "./components/DailyOverviewGoals.js";
 import WeeklyOverviewGoals from "./components/WeeklyOverviewGoals.js";
 import AddGoal from "./components/AddGoals.js";
-import EditGoal from "./components/EditGoal.js";
 
 const StackHabits = createStackNavigator();
 
@@ -62,13 +60,13 @@ function Quotes() {
     <StackQuotes.Navigator>
       <StackQuotes.Screen
         name="ChooseCategorie"
-        component={QuotesOverview}
-        options={{ title: "Wähle Kategorie" }}
+        component={CategorieOverview}
+        options={{ title: "Wähle eine Kategorie" }}
       />
       <StackQuotes.Screen
         name="Categorie"
-        component={QuotesOverview}
-        options={{ title: "Zitate" }}
+        component={QuotesCategorie}
+        options={{ title: "Categorie" }}
       />
     </StackQuotes.Navigator>
   );
