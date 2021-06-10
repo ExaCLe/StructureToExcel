@@ -1,8 +1,15 @@
 import React from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
+import AktivityTracker from "./AktivityTracker.js";
 
-const TrackingOverview = () => {
-  return <Text>Tracking</Text>;
-};
+class TrackingOverview extends React.Component {
+  render() {
+    return (
+      <View>
+        <AktivityTracker />
+      </View>
+    );
+  }
+}
 
 export default TrackingOverview;
