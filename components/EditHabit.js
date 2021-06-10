@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TextInput, Button } from "react-native";
 import * as SQLite from "expo-sqlite";
+import styles from "./styles.js";
 
 const db = SQLite.openDatabase("habits.db");
 

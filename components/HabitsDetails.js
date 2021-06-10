@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
+import styles from "./styles.js";
 
 const db = SQLite.openDatabase("habits.db");
 
@@ -82,30 +83,5 @@ class HabitsDetails extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    display: "flex",
-    flex: 1,
-  },
-  textSmall: {
-    fontSize: 20,
-  },
-  textBig: {
-    fontSize: 40,
-  },
-  row: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  buttonTopBar: {
-    marginRight: 10,
-  },
-});
 
 export default HabitsDetails;

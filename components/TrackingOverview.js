@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, TouchableHighlight } from "react-native";
 import AktivityTracker from "./AktivityTracker.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import styles from "./styles.js";
 
 class TrackingOverview extends React.Component {
   componentDidMount() {
@@ -26,13 +27,5 @@ class TrackingOverview extends React.Component {
     );
   }
 }
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  container: {
-    display: "flex",
-    flexDirection: "row",
-  },
-});
+
 export default TrackingOverview;

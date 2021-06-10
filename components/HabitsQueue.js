@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, TouchableHighlight, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import styles from "./styles.js";
 
 class HabitsQueue extends React.Component {
   componentDidMount() {
@@ -26,15 +27,5 @@ class HabitsQueue extends React.Component {
     return <Text>HabitsQueue</Text>;
   }
 }
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  container: {
-    display: "flex",
-    flexDirection: "row",
-  },
-});
 
 export default HabitsQueue;

@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, View, Button, Text } from "react-native";
-import Constants from "expo-constants";
+import { View, Button, Text } from "react-native";
+import styles from "./styles.js";
 
 const CategorieOverview = (props) => {
   return (
@@ -21,13 +21,5 @@ const CategorieOverview = (props) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: Constants.statusBarHeight,
-    flex: 1,
-    display: "flex",
-  },
-});
 
 export default CategorieOverview;

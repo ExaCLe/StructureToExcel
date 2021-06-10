@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import styles from "./styles.js";
 class MonthlyOverviewGoals extends React.Component {
   componentDidMount() {
     this.props.navigation.setOptions({
@@ -42,15 +43,5 @@ class MonthlyOverviewGoals extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  container: {
-    display: "flex",
-    flexDirection: "row",
-  },
-});
 
 export default MonthlyOverviewGoals;

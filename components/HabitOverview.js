@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  Button,
-  StyleSheet,
-  ScrollView,
-  TouchableHighlight,
-} from "react-native";
+import { View, FlatList, TouchableHighlight } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -15,6 +7,7 @@ import * as SQLite from "expo-sqlite";
 
 import Habit from "./Habit.js";
 import Divider from "./Divider.js";
+import styles from "./styles.js";
 
 const db = SQLite.openDatabase("habits.db");
 
@@ -254,16 +247,6 @@ export default class HabitOverview extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  container: {
-    display: "flex",
-    flexDirection: "row",
-  },
-});
 
 /* Reseting the db for testing: 
 

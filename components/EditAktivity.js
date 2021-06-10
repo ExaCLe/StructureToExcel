@@ -1,12 +1,7 @@
 import React from "react";
-import {
-  Text,
-  View,
-  Button,
-  TouchableHighlight,
-  StyleSheet,
-  TextInput,
-} from "react-native";
+import { Text, View, Button, TextInput } from "react-native";
+import styles from "./styles.js";
+
 class EditAktivity extends React.Component {
   render() {
     return (
@@ -20,7 +15,5 @@ class EditAktivity extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({});
 
 export default EditAktivity;

@@ -6,6 +6,7 @@ import {
   TouchableHighlight,
   StyleSheet,
 } from "react-native";
+import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 class WeeklyOverviewGoals extends React.Component {
   componentDidMount() {
@@ -42,15 +43,5 @@ class WeeklyOverviewGoals extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  container: {
-    display: "flex",
-    flexDirection: "row",
-  },
-});
 
 export default WeeklyOverviewGoals;

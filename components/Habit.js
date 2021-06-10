@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import styles from "./styles.js";
 
 import Divider from "./Divider.js";
 
@@ -13,9 +14,9 @@ const Habit = (props) => {
           props.navigation.navigate("HabitDetails", { ...props.habit });
         }}
       >
-        <View style={styles.container}>
+        <View style={styles.container2}>
           <Text style={styles.text}>{props.habit.name}</Text>
-          <View style={styles.container}>
+          <View style={styles.container2}>
             {props.habit.fullfilled ? (
               <Ionicons
                 name="checkmark-circle-outline"
@@ -42,29 +43,6 @@ const Habit = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 10,
-    marginBottom: 10,
-    alignItems: "center",
-  },
-  text: {
-    paddingLeft: 5,
-    paddingRight: 5,
-    fontSize: 20,
-  },
-  button: {
-    backgroundColor: "#aaaaaa",
-    marginRight: 5,
-    borderRadius: 10,
-  },
-  blue: {
-    color: "blue",
-  },
-});
 export default Habit;
 
 /*

@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  Text,
-  View,
-  Button,
-  TouchableHighlight,
-  StyleSheet,
-  TextInput,
-} from "react-native";
+import { Text, View, Button, StyleSheet, TextInput } from "react-native";
+import styles from "./styles.js";
 class AddGoal extends React.Component {
   render() {
     return (
@@ -27,7 +21,5 @@ class AddGoal extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({});
 
 export default AddGoal;

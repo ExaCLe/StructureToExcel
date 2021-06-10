@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Button, Image } from "react-native";
 import Constants from "expo-constants";
+import styles from "./styles.js";
 
 import Zitat from "./Zitat.js";
 import Quotes from "../assets/Quotes.js";
@@ -21,14 +22,5 @@ const QuotesCategorie = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: Constants.statusBarHeight,
-    flex: 1,
-    display: "flex",
-    justifyContent: "space-between",
-  },
-});
 
 export default QuotesCategorie;

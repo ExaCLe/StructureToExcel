@@ -4,9 +4,10 @@ import {
   View,
   Button,
   TouchableHighlight,
-  StyleSheet,
   TextInput,
 } from "react-native";
+import styles from "./styles.js";
+
 import Ionicons from "react-native-vector-icons/Ionicons";
 class EditGoal extends React.Component {
   componentDidMount() {
@@ -42,7 +43,5 @@ class EditGoal extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({});
 
 export default EditGoal;

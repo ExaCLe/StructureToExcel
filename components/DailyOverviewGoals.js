@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  Text,
-  View,
-  Button,
-  TouchableHighlight,
-  StyleSheet,
-} from "react-native";
+import { Text, View, Button, TouchableHighlight } from "react-native";
+import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 class DailyOverviewGoals extends React.Component {
   componentDidMount() {
@@ -42,15 +37,5 @@ class DailyOverviewGoals extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  container: {
-    display: "flex",
-    flexDirection: "row",
-  },
-});
 
 export default DailyOverviewGoals;

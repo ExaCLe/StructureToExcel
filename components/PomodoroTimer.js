@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  Text,
-  View,
-  TouchableHighlight,
-  StyleSheet,
-  Button,
-} from "react-native";
+import { Text, View, TouchableHighlight, Button } from "react-native";
+import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 class PomodoroTimer extends React.Component {
@@ -37,15 +32,5 @@ class PomodoroTimer extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  container: {
-    display: "flex",
-    flexDirection: "row",
-  },
-});
 
 export default PomodoroTimer;
