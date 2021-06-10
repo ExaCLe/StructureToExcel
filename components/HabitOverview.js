@@ -237,7 +237,6 @@ export default class HabitOverview extends React.Component {
   render() {
     return (
       <View style={[styles.margin, styles.flex]}>
-        <Divider></Divider>
         <FlatList
           data={this.state.habits}
           renderItem={this.renderItem}

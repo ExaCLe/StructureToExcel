@@ -1,0 +1,12 @@
+export const PrimaryAccentColor = "#F2ACAC";
+export const PrimaryTextColor = "#ffffff";
+export const SecondaryTextColor = "#A1A1A1";
+export const SecondaryAccentColor = "#d4d4d4";
+export const BackgroundColor = "#ECECEC";
+export const PriorityOneColor = "#EF6B6B";
+export const PriorityOneColorSecondary = "#F9C8C8";
+export const PriorityTwoColor = "#EFBA6B";
+export const PriorityTwoColorSecondary = "#F9E5C8";
+export const PriorityFourColor = "#6BEFA8";
+export const PriorityFourColorSecondary = "#C8F9DE";
+export const NavigationInactiveItem = "#595959";

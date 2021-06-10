@@ -22,6 +22,10 @@ import WeeklyOverviewGoals from "./components/WeeklyOverviewGoals.js";
 import AddGoal from "./components/AddGoals.js";
 import AddAktivity from "./components/AddAktivity.js";
 import EditAktivity from "./components/EditAktivity.js";
+import { useFonts } from "@expo-google-fonts/montserrat";
+import AppLoading from "expo-app-loading";
+import * as colors from "./assets/colors.js";
+import styles from "./components/styles.js";
 
 const StackHabits = createStackNavigator();
 
@@ -36,23 +40,60 @@ const StackGoals = createStackNavigator();
 const StackTracking = createStackNavigator();
 
 function Habit() {
+  let [fontsLoaded] = useFonts({
+    MontserratRegular: require("./assets/fonts/Montserrat-Regular.ttf"),
+    MontserratLight: require("./assets/fonts/Montserrat-Light.ttf"),
+    MontserratThin: require("./assets/fonts/Montserrat-Thin.ttf"),
+    MontserratBold: require("./assets/fonts/Montserrat-Bold.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   return (
     <StackHabits.Navigator>
       <StackHabits.Screen
         name="HabitOverview"
         component={HabitOverview}
-        options={{ title: "Gewohnheiten Übersicht" }}
+        options={{
+          title: "Gewohnheiten Übersicht",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
       />
       <StackHabits.Screen
         name="AddHabit"
         component={AddHabit}
         options={{
           title: "Gewohnheit hinzufügen",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
         }}
       />
-      <StackHabits.Screen name="HabitDetails" component={HabitsDetails} />
-      <StackHabits.Screen name="EditHabit" component={EditHabit} />
-      <StackHabits.Screen name="HabitsQueue" component={HabitsQueue} />
+      <StackHabits.Screen
+        name="HabitDetails"
+        component={HabitsDetails}
+        options={{
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackHabits.Screen
+        name="EditHabit"
+        component={EditHabit}
+        options={{
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackHabits.Screen
+        name="HabitsQueue"
+        component={HabitsQueue}
+        options={{
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
     </StackHabits.Navigator>
   );
 }
@@ -159,8 +200,10 @@ export default function App() {
           },
         })}
         tabBarOptions={{
-          activeTintColor: "blue",
-          inactiveTintColor: "gray",
+          activeTintColor: colors.PrimaryTextColor,
+          inactiveTintColor: colors.NavigationInactiveItem,
+          labelStyle: styles.tabText,
+          style: styles.tabBar,
         }}
       >
         <Tab.Screen name="Habits" component={Habit} />

@@ -24,7 +24,7 @@ class HabitsQueue extends React.Component {
     });
   }
   render() {
-    return <Text>HabitsQueue</Text>;
+    return <Text style={styles.normalText}>HabitsQueue</Text>;
   }
 }
 
