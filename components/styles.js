@@ -72,10 +72,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textDecorationLine: "underline",
   },
+  fullSize: {
+    width: "70%",
+  },
   containerHorizontal: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+  },
+  marginBottom: {
+    marginBottom: 15,
+  },
+  spaceAround: {
+    justifyContent: "space-around",
   },
   margin: {
     marginTop: 10,
@@ -88,7 +97,12 @@ const styles = StyleSheet.create({
     borderColor: colors.PrimaryAccentColor,
     borderRadius: 10,
     paddingLeft: 20,
+    minWidth: "50%",
   },
+  textCenter: {
+    textAlign: "center",
+  },
+
   accentColorText: {
     color: colors.PrimaryAccentColor,
   },
