@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   textButton: {
     fontFamily: fonts.primaryFont,
     color: colors.PrimaryAccentColor,
-    fontSize: 24,
+    fontSize: 20,
     textDecorationLine: "underline",
   },
   containerHorizontal: {
@@ -138,6 +138,9 @@ const styles = StyleSheet.create({
   blue: {
     color: "blue",
   },
+  veryBigText: {
+    fontSize: 100,
+  },
   container2: {
     display: "flex",
     flexDirection: "row",
@@ -145,6 +148,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     alignItems: "center",
+  },
+  flexContainer: {
+    display: "flex",
+  },
+  center: {
+    alignSelf: "center",
   },
   textSmall: {
     fontSize: 20,
