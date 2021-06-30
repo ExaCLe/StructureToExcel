@@ -21,12 +21,20 @@ class PomodoroTimer extends React.Component {
   }
   render() {
     return (
-      <View>
-        <Text>50:00</Text>
-        <Button title={"Start Timer"} />
-        <Button title={"Reset Timer"} />
-        <TouchableHighlight>
-          <Text>Zu Pausenintervall wechseln</Text>
+      <View style={[styles.margin, styles.flexContainer]}>
+        <Text
+          style={[styles.veryBigText, styles.accentColorText, styles.center]}
+        >
+          50:00
+        </Text>
+        <TouchableHighlight style={styles.buttonPrimary}>
+          <Text style={styles.primaryButtonText}>Starten</Text>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.buttonPrimary}>
+          <Text style={styles.primaryButtonText}>Reset</Text>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.center}>
+          <Text style={styles.textButton}>Zu Pausenintervall wechseln</Text>
         </TouchableHighlight>
       </View>
     );
