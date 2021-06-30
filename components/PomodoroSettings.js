@@ -4,16 +4,53 @@ import styles from "./styles.js";
 
 const PomodoroSettings = () => {
   return (
-    <View>
-      <Text>Arbeitsintervalllänge: </Text>
-      <TextInput placeholder={"50"} />
-      <Text>Minuten</Text>
-      <Text>Pausenintervalllänge: </Text>
-      <TextInput placeholder={"10"} />
-      <Text>Minuten</Text>
-      <Text>Lange Pause nach: </Text>
-      <TextInput placeholder={"99"} />
-      <Text>Intervallen</Text>
+    <View style={styles.margin}>
+      <Text style={styles.secondaryText}>Arbeitsintervalllänge: </Text>
+      <View style={styles.containerHorizontal}>
+        <TextInput
+          placeholder={"50"}
+          style={[
+            styles.normalText,
+            styles.textInputLarge,
+            styles.primaryAccentColor,
+            styles.margin,
+            styles.padding,
+            styles.textCenter,
+          ]}
+        />
+        <Text style={styles.secondaryText}>Minuten</Text>
+      </View>
+
+      <Text style={styles.secondaryText}>Pausenintervalllänge: </Text>
+      <View style={styles.containerHorizontal}>
+        <TextInput
+          placeholder={"10"}
+          style={[
+            styles.normalText,
+            styles.textInputLarge,
+            styles.primaryAccentColor,
+            styles.margin,
+            styles.padding,
+            styles.textCenter,
+          ]}
+        />
+        <Text style={styles.secondaryText}>Minuten</Text>
+      </View>
+      <Text style={styles.secondaryText}>Lange Pause nach: </Text>
+      <View style={styles.containerHorizontal}>
+        <TextInput
+          placeholder={"99"}
+          style={[
+            styles.normalText,
+            styles.textInputLarge,
+            styles.primaryAccentColor,
+            styles.margin,
+            styles.padding,
+            styles.textCenter,
+          ]}
+        />
+        <Text style={styles.secondaryText}>Intervallen</Text>
+      </View>
     </View>
   );
 };
