@@ -22,6 +22,8 @@ class EditGoal extends React.Component {
           </TouchableHighlight>
         </View>
       ),
+      headerStyle: styles.header,
+      headerTitleStyle: styles.headerText,
     });
   }
   render() {

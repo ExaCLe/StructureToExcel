@@ -71,14 +71,19 @@ class HabitsDetails extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.textSmall}>Name: </Text>
-        <Text style={styles.textBig}>{this.props.route.params.name}</Text>
-        <Text>Letzte Einträge:</Text>
-        <Text style={styles.textSmall}>
+      <View style={styles.margin}>
+        <View style={styles.containerHorizontal}>
+          <Text style={[styles.secondaryText]}>Name: </Text>
+          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+            {this.props.route.params.name}
+          </Text>
+        </View>
+
+        <Text style={styles.secondaryText}>Letzte Einträge:</Text>
+        <Text style={[styles.accentColorText, styles.textSmall]}>
           {this.state.dates.map((ele) => ele.date + "\n")}
         </Text>
-        <Text>Monatsstatistik:</Text>
+        <Text style={styles.secondaryText}>Monatsstatistik:</Text>
       </View>
     );
   }

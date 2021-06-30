@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  TouchableHighlight,
-} from "react-native";
+import { View, Text, TextInput, TouchableHighlight } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";

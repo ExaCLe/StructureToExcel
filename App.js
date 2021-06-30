@@ -104,12 +104,20 @@ function Quotes() {
       <StackQuotes.Screen
         name="ChooseCategorie"
         component={CategorieOverview}
-        options={{ title: "Wähle eine Kategorie" }}
+        options={{
+          title: "Wähle eine Kategorie",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
       />
       <StackQuotes.Screen
         name="Categorie"
         component={QuotesCategorie}
-        options={{ title: "Categorie" }}
+        options={{
+          title: "Categorie",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
       />
     </StackQuotes.Navigator>
   );
@@ -121,12 +129,20 @@ function Pomodoro() {
       <StackPomodoro.Screen
         name="PomoTimer"
         component={PomodoroTimer}
-        options={{ title: "Pomodoro Timer" }}
+        options={{
+          title: "Pomodoro Timer",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
       />
       <StackPomodoro.Screen
         name="PomodoroSettings"
         component={PomodoroSettings}
-        options={{ title: "Pomodoro Settings" }}
+        options={{
+          title: "Pomodoro Settings",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
       />
     </StackPomodoro.Navigator>
   );
@@ -137,22 +153,38 @@ function Goals() {
       <StackGoals.Screen
         name="MonthlyOverviewGoals"
         component={MonthlyOverviewGoals}
-        options={{ title: "Zielübersicht Monat" }}
+        options={{
+          title: "Zielübersicht Monat",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
       />
       <StackGoals.Screen
         name="WeeklyOverviewGoals"
         component={WeeklyOverviewGoals}
-        options={{ title: "Zielübersicht Woche" }}
+        options={{
+          title: "Zielübersicht Woche",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
       />
       <StackGoals.Screen
         name="DailyOverviewGoals"
         component={DailyOverviewGoals}
-        options={{ title: "Zielübersicht Tag" }}
+        options={{
+          title: "Zielübersicht Tag",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
       />
       <StackGoals.Screen
         name="AddGoal"
         component={AddGoal}
-        options={{ title: "Ziel hinzufügen" }}
+        options={{
+          title: "Ziel hinzufügen",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
       />
       <StackGoals.Screen name="EditGoal" component="EditGoal" />
     </StackGoals.Navigator>
@@ -164,7 +196,11 @@ function Tracking() {
       <StackTracking.Screen
         name="TrackingOverview"
         component={TrackingOverview}
-        options={{ title: "Aktivitäten" }}
+        options={{
+          title: "Aktivitäten",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
       />
       <StackTracking.Screen name="AddAktivity" component={AddAktivity} />
       <StackTracking.Screen name="EditAktivity" component={EditAktivity} />
