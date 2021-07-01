@@ -8,7 +8,7 @@ import * as SQLite from "expo-sqlite";
 import Habit from "./Habit.js";
 import Divider from "./Divider.js";
 import styles from "./styles.js";
-
+import * as colors from "./../assets/colors.js";
 const db = SQLite.openDatabase("habits.db");
 
 export default class HabitOverview extends React.Component {
@@ -53,13 +53,17 @@ export default class HabitOverview extends React.Component {
               })
             }
           >
-            <Ionicons name="add" size={25} />
+            <Ionicons name="add" size={25} color={colors.PrimaryTextColor} />
           </TouchableHighlight>
           <TouchableHighlight
             underlayColor="#ffffff"
             onPress={() => this.props.navigation.navigate("HabitsQueue")}
           >
-            <MaterialIcons name="queue" size={25} />
+            <MaterialIcons
+              name="queue"
+              size={25}
+              color={colors.PrimaryTextColor}
+            />
           </TouchableHighlight>
         </View>
       ),

@@ -3,6 +3,7 @@ import { StyleSheet, View, TouchableHighlight } from "react-native";
 import AktivityTracker from "./AktivityTracker.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
+import * as colors from "./../assets/colors.js";
 
 class TrackingOverview extends React.Component {
   componentDidMount() {
@@ -13,7 +14,7 @@ class TrackingOverview extends React.Component {
             underlayColor="#ffffff"
             onPress={() => this.props.navigation.navigate("AddAktivity")}
           >
-            <Ionicons name="add" size={25} />
+            <Ionicons name="add" size={25} color={colors.PrimaryTextColor} />
           </TouchableHighlight>
         </View>
       ),

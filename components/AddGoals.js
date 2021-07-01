@@ -25,6 +25,27 @@ class AddGoal extends React.Component {
       ],
     };
   }
+  componentDidMount() {
+    this.props.navigation.setOptions({
+      headerLeft: () => {
+        return (
+          <View style={styles.margin}>
+            <TouchableHighlight
+              onPress={() => {
+                this.props.navigation.goBack();
+              }}
+            >
+              <Ionicons
+                name="arrow-back"
+                size={25}
+                color={colors.PrimaryTextColor}
+              />
+            </TouchableHighlight>
+          </View>
+        );
+      },
+    });
+  }
 
   setOpen1 = (open1) => {
     this.setState({ open1 });

@@ -2,6 +2,7 @@ import React from "react";
 import { Text, View, Button, TouchableHighlight } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import * as colors from "./../assets/colors.js";
 class DailyOverviewGoals extends React.Component {
   componentDidMount() {
     this.props.navigation.setOptions({
@@ -11,7 +12,7 @@ class DailyOverviewGoals extends React.Component {
             underlayColor="#ffffff"
             onPress={() => this.props.navigation.navigate("AddGoal")}
           >
-            <Ionicons name="add" size={25} />
+            <Ionicons name="add" size={25} color={colors.PrimaryTextColor} />
           </TouchableHighlight>
         </View>
       ),

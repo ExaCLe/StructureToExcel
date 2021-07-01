@@ -33,6 +33,23 @@ class EditHabit extends React.Component {
   componentDidMount() {
     this.props.navigation.setOptions({
       title: "Edit " + this.props.route.params.name,
+      headerLeft: () => {
+        return (
+          <View style={styles.margin}>
+            <TouchableHighlight
+              onPress={() => {
+                this.props.navigation.goBack();
+              }}
+            >
+              <Ionicons
+                name="arrow-back"
+                size={25}
+                color={colors.PrimaryTextColor}
+              />
+            </TouchableHighlight>
+          </View>
+        );
+      },
     });
   }
 

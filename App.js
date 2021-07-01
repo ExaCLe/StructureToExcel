@@ -202,7 +202,15 @@ function Tracking() {
           headerTitleStyle: styles.headerText,
         }}
       />
-      <StackTracking.Screen name="AddAktivity" component={AddAktivity} />
+      <StackTracking.Screen
+        name="AddAktivity"
+        component={AddAktivity}
+        options={{
+          title: "Aktivität hinzufügen",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
       <StackTracking.Screen name="EditAktivity" component={EditAktivity} />
     </StackTracking.Navigator>
   );

@@ -32,6 +32,28 @@ class AddHabit extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.navigation.setOptions({
+      headerLeft: () => {
+        return (
+          <View style={styles.margin}>
+            <TouchableHighlight
+              onPress={() => {
+                this.props.navigation.goBack();
+              }}
+            >
+              <Ionicons
+                name="arrow-back"
+                size={25}
+                color={colors.PrimaryTextColor}
+              />
+            </TouchableHighlight>
+          </View>
+        );
+      },
+    });
+  }
+
   // adds a new habit to the state
   addHabit = (habit) => {
     db.transaction((tx) => {

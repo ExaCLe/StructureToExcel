@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, TouchableHighlight, Button } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
-
+import * as colors from "./../assets/colors.js";
 class PomodoroTimer extends React.Component {
   componentDidMount() {
     this.props.navigation.setOptions({
@@ -13,7 +13,11 @@ class PomodoroTimer extends React.Component {
             underlayColor="#ffffff"
             onPress={() => this.props.navigation.navigate("PomodoroSettings")}
           >
-            <Ionicons name="settings" size={25} />
+            <Ionicons
+              name="settings"
+              size={25}
+              color={colors.PrimaryTextColor}
+            />
           </TouchableHighlight>
         </View>
       ),

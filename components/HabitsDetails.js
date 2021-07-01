@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
+import * as colors from "./../assets/colors.js";
 
 const db = SQLite.openDatabase("habits.db");
 
@@ -23,16 +24,28 @@ class HabitsDetails extends React.Component {
       );
     });
   }
-  componentDidUpdate() {
-    this.props.navigation.setOptions({
-      title: this.props.route.params.name + " Details",
-    });
-  }
 
   componentDidMount() {
     // add the button to the top
     this.props.navigation.setOptions({
-      title: this.props.route.params.name,
+      title: this.props.route.params.name + " Details",
+      headerLeft: () => {
+        return (
+          <View style={styles.margin}>
+            <TouchableHighlight
+              onPress={() => {
+                this.props.navigation.goBack();
+              }}
+            >
+              <Ionicons
+                name="arrow-back"
+                size={25}
+                color={colors.PrimaryTextColor}
+              />
+            </TouchableHighlight>
+          </View>
+        );
+      },
       headerRight: () => (
         <View style={styles.row}>
           <TouchableHighlight
@@ -44,7 +57,7 @@ class HabitsDetails extends React.Component {
               );
             }}
           >
-            <Ionicons name="pencil" size={25} />
+            <Ionicons name="pencil" size={25} color={colors.PrimaryTextColor} />
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.buttonTopBar}
@@ -62,7 +75,7 @@ class HabitsDetails extends React.Component {
               });
             }}
           >
-            <Ionicons name="trash" size={25} />
+            <Ionicons name="trash" size={25} color={colors.PrimaryTextColor} />
           </TouchableHighlight>
         </View>
       ),
