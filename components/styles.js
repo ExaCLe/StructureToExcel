@@ -86,6 +86,9 @@ const styles = StyleSheet.create({
   spaceAround: {
     justifyContent: "space-around",
   },
+  spaceBetween: {
+    justifyContent: "space-between",
+  },
   margin: {
     marginTop: 10,
     marginBottom: 10,

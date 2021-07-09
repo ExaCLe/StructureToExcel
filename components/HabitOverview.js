@@ -40,7 +40,6 @@ export default class HabitOverview extends React.Component {
   componentDidMount() {
     this.props.navigation.addListener("focus", (payload) => {
       this.fetchData();
-      console.log(this.state);
     });
     this.props.navigation.setOptions({
       headerRight: () => (
