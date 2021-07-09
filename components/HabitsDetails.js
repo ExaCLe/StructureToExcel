@@ -11,6 +11,7 @@ class HabitsDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      frequency: this.createFrequencyString(),
       dates: [],
     };
     // get the fullfilled dates out of the db
@@ -34,7 +35,9 @@ class HabitsDetails extends React.Component {
           <View style={styles.margin}>
             <TouchableHighlight
               onPress={() => {
-                this.props.navigation.goBack();
+                this.props.navigation.navigate("HabitOverview", {
+                  rerender: true,
+                });
               }}
             >
               <Ionicons
@@ -51,10 +54,10 @@ class HabitsDetails extends React.Component {
           <TouchableHighlight
             style={styles.buttonTopBar}
             onPress={() => {
-              this.props.navigation.navigate(
-                "EditHabit",
-                this.props.route.params
-              );
+              this.props.navigation.navigate("ChangeHabit", {
+                ...this.props.route.params,
+                edit: true,
+              });
             }}
           >
             <Ionicons name="pencil" size={25} color={colors.PrimaryTextColor} />
@@ -82,6 +85,15 @@ class HabitsDetails extends React.Component {
     });
   }
 
+  createFrequencyString = () => {
+    let interval = "Monat";
+    const interval_number = this.props.route.params.intervall;
+    if (interval_number === 1) interval = "Tag";
+    else if (interval_number === 2) interval = "Woche";
+    else if (interval_number === 3) inverval = "Monat";
+    const result = this.props.route.params.repetitions + " Mal pro " + interval;
+    return result;
+  };
   render() {
     return (
       <View style={styles.margin}>
@@ -89,6 +101,18 @@ class HabitsDetails extends React.Component {
           <Text style={[styles.secondaryText]}>Name: </Text>
           <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
             {this.props.route.params.name}
+          </Text>
+        </View>
+        <View style={styles.containerHorizontal}>
+          <Text style={[styles.secondaryText]}>Priorität: </Text>
+          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+            {this.props.route.params.priority}
+          </Text>
+        </View>
+        <View style={styles.containerHorizontal}>
+          <Text style={[styles.secondaryText]}>Häufigkeit: </Text>
+          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+            {this.state.frequency}
           </Text>
         </View>
 

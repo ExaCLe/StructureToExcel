@@ -14,10 +14,11 @@ class EditHabit extends React.Component {
     super(props);
     this.state = {
       ...props.route.params,
+      repetitions: "" + this.props.route.params.repetitions,
       open1: false,
       open2: false,
-      value1: 1,
-      value2: 1,
+      intervall: this.props.route.params.intervall,
+      priority: this.props.route.params.priority,
       items1: [
         { id: 1, title: "Tag", val: 1 },
         { id: 2, title: "Woche", val: 2 },
@@ -29,6 +30,10 @@ class EditHabit extends React.Component {
       ],
     };
   }
+
+  handleRepetitionChange = (number) => {
+    if (+number || number == "") this.setState({ repetitions: number });
+  };
 
   componentDidMount() {
     this.props.navigation.setOptions({
@@ -67,12 +72,12 @@ class EditHabit extends React.Component {
 
   setValue1 = (callback) => {
     this.setState((state) => ({
-      value1: callback(state.value1),
+      intervall: callback(state.intervall),
     }));
   };
   setValue2 = (callback) => {
     this.setState((state) => ({
-      value2: callback(state.value2),
+      priority: callback(state.priority),
     }));
   };
 
@@ -108,7 +113,7 @@ class EditHabit extends React.Component {
         </Text>
         <View style={styles.containerHorizontal}>
           <TextInput
-            value={"7"}
+            value={this.state.repetitions}
             style={[
               styles.padding,
               styles.textInputSmall,
@@ -116,6 +121,8 @@ class EditHabit extends React.Component {
               styles.normalText,
               styles.accentColorText,
             ]}
+            onChangeText={this.handleRepetitionChange}
+            keyboardType="numeric"
           />
           <Text style={[styles.normalText, styles.accentColorText]}>
             Mal pro
@@ -126,7 +133,7 @@ class EditHabit extends React.Component {
               value: "val",
             }}
             open={this.state.open1}
-            value={this.state.value1}
+            value={this.state.intervall}
             items={this.state.items1}
             setOpen={this.setOpen1}
             setValue={this.setValue1}
@@ -148,7 +155,7 @@ class EditHabit extends React.Component {
               value: "val",
             }}
             open={this.state.open2}
-            value={this.state.value2}
+            value={this.state.priority}
             items={this.state.items2}
             setOpen={this.setOpen2}
             setValue={this.setValue2}
@@ -164,15 +171,23 @@ class EditHabit extends React.Component {
             // handle change in the database
             db.transaction((tx) => {
               tx.executeSql(
-                "UPDATE habits SET name=? WHERE id=?",
-                [this.state.name, this.state.id],
+                "UPDATE habits SET name=?, intervall=?, priority=?, repetitions=? WHERE id=?",
+                [
+                  this.state.name,
+                  this.state.intervall,
+                  this.state.priority,
+                  this.state.repetitions,
+                  this.state.id,
+                ],
                 (txObj, resultSet) => {
                   // navigate back
                   this.props.navigation.navigate("HabitDetails", {
                     ...this.state,
                   });
                 },
-                null
+                (txObj, error) => {
+                  console.log(error);
+                }
               );
             });
           }}

@@ -7,7 +7,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import HabitOverview from "./components/HabitOverview.js";
-import AddHabit from "./components/AddHabit.js";
+import ChangeHabit from "./components/ChangeHabit.js";
 import CategorieOverview from "./components/CategorieOverview.js";
 import QuotesCategorie from "./components/QuotesCategorie";
 import HabitsDetails from "./components/HabitsDetails.js";
@@ -62,10 +62,9 @@ function Habit() {
         }}
       />
       <StackHabits.Screen
-        name="AddHabit"
-        component={AddHabit}
+        name="ChangeHabit"
+        component={ChangeHabit}
         options={{
-          title: "Gewohnheit hinzufügen",
           headerStyle: styles.header,
           headerTitleStyle: styles.headerText,
         }}
@@ -73,14 +72,6 @@ function Habit() {
       <StackHabits.Screen
         name="HabitDetails"
         component={HabitsDetails}
-        options={{
-          headerStyle: styles.header,
-          headerTitleStyle: styles.headerText,
-        }}
-      />
-      <StackHabits.Screen
-        name="EditHabit"
-        component={EditHabit}
         options={{
           headerStyle: styles.header,
           headerTitleStyle: styles.headerText,

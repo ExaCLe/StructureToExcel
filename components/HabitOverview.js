@@ -20,7 +20,10 @@ export default class HabitOverview extends React.Component {
     // create a table for the habits if not existing already
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, fullfilledToday INTEGER);"
+        "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT);",
+        null,
+        () => {},
+        (txObj, error) => {}
       );
     });
     // create table for the habits fullfilling
@@ -34,13 +37,10 @@ export default class HabitOverview extends React.Component {
     this.fetchData();
   }
 
-  componentDidUpdate() {
-    this.fetchData();
-  }
-
   componentDidMount() {
     this.props.navigation.addListener("focus", (payload) => {
-      this.forceUpdate();
+      this.fetchData();
+      console.log(this.state);
     });
     this.props.navigation.setOptions({
       headerRight: () => (
@@ -48,8 +48,8 @@ export default class HabitOverview extends React.Component {
           <TouchableHighlight
             underlayColor="#ffffff"
             onPress={() =>
-              this.props.navigation.navigate("AddHabit", {
-                addHabit: this.addHabit,
+              this.props.navigation.navigate("ChangeHabit", {
+                edit: false,
               })
             }
           >
@@ -70,55 +70,15 @@ export default class HabitOverview extends React.Component {
     });
   }
 
-  // compares two arrays for equality
-  compareArrays(first, snd) {
-    if (!first && !snd) return true;
-    if (!first) return false;
-    if (!snd) return false;
-    // check for same length
-    if (first.length != snd.length) return false;
-    // iterate over the array and compare the objects
-    for (let i = 0; i < first.length; i++) {
-      if (typeof first[i] === "object") {
-        if (!this.compareObjects(first[i], snd[i])) return false;
-      } else if (!(first[i] === snd[i])) {
-        return false;
-      }
-    }
-
-    // if reached here arrays are equal
-    return true;
-  }
-
-  // compares two objects for equality
-  compareObjects(first, snd) {
-    if (!first && !snd) return true;
-    if (!first) return false;
-    if (!snd) return false;
-    // get the keys out of the objects
-    const keys = Object.keys(first);
-    // make sure the keys are equal
-    if (!this.compareArrays(keys, Object.keys(snd))) return false;
-
-    // iterate over the keys
-    for (let i = 0; i < keys.length; i++) {
-      if (typeof first[keys[i]] === "object") {
-        if (!this.compareArrays(first[keys[i]], snd[keys[i]])) return false;
-      } else if (!(first[keys[i]] === snd[keys[i]])) return false;
-    }
-
-    return true;
-  }
-
   // gets the data for the habits out of the database
   fetchData = () => {
+    console.log("Fetching data...");
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM habits;",
         null,
         (txObj, { rows: { _array } }) => {
-          if (!this.compareHabits(this.state.habits, _array))
-            this.insertIntoHabits(_array);
+          this.setState({ habits: _array });
         },
         () => console.error("Fehler beim Lesen der Gewohnheiten. ")
       );
@@ -134,66 +94,6 @@ export default class HabitOverview extends React.Component {
     });
   };
 
-  insertIntoHabits = (arr) => {
-    // check for a name change
-    if (!this.compareHabits(this.state.habits, arr)) {
-      if (!this.state.habits) {
-        this.setState({ habits: arr });
-      }
-      // check for more elements in db than in state
-      if (this.state.habits.length < arr.length) {
-        for (let i = 0; i < arr.length; i++) {
-          if (!this.state.habits.find((ele) => ele.id === arr[i].id)) {
-            // insert the element into the state
-            let newState = this.state;
-            newState.habits.push(arr[i]);
-            this.setState({ ...newState });
-          }
-        }
-      }
-      // check for more elements in state than in db
-      else if (this.state.habits.length > arr.length) {
-        for (let i = 0; i < this.state.habits.length; i++) {
-          if (!arr.find((ele) => ele.id === this.state.habits[i].id)) {
-            this.setState((prevState) => {
-              prevState.habits = prevState.habits.filter(
-                (ele) => ele.id !== this.state.habits[i].id
-              );
-              return prevState;
-            });
-          }
-        }
-      }
-      // compare all the names of the habits
-      else {
-        for (let i = 0; i < arr.length; i++) {
-          // find the ele in the state
-          const index = this.state.habits.findIndex(
-            (ele) => ele.id === arr[i].id
-          );
-          if (arr[i].name !== this.state.habits[index].name) {
-            this.setState((prevState) => {
-              prevState.habits[index].name = arr[i].name;
-              return prevState;
-            });
-          }
-        }
-      }
-    }
-  };
-
-  compareHabits = (first, snd) => {
-    if (!first && !snd) return true;
-    if (!first) return false;
-    if (!snd) return false;
-    if (first.length != snd.length) return false;
-    // compare the names
-    for (let i = 0; i < first.length; i++) {
-      if (!(first[i].name === snd[i].name)) return false;
-    }
-    return true;
-  };
-
   // expects to get only the checked Habits for today
   addChecksToState = ({ rows: { _array } }) => {
     let newState = this.state;
@@ -206,14 +106,12 @@ export default class HabitOverview extends React.Component {
         newState.habits[index].fullfilled = true;
       }
     }
-    if (!this.compareArrays(this.state.habits, newState.habits))
-      this.setState({ ...newState });
+    this.setState({ ...newState });
   };
 
   handleFullfilled = (habit) => {
     const index = this.state.habits.findIndex((ele) => ele === habit);
     const id = this.state.habits[index].id;
-    console.log("working");
     // insert the entry into check habits
     db.transaction((tx) => {
       tx.executeSql(
@@ -250,37 +148,3 @@ export default class HabitOverview extends React.Component {
     );
   }
 }
-
-/* Reseting the db for testing: 
-
-db.transaction((tx) => {
-      tx.executeSql(
-        "DELETE FROM habits",
-        null,
-        () => {
-          console.log("Deleted");
-        },
-        (txObj, error) => {
-          console.log("Fehler: ");
-          console.log(error);
-        }
-      );
-    });
-
-
-// Insert some data: 
-// insert some data for testing
-    db.transaction((tx) => {
-      tx.executeSql(
-        "INSERT INTO habits (name) VALUES (?);",
-        ["Lesen"],
-        (txObj, resultSet) => {
-          console.log("Success");
-        },
-        (txObj, err) => {
-          console.err(err);
-        }
-      );
-    });
-
-    */
