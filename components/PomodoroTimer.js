@@ -23,6 +23,7 @@ class PomodoroTimer extends React.Component {
     this.state = {
       interval: WORK,
       state: PAUSE,
+      data_loaded: false,
     };
     // create the table for the settings and insert the standard information.
     db.transaction((tx) => {
@@ -43,6 +44,9 @@ class PomodoroTimer extends React.Component {
     // insert the settings from the db
     this.fetchData();
   }
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
 
   // fetches the settings from the db
   fetchData = () => {
@@ -55,6 +59,7 @@ class PomodoroTimer extends React.Component {
           this.setState({
             ..._array[0],
             time: _array[0].workingInterval * 60,
+            data_loaded: true,
           });
         },
         () => console.error("Fehler beim Lesen der Settings. ")
@@ -63,6 +68,12 @@ class PomodoroTimer extends React.Component {
   };
 
   componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener(
+      "focus",
+      (payload) => {
+        this.fetchData();
+      }
+    );
     this.props.navigation.setOptions({
       title: "Pomodoro Timer",
       headerRight: () => (
@@ -94,63 +105,65 @@ class PomodoroTimer extends React.Component {
       });
   };
   render() {
-    return (
-      <View style={[styles.margin, styles.flexContainer]}>
-        <Text
-          style={[styles.veryBigText, styles.accentColorText, styles.center]}
-        >
-          {Math.floor(this.state.time / 60) +
-            ":" +
-            (this.state.time % 60 < 10
-              ? "0" + (this.state.time % 60)
-              : this.state.time % 60)}
-        </Text>
-        <TouchableHighlight
-          style={styles.buttonPrimary}
-          onPress={() => {
-            if (this.state.state === PAUSE) {
-              this._timer = setInterval(() => {
-                if (this.state.time === 0) {
-                  Vibration.vibrate(3000);
-                  this.resetAndChange();
-                }
-                this.setState((prevState) => ({ time: prevState.time - 1 }));
-              }, 1000);
-              this.setState({ state: RUNNING });
-            } else {
-              clearInterval(this._timer);
-              this.setState({ state: PAUSE });
-            }
-          }}
-        >
-          <Text style={styles.primaryButtonText}>
-            {this.state.state === PAUSE ? "Starten" : "Pausieren"}
+    if (this.state.data_loaded) {
+      return (
+        <View style={[styles.margin, styles.flexContainer]}>
+          <Text
+            style={[styles.veryBigText, styles.accentColorText, styles.center]}
+          >
+            {Math.floor(this.state.time / 60) +
+              ":" +
+              (this.state.time % 60 < 10
+                ? "0" + (this.state.time % 60)
+                : this.state.time % 60)}
           </Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.buttonPrimary}
-          onPress={() => {
-            if (this.state.interval === WORK)
-              this.setState({ time: this.state.workingInterval * 60 });
-            else this.setState({ time: this.state.breakInterval * 60 });
-          }}
-        >
-          <Text style={styles.primaryButtonText}>Reset</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.center}
-          onPress={() => {
-            this.resetAndChange();
-          }}
-        >
-          <Text style={styles.textButton}>
-            {this.state.interval === WORK
-              ? "Zu Pausenintervall wechseln"
-              : "Zu Arbeitsintervall wechseln"}
-          </Text>
-        </TouchableHighlight>
-      </View>
-    );
+          <TouchableHighlight
+            style={styles.buttonPrimary}
+            onPress={() => {
+              if (this.state.state === PAUSE) {
+                this._timer = setInterval(() => {
+                  if (this.state.time === 0) {
+                    Vibration.vibrate(3000);
+                    this.resetAndChange();
+                  }
+                  this.setState((prevState) => ({ time: prevState.time - 1 }));
+                }, 1000);
+                this.setState({ state: RUNNING });
+              } else {
+                clearInterval(this._timer);
+                this.setState({ state: PAUSE });
+              }
+            }}
+          >
+            <Text style={styles.primaryButtonText}>
+              {this.state.state === PAUSE ? "Starten" : "Pausieren"}
+            </Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.buttonPrimary}
+            onPress={() => {
+              if (this.state.interval === WORK)
+                this.setState({ time: this.state.workingInterval * 60 });
+              else this.setState({ time: this.state.breakInterval * 60 });
+            }}
+          >
+            <Text style={styles.primaryButtonText}>Reset</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.center}
+            onPress={() => {
+              this.resetAndChange();
+            }}
+          >
+            <Text style={styles.textButton}>
+              {this.state.interval === WORK
+                ? "Zu Pausenintervall wechseln"
+                : "Zu Arbeitsintervall wechseln"}
+            </Text>
+          </TouchableHighlight>
+        </View>
+      );
+    } else return null;
   }
 }
 
