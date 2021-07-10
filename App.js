@@ -14,11 +14,9 @@ import HabitsDetails from "./components/HabitsDetails.js";
 import EditHabit from "./components/EditHabit.js";
 import TrackingOverview from "./components/TrackingOverview.js";
 import PomodoroTimer from "./components/PomodoroTimer.js";
-import MonthlyOverviewGoals from "./components/MonthlyOverviewGoals.js";
 import HabitsQueue from "./components/HabitsQueue.js";
 import PomodoroSettings from "./components/PomodoroSettings.js";
-import DailyOverviewGoals from "./components/DailyOverviewGoals.js";
-import WeeklyOverviewGoals from "./components/WeeklyOverviewGoals.js";
+import OverviewGoals from "./components/OverviewGoals.js";
 import AddGoal from "./components/AddGoals.js";
 import AddAktivity from "./components/AddAktivity.js";
 import EditAktivity from "./components/EditAktivity.js";
@@ -133,28 +131,10 @@ function Goals() {
   return (
     <StackGoals.Navigator>
       <StackGoals.Screen
-        name="MonthlyOverviewGoals"
-        component={MonthlyOverviewGoals}
+        name="OverviewGoals"
+        component={OverviewGoals}
         options={{
-          title: "Zielübersicht Monat",
-          headerStyle: styles.header,
-          headerTitleStyle: styles.headerText,
-        }}
-      />
-      <StackGoals.Screen
-        name="WeeklyOverviewGoals"
-        component={WeeklyOverviewGoals}
-        options={{
-          title: "Zielübersicht Woche",
-          headerStyle: styles.header,
-          headerTitleStyle: styles.headerText,
-        }}
-      />
-      <StackGoals.Screen
-        name="DailyOverviewGoals"
-        component={DailyOverviewGoals}
-        options={{
-          title: "Zielübersicht Tag",
+          title: "Zielübersicht",
           headerStyle: styles.header,
           headerTitleStyle: styles.headerText,
         }}
