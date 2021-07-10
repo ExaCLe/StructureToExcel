@@ -6,7 +6,6 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 
 import Habit from "./Habit.js";
-import Divider from "./Divider.js";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 const db = SQLite.openDatabase("habits.db");
