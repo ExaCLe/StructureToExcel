@@ -26,6 +26,7 @@ import { useFonts } from "@expo-google-fonts/montserrat";
 import AppLoading from "expo-app-loading";
 import * as colors from "./assets/colors.js";
 import styles from "./components/styles.js";
+import * as Font from "expo-font";
 
 const StackHabits = createStackNavigator();
 
@@ -40,16 +41,6 @@ const StackGoals = createStackNavigator();
 const StackTracking = createStackNavigator();
 
 function Habit() {
-  let [fontsLoaded] = useFonts({
-    MontserratRegular: require("./assets/fonts/Montserrat-Regular.ttf"),
-    MontserratLight: require("./assets/fonts/Montserrat-Light.ttf"),
-    MontserratThin: require("./assets/fonts/Montserrat-Thin.ttf"),
-    MontserratBold: require("./assets/fonts/Montserrat-Bold.ttf"),
-  });
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
-
   return (
     <StackHabits.Navigator>
       <StackHabits.Screen
@@ -207,46 +198,63 @@ function Tracking() {
   );
 }
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+export default class App extends React.Component {
+  state = { fontsLoaded: false };
+  componentDidMount() {
+    this.loadFonts();
+  }
+  loadFonts = async () => {
+    await Font.loadAsync({
+      MontserratRegular: require("./assets/fonts/Montserrat-Regular.ttf"),
+      MontserratLight: require("./assets/fonts/Montserrat-Light.ttf"),
+      MontserratThin: require("./assets/fonts/Montserrat-Thin.ttf"),
+      MontserratBold: require("./assets/fonts/Montserrat-Bold.ttf"),
+    });
+    this.setState({ fontsLoaded: true });
+  };
+  render() {
+    if (this.state.fontsLoaded) {
+      return (
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                let iconName;
 
-            if (route.name === "Quotes") {
-              iconName = focused
-                ? "ios-information-circle"
-                : "ios-information-circle-outline";
-              return <Entypo name="quote" size={size} color={color} />;
-            } else if (route.name === "Habits") {
-              iconName = focused ? "body-sharp" : "body-outline";
-            } else if (route.name === "Pomodoro") {
-              iconName = focused ? "timer-sharp" : "timer-outline";
-            } else if (route.name === "Goals") {
-              iconName = focused ? "golf-sharp" : "golf-outline";
-            } else if (route.name === "Tracking") {
-              iconName = focused ? "time-sharp" : "time-outline";
-            }
+                if (route.name === "Quotes") {
+                  iconName = focused
+                    ? "ios-information-circle"
+                    : "ios-information-circle-outline";
+                  return <Entypo name="quote" size={size} color={color} />;
+                } else if (route.name === "Habits") {
+                  iconName = focused ? "body-sharp" : "body-outline";
+                } else if (route.name === "Pomodoro") {
+                  iconName = focused ? "timer-sharp" : "timer-outline";
+                } else if (route.name === "Goals") {
+                  iconName = focused ? "golf-sharp" : "golf-outline";
+                } else if (route.name === "Tracking") {
+                  iconName = focused ? "time-sharp" : "time-outline";
+                }
 
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: colors.PrimaryTextColor,
-          inactiveTintColor: colors.NavigationInactiveItem,
-          labelStyle: styles.tabText,
-          style: styles.tabBar,
-        }}
-      >
-        <Tab.Screen name="Habits" component={Habit} />
-        <Tab.Screen name="Pomodoro" component={Pomodoro} />
-        <Tab.Screen name="Goals" component={Goals} />
-        <Tab.Screen name="Quotes" component={Quotes} />
-        <Tab.Screen name="Tracking" component={Tracking} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
+                // You can return any component that you like here!
+                return <Ionicons name={iconName} size={size} color={color} />;
+              },
+            })}
+            tabBarOptions={{
+              activeTintColor: colors.PrimaryTextColor,
+              inactiveTintColor: colors.NavigationInactiveItem,
+              labelStyle: styles.tabText,
+              style: styles.tabBar,
+            }}
+          >
+            <Tab.Screen name="Habits" component={Habit} />
+            <Tab.Screen name="Pomodoro" component={Pomodoro} />
+            <Tab.Screen name="Goals" component={Goals} />
+            <Tab.Screen name="Quotes" component={Quotes} />
+            <Tab.Screen name="Tracking" component={Tracking} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      );
+    } else return null;
+  }
 }
