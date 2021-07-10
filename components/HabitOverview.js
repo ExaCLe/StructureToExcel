@@ -20,7 +20,7 @@ export default class HabitOverview extends React.Component {
     // create a table for the habits if not existing already
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT);",
+        "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, queue BOOLEAN);",
         null,
         () => {},
         (txObj, error) => {}
@@ -36,11 +36,16 @@ export default class HabitOverview extends React.Component {
     // get the habits from the database
     this.fetchData();
   }
-
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
   componentDidMount() {
-    this.props.navigation.addListener("focus", (payload) => {
-      this.fetchData();
-    });
+    this._unsubscribe = this.props.navigation.addListener(
+      "focus",
+      (payload) => {
+        this.fetchData();
+      }
+    );
     this.props.navigation.setOptions({
       headerRight: () => (
         <View style={styles.container}>
@@ -74,7 +79,7 @@ export default class HabitOverview extends React.Component {
     console.log("Fetching data...");
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM habits;",
+        "SELECT * FROM habits WHERE queue IS NULL OR queue = 0",
         null,
         (txObj, { rows: { _array } }) => {
           this.setState({ habits: _array });

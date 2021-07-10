@@ -1,11 +1,44 @@
 import React from "react";
-import { Text, View, TouchableHighlight, StyleSheet } from "react-native";
+import { FlatList, View, TouchableHighlight, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
+import * as SQLite from "expo-sqlite";
+import Habit from "./Habit.js";
+const db = SQLite.openDatabase("habits.db");
 
 class HabitsQueue extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      habits: null,
+    };
+    this.fetchData();
+  }
+  // gets the data for the habits out of the database
+  fetchData = () => {
+    console.log("Fetching data for queue...");
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM habits WHERE queue = 1",
+        null,
+        (txObj, { rows: { _array } }) => {
+          this.setState({ habits: _array });
+        },
+        () => console.error("Fehler beim Lesen der Gewohnheiten. ")
+      );
+    });
+  };
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
   componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener(
+      "focus",
+      (payload) => {
+        this.fetchData();
+      }
+    );
     this.props.navigation.setOptions({
       title: "Warteschlange",
       headerLeft: () => {
@@ -13,7 +46,7 @@ class HabitsQueue extends React.Component {
           <View style={styles.margin}>
             <TouchableHighlight
               onPress={() => {
-                this.props.navigation.goBack();
+                this.props.navigation.navigate("HabitOverview");
               }}
             >
               <Ionicons
@@ -30,8 +63,8 @@ class HabitsQueue extends React.Component {
           <TouchableHighlight
             underlayColor="#ffffff"
             onPress={() =>
-              this.props.navigation.navigate("AddHabit", {
-                addHabit: this.addHabit,
+              this.props.navigation.navigate("ChangeHabit", {
+                edit: false,
               })
             }
           >
@@ -41,8 +74,24 @@ class HabitsQueue extends React.Component {
       ),
     });
   }
+
+  // renders an habit entry in the flat list
+  renderItem = (obj) => {
+    return (
+      <Habit habit={obj.item} queue={true} navigation={this.props.navigation} />
+    );
+  };
+
   render() {
-    return <Text style={styles.normalText}>HabitsQueue</Text>;
+    return (
+      <View style={[styles.margin, styles.flex]}>
+        <FlatList
+          data={this.state.habits}
+          renderItem={this.renderItem}
+          keyExtractor={(item) => String(item.id)}
+        />
+      </View>
+    );
   }
 }
 

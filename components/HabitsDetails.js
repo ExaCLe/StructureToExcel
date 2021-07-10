@@ -35,9 +35,7 @@ class HabitsDetails extends React.Component {
           <View style={styles.margin}>
             <TouchableHighlight
               onPress={() => {
-                this.props.navigation.navigate("HabitOverview", {
-                  rerender: true,
-                });
+                this.props.navigation.goBack();
               }}
             >
               <Ionicons
@@ -85,6 +83,23 @@ class HabitsDetails extends React.Component {
     });
   }
 
+  // changes the state of the queue boolean in the db to the given value
+  changeQueueState = (value) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "UPDATE habits SET queue=? WHERE id=?",
+        [value, this.props.route.params.id],
+        (txObj, resultSet) => {
+          if (!value) this.props.navigation.navigate("HabitOverview");
+          else this.props.navigation.navigate("HabitsQueue");
+        },
+        (txObj, error) => {
+          console.log(error);
+        }
+      );
+    });
+  };
+
   createFrequencyString = () => {
     let interval = "Monat";
     const interval_number = this.props.route.params.intervall;
@@ -95,6 +110,7 @@ class HabitsDetails extends React.Component {
     return result;
   };
   render() {
+    const changeQueueState = this.changeQueueState;
     return (
       <View style={styles.margin}>
         <View style={styles.containerHorizontal}>
@@ -121,6 +137,19 @@ class HabitsDetails extends React.Component {
           {this.state.dates.map((ele) => ele.date + "\n")}
         </Text>
         <Text style={styles.secondaryText}>Monatsstatistik:</Text>
+
+        <TouchableHighlight
+          style={[{ zIndex: -2, position: "relative" }, styles.buttonPrimary]}
+          onPress={() => {
+            this.props.route.params.queue
+              ? changeQueueState(0)
+              : changeQueueState(1);
+          }}
+        >
+          <Text style={styles.primaryButtonText}>
+            {this.props.route.params.queue ? "To Habits" : "To Queue"}
+          </Text>
+        </TouchableHighlight>
       </View>
     );
   }

@@ -70,19 +70,21 @@ class ChangeHabit extends React.Component {
   }
 
   // adds a new habit to the state
-  addHabit = (habit) => {
+  addHabit = (queue) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "INSERT INTO habits (name, priority, intervall, repetitions, icon) VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO habits (name, priority, intervall, repetitions, icon, queue) VALUES (?, ?, ?, ?, ?, ?)",
         [
           this.state.name,
           this.state.valuePriority,
           this.state.valueIntervall,
           parseInt(this.state.repetitions),
           this.state.icon,
+          queue,
         ],
         () => {
-          this.props.navigation.navigate("HabitOverview", { rerender: true });
+          if (!queue) this.props.navigation.navigate("HabitOverview");
+          else this.props.navigation.navigate("HabitsQueue");
         },
         (txObj, error) => {
           console.log(error);
@@ -235,7 +237,7 @@ class ChangeHabit extends React.Component {
           onPress={() => {
             if (this.state.edit) this.updateHabits();
             else {
-              addHabit({ name: this.state.name });
+              addHabit(0);
             }
           }}
           style={[{ zIndex: -2, position: "relative" }, styles.buttonPrimary]}
@@ -245,6 +247,9 @@ class ChangeHabit extends React.Component {
         {!this.state.edit && (
           <TouchableHighlight
             style={[{ zIndex: -2, position: "relative" }, styles.buttonPrimary]}
+            onPress={() => {
+              addHabit(1);
+            }}
           >
             <Text style={styles.primaryButtonText}>Zur Warteschlange</Text>
           </TouchableHighlight>

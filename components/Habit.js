@@ -13,7 +13,10 @@ const Habit = (props) => {
       <TouchableHighlight
         style={styles.habitContainer}
         onPress={() => {
-          props.navigation.navigate("HabitDetails", { ...props.habit });
+          props.navigation.navigate("HabitDetails", {
+            ...props.habit,
+            queue: props.queue,
+          });
         }}
       >
         <View style={styles.container2}>
@@ -35,26 +38,28 @@ const Habit = (props) => {
             </Text>
           </View>
 
-          <View style={styles.containerHorizontal}>
-            {props.habit.fullfilled ? (
-              <Ionicons
-                name="checkmark-circle-outline"
-                size={25}
-                color={colors.PrimaryTextColor}
-              />
-            ) : (
-              <TouchableHighlight
-                onPress={() => handleFullfilled(props.habit)}
-                underlayColor="transparent"
-              >
+          {!props.queue && (
+            <View style={styles.containerHorizontal}>
+              {props.habit.fullfilled ? (
                 <Ionicons
-                  name="close-circle-outline"
+                  name="checkmark-circle-outline"
                   size={25}
                   color={colors.PrimaryTextColor}
                 />
-              </TouchableHighlight>
-            )}
-          </View>
+              ) : (
+                <TouchableHighlight
+                  onPress={() => handleFullfilled(props.habit)}
+                  underlayColor="transparent"
+                >
+                  <Ionicons
+                    name="close-circle-outline"
+                    size={25}
+                    color={colors.PrimaryTextColor}
+                  />
+                </TouchableHighlight>
+              )}
+            </View>
+          )}
         </View>
       </TouchableHighlight>
     </View>
