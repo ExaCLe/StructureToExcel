@@ -11,13 +11,12 @@ import ChangeHabit from "./components/ChangeHabit.js";
 import CategorieOverview from "./components/CategorieOverview.js";
 import QuotesCategorie from "./components/QuotesCategorie";
 import HabitsDetails from "./components/HabitsDetails.js";
-import EditHabit from "./components/EditHabit.js";
 import TrackingOverview from "./components/TrackingOverview.js";
 import PomodoroTimer from "./components/PomodoroTimer.js";
 import HabitsQueue from "./components/HabitsQueue.js";
 import PomodoroSettings from "./components/PomodoroSettings.js";
 import OverviewGoals from "./components/OverviewGoals.js";
-import AddGoal from "./components/AddGoals.js";
+import ChangeGoal from "./components/ChangeGoal.js";
 import AddAktivity from "./components/AddAktivity.js";
 import EditAktivity from "./components/EditAktivity.js";
 import { useFonts } from "@expo-google-fonts/montserrat";
@@ -140,15 +139,13 @@ function Goals() {
         }}
       />
       <StackGoals.Screen
-        name="AddGoal"
-        component={AddGoal}
+        name="ChangeGoal"
+        component={ChangeGoal}
         options={{
-          title: "Ziel hinzufügen",
           headerStyle: styles.header,
           headerTitleStyle: styles.headerText,
         }}
       />
-      <StackGoals.Screen name="EditGoal" component="EditGoal" />
     </StackGoals.Navigator>
   );
 }

@@ -4,12 +4,55 @@ import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
 import Goal from "./Goal.js";
-const DAY = "day";
-const MONTH = "month";
-const WEEK = "week";
+import * as SQLite from "expo-sqlite";
+const db = SQLite.openDatabase("habits.db");
+const DAY = 1;
+const MONTH = 3;
+const WEEK = 2;
 class OverviewGoals extends React.Component {
-  state = { goals: [{ fullfilled: true, name: "test" }], period: DAY };
+  constructor(props) {
+    super(props);
+    this.state = { goals: [], period: DAY };
+    // create a table for the habits if not existing already
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE goals (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, progress INT, time BOOLEAN);",
+        null,
+        // success
+        () => {
+          console.log("success");
+        },
+        // error
+        (txObj, error) => {}
+      );
+    });
+    // get the goals from the database
+    this.fetchData();
+  }
+  // gets the data for the goals out of the database
+  fetchData = () => {
+    console.log("Fetching data for goals...");
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM goals WHERE intervall = ?",
+        [this.state.period],
+        (txObj, { rows: { _array } }) => {
+          this.setState({ goals: _array });
+        },
+        () => console.error("Fehler beim Lesen der Gewohnheiten. ")
+      );
+    });
+  };
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
   componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener(
+      "focus",
+      (payload) => {
+        this.fetchData();
+      }
+    );
     this.props.navigation.setOptions({
       title: (() => {
         if (this.state.period === DAY) return "Zielübersicht Tag";
@@ -20,7 +63,11 @@ class OverviewGoals extends React.Component {
         <View style={styles.container}>
           <TouchableHighlight
             underlayColor="#ffffff"
-            onPress={() => this.props.navigation.navigate("AddGoal")}
+            onPress={() =>
+              this.props.navigation.navigate("ChangeGoal", {
+                edit: false,
+              })
+            }
           >
             <Ionicons name="add" size={25} color={colors.PrimaryTextColor} />
           </TouchableHighlight>
@@ -61,6 +108,7 @@ class OverviewGoals extends React.Component {
           onPress={() => {
             if (this.state.period === DAY) changeView(WEEK);
             else changeView(DAY);
+            this.fetchData();
           }}
         >
           <Text style={styles.primaryButtonText}>
@@ -72,6 +120,7 @@ class OverviewGoals extends React.Component {
           onPress={() => {
             if (this.state.period === MONTH) changeView(WEEK);
             else changeView(MONTH);
+            this.fetchData();
           }}
         >
           <Text style={styles.primaryButtonText}>

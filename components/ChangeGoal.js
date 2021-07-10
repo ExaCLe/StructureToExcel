@@ -3,15 +3,17 @@ import { Text, View, TouchableHighlight, TextInput } from "react-native";
 import styles from "./styles.js";
 import DropDownPicker from "react-native-dropdown-picker";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import * as colors from "./../assets/colors.js";
+import * as colors from "../assets/colors.js";
+
+import * as SQLite from "expo-sqlite";
+const db = SQLite.openDatabase("habits.db");
 class AddGoal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open1: false,
       open2: false,
-      value1: 1,
-      vale2: 1,
+      icon: "book-outline",
       items1: [
         { id: 1, title: "Priorität 1", val: 1 },
         { id: 2, title: "Priorität 2", val: 2 },
@@ -19,10 +21,11 @@ class AddGoal extends React.Component {
       ],
 
       items2: [
-        { id: 1, title: "Woche", val: 1 },
-        { id: 2, title: "Tag", val: 2 },
+        { id: 1, title: "Tag", val: 1 },
+        { id: 2, title: "Woche", val: 2 },
         { id: 3, title: "Monat", val: 3 },
       ],
+      ...props.route.params,
     };
   }
   componentDidMount() {
@@ -57,14 +60,38 @@ class AddGoal extends React.Component {
 
   setValue1 = (callback) => {
     this.setState((state) => ({
-      value1: callback(state.value1),
+      priority: callback(state.priority),
     }));
   };
 
   setValue2 = (callback) => {
     this.setState((state) => ({
-      value2: callback(state.value2),
+      interval: callback(state.interval),
     }));
+  };
+  handleSave = () => {
+    if (!this.state.edit) {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "INSERT INTO goals (name, intervall, priority, repetitions, icon, progress, time) VALUES (?, ?, ?, ?, ?, ?, ?)",
+          [
+            this.state.name,
+            this.state.interval,
+            this.state.priority,
+            this.state.repetitions,
+            this.state.icon,
+            this.state.progress,
+            this.state.time,
+          ],
+          () => {
+            this.props.navigation.goBack();
+          },
+          () => {
+            console.log("error");
+          }
+        );
+      });
+    }
   };
 
   render() {
@@ -74,6 +101,7 @@ class AddGoal extends React.Component {
           <Text style={styles.secondaryText}>Name: </Text>
           <TextInput
             placeholder="Name"
+            value={this.state.name}
             style={[
               styles.padding,
               styles.textInputSmall,
@@ -81,13 +109,16 @@ class AddGoal extends React.Component {
               styles.normalText,
               styles.accentColorText,
             ]}
+            onChangeText={(text) => {
+              this.setState({ name: text });
+            }}
           />
         </View>
 
         <View style={[styles.containerHorizontal]}>
           <Text style={[styles.secondaryText, styles.margin]}>Icon: </Text>
           <Ionicons
-            name="book-outline"
+            name={this.state.icon}
             size={25}
             color={colors.PrimaryAccentColor}
             style={[styles.margin, styles.padding]}
@@ -101,7 +132,7 @@ class AddGoal extends React.Component {
               value: "val",
             }}
             open={this.state.open2}
-            value={this.state.value2}
+            value={this.state.interval}
             items={this.state.items2}
             setOpen={this.setOpen2}
             setValue={this.setValue2}
@@ -112,7 +143,7 @@ class AddGoal extends React.Component {
           />
         </View>
 
-        <View style={styles.containerHorizontal}>
+        <View style={[styles.containerHorizontal, { zIndex: -1 }]}>
           <Text style={styles.secondaryText}>Priorität: </Text>
           <DropDownPicker
             schema={{
@@ -120,7 +151,7 @@ class AddGoal extends React.Component {
               value: "val",
             }}
             open={this.state.open1}
-            value={this.state.value1}
+            value={this.state.priority}
             items={this.state.items1}
             setOpen={this.setOpen1}
             setValue={this.setValue1}
@@ -130,9 +161,12 @@ class AddGoal extends React.Component {
             zIndex={1000}
           />
         </View>
-        <View style={[styles.containerHorizontal, styles.center]}>
+        <View
+          style={[styles.containerHorizontal, styles.center, { zIndex: -2 }]}
+        >
           <TextInput
             placeholder="6"
+            value={this.state.progress}
             style={[
               styles.padding,
               styles.textInputSmall,
@@ -140,6 +174,9 @@ class AddGoal extends React.Component {
               styles.normalText,
               styles.accentColorText,
             ]}
+            onChangeText={(text) => {
+              if (+text || text === "") this.setState({ progress: text });
+            }}
           />
           <Text style={styles.secondaryText}>von</Text>
           <TextInput
@@ -151,9 +188,17 @@ class AddGoal extends React.Component {
               styles.normalText,
               styles.accentColorText,
             ]}
+            onChangeText={(text) => {
+              if (+text || text === "") this.setState({ repetitions: text });
+            }}
           />
         </View>
-        <TouchableHighlight style={styles.buttonPrimary}>
+        <TouchableHighlight
+          style={[styles.buttonPrimary, { zIndex: -3 }]}
+          onPress={() => {
+            this.handleSave();
+          }}
+        >
           <Text style={styles.primaryButtonText}>Speichern</Text>
         </TouchableHighlight>
       </View>
