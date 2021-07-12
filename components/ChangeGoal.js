@@ -6,8 +6,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
 
 import * as SQLite from "expo-sqlite";
-const db = SQLite.openDatabase("habits.db");
-class AddGoal extends React.Component {
+const db = SQLite.openDatabase("goals.db");
+class ChangeGoal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,32 +66,43 @@ class AddGoal extends React.Component {
 
   setValue2 = (callback) => {
     this.setState((state) => ({
-      interval: callback(state.interval),
+      intervall: callback(state.intervall),
     }));
   };
   handleSave = () => {
+    // decide on the right sql command
+    let sql;
     if (!this.state.edit) {
-      db.transaction((tx) => {
-        tx.executeSql(
-          "INSERT INTO goals (name, intervall, priority, repetitions, icon, progress, time) VALUES (?, ?, ?, ?, ?, ?, ?)",
-          [
-            this.state.name,
-            this.state.interval,
-            this.state.priority,
-            this.state.repetitions,
-            this.state.icon,
-            this.state.progress,
-            this.state.time,
-          ],
-          () => {
-            this.props.navigation.goBack();
-          },
-          () => {
-            console.log("error");
-          }
-        );
-      });
+      sql =
+        "INSERT INTO goals (name, intervall, priority, repetitions, icon, progress, time) VALUES (?, ?, ?, ?, ?, ?, ?) ";
+    } else {
+      sql =
+        "UPDATE goals SET name=?, intervall=?, priority=?, repetitions=?, icon=?, progress=?, time=? WHERE id = ?";
     }
+    // execute the sql
+    db.transaction((tx) => {
+      tx.executeSql(
+        sql,
+        [
+          this.state.name,
+          this.state.intervall,
+          this.state.priority,
+          this.state.repetitions,
+          this.state.icon,
+          this.state.progress,
+          this.state.time,
+          this.state.id,
+        ],
+        () => {
+          if (this.state.edit)
+            this.props.navigation.navigate("GoalsDetails", { ...this.state });
+          else this.props.navigation.goBack();
+        },
+        (txObj, error) => {
+          console.log(error);
+        }
+      );
+    });
   };
 
   render() {
@@ -132,7 +143,7 @@ class AddGoal extends React.Component {
               value: "val",
             }}
             open={this.state.open2}
-            value={this.state.interval}
+            value={this.state.intervall}
             items={this.state.items2}
             setOpen={this.setOpen2}
             setValue={this.setValue2}
@@ -166,7 +177,7 @@ class AddGoal extends React.Component {
         >
           <TextInput
             placeholder="6"
-            value={this.state.progress}
+            value={this.state.progress ? this.state.progress + "" : ""}
             style={[
               styles.padding,
               styles.textInputSmall,
@@ -181,6 +192,7 @@ class AddGoal extends React.Component {
           <Text style={styles.secondaryText}>von</Text>
           <TextInput
             placeholder="12"
+            value={this.state.repetitions ? this.state.repetitions + "" : ""}
             style={[
               styles.padding,
               styles.textInputSmall,
@@ -206,4 +218,4 @@ class AddGoal extends React.Component {
   }
 }
 
-export default AddGoal;
+export default ChangeGoal;

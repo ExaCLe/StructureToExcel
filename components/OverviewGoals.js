@@ -5,10 +5,9 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
 import Goal from "./Goal.js";
 import * as SQLite from "expo-sqlite";
-const db = SQLite.openDatabase("habits.db");
-const DAY = 1;
-const MONTH = 3;
-const WEEK = 2;
+import { DAY, WEEK, MONTH } from "./../assets/intervals.js";
+const db = SQLite.openDatabase("goals.db");
+
 class OverviewGoals extends React.Component {
   constructor(props) {
     super(props);

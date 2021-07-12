@@ -19,8 +19,7 @@ import OverviewGoals from "./components/OverviewGoals.js";
 import ChangeGoal from "./components/ChangeGoal.js";
 import AddAktivity from "./components/AddAktivity.js";
 import EditAktivity from "./components/EditAktivity.js";
-import { useFonts } from "@expo-google-fonts/montserrat";
-import AppLoading from "expo-app-loading";
+import GoalsDetails from "./components/GoalsDetails.js";
 import * as colors from "./assets/colors.js";
 import styles from "./components/styles.js";
 import * as Font from "expo-font";
@@ -141,6 +140,14 @@ function Goals() {
       <StackGoals.Screen
         name="ChangeGoal"
         component={ChangeGoal}
+        options={{
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackGoals.Screen
+        name="GoalsDetails"
+        component={GoalsDetails}
         options={{
           headerStyle: styles.header,
           headerTitleStyle: styles.headerText,
