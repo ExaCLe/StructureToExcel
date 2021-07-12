@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, TouchableHighlight, Text } from "react-native";
-import Constants from "expo-constants";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "./../assets/colors.js";
@@ -37,7 +36,9 @@ class QuotesCategorie extends React.Component {
   render() {
     return (
       <View style={[styles.margin, styles.flexContainer, styles.spaceAround]}>
-        <Zitat {...Quotes[this.state.count]} />
+        <Zitat
+          {...Quotes[this.props.route.params.categorie][this.state.count]}
+        />
         <TouchableHighlight
           style={styles.buttonPrimary}
           onPress={() => {

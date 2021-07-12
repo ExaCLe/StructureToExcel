@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 
-import Divider from "./Divider";
 import styles from "./styles.js";
 
 const selectImages = (name) => {
