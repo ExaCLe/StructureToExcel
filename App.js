@@ -17,8 +17,7 @@ import HabitsQueue from "./components/HabitsQueue.js";
 import PomodoroSettings from "./components/PomodoroSettings.js";
 import OverviewGoals from "./components/OverviewGoals.js";
 import ChangeGoal from "./components/ChangeGoal.js";
-import AddAktivity from "./components/AddAktivity.js";
-import EditAktivity from "./components/EditAktivity.js";
+import ChangeAktivity from "./components/ChangeAktivity.js";
 import GoalsDetails from "./components/GoalsDetails.js";
 import * as colors from "./assets/colors.js";
 import styles from "./components/styles.js";
@@ -169,15 +168,14 @@ function Tracking() {
         }}
       />
       <StackTracking.Screen
-        name="AddAktivity"
-        component={AddAktivity}
+        name="ChangeAktivity"
+        component={ChangeAktivity}
         options={{
           title: "Aktivität hinzufügen",
           headerStyle: styles.header,
           headerTitleStyle: styles.headerText,
         }}
       />
-      <StackTracking.Screen name="EditAktivity" component={EditAktivity} />
     </StackTracking.Navigator>
   );
 }
