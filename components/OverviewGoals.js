@@ -38,7 +38,7 @@ class OverviewGoals extends React.Component {
         (txObj, { rows: { _array } }) => {
           this.setState({ goals: _array });
         },
-        () => console.error("Fehler beim Lesen der Gewohnheiten. ")
+        () => console.error("Fehler beim Lesen der Ziele. ")
       );
     });
   };
