@@ -3,6 +3,8 @@ import { Text, TouchableHighlight, View } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "./../assets/colors.js";
+import * as SQLite from "expo-sqlite";
+const db = SQLite.openDatabase("aktivitys.db");
 
 class AktivityTracker extends React.Component {
   constructor(props) {
@@ -16,11 +18,31 @@ class AktivityTracker extends React.Component {
     this._timer = setInterval(() => {
       this.setState((prevState) => ({ time: prevState.time + 1 }));
     }, 1000);
-    this.setState({ running: true });
+    var now = new Date();
+    this.setState({
+      running: true,
+      start_time: (() => {
+        return now.toISOString();
+      })(),
+    });
   };
   stopTimer = () => {
     clearInterval(this._timer);
-    this.setState({ running: false });
+    const now = new Date().toISOString();
+    const duration = this.state.time;
+    db.transaction((tx) => {
+      tx.executeSql(
+        "INSERT INTO trackings (act_id, start_time, end_time, duration_s) VALUES (?, ?, ?, ?);",
+        [this.props.activity.id, this.state.start_time, now, duration],
+        () => {
+          console.log("Erfolgreich eingefügt.");
+        },
+        (txObj, err) => {
+          console.log("Fehler beim Einfügen " + err);
+        }
+      );
+    });
+    this.setState({ running: false, time: 0 });
   };
   render() {
     return (

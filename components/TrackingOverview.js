@@ -11,17 +11,24 @@ class TrackingOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = { aktivitys: [] };
-    // create a table for the habits if not existing already
+    // create a table for the activities if not existing already
     db.transaction((tx) => {
       tx.executeSql(
         "CREATE TABLE activities (id INTEGER PRIMARY KEY, name TEXT, icon TEXT, color TEXT);",
         null,
         // success
-        () => {
-          console.log("success");
-        },
+        () => {},
         // error
         (txObj, error) => {}
+      );
+    });
+    // create the table for the tracking entries
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE trackings (id INTEGER PRIMARY KEY, act_id INTEGER, start_time TEXT, end_time TEXT, duration_s INTEGER , FOREIGN KEY (act_id) REFERENCES activities(id)); ",
+        null,
+        () => {},
+        () => {}
       );
     });
     // get the activities from the database
