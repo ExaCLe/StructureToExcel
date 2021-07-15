@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, View, TouchableHighlight } from "react-native";
+import { FlatList, View, TouchableHighlight, ScrollView } from "react-native";
 import AktivityTracker from "./AktivityTracker.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
@@ -66,19 +66,19 @@ class TrackingOverview extends React.Component {
       ),
     });
   }
-  renderItem = (obj) => {
-    return (
-      <AktivityTracker activity={obj.item} navigation={this.props.navigation} />
-    );
-  };
   render() {
     return (
       <View>
-        <FlatList
-          data={this.state.aktivitys}
-          renderItem={this.renderItem}
-          keyExtractor={(item) => String(item.id)}
-        />
+        <ScrollView>
+          {this.state.aktivitys.map((activity) => (
+            <AktivityTracker
+              AktivityTracker
+              activity={activity}
+              navigation={this.props.navigation}
+              key={String(activity.id)}
+            />
+          ))}
+        </ScrollView>
       </View>
     );
   }

@@ -5,6 +5,23 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "./../assets/colors.js";
 
 class AktivityTracker extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      time: 0,
+      running: false,
+    };
+  }
+  startTimer = () => {
+    this._timer = setInterval(() => {
+      this.setState((prevState) => ({ time: prevState.time + 1 }));
+    }, 1000);
+    this.setState({ running: true });
+  };
+  stopTimer = () => {
+    clearInterval(this._timer);
+    this.setState({ running: false });
+  };
   render() {
     return (
       <View>
@@ -29,11 +46,42 @@ class AktivityTracker extends React.Component {
                 {this.props.activity.name}
               </Text>
             </View>
-            <TouchableHighlight style={[styles.margin]}>
-              <Text style={[styles.normalText, styles.primaryTextColor]}>
-                Start
-              </Text>
-            </TouchableHighlight>
+            {/* This is the START button when not running*/}
+            {!this.state.running && (
+              <TouchableHighlight
+                style={[styles.margin]}
+                onPress={() => {
+                  this.startTimer();
+                }}
+              >
+                <Text style={[styles.normalText, styles.primaryTextColor]}>
+                  Start
+                </Text>
+              </TouchableHighlight>
+            )}
+            {/* This is the END button when not running and the time*/}
+            {this.state.running && (
+              <View style={styles.containerHorizontal}>
+                <Text style={[styles.normalText, styles.primaryTextColor]}>
+                  {Math.floor(this.state.time / 60) +
+                    ":" +
+                    (this.state.time % 60 < 10
+                      ? "0" + (this.state.time % 60)
+                      : this.state.time % 60)}
+                </Text>
+                <TouchableHighlight
+                  onPress={() => {
+                    this.stopTimer();
+                  }}
+                >
+                  <Ionicons
+                    name="stop"
+                    size={25}
+                    color={colors.PrimaryTextColor}
+                  />
+                </TouchableHighlight>
+              </View>
+            )}
           </View>
         </TouchableHighlight>
       </View>
