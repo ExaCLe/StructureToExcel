@@ -56,9 +56,12 @@ class PomodoroTimer extends React.Component {
         "SELECT * FROM pomodoroSettings ORDER BY id LIMIT 1",
         null,
         (txObj, { rows: { _array } }) => {
+          const time = this.state.data_loaded
+            ? this.state.time
+            : _array[0].workingInterval * 60;
           this.setState({
             ..._array[0],
-            time: _array[0].workingInterval * 60,
+            time: time,
             data_loaded: true,
           });
         },
