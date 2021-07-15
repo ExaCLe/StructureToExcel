@@ -18,7 +18,11 @@ class AddAktivity extends React.Component {
     this.state = { ...this.props.route.params };
   }
   componentDidMount() {
+    const title = this.props.route.params.edit
+      ? "Aktvität bearbeiten"
+      : "Aktivität hinzufügen";
     this.props.navigation.setOptions({
+      title: title,
       headerLeft: () => {
         return (
           <View style={styles.margin}>
@@ -37,6 +41,39 @@ class AddAktivity extends React.Component {
         );
       },
     });
+    // add trash icon if edit
+    if (this.state.edit) {
+      this.props.navigation.setOptions({
+        headerRight: () => {
+          return (
+            <TouchableHighlight
+              style={styles.buttonTopBar}
+              underlayColor="#ffffff"
+              onPress={() => {
+                db.transaction((tx) => {
+                  tx.executeSql(
+                    "DELETE FROM activities WHERE id=?",
+                    [this.props.route.params.id],
+                    () => {
+                      this.props.navigation.goBack();
+                    },
+                    () => {
+                      console.log("Fehler beim Löschen der Aktivität");
+                    }
+                  );
+                });
+              }}
+            >
+              <Ionicons
+                name="trash"
+                size={25}
+                color={colors.PrimaryTextColor}
+              />
+            </TouchableHighlight>
+          );
+        },
+      });
+    }
   }
   handleSave = () => {
     // decide on the right sql command
@@ -52,11 +89,7 @@ class AddAktivity extends React.Component {
         sql,
         [this.state.name, this.state.icon, this.state.id],
         () => {
-          if (this.state.edit)
-            this.props.navigation.navigate("AktivityDetails", {
-              ...this.state,
-            });
-          else this.props.navigation.goBack();
+          this.props.navigation.goBack();
         },
         (txObj, error) => {
           console.log(error);
@@ -71,7 +104,12 @@ class AddAktivity extends React.Component {
         <TextInput
           placeholder="Name"
           value={this.state.name}
-          style={[styles.normalText, styles.textInputLarge, styles.padding]}
+          style={[
+            styles.normalText,
+            styles.textInputLarge,
+            styles.padding,
+            styles.accentColorText,
+          ]}
           onChangeText={(text) => {
             this.setState({ name: text });
           }}

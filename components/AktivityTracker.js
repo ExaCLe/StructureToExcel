@@ -7,34 +7,34 @@ import * as colors from "./../assets/colors.js";
 class AktivityTracker extends React.Component {
   render() {
     return (
-      <View
-        style={[
-          styles.margin,
-          styles.containerHorizontal,
-
-          styles.habitContainer,
-          styles.flexContainer,
-          styles.spaceBetween,
-        ]}
-      >
-        <TouchableHighlight style={[styles.margin]}>
-          <View style={styles.containerHorizontal}>
-            <Ionicons
-              name="book"
-              size={25}
-              color={colors.PrimaryTextColor}
-              style={styles.padding}
-            />
-            <Text style={[styles.normalText, styles.primaryTextColor]}>
-              Lesen
-            </Text>
+      <View>
+        <TouchableHighlight
+          style={[styles.margin, styles.habitContainer]}
+          onPress={() => {
+            this.props.navigation.navigate("ChangeAktivity", {
+              ...this.props.activity,
+              edit: true,
+            });
+          }}
+        >
+          <View style={styles.container2}>
+            <View style={styles.containerHorizontal}>
+              <Ionicons
+                name="book"
+                size={25}
+                color={colors.PrimaryTextColor}
+                style={styles.padding}
+              />
+              <Text style={[styles.normalText, styles.primaryTextColor]}>
+                {this.props.activity.name}
+              </Text>
+            </View>
+            <TouchableHighlight style={[styles.margin]}>
+              <Text style={[styles.normalText, styles.primaryTextColor]}>
+                Start
+              </Text>
+            </TouchableHighlight>
           </View>
-        </TouchableHighlight>
-
-        <TouchableHighlight style={[styles.margin]}>
-          <Text style={[styles.normalText, styles.primaryTextColor]}>
-            Start
-          </Text>
         </TouchableHighlight>
       </View>
     );
