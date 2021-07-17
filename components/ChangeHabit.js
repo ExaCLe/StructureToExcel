@@ -1,5 +1,11 @@
 import React from "react";
-import { View, TextInput, Text, TouchableHighlight } from "react-native";
+import {
+  View,
+  TextInput,
+  Text,
+  TouchableHighlight,
+  Switch,
+} from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -8,6 +14,8 @@ import * as colors from "../assets/colors.js";
 // for usage: https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage
 // open the database for adding the habits
 const db = SQLite.openDatabase("habits.db");
+const goals = SQLite.openDatabase("goals.db");
+const tracking = SQLite.openDatabase("aktivitys.db");
 
 class ChangeHabit extends React.Component {
   constructor(props) {
@@ -18,6 +26,8 @@ class ChangeHabit extends React.Component {
       name: (() => {
         return edit ? props.route.params.name : "";
       })(),
+      addToGoals: false,
+      addToTracking: false,
       openIntervall: false,
       openPriority: false,
       valueIntervall: (() => {
@@ -71,6 +81,38 @@ class ChangeHabit extends React.Component {
 
   // adds a new habit to the state
   addHabit = (queue) => {
+    if (this.state.addToGoals) {
+      goals.transaction((tx) => {
+        tx.executeSql(
+          "INSERT INTO goals (name, intervall, priority, repetitions, icon, progress, time) VALUES (?, ?, ?, ?, ?, ?, ?) ",
+          [
+            this.state.name,
+            this.state.valueIntervall,
+            this.state.valuePriority,
+            parseInt(this.state.repetitions),
+            this.state.icon,
+            0,
+            false,
+          ],
+          () => {},
+          (txObj, error) => {
+            console.log(error);
+          }
+        );
+      });
+    }
+    if (this.state.addToTracking) {
+      tracking.transaction((tx) => {
+        tx.executeSql(
+          "INSERT INTO activities (name, icon) VALUES (?, ?) ",
+          [this.state.name, this.state.icon],
+          () => {},
+          (txObj, error) => {
+            console.log(error);
+          }
+        );
+      });
+    }
     db.transaction((tx) => {
       tx.executeSql(
         "INSERT INTO habits (name, priority, intervall, repetitions, icon, queue) VALUES (?, ?, ?, ?, ?, ?)",
@@ -233,6 +275,39 @@ class ChangeHabit extends React.Component {
             zIndex={999}
           />
         </View>
+        {!this.state.edit && (
+          <View style={{ zIndex: -3 }}>
+            <View style={styles.containerHorizontal}>
+              <Switch
+                style={styles.margin}
+                value={this.state.addToGoals}
+                onValueChange={() => {
+                  this.setState((prevState) => {
+                    return {
+                      addToGoals: !prevState.addToGoals,
+                    };
+                  });
+                }}
+              ></Switch>
+              <Text style={styles.secondaryText}>Zu Zielen hinzufügen</Text>
+            </View>
+            <View style={styles.containerHorizontal}>
+              <Switch
+                style={styles.margin}
+                value={this.state.addToTracking}
+                onValueChange={() => {
+                  this.setState((prevState) => {
+                    return {
+                      addToTracking: !prevState.addToTracking,
+                    };
+                  });
+                }}
+              ></Switch>
+              <Text style={styles.secondaryText}>Zu Aktvitäten hinzufügen</Text>
+            </View>
+          </View>
+        )}
+
         <TouchableHighlight
           onPress={() => {
             if (this.state.edit) this.updateHabits();

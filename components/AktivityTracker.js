@@ -27,8 +27,6 @@ class AktivityTracker extends React.Component {
     });
     this._timer = setInterval(() => {
       const now = Date.now();
-      console.log(this.state.start_s);
-      console.log(now);
       this.setState((prevState) => ({
         time: Math.floor((now - prevState.start_s) / 1000),
       }));

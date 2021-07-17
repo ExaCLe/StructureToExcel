@@ -1,5 +1,11 @@
 import React from "react";
-import { Text, View, TouchableHighlight, TextInput } from "react-native";
+import {
+  Text,
+  View,
+  TouchableHighlight,
+  TextInput,
+  Switch,
+} from "react-native";
 import styles from "./styles.js";
 import DropDownPicker from "react-native-dropdown-picker";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -7,12 +13,16 @@ import * as colors from "../assets/colors.js";
 
 import * as SQLite from "expo-sqlite";
 const db = SQLite.openDatabase("goals.db");
+const habits = SQLite.openDatabase("habits.db");
+const tracking = SQLite.openDatabase("aktivitys.db");
 class ChangeGoal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open1: false,
       open2: false,
+      addToTracking: false,
+      addToHabits: false,
       icon: "book-outline",
       items1: [
         { id: 1, title: "Priorität 1", val: 1 },
@@ -70,6 +80,40 @@ class ChangeGoal extends React.Component {
     }));
   };
   handleSave = () => {
+    if (this.state.addToHabits) {
+      habits.transaction((tx) => {
+        tx.executeSql(
+          "INSERT INTO habits (name, priority, intervall, repetitions, icon, queue) VALUES (?, ?, ?, ?, ?, ?)",
+          [
+            this.state.name,
+            this.state.priority,
+            this.state.intervall,
+            parseInt(this.state.repetitions),
+            this.state.icon,
+            false,
+          ],
+          () => {
+            if (!queue) this.props.navigation.navigate("HabitOverview");
+            else this.props.navigation.navigate("HabitsQueue");
+          },
+          (txObj, error) => {
+            console.log(error);
+          }
+        );
+      });
+    }
+    if (this.state.addToTracking) {
+      tracking.transaction((tx) => {
+        tx.executeSql(
+          "INSERT INTO activities (name, icon) VALUES (?, ?) ",
+          [this.state.name, this.state.icon],
+          () => {},
+          (txObj, error) => {
+            console.log(error);
+          }
+        );
+      });
+    }
     // decide on the right sql command
     let sql;
     if (!this.state.edit) {
@@ -214,6 +258,40 @@ class ChangeGoal extends React.Component {
             keyboardType="numeric"
           />
         </View>
+        {!this.state.edit && (
+          <View style={{ zIndex: -3 }}>
+            <View style={styles.containerHorizontal}>
+              <Switch
+                style={styles.margin}
+                value={this.state.addToHabits}
+                onValueChange={() => {
+                  this.setState((prevState) => {
+                    return {
+                      addToHabits: !prevState.addToHabits,
+                    };
+                  });
+                }}
+              ></Switch>
+              <Text style={styles.secondaryText}>
+                Zu Gewohnheiten hinzufügen
+              </Text>
+            </View>
+            <View style={styles.containerHorizontal}>
+              <Switch
+                style={styles.margin}
+                value={this.state.addToTracking}
+                onValueChange={() => {
+                  this.setState((prevState) => {
+                    return {
+                      addToTracking: !prevState.addToTracking,
+                    };
+                  });
+                }}
+              ></Switch>
+              <Text style={styles.secondaryText}>Zu Aktvitäten hinzufügen</Text>
+            </View>
+          </View>
+        )}
         <TouchableHighlight
           style={[styles.buttonPrimary, { zIndex: -3 }]}
           onPress={() => {
