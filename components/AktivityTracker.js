@@ -15,16 +15,24 @@ class AktivityTracker extends React.Component {
     };
   }
   startTimer = () => {
-    this._timer = setInterval(() => {
-      this.setState((prevState) => ({ time: prevState.time + 1 }));
-    }, 1000);
-    var now = new Date();
+    const now = new Date();
     this.setState({
       running: true,
+      start_s: (() => {
+        return Date.now();
+      })(),
       start_time: (() => {
         return now.toISOString();
       })(),
     });
+    this._timer = setInterval(() => {
+      const now = Date.now();
+      console.log(this.state.start_s);
+      console.log(now);
+      this.setState((prevState) => ({
+        time: Math.floor((now - prevState.start_s) / 1000),
+      }));
+    }, 1000);
   };
   stopTimer = () => {
     clearInterval(this._timer);
