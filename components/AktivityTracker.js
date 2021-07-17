@@ -65,7 +65,7 @@ class AktivityTracker extends React.Component {
           <View style={styles.container2}>
             <View style={styles.containerHorizontal}>
               <Ionicons
-                name="book"
+                name={this.props.activity.icon}
                 size={25}
                 color={colors.PrimaryTextColor}
                 style={styles.padding}

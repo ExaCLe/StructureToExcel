@@ -26,6 +26,9 @@ class ChangeHabit extends React.Component {
       name: (() => {
         return edit ? props.route.params.name : "";
       })(),
+      icon: (() => {
+        return edit ? props.route.params.icon : "book-outline";
+      })(),
       addToGoals: false,
       addToTracking: false,
       openIntervall: false,
@@ -51,8 +54,17 @@ class ChangeHabit extends React.Component {
       id: props.route.params.id,
     };
   }
-
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
   componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener(
+      "focus",
+      (payload) => {
+        if (this.props.route.params && this.props.route.params.icon)
+          this.setState({ icon: this.props.route.params.icon });
+      }
+    );
     this.props.navigation.setOptions({
       title: (() => {
         return this.state.edit
@@ -78,7 +90,6 @@ class ChangeHabit extends React.Component {
       },
     });
   }
-
   // adds a new habit to the state
   addHabit = (queue) => {
     if (this.state.addToGoals) {
@@ -139,12 +150,13 @@ class ChangeHabit extends React.Component {
     // handle change in the databases
     db.transaction((tx) => {
       tx.executeSql(
-        "UPDATE habits SET name=?, intervall=?, priority=?, repetitions=? WHERE id=?",
+        "UPDATE habits SET name=?, intervall=?, priority=?, repetitions=?, icon=? WHERE id=?",
         [
           this.state.name,
           this.state.valueIntervall,
           this.state.valuePriority,
           this.state.repetitions,
+          this.state.icon,
           this.state.id,
         ],
         (txObj, resultSet) => {
@@ -207,12 +219,19 @@ class ChangeHabit extends React.Component {
         <View style={[styles.containerHorizontal]}>
           <Text style={[styles.secondaryText, styles.margin]}>Icon: </Text>
           <Ionicons
-            name="book-outline"
+            name={this.state.icon}
             size={25}
             color={colors.PrimaryAccentColor}
             style={[styles.margin, styles.padding]}
           />
-          <TouchableHighlight style={[styles.margin, styles.padding]}>
+          <TouchableHighlight
+            style={[styles.margin, styles.padding]}
+            onPress={() => {
+              this.props.navigation.navigate("IconChooserHabits", {
+                target: "ChangeHabit",
+              });
+            }}
+          >
             <Text style={[styles.textButton]}> Wähle Icon</Text>
           </TouchableHighlight>
         </View>

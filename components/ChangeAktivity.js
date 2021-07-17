@@ -15,9 +15,25 @@ const db = SQLite.openDatabase("aktivitys.db");
 class AddAktivity extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { ...this.props.route.params };
+    const edit = props.route.params.edit;
+    this.state = {
+      ...this.props.route.params,
+      icon: (() => {
+        return edit ? props.route.params.icon : "book-outline";
+      })(),
+    };
+  }
+  componentWillUnmount() {
+    this._unsubscribe();
   }
   componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener(
+      "focus",
+      (payload) => {
+        if (this.props.route.params && this.props.route.params.icon)
+          this.setState({ icon: this.props.route.params.icon });
+      }
+    );
     const title = this.props.route.params.edit
       ? "Aktvität bearbeiten"
       : "Aktivität hinzufügen";
@@ -120,12 +136,19 @@ class AddAktivity extends React.Component {
         <View style={[styles.containerHorizontal]}>
           <Text style={[styles.secondaryText, styles.margin]}>Icon: </Text>
           <Ionicons
-            name="book-outline"
+            name={this.state.icon}
             size={25}
             color={colors.PrimaryAccentColor}
             style={[styles.margin, styles.padding]}
           />
-          <TouchableHighlight style={[styles.margin, styles.padding]}>
+          <TouchableHighlight
+            style={[styles.margin, styles.padding]}
+            onPress={() => {
+              this.props.navigation.navigate("IconChooserTracking", {
+                target: "ChangeAktivity",
+              });
+            }}
+          >
             <Text style={[styles.textButton]}> Wähle Icon</Text>
           </TouchableHighlight>
         </View>

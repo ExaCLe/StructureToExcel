@@ -22,7 +22,7 @@ const Habit = (props) => {
         <View style={styles.container2}>
           <View style={styles.containerHorizontal}>
             <Ionicons
-              name="book"
+              name={props.habit.icon}
               size={25}
               color={colors.PrimaryTextColor}
               style={styles.padding}

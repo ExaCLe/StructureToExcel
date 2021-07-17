@@ -18,12 +18,15 @@ const tracking = SQLite.openDatabase("aktivitys.db");
 class ChangeGoal extends React.Component {
   constructor(props) {
     super(props);
+    const edit = props.route.params.edit;
     this.state = {
       open1: false,
       open2: false,
       addToTracking: false,
       addToHabits: false,
-      icon: "book-outline",
+      icon: (() => {
+        return edit ? props.route.params.icon : "book-outline";
+      })(),
       items1: [
         { id: 1, title: "Priorität 1", val: 1 },
         { id: 2, title: "Priorität 2", val: 2 },
@@ -38,7 +41,17 @@ class ChangeGoal extends React.Component {
       ...props.route.params,
     };
   }
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
   componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener(
+      "focus",
+      (payload) => {
+        if (this.props.route.params && this.props.route.params.icon)
+          this.setState({ icon: this.props.route.params.icon });
+      }
+    );
     this.props.navigation.setOptions({
       headerLeft: () => {
         return (
@@ -179,6 +192,16 @@ class ChangeGoal extends React.Component {
             style={[styles.margin, styles.padding]}
           />
         </View>
+        <TouchableHighlight
+          style={[styles.margin, styles.padding]}
+          onPress={() => {
+            this.props.navigation.navigate("IconChooserGoals", {
+              target: "ChangeGoal",
+            });
+          }}
+        >
+          <Text style={[styles.textButton]}> Wähle Icon</Text>
+        </TouchableHighlight>
         <View style={[styles.containerHorizontal, { zIndex: 3 }]}>
           <Text style={styles.secondaryText}>Intervall: </Text>
           <DropDownPicker

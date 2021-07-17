@@ -22,6 +22,7 @@ import GoalsDetails from "./components/GoalsDetails.js";
 import * as colors from "./assets/colors.js";
 import styles from "./components/styles.js";
 import * as Font from "expo-font";
+import IconChooser from "./components/IconChooser.js";
 
 const StackHabits = createStackNavigator();
 
@@ -67,6 +68,15 @@ function Habit() {
         name="HabitsQueue"
         component={HabitsQueue}
         options={{
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackHabits.Screen
+        name="IconChooserHabits"
+        component={IconChooser}
+        options={{
+          title: "Wähle ein Icon",
           headerStyle: styles.header,
           headerTitleStyle: styles.headerText,
         }}
@@ -152,6 +162,15 @@ function Goals() {
           headerTitleStyle: styles.headerText,
         }}
       />
+      <StackHabits.Screen
+        name="IconChooserGoals"
+        component={IconChooser}
+        options={{
+          title: "Wähle ein Icon",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
     </StackGoals.Navigator>
   );
 }
@@ -172,6 +191,15 @@ function Tracking() {
         component={ChangeAktivity}
         options={{
           title: "Aktivität hinzufügen",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackHabits.Screen
+        name="IconChooserTracking"
+        component={IconChooser}
+        options={{
+          title: "Wähle ein Icon",
           headerStyle: styles.header,
           headerTitleStyle: styles.headerText,
         }}
