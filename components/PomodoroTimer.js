@@ -34,7 +34,12 @@ class PomodoroTimer extends React.Component {
           // if successful (therfore first time creating the db, insert the data)
           db.transaction((tx) => {
             tx.executeSql(
-              "INSERT INTO pomodoroSettings (id, workingInterval, breakInterval, longBreakAfter) VALUES (0, 50, 10, 99)"
+              "INSERT INTO pomodoroSettings (id, workingInterval, breakInterval, longBreakAfter) VALUES (0, 50, 10, 99)",
+              null,
+              () => {
+                this.fetchData();
+              },
+              () => {}
             );
           });
         },
@@ -56,14 +61,17 @@ class PomodoroTimer extends React.Component {
         "SELECT * FROM pomodoroSettings ORDER BY id LIMIT 1",
         null,
         (txObj, { rows: { _array } }) => {
-          const time = this.state.data_loaded
-            ? this.state.time
-            : _array[0].workingInterval * 60;
-          this.setState({
-            ..._array[0],
-            time: time,
-            data_loaded: true,
-          });
+          if (_array.length !== 0) {
+            const time = this.state.data_loaded
+              ? this.state.time
+              : _array[0].workingInterval * 60;
+
+            this.setState({
+              ..._array[0],
+              time: time,
+              data_loaded: true,
+            });
+          }
         },
         () => console.error("Fehler beim Lesen der Settings. ")
       );

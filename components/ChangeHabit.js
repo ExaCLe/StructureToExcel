@@ -5,7 +5,7 @@ import styles from "./styles.js";
 import DropDownPicker from "react-native-dropdown-picker";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
-
+// for usage: https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage
 // open the database for adding the habits
 const db = SQLite.openDatabase("habits.db");
 

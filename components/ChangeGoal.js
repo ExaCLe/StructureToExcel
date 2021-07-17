@@ -135,7 +135,7 @@ class ChangeGoal extends React.Component {
             style={[styles.margin, styles.padding]}
           />
         </View>
-        <View style={styles.containerHorizontal}>
+        <View style={[styles.containerHorizontal, { zIndex: 3 }]}>
           <Text style={styles.secondaryText}>Intervall: </Text>
           <DropDownPicker
             schema={{
@@ -150,11 +150,17 @@ class ChangeGoal extends React.Component {
             style={[styles.dropdown, styles.margin, styles.fullSize]}
             dropDownContainerStyle={[styles.dropdownMenu, styles.margin]}
             textStyle={[styles.normalText, styles.accentColorText]}
-            zIndex={1000}
+            zIndex={5000}
+            zIndexInverse={5000}
           />
         </View>
 
-        <View style={[styles.containerHorizontal, { zIndex: -1 }]}>
+        <View
+          style={[
+            styles.containerHorizontal,
+            { zIndex: 2, position: "relative" },
+          ]}
+        >
           <Text style={styles.secondaryText}>Priorität: </Text>
           <DropDownPicker
             schema={{
@@ -170,10 +176,11 @@ class ChangeGoal extends React.Component {
             dropDownContainerStyle={[styles.dropdownMenu, styles.margin]}
             textStyle={[styles.normalText, styles.accentColorText]}
             zIndex={1000}
+            zIndexInverse={1000}
           />
         </View>
         <View
-          style={[styles.containerHorizontal, styles.center, { zIndex: -2 }]}
+          style={[styles.containerHorizontal, styles.center, { zIndex: -1 }]}
         >
           <TextInput
             placeholder="6"
@@ -188,6 +195,7 @@ class ChangeGoal extends React.Component {
             onChangeText={(text) => {
               if (+text || text === "") this.setState({ progress: text });
             }}
+            keyboardType="numeric"
           />
           <Text style={styles.secondaryText}>von</Text>
           <TextInput
@@ -203,6 +211,7 @@ class ChangeGoal extends React.Component {
             onChangeText={(text) => {
               if (+text || text === "") this.setState({ repetitions: text });
             }}
+            keyboardType="numeric"
           />
         </View>
         <TouchableHighlight

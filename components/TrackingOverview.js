@@ -40,11 +40,12 @@ class TrackingOverview extends React.Component {
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM activities",
-        [this.state.period],
+        null,
         (txObj, { rows: { _array } }) => {
           this.setState({ aktivitys: _array });
         },
-        () => console.error("Fehler beim Lesen der Aktivitäten. ")
+        (txObj, error) =>
+          console.error("Fehler beim Lesen der Aktivitäten. " + error)
       );
     });
   };

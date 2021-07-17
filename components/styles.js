@@ -113,7 +113,6 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     width: "30%",
     borderColor: colors.PrimaryAccentColor,
-    zIndex: 4,
   },
   dropdownMenu: {
     width: "30%",
