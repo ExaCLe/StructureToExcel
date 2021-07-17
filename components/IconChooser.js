@@ -34,7 +34,7 @@ class IconChooser extends React.Component {
   // renders an habit entry in the flat list
   renderItem = (obj) => {
     return (
-      <View>
+      <View style={{ display: "flex", flexDirection: "row" }}>
         <TouchableHighlight
           onPress={() => {
             this.props.navigation.navigate(this.props.route.params.target, {
@@ -42,15 +42,19 @@ class IconChooser extends React.Component {
             });
           }}
         >
-          <Ionicons name={obj.item.name} size={25} />
+          <Ionicons
+            name={obj.item.name}
+            size={50}
+            color={colors.PrimaryAccentColor}
+          />
         </TouchableHighlight>
       </View>
     );
   };
   render() {
     return (
-      <View style={styles.containerHorizontal}>
-        <FlatList data={icons} renderItem={this.renderItem} />
+      <View style={{ display: "flex", flexDirection: "row" }}>
+        <FlatList data={icons} renderItem={this.renderItem} numColumns={8} />
       </View>
     );
   }
