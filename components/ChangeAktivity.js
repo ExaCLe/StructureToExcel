@@ -78,16 +78,19 @@ class AddAktivity extends React.Component {
   handleSave = () => {
     // decide on the right sql command
     let sql;
+    let variables;
     if (!this.props.route.params.edit) {
       sql = "INSERT INTO activities (name, icon) VALUES (?, ?) ";
+      variables = [this.state.name, this.state.icon];
     } else {
       sql = "UPDATE activities SET name=?, icon=? WHERE id = ?";
+      variables = [this.state.name, this.state.icon, this.state.id];
     }
     // execute the sql
     db.transaction((tx) => {
       tx.executeSql(
         sql,
-        [this.state.name, this.state.icon, this.state.id],
+        variables,
         () => {
           this.props.navigation.goBack();
         },
