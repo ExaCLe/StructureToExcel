@@ -132,6 +132,7 @@ class PomodoroTimer extends React.Component {
             style={styles.buttonPrimary}
             onPress={() => {
               if (this.state.state === PAUSE) {
+                this.setState((prevState) => ({ time: prevState.time - 1 }));
                 this._timer = setInterval(() => {
                   if (this.state.time === 0) {
                     Vibration.vibrate(3000);
