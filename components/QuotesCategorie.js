@@ -40,17 +40,21 @@ class QuotesCategorie extends React.Component {
       this.props.route.params.categorie === categories.FAVORITES
         ? "SELECT * FROM favorites"
         : "SELECT id FROM favorites WHERE categorie = ?";
+    const values =
+      this.props.route.params.categorie === categories.FAVORITES
+        ? null
+        : [this.props.route.params.categorie];
     db.transaction((tx) => {
       tx.executeSql(
         sql,
-        [this.props.route.params.categorie],
+        values,
         (txObj, { rows: { _array } }) => {
           this.setState(
             { favorites: _array, fetchedData: true },
             this.favorite
           );
         },
-        () => console.error("Fehler beim Lesen der Favoriten. ")
+        (txObj, error) => console.error(error)
       );
     });
   };
