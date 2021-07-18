@@ -23,6 +23,7 @@ class IconChooser extends React.Component {
               <Ionicons
                 name="arrow-back"
                 size={25}
+                style={styles.padding}
                 color={colors.PrimaryTextColor}
               />
             </TouchableHighlight>

@@ -53,6 +53,7 @@ class HabitsQueue extends React.Component {
                 name="arrow-back"
                 size={25}
                 color={colors.PrimaryTextColor}
+                style={styles.padding}
               />
             </TouchableHighlight>
           </View>
@@ -68,7 +69,12 @@ class HabitsQueue extends React.Component {
               })
             }
           >
-            <Ionicons name="add" size={25} color={colors.PrimaryTextColor} />
+            <Ionicons
+              name="add"
+              size={25}
+              color={colors.PrimaryTextColor}
+              style={styles.padding}
+            />
           </TouchableHighlight>
         </View>
       ),

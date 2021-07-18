@@ -38,6 +38,7 @@ class GoalsDetails extends React.Component {
                 name="arrow-back"
                 size={25}
                 color={colors.PrimaryTextColor}
+                style={styles.padding}
               />
             </TouchableHighlight>
           </View>
@@ -54,7 +55,12 @@ class GoalsDetails extends React.Component {
               });
             }}
           >
-            <Ionicons name="pencil" size={25} color={colors.PrimaryTextColor} />
+            <Ionicons
+              name="pencil"
+              size={25}
+              color={colors.PrimaryTextColor}
+              style={styles.padding}
+            />
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.buttonTopBar}
@@ -74,7 +80,12 @@ class GoalsDetails extends React.Component {
               });
             }}
           >
-            <Ionicons name="trash" size={25} color={colors.PrimaryTextColor} />
+            <Ionicons
+              name="trash"
+              size={25}
+              color={colors.PrimaryTextColor}
+              style={styles.padding}
+            />
           </TouchableHighlight>
         </View>
       ),

@@ -45,6 +45,7 @@ const Habit = (props) => {
                   name="checkmark-circle-outline"
                   size={25}
                   color={colors.PrimaryTextColor}
+                  style={styles.padding}
                 />
               ) : (
                 <TouchableHighlight
@@ -55,6 +56,7 @@ const Habit = (props) => {
                     name="close-circle-outline"
                     size={25}
                     color={colors.PrimaryTextColor}
+                    style={styles.padding}
                   />
                 </TouchableHighlight>
               )}

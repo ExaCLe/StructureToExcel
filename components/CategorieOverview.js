@@ -36,7 +36,12 @@ class CategorieOverview extends React.Component {
               })
             }
           >
-            <Ionicons name="heart" size={25} color={colors.PrimaryTextColor} />
+            <Ionicons
+              name="heart"
+              size={25}
+              color={colors.PrimaryTextColor}
+              style={styles.padding}
+            />
           </TouchableHighlight>
         </View>
       ),

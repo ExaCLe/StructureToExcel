@@ -65,6 +65,7 @@ class ChangeGoal extends React.Component {
                 name="arrow-back"
                 size={25}
                 color={colors.PrimaryTextColor}
+                style={styles.padding}
               />
             </TouchableHighlight>
           </View>
