@@ -45,7 +45,10 @@ class QuotesCategorie extends React.Component {
         sql,
         [this.props.route.params.categorie],
         (txObj, { rows: { _array } }) => {
-          this.setState({ favorites: _array, fetchData: true }, this.favorite);
+          this.setState(
+            { favorites: _array, fetchedData: true },
+            this.favorite
+          );
         },
         () => console.error("Fehler beim Lesen der Favoriten. ")
       );
@@ -63,25 +66,29 @@ class QuotesCategorie extends React.Component {
               style={styles.buttonTopBar}
               onPress={() => {
                 const categorie = this.props.route.params.categorie;
-                const id = this.props.route.params.id;
                 const sql = this.state.favorite
                   ? "DELETE FROM favorites WHERE id=?"
                   : "INSERT INTO favorites (id, categorie) VALUES (?, ?) ";
-                const key = this.state.favorite
-                  ? this.state.favorites[this.state.count].id
-                  : Quotes[categorie][this.state.count]["key"];
+                const key =
+                  this.props.route.params.categorie === categories.FAVORITES
+                    ? this.state.favorites[this.state.count].id
+                    : Quotes[categorie][this.state.count]["key"];
+                const values = this.state.favorite ? [key] : [key, categorie];
 
                 db.transaction((tx) => {
                   tx.executeSql(
                     sql,
-                    [key, categorie],
+                    values,
                     // success
-                    () => {
+                    async () => {
                       if (
                         this.props.route.params.categorie ===
                         categories.FAVORITES
-                      )
-                        this.setCount(this.state.count - 1);
+                      ) {
+                        if (this.state.count === 0)
+                          this.setCount(this.state.favorites.length - 2);
+                        else this.setCount(this.state.count - 1);
+                      }
                       this.fetchData();
                     },
                     // error
@@ -96,6 +103,7 @@ class QuotesCategorie extends React.Component {
                 name={this.state.favorite ? "heart" : "heart-outline"}
                 size={25}
                 color={colors.PrimaryTextColor}
+                style={styles.padding}
               />
             </TouchableHighlight>
           </View>
@@ -129,6 +137,7 @@ class QuotesCategorie extends React.Component {
   }
   render() {
     if (this.props.route.params.categorie === categories.FAVORITES) {
+      if (this.state.favorites.length <= this.state.count) return null;
       if (this.state.favorites.length === 0) return null;
       const quote = Quotes[
         this.state.favorites[this.state.count].categorie
