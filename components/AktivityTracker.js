@@ -82,9 +82,12 @@ class AktivityTracker extends React.Component {
                   this.startTimer();
                 }}
               >
-                <Text style={[styles.normalText, styles.primaryTextColor]}>
-                  Start
-                </Text>
+                <Ionicons
+                  style={styles.padding}
+                  name="play"
+                  size={25}
+                  color={colors.PrimaryTextColor}
+                />
               </TouchableHighlight>
             )}
             {/* This is the END button when not running and the time*/}
@@ -106,6 +109,7 @@ class AktivityTracker extends React.Component {
                     name="stop"
                     size={25}
                     color={colors.PrimaryTextColor}
+                    style={styles.padding}
                   />
                 </TouchableHighlight>
               </View>
