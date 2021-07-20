@@ -96,6 +96,15 @@ class AddAktivity extends React.Component {
     // decide on the right sql command
     let sql;
     let variables;
+    if (!this.state.name) {
+      alert("Bitte einen Namen eintragen");
+      return;
+    }
+    if (!this.state.icon) {
+      alert("Bitte ein Icon auswählen");
+      return;
+    }
+
     if (!this.props.route.params.edit) {
       sql = "INSERT INTO activities (name, icon) VALUES (?, ?) ";
       variables = [this.state.name, this.state.icon];
