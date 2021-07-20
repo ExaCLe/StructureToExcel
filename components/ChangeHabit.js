@@ -49,7 +49,7 @@ class ChangeHabit extends React.Component {
         { id: 2, title: "2", val: 2 },
       ],
       repetitions: (() => {
-        return edit ? "" + props.route.params.repetitions : "7";
+        return edit ? "" + props.route.params.repetitions : "";
       })(),
       id: props.route.params.id,
     };
@@ -91,8 +91,32 @@ class ChangeHabit extends React.Component {
       },
     });
   }
+  checkComplete = () => {
+    if (!this.state.name) {
+      alert("Bitte einen Namen eintragen");
+      return false;
+    }
+    if (!this.state.valuePriority) {
+      alert("Bitte eine Priorität auswählen");
+      return false;
+    }
+    if (!this.state.valueIntervall) {
+      alert("Bitte ein Intervall auswählen");
+      return false;
+    }
+    if (!this.state.repetitions) {
+      alert("Bitte eine Ziel-Zahl eintragen");
+      return false;
+    }
+    if (!this.state.icon) {
+      alert("Bitte ein Icon auswählen");
+      return false;
+    }
+    return true;
+  };
   // adds a new habit to the state
   addHabit = (queue) => {
+    if (!this.checkComplete()) return;
     if (this.state.addToGoals) {
       goals.transaction((tx) => {
         tx.executeSql(
@@ -241,6 +265,7 @@ class ChangeHabit extends React.Component {
         </Text>
         <View style={styles.containerHorizontal}>
           <TextInput
+            placeholder={"7"}
             value={this.state.repetitions}
             style={[
               styles.padding,
