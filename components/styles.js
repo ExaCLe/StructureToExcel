@@ -174,6 +174,9 @@ const styles = StyleSheet.create({
   textSmall: {
     fontSize: 20,
   },
+  textVerySmall: {
+    fontSize: 10,
+  },
   textBig: {
     fontSize: 40,
   },

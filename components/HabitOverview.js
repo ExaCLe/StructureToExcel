@@ -130,7 +130,6 @@ export default class HabitOverview extends React.Component {
 
   // renders an habit entry in the flat list
   renderItem = (obj) => {
-    console.log(obj.item);
     return (
       <Habit
         habit={obj.item}

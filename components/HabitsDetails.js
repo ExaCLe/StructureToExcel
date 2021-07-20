@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
+import { Text, View, TouchableHighlight, ScrollView } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
@@ -20,7 +20,27 @@ class HabitsDetails extends React.Component {
         "SELECT * FROM checkHabits WHERE habit_id = ? GROUP BY date",
         [this.props.route.params.id],
         (txObj, { rows: { _array } }) => {
-          this.setState({ dates: _array });
+          let now = new Date();
+          now.setHours(2);
+          now.setMinutes(0);
+          now.setSeconds(0);
+          now.setMilliseconds(0);
+          let lastSevenDays = [false, false, false, false, false, false, false];
+          let lastThirtyDays = new Array(30);
+          for (let i = 0; i < 30; i++) lastThirtyDays[i] = false;
+          const new_array = _array.map((element) => {
+            element.date = new Date(element.date);
+            element.since = (now - element.date) / 1000 / 86400;
+            if (element.since <= 6) lastSevenDays[element.since] = true;
+            if (element.since <= 29) lastThirtyDays[element.since] = true;
+            return element;
+          });
+          this.setState({
+            dates: new_array,
+            lastSevenDays: lastSevenDays,
+            now: now,
+            lastThirtyDays: lastThirtyDays,
+          });
         }
       );
     });
@@ -120,10 +140,15 @@ class HabitsDetails extends React.Component {
     const result = this.props.route.params.repetitions + " Mal pro " + interval;
     return result;
   };
+  calculateDate = (index) => {
+    const time = this.state.now - 1000 * 86400 * index;
+    const date = new Date(time);
+    return date.getDate() + "." + date.getMonth();
+  };
   render() {
     const changeQueueState = this.changeQueueState;
     return (
-      <View style={styles.margin}>
+      <ScrollView style={styles.margin}>
         <View style={styles.containerHorizontal}>
           <Text style={[styles.secondaryText]}>Name: </Text>
           <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
@@ -142,13 +167,49 @@ class HabitsDetails extends React.Component {
             {this.state.frequency}
           </Text>
         </View>
+        <Text style={styles.secondaryText}>Letzten 7 Tage:</Text>
+        <View style={styles.containerHorizontal}>
+          {this.state.lastSevenDays &&
+            this.state.lastSevenDays.map((bool, index) => {
+              const name = bool ? "checkmark-circle" : "close-circle";
+              const color = bool
+                ? colors.PrimaryAccentColor
+                : colors.SecondaryTextColor;
+              return (
+                <View key={index + 1000}>
+                  <Ionicons name={name} size={25} color={color} />
+                  <Text style={[styles.secondaryText, styles.textVerySmall]}>
+                    {this.calculateDate(index)}
+                  </Text>
+                </View>
+              );
+            })}
+        </View>
+        <Text style={styles.secondaryText}>Letzten 30 Tage:</Text>
+        <View
+          style={[
+            styles.containerHorizontal,
+            { display: "flex", flexWrap: "wrap" },
+          ]}
+        >
+          {this.state.lastThirtyDays &&
+            this.state.lastThirtyDays.map((bool, index) => {
+              const name = bool ? "checkmark-circle" : "close-circle";
+              const color = bool
+                ? colors.PrimaryAccentColor
+                : colors.SecondaryTextColor;
+              return (
+                <View key={index + 1000}>
+                  <Ionicons name={name} size={25} color={color} />
+                  <Text style={[styles.secondaryText, styles.textVerySmall]}>
+                    {this.calculateDate(index)}
+                  </Text>
+                </View>
+              );
+            })}
+        </View>
 
-        <Text style={styles.secondaryText}>Letzte Einträge:</Text>
-        <Text style={[styles.accentColorText, styles.textSmall]}>
-          {this.state.dates.map((ele) => ele.date + "\n")}
-        </Text>
         <Text style={styles.secondaryText}>Monatsstatistik:</Text>
-
         <TouchableHighlight
           style={[{ zIndex: -2, position: "relative" }, styles.buttonPrimary]}
           onPress={() => {
@@ -161,7 +222,7 @@ class HabitsDetails extends React.Component {
             {this.props.route.params.queue ? "To Habits" : "To Queue"}
           </Text>
         </TouchableHighlight>
-      </View>
+      </ScrollView>
     );
   }
 }
