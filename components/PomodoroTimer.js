@@ -54,7 +54,7 @@ class PomodoroTimer extends React.Component {
   }
 
   // fetches the settings from the db
-  fetchData = () => {
+  fetchData = (refresh) => {
     console.log("Fetching data for pomodoro...");
     db.transaction((tx) => {
       tx.executeSql(
@@ -62,10 +62,11 @@ class PomodoroTimer extends React.Component {
         null,
         (txObj, { rows: { _array } }) => {
           if (_array.length !== 0) {
-            const time = this.state.data_loaded
-              ? this.state.time
-              : _array[0].workingInterval * 60;
-
+            const time =
+              this.state.data_loaded && !refresh
+                ? this.state.time
+                : _array[0].workingInterval * 60;
+            console.log(time);
             this.setState({
               ..._array[0],
               time: time,
@@ -82,7 +83,7 @@ class PomodoroTimer extends React.Component {
     this._unsubscribe = this.props.navigation.addListener(
       "focus",
       (payload) => {
-        this.fetchData();
+        this.fetchData(true);
       }
     );
     this.props.navigation.setOptions({
