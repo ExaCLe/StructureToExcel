@@ -99,11 +99,11 @@ class ChangeGoal extends React.Component {
       return;
     }
     if (!this.state.priority) {
-      alert("Bitte eine Priorität auswählen auswählen");
+      alert("Bitte eine Priorität auswählen");
       return;
     }
     if (!this.state.intervall) {
-      alert("Bitte ein Intervall auswählen auswählen");
+      alert("Bitte ein Intervall auswählen");
       return;
     }
     if (!this.state.repetitions) {
