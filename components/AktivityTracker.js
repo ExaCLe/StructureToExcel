@@ -56,7 +56,7 @@ class AktivityTracker extends React.Component {
         <TouchableHighlight
           style={[styles.margin, styles.habitContainer]}
           onPress={() => {
-            this.props.navigation.navigate("ChangeAktivity", {
+            this.props.navigation.navigate("AktivityDetails", {
               ...this.props.activity,
               edit: true,
             });

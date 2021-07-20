@@ -23,6 +23,7 @@ import * as colors from "./assets/colors.js";
 import styles from "./components/styles.js";
 import * as Font from "expo-font";
 import IconChooser from "./components/IconChooser.js";
+import AktivityDetails from "./components/AktivityDetails.js";
 
 const StackHabits = createStackNavigator();
 
@@ -200,6 +201,14 @@ function Tracking() {
         component={IconChooser}
         options={{
           title: "Wähle ein Icon",
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackHabits.Screen
+        name="AktivityDetails"
+        component={AktivityDetails}
+        options={{
           headerStyle: styles.header,
           headerTitleStyle: styles.headerText,
         }}
