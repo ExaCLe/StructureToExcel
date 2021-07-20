@@ -94,6 +94,31 @@ class ChangeGoal extends React.Component {
     }));
   };
   handleSave = () => {
+    if (!this.state.name) {
+      alert("Bitte einen Namen eintragen");
+      return;
+    }
+    if (!this.state.priority) {
+      alert("Bitte eine Priorität auswählen auswählen");
+      return;
+    }
+    if (!this.state.intervall) {
+      alert("Bitte ein Intervall auswählen auswählen");
+      return;
+    }
+    if (!this.state.repetitions) {
+      alert("Bitte eine Ziel-Zahl eintragen");
+      return;
+    }
+    if (!this.state.icon) {
+      alert("Bitte ein Icon auswählen");
+      return;
+    }
+    if (!this.state.progress) {
+      alert("Bitte einen Fortschritt eintragen");
+      return;
+    }
+
     if (this.state.addToHabits) {
       habits.transaction((tx) => {
         tx.executeSql(
