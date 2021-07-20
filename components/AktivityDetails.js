@@ -11,7 +11,63 @@ class AktivityDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.loadTime();
   }
+  // loads the tracked time out of the db
+  loadTime = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM trackings WHERE act_id = ?",
+        [this.props.route.params.id],
+        (txObj, { rows: { _array } }) => {
+          let twentyfourHours = 0,
+            lastSeven = 0,
+            lastThirty = 0,
+            today = 0;
+          const now = new Date();
+          const todayStart = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()
+          );
+          _array.map((entry) => {
+            const end = new Date(entry.end_time);
+            const start = new Date(entry.start_time);
+            if (end - todayStart >= 0) {
+              if (start - todayStart >= 0) {
+                today += entry.duration_s;
+              } else {
+                today += (end - todayStart) / 1000;
+              }
+            }
+            if ((now - end) / 1000 / 3600 <= 24) {
+              if ((now - start) / 1000 / 3600 <= 24)
+                twentyfourHours += entry.duration_s;
+              else twentyfourHours += 24 * 3600 - (now - end) / 1000;
+            }
+            if ((now - end) / 1000 / 3600 / 24 < 7) {
+              if ((now - start) / 1000 / 3600 / 24 <= 7)
+                lastSeven += entry.duration_s;
+              else lastSeven += 24 * 3600 * 7 - (now - end) / 1000;
+            }
+            if ((now - end) / 1000 / 3600 / 24 < 30) {
+              if ((now - start) / 1000 / 3600 / 24 <= 30)
+                lastThirty += entry.duration_s;
+              else lastThirty += 24 * 3600 * 7 - (now - end) / 1000;
+            }
+          });
+          this.setState({
+            today: today,
+            twentyfourHours: twentyfourHours,
+            lastSeven: lastSeven,
+            lastThirty: lastThirty,
+          });
+        },
+        (txObj, error) =>
+          console.error("Fehler beim Lesen der Zeiten. " + error)
+      );
+    });
+  };
   componentWillUnmount() {
     this._unsubscribe();
   }
@@ -90,6 +146,17 @@ class AktivityDetails extends React.Component {
       ),
     });
   }
+  toTime = (time) => {
+    if (!time) return "";
+    return (
+      Math.floor(time / 3600) +
+      " h " +
+      Math.floor((time % 3600) / 60) +
+      " min " +
+      (time % 60) +
+      " s"
+    );
+  };
   render() {
     console.log("render");
     return (
@@ -99,6 +166,14 @@ class AktivityDetails extends React.Component {
           <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
             {this.props.route.params.name}
           </Text>
+        </View>
+        <View>
+          <Text>Heute: {this.toTime(this.state.today)}</Text>
+          <Text>
+            Letzten 24 Stunden: {this.toTime(this.state.twentyfourHours)}
+          </Text>
+          <Text>Letzten 7 Tage: {this.toTime(this.state.lastSeven)}</Text>
+          <Text>Letzten 30 Tage: {this.toTime(this.state.lastThirty)}</Text>
         </View>
       </View>
     );
