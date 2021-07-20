@@ -261,7 +261,8 @@ class ChangeGoal extends React.Component {
               styles.accentColorText,
             ]}
             onChangeText={(text) => {
-              if (+text || text === "") this.setState({ progress: text });
+              if (+text || text === "" || text === "0")
+                this.setState({ progress: text });
             }}
             keyboardType="numeric"
           />

@@ -92,7 +92,7 @@ class PomodoroSettings extends React.Component {
               styles.textCenter,
             ]}
             onChangeText={(text) => {
-              if (+text || text === "")
+              if (+text || text === "" || text === "0" || text === "0.")
                 this.setState({ workingInterval: text });
             }}
             keyboardType="numeric"
