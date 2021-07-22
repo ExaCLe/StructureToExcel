@@ -24,6 +24,10 @@ import styles from "./components/styles.js";
 import * as Font from "expo-font";
 import IconChooser from "./components/IconChooser.js";
 import AktivityDetails from "./components/AktivityDetails.js";
+import AktivityList from "./components/AktivityList.js";
+import AktivityListDetails from "./components/AktivityListDetails.js";
+import ChangeTracking from "./components/ChangeTracking.js";
+import AktivityChooser from "./components/AktivityChooser.js";
 
 const StackHabits = createStackNavigator();
 
@@ -196,7 +200,7 @@ function Tracking() {
           headerTitleStyle: styles.headerText,
         }}
       />
-      <StackHabits.Screen
+      <StackTracking.Screen
         name="IconChooserTracking"
         component={IconChooser}
         options={{
@@ -205,9 +209,41 @@ function Tracking() {
           headerTitleStyle: styles.headerText,
         }}
       />
-      <StackHabits.Screen
+      <StackTracking.Screen
         name="AktivityDetails"
         component={AktivityDetails}
+        options={{
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackTracking.Screen
+        name="AktivityList"
+        component={AktivityList}
+        options={{
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackTracking.Screen
+        name="AktivityListDetails"
+        component={AktivityListDetails}
+        options={{
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackTracking.Screen
+        name="ChangeTracking"
+        component={ChangeTracking}
+        options={{
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackTracking.Screen
+        name="AktivityChooser"
+        component={AktivityChooser}
         options={{
           headerStyle: styles.header,
           headerTitleStyle: styles.headerText,
