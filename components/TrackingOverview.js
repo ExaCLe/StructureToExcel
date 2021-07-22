@@ -70,6 +70,12 @@ class TrackingOverview extends React.Component {
           >
             <Ionicons name="add" size={25} color={colors.PrimaryTextColor} />
           </TouchableHighlight>
+          <TouchableHighlight
+            underlayColor="#ffffff"
+            onPress={() => this.props.navigation.navigate("AktivityList")}
+          >
+            <Ionicons name="map" size={25} color={colors.PrimaryTextColor} />
+          </TouchableHighlight>
         </View>
       ),
     });
