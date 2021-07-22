@@ -95,7 +95,7 @@ class OverviewGoals extends React.Component {
     const changeView = this.changeView;
     return (
       <View>
-        <View style={[styles.margin, styles.flex, { flex: 1 }]}>
+        <View style={[styles.margin, styles.flex]}>
           <FlatList
             data={this.state.goals}
             renderItem={this.renderItem}

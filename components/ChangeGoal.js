@@ -274,7 +274,11 @@ class ChangeGoal extends React.Component {
         >
           <TextInput
             placeholder="6"
-            value={this.state.progress ? this.state.progress + "" : ""}
+            value={
+              this.state.progress || this.state.progress !== "0"
+                ? this.state.progress + ""
+                : ""
+            }
             style={[
               styles.padding,
               styles.textInputSmall,

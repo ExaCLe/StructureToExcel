@@ -92,7 +92,6 @@ class GoalsDetails extends React.Component {
     });
   }
   render() {
-    console.log("render");
     return (
       <View style={styles.margin}>
         <View style={styles.containerHorizontal}>

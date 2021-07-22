@@ -8,22 +8,21 @@ const db = SQLite.openDatabase("goals.db");
 class Goal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { ...this.props.goal };
+    this.state = {};
   }
   handleFullfilled = () => {
-    this.setState(
-      (prevState) => ({ progress: prevState.progress + 1 }),
-      db.transaction((tx) => {
-        tx.executeSql(
-          "UPDATE goals SET progress = ? WHERE id = ? ",
-          [this.state.progress, this.state.id],
-          () => {},
-          () => {
-            console.log("error");
-          }
-        );
-      })
-    );
+    this.props.goal.progress++;
+    this.setState({});
+    db.transaction((tx) => {
+      tx.executeSql(
+        "UPDATE goals SET progress = ? WHERE id = ? ",
+        [this.props.goal.progress, this.props.goal.id],
+        () => {},
+        () => {
+          console.log("error");
+        }
+      );
+    });
   };
   render() {
     return (
@@ -32,14 +31,14 @@ class Goal extends React.Component {
           style={styles.habitContainer}
           onPress={() =>
             this.props.navigation.navigate("GoalsDetails", {
-              ...this.state,
+              ...this.props.goal,
             })
           }
         >
           <View style={styles.container2}>
             <View style={styles.containerHorizontal}>
               <Ionicons
-                name={this.state.icon}
+                name={this.props.goal.icon}
                 size={25}
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
@@ -51,12 +50,12 @@ class Goal extends React.Component {
                   styles.padding,
                 ]}
               >
-                {this.state.name}
+                {this.props.goal.name}
               </Text>
             </View>
             <View style={styles.containerHorizontal}>
               <Text style={styles.primaryTextColor}>
-                {this.state.progress + " / " + this.state.repetitions}
+                {this.props.goal.progress + " / " + this.props.goal.repetitions}
               </Text>
               <TouchableHighlight
                 onPress={() => {
