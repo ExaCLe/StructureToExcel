@@ -76,7 +76,7 @@ class TrackingOverview extends React.Component {
   }
   render() {
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <ScrollView>
           {this.state.aktivitys.map((activity) => (
             <AktivityTracker

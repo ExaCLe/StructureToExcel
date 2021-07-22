@@ -141,11 +141,12 @@ export default class HabitOverview extends React.Component {
 
   render() {
     return (
-      <View style={[styles.margin, styles.flex]}>
+      <View style={[styles.margin, styles.flex, { flex: 1 }]}>
         <FlatList
           data={this.state.habits}
           renderItem={this.renderItem}
           keyExtractor={(item) => String(item.id)}
+          style={styles.flex}
         />
       </View>
     );
