@@ -147,7 +147,7 @@ class AktivityDetails extends React.Component {
     });
   }
   toTime = (time) => {
-    if (!time && time !== "0") return "";
+    if (!time && time !== 0) return "";
     return (
       Math.floor(time / 3600) +
       " h " +
