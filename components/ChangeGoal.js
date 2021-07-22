@@ -131,10 +131,7 @@ class ChangeGoal extends React.Component {
             this.state.icon,
             false,
           ],
-          () => {
-            if (!queue) this.props.navigation.navigate("HabitOverview");
-            else this.props.navigation.navigate("HabitsQueue");
-          },
+          () => {},
           (txObj, error) => {
             console.log(error);
           }
