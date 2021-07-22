@@ -66,7 +66,6 @@ class PomodoroTimer extends React.Component {
               this.state.data_loaded && !refresh
                 ? this.state.time
                 : _array[0].workingInterval * 60;
-            console.log(time);
             this.setState({
               ..._array[0],
               time: time,
