@@ -31,6 +31,7 @@ class ChangeGoal extends React.Component {
         { id: 1, title: "Priorität 1", val: 1 },
         { id: 2, title: "Priorität 2", val: 2 },
         { id: 3, title: "Priorität 3", val: 3 },
+        { id: 4, title: "Priorität 4", val: 4 },
       ],
 
       items2: [
@@ -275,7 +276,7 @@ class ChangeGoal extends React.Component {
           <TextInput
             placeholder="6"
             value={
-              this.state.progress || this.state.progress !== "0"
+              this.state.progress || this.state.progress === "0"
                 ? this.state.progress + ""
                 : ""
             }

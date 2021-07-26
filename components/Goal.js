@@ -4,6 +4,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
+import { color } from "react-native-reanimated";
 const db = SQLite.openDatabase("goals.db");
 class Goal extends React.Component {
   constructor(props) {
@@ -35,7 +36,8 @@ class Goal extends React.Component {
             marginRight: 10,
             marginLeft: 10,
             borderRadius: 10,
-            backgroundColor: colors.PriorityOneColorSecondary,
+            backgroundColor:
+              colors.SecondaryPriorityColors[this.props.goal.priority - 1],
             justifyContent: "center",
             alignContent: "center",
             display: "flex",
@@ -51,7 +53,8 @@ class Goal extends React.Component {
               style={{
                 zIndex: -1,
                 position: "relative",
-                backgroundColor: colors.PriorityOneColor,
+                backgroundColor:
+                  colors.PriorityColors[this.props.goal.priority - 1],
                 height: 75,
                 borderRadius: 10,
                 width:
