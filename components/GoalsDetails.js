@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
+import { Text, View, Alert, TouchableHighlight } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
@@ -91,6 +91,18 @@ class GoalsDetails extends React.Component {
       ),
     });
   }
+  archiveGoal = (bool) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "UPDATE goals SET archive = ? WHERE id = ?",
+        [bool, this.props.route.params.id],
+        () => {
+          this.props.navigation.goBack();
+        }
+      );
+    });
+  };
+
   render() {
     return (
       <View style={styles.margin}>
@@ -116,6 +128,43 @@ class GoalsDetails extends React.Component {
               : "week"}
           </Text>
         </View>
+        <TouchableHighlight
+          style={[styles.buttonPrimary, { zIndex: -3 }]}
+          onPress={() => {
+            if (!this.props.route.params.archive)
+              Alert.alert(
+                "Archive Goal",
+                "Möchtest du das Ziel wirklich archivieren? Dann ist es nur noch über das Archiv einsehbar.",
+                [
+                  { text: "Nein" },
+                  {
+                    text: "Ja",
+                    onPress: () => {
+                      this.archiveGoal(true);
+                    },
+                  },
+                ]
+              );
+            else
+              Alert.alert(
+                "Revive Goal",
+                "Möchtest du das Ziel wirklich wieder aktivieren? ",
+                [
+                  { text: "Nein" },
+                  {
+                    text: "Ja",
+                    onPress: () => {
+                      this.archiveGoal(false);
+                    },
+                  },
+                ]
+              );
+          }}
+        >
+          <Text style={styles.primaryButtonText}>
+            {this.props.route.params.archive ? "Reanimieren" : "Archivieren"}
+          </Text>
+        </TouchableHighlight>
       </View>
     );
   }

@@ -94,27 +94,29 @@ class Goal extends React.Component {
                 </Text>
               </View>
 
-              <View style={styles.containerHorizontal}>
-                <Text style={styles.primaryTextColor}>
-                  {this.props.goal.progress +
-                    " / " +
-                    this.props.goal.repetitions}
-                </Text>
+              {!this.props.goal.archive && (
+                <View style={styles.containerHorizontal}>
+                  <Text style={styles.primaryTextColor}>
+                    {this.props.goal.progress +
+                      " / " +
+                      this.props.goal.repetitions}
+                  </Text>
 
-                <TouchableHighlight
-                  onPress={() => {
-                    this.handleFullfilled();
-                  }}
-                  underlayColor="transparent"
-                >
-                  <Ionicons
-                    name="checkmark-circle-outline"
-                    size={25}
-                    color={colors.PrimaryTextColor}
-                    style={styles.padding}
-                  />
-                </TouchableHighlight>
-              </View>
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.handleFullfilled();
+                    }}
+                    underlayColor="transparent"
+                  >
+                    <Ionicons
+                      name="checkmark-circle-outline"
+                      size={25}
+                      color={colors.PrimaryTextColor}
+                      style={styles.padding}
+                    />
+                  </TouchableHighlight>
+                </View>
+              )}
             </View>
           </View>
         </TouchableHighlight>

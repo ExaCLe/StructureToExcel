@@ -15,7 +15,7 @@ class OverviewGoals extends React.Component {
     // create a table for the habits if not existing already
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE goals (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, progress INT, time BOOLEAN);",
+        "CREATE TABLE IF NOT EXISTS goals (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, progress INT, time BOOLEAN);",
         null,
         // success
         () => {
@@ -25,15 +25,24 @@ class OverviewGoals extends React.Component {
         (txObj, error) => {}
       );
     });
+    db.transaction((tx) => {
+      tx.executeSql("ALTER TABLE goals ADD archive BOOLEAN", null, () =>
+        console.log("success2")
+      );
+    });
     // get the goals from the database
     this.fetchData();
   }
   // gets the data for the goals out of the database
   fetchData = () => {
     console.log("Fetching data for goals...");
+    const sql =
+      !this.props.route.params || !this.props.route.params.archive
+        ? "SELECT * FROM goals WHERE intervall = ? AND (archive = false OR archive is NULL)"
+        : "SELECT * FROM goals WHERE intervall = ? AND archive = true";
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM goals WHERE intervall = ?",
+        sql,
         [this.state.period],
         (txObj, { rows: { _array } }) => {
           this.setState({ goals: _array });
@@ -54,12 +63,52 @@ class OverviewGoals extends React.Component {
     );
     this.props.navigation.setOptions({
       title: (() => {
-        if (this.state.period === DAY) return "Zielübersicht Tag";
-        else if (this.state.period === WEEK) return "Zielübersicht Woche";
-        else return "Zielübersicht Monat";
+        const prefix =
+          !this.props.route.params || !this.props.route.params.archive
+            ? "Zielübersicht"
+            : "Archiv";
+        if (this.state.period === DAY) return prefix + " Tag";
+        else if (this.state.period === WEEK) return prefix + " Woche";
+        else return prefix + " Monat";
       })(),
+      headerLeft: () => {
+        if (!this.props.route.params || !this.props.route.params.archive)
+          return null;
+        return (
+          <View style={styles.margin}>
+            <TouchableHighlight
+              onPress={() => {
+                this.props.navigation.goBack();
+              }}
+            >
+              <Ionicons
+                name="arrow-back"
+                size={25}
+                color={colors.PrimaryTextColor}
+                style={styles.padding}
+              />
+            </TouchableHighlight>
+          </View>
+        );
+      },
       headerRight: () => (
         <View style={styles.container}>
+          {(!this.props.route.params || !this.props.route.params.archive) && (
+            <TouchableHighlight
+              underlayColor="#ffffff"
+              onPress={() =>
+                this.props.navigation.push("OverviewGoals", { archive: true })
+              }
+            >
+              <Ionicons
+                name="archive"
+                size={25}
+                color={colors.PrimaryTextColor}
+                style={styles.padding}
+              />
+            </TouchableHighlight>
+          )}
+
           <TouchableHighlight
             underlayColor="#ffffff"
             onPress={() =>
@@ -68,7 +117,12 @@ class OverviewGoals extends React.Component {
               })
             }
           >
-            <Ionicons name="add" size={25} color={colors.PrimaryTextColor} />
+            <Ionicons
+              name="add"
+              size={25}
+              color={colors.PrimaryTextColor}
+              style={styles.padding}
+            />
           </TouchableHighlight>
         </View>
       ),
