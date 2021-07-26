@@ -16,7 +16,7 @@ class AktivityListObject extends React.Component {
       " h " +
       Math.floor((time % 3600) / 60) +
       " min " +
-      (time % 60) +
+      Math.round(time % 60) +
       " s"
     );
   };

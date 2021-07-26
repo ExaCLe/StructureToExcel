@@ -5,15 +5,15 @@ import {
   Text,
   TouchableHighlight,
   Switch,
+  Platform,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const db = SQLite.openDatabase("aktivitys.db");
-// for usage: https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage
-// open the database for adding the habits
 const tracking = SQLite.openDatabase("aktivitys.db");
 
 class ChangeTracking extends React.Component {
@@ -21,6 +21,12 @@ class ChangeTracking extends React.Component {
     super(props);
     const edit = props.route.params.edit;
     this.state = {
+      show_start_time: false,
+      show_start_date: false,
+      show_end_time: false,
+      show_end_time: false,
+      mode_start: "date",
+      mode_end: "date",
       edit: edit,
       name: (() => {
         return edit ? props.route.params.name : "";
@@ -29,6 +35,8 @@ class ChangeTracking extends React.Component {
         return edit ? props.route.params.icon : "book-outline";
       })(),
       ...props.route.params,
+      start_time: new Date(props.route.params.start_time),
+      end_time: new Date(props.route.params.end_time),
     };
   }
   componentWillUnmount() {
@@ -73,9 +81,13 @@ class ChangeTracking extends React.Component {
     });
   }
   handleSave = () => {
-    const start = new Date(this.state.start_time);
-    const end = new Date(this.state.end_time);
+    const start = this.state.start_time;
+    const end = this.state.end_time;
     const duration = (end - start) / 1000;
+    if (duration < 0) {
+      alert("Startzeit muss vor Endzeit liegen");
+      return;
+    }
     const sql = this.props.route.params.edit
       ? "UPDATE trackings SET act_id = ? , start_time =? , end_time =?, duration_s = ? WHERE id = ?"
       : "INSERT INTO trackings (act_id, start_time, end_time, duration_s) VALUES (?, ?, ?, ?);";
@@ -85,20 +97,51 @@ class ChangeTracking extends React.Component {
         sql,
         [
           this.state.act_id,
-          this.state.start_time,
-          this.state.end_time,
+          this.state.start_time.toISOString(),
+          this.state.end_time.toISOString(),
           duration,
           this.state.id,
         ],
         () => {
           this.props.navigation.navigate("AktivityListDetails", {
             ...this.state,
+            start_time: this.state.start_time.toISOString(),
+            end_time: this.state.end_time.toISOString(),
+            duration_s: duration,
           });
         },
         (txObj, err) => {
           console.log("Fehler beim Einfügen " + err);
         }
       );
+    });
+  };
+  onChangeStartDate = (event, selectedDate) => {
+    const currentDate = selectedDate || this.state.start_time;
+    this.setState({
+      show_start_date: Platform.OS === "ios",
+      start_time: currentDate,
+    });
+  };
+  onChangeStartTime = (event, selectedDate) => {
+    const currentDate = selectedDate || this.state.start_time;
+    this.setState({
+      show_start_time: Platform.OS === "ios",
+      start_time: currentDate,
+    });
+  };
+  onChangeEndDate = (event, selectedDate) => {
+    const currentDate = selectedDate || this.state.end_time;
+    this.setState({
+      show_end_date: Platform.OS === "ios",
+      end_time: currentDate,
+    });
+  };
+  onChangeEndTime = (event, selectedDate) => {
+    const currentDate = selectedDate || this.state.end_time;
+    this.setState({
+      show_end_time: Platform.OS === "ios",
+      end_time: currentDate,
     });
   };
 
@@ -122,6 +165,117 @@ class ChangeTracking extends React.Component {
           >
             <Text style={[styles.textButton]}> Change</Text>
           </TouchableHighlight>
+        </View>
+        <Text style={styles.secondaryText}>Startzeit: </Text>
+        <View>
+          <TouchableHighlight
+            onPress={() =>
+              this.setState((prevState) => ({
+                show_start_date: !prevState.show_start_date,
+              }))
+            }
+          >
+            <Text style={[styles.normalText, styles.padding]}>
+              {this.state.start_time.getDate() +
+                "." +
+                this.state.start_time.getMonth()}
+            </Text>
+          </TouchableHighlight>
+          {this.state.show_start_date && (
+            <DateTimePicker
+              testID="startDateTimePicker"
+              value={this.state.start_time}
+              mode={"date"}
+              is24Hour={true}
+              maximumDate={this.state.end_time}
+              display={Platform.OS === "ios" ? "compact" : "calendar"}
+              onChange={this.onChangeStartDate}
+            />
+          )}
+        </View>
+        <View>
+          <TouchableHighlight
+            onPress={() =>
+              this.setState((prevState) => ({
+                show_start_time: !prevState.show_start_time,
+              }))
+            }
+          >
+            <Text style={[styles.normalText, styles.padding]}>
+              {this.state.start_time.getHours() +
+                ":" +
+                (this.state.start_time.getMinutes() < 10
+                  ? "0" + this.state.start_time.getMinutes()
+                  : this.state.start_time.getMinutes())}
+            </Text>
+          </TouchableHighlight>
+          {this.state.show_start_time && (
+            <DateTimePicker
+              testID="startDateTimePicker"
+              value={this.state.start_time}
+              mode={"time"}
+              is24Hour={true}
+              maximumDate={this.state.end_time}
+              display={Platform.OS === "ios" ? "spinner" : "clock"}
+              onChange={this.onChangeStartTime}
+            />
+          )}
+        </View>
+        <Text style={styles.secondaryText}>Endzeit:</Text>
+        <View>
+          <TouchableHighlight
+            onPress={() =>
+              this.setState((prevState) => ({
+                show_end_date: !prevState.show_end_date,
+              }))
+            }
+          >
+            <Text style={[styles.normalText, styles.padding]}>
+              {this.state.end_time.getDate() +
+                "." +
+                this.state.end_time.getMonth()}
+            </Text>
+          </TouchableHighlight>
+          {this.state.show_end_date && (
+            <DateTimePicker
+              testID="startDateTimePicker"
+              value={this.state.end_time}
+              mode={"date"}
+              is24Hour={true}
+              display={Platform.OS === "ios" ? "compact" : "calendar"}
+              minimumDate={this.state.start_time}
+              onChange={this.onChangeEndDate}
+            />
+          )}
+        </View>
+
+        <View>
+          <TouchableHighlight
+            onPress={() =>
+              this.setState((prevState) => ({
+                show_end_time: !prevState.show_end_time,
+              }))
+            }
+          >
+            <Text style={[styles.normalText, styles.padding]}>
+              {this.state.end_time.getHours() +
+                ":" +
+                (this.state.end_time.getMinutes() < 10
+                  ? "0" + this.state.end_time.getMinutes()
+                  : this.state.end_time.getMinutes())}
+            </Text>
+          </TouchableHighlight>
+          {this.state.show_end_time && (
+            <DateTimePicker
+              testID="startDateTimePicker"
+              value={this.state.end_time}
+              mode={"time"}
+              is24Hour={true}
+              minimumDate={this.state.start_time}
+              display={Platform.OS === "ios" ? "spinner" : "clock"}
+              onChange={this.onChangeEndTime}
+            />
+          )}
         </View>
 
         <TouchableHighlight

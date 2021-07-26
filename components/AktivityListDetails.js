@@ -89,12 +89,11 @@ class AktivityListDetails extends React.Component {
       " h " +
       Math.floor((time % 3600) / 60) +
       " min " +
-      (time % 60) +
+      Math.round(time % 60) +
       " s"
     );
   };
   render() {
-    console.log(this.props.route.params);
     return (
       <View style={styles.margin}>
         <View style={styles.containerHorizontal}>
