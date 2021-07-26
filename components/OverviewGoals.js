@@ -30,6 +30,11 @@ class OverviewGoals extends React.Component {
         console.log("success2")
       );
     });
+    db.transaction((tx) => {
+      tx.executeSql("ALTER TABLE goals ADD act_id INTEGER", null, () =>
+        console.log("success2")
+      );
+    });
     // get the goals from the database
     this.fetchData();
   }

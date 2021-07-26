@@ -53,7 +53,7 @@ class AktivityChooser extends React.Component {
       <View style={{ display: "flex", flexDirection: "row" }}>
         <TouchableHighlight
           onPress={() => {
-            this.props.navigation.navigate("ChangeTracking", {
+            this.props.navigation.navigate(this.props.route.params.target, {
               aktivity: obj.item,
             });
           }}
@@ -73,7 +73,11 @@ class AktivityChooser extends React.Component {
   render() {
     return (
       <View style={{ display: "flex", flexDirection: "row" }}>
-        <FlatList data={this.state.aktivitys} renderItem={this.renderItem} />
+        <FlatList
+          data={this.state.aktivitys}
+          renderItem={this.renderItem}
+          keyExtractor={(ele) => String(ele.id)}
+        />
       </View>
     );
   }

@@ -176,6 +176,14 @@ function Goals() {
           headerTitleStyle: styles.headerText,
         }}
       />
+      <StackTracking.Screen
+        name="AktivityChooserGoal"
+        component={AktivityChooser}
+        options={{
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
     </StackGoals.Navigator>
   );
 }

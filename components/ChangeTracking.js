@@ -47,7 +47,6 @@ class ChangeTracking extends React.Component {
     this._unsubscribe = this.props.navigation.addListener(
       "focus",
       (payload) => {
-        console.log(this.props.route.params);
         if (this.props.route.params && this.props.route.params.aktivity)
           this.setState({
             icon: this.props.route.params.aktivity.icon,
@@ -160,7 +159,9 @@ class ChangeTracking extends React.Component {
           <TouchableHighlight
             style={[styles.margin, styles.padding]}
             onPress={() => {
-              this.props.navigation.navigate("AktivityChooser");
+              this.props.navigation.navigate("AktivityChooser", {
+                target: "ChangeTracking",
+              });
             }}
           >
             <Text style={[styles.textButton]}> Change</Text>

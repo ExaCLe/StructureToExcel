@@ -20,10 +20,13 @@ class ChangeGoal extends React.Component {
     super(props);
     const edit = props.route.params.edit;
     this.state = {
+      aktivity_icon: "",
+      aktivity_name: "",
       open1: false,
       open2: false,
       addToTracking: false,
       addToHabits: false,
+      timeGoal: false,
       icon: (() => {
         return edit ? props.route.params.icon : "book-outline";
       })(),
@@ -51,6 +54,12 @@ class ChangeGoal extends React.Component {
       (payload) => {
         if (this.props.route.params && this.props.route.params.icon)
           this.setState({ icon: this.props.route.params.icon });
+        if (this.props.route.params && this.props.route.params.aktivity)
+          this.setState({
+            aktivity_icon: this.props.route.params.aktivity.icon,
+            aktivity_name: this.props.route.params.aktivity.name,
+            act_id: this.props.route.params.aktivity.id,
+          });
       }
     );
     this.props.navigation.setOptions({
@@ -115,7 +124,7 @@ class ChangeGoal extends React.Component {
       alert("Bitte ein Icon auswählen");
       return;
     }
-    if (!this.state.progress) {
+    if (!this.state.progress && !this.state.timeGoal) {
       alert("Bitte einen Fortschritt eintragen");
       return;
     }
@@ -155,10 +164,10 @@ class ChangeGoal extends React.Component {
     let sql;
     if (!this.state.edit) {
       sql =
-        "INSERT INTO goals (name, intervall, priority, repetitions, icon, progress, time) VALUES (?, ?, ?, ?, ?, ?, ?) ";
+        "INSERT INTO goals (name, intervall, priority, repetitions, icon, progress, time, act_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
     } else {
       sql =
-        "UPDATE goals SET name=?, intervall=?, priority=?, repetitions=?, icon=?, progress=?, time=? WHERE id = ?";
+        "UPDATE goals SET name=?, intervall=?, priority=?, repetitions=?, icon=?, progress=?, time=? , act_id = ? WHERE id = ?";
     }
     // execute the sql
     db.transaction((tx) => {
@@ -171,7 +180,8 @@ class ChangeGoal extends React.Component {
           this.state.repetitions,
           this.state.icon,
           this.state.progress,
-          this.state.time,
+          this.state.timeGoal,
+          this.state.act_id,
           this.state.id,
         ],
         () => {
@@ -270,46 +280,105 @@ class ChangeGoal extends React.Component {
             zIndexInverse={1000}
           />
         </View>
-        <View
-          style={[styles.containerHorizontal, styles.center, { zIndex: -1 }]}
-        >
-          <TextInput
-            placeholder="6"
-            value={
-              this.state.progress || this.state.progress === "0"
-                ? this.state.progress + ""
-                : ""
-            }
-            style={[
-              styles.padding,
-              styles.textInputSmall,
-              styles.margin,
-              styles.normalText,
-              styles.accentColorText,
-            ]}
-            onChangeText={(text) => {
-              if (+text || text === "" || text === "0")
-                this.setState({ progress: text });
-            }}
-            keyboardType="numeric"
-          />
-          <Text style={styles.secondaryText}>von</Text>
-          <TextInput
-            placeholder="12"
-            value={this.state.repetitions ? this.state.repetitions + "" : ""}
-            style={[
-              styles.padding,
-              styles.textInputSmall,
-              styles.margin,
-              styles.normalText,
-              styles.accentColorText,
-            ]}
-            onChangeText={(text) => {
-              if (+text || text === "") this.setState({ repetitions: text });
-            }}
-            keyboardType="numeric"
-          />
+        <View style={{ zIndex: -3 }}>
+          <View style={styles.containerHorizontal}>
+            <Switch
+              style={styles.margin}
+              value={this.state.timeGoal}
+              onValueChange={() => {
+                this.setState((prevState) => {
+                  return {
+                    timeGoal: !prevState.timeGoal,
+                  };
+                });
+              }}
+            ></Switch>
+            <Text style={styles.secondaryText}>Zeitziel</Text>
+          </View>
         </View>
+        {this.state.timeGoal && (
+          <View style={styles.containerHorizontal}>
+            <Text style={styles.secondaryText}>Dauer: </Text>
+            <TextInput
+              placeholder="12 h"
+              value={this.state.repetitions ? this.state.repetitions + "" : ""}
+              style={[
+                styles.padding,
+                styles.textInputSmall,
+                styles.margin,
+                styles.normalText,
+                styles.accentColorText,
+              ]}
+              onChangeText={(text) => {
+                if (+text || text === "") this.setState({ repetitions: text });
+              }}
+              keyboardType="numeric"
+            />
+            <Text>Stunden</Text>
+            <Text style={[styles.secondaryText, styles.margin]}>
+              Aktivity:{" "}
+            </Text>
+            <Ionicons
+              name={this.state.aktivity_icon}
+              size={25}
+              color={colors.PrimaryAccentColor}
+              style={[styles.margin, styles.padding]}
+            />
+            <Text>{this.state.aktivity_name}</Text>
+            <TouchableHighlight
+              style={[styles.margin, styles.padding]}
+              onPress={() => {
+                this.props.navigation.navigate("AktivityChooserGoal", {
+                  target: "ChangeGoal",
+                });
+              }}
+            >
+              <Text style={[styles.textButton]}> Choose Aktivity</Text>
+            </TouchableHighlight>
+          </View>
+        )}
+        {!this.state.timeGoal && (
+          <View
+            style={[styles.containerHorizontal, styles.center, { zIndex: -1 }]}
+          >
+            <TextInput
+              placeholder="6"
+              value={
+                this.state.progress || this.state.progress === "0"
+                  ? this.state.progress + ""
+                  : ""
+              }
+              style={[
+                styles.padding,
+                styles.textInputSmall,
+                styles.margin,
+                styles.normalText,
+                styles.accentColorText,
+              ]}
+              onChangeText={(text) => {
+                if (+text || text === "" || text === "0")
+                  this.setState({ progress: text });
+              }}
+              keyboardType="numeric"
+            />
+            <Text style={styles.secondaryText}>von</Text>
+            <TextInput
+              placeholder="12"
+              value={this.state.repetitions ? this.state.repetitions + "" : ""}
+              style={[
+                styles.padding,
+                styles.textInputSmall,
+                styles.margin,
+                styles.normalText,
+                styles.accentColorText,
+              ]}
+              onChangeText={(text) => {
+                if (+text || text === "") this.setState({ repetitions: text });
+              }}
+              keyboardType="numeric"
+            />
+          </View>
+        )}
         {!this.state.edit && (
           <View style={{ zIndex: -3 }}>
             <View style={styles.containerHorizontal}>
