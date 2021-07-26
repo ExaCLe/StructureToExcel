@@ -28,48 +28,90 @@ class Goal extends React.Component {
     return (
       <View>
         <TouchableHighlight
-          style={styles.habitContainer}
+          style={{
+            height: 75,
+            marginBottom: 10,
+            marginTop: 10,
+            marginRight: 10,
+            marginLeft: 10,
+            borderRadius: 10,
+            backgroundColor: colors.PriorityOneColorSecondary,
+            justifyContent: "center",
+            alignContent: "center",
+            display: "flex",
+          }}
           onPress={() =>
             this.props.navigation.navigate("GoalsDetails", {
               ...this.props.goal,
             })
           }
         >
-          <View style={styles.container2}>
-            <View style={styles.containerHorizontal}>
-              <Ionicons
-                name={this.props.goal.icon}
-                size={25}
-                color={colors.PrimaryTextColor}
-                style={styles.padding}
-              />
-              <Text
-                style={[
-                  styles.normalText,
-                  styles.primaryTextColor,
-                  styles.padding,
-                ]}
-              >
-                {this.props.goal.name}
-              </Text>
-            </View>
-            <View style={styles.containerHorizontal}>
-              <Text style={styles.primaryTextColor}>
-                {this.props.goal.progress + " / " + this.props.goal.repetitions}
-              </Text>
-              <TouchableHighlight
-                onPress={() => {
-                  this.handleFullfilled();
-                }}
-                underlayColor="transparent"
-              >
+          <View>
+            <View
+              style={{
+                zIndex: -1,
+                position: "relative",
+                backgroundColor: colors.PriorityOneColor,
+                height: 75,
+                borderRadius: 10,
+                width:
+                  this.props.goal.progress / this.props.goal.repetitions <= 1.0
+                    ? (this.props.goal.progress / this.props.goal.repetitions) *
+                        100 +
+                      "%"
+                    : "100%",
+              }}
+            ></View>
+            <View
+              style={[
+                styles.container2,
+                {
+                  zIndex: 1,
+                  position: "absolute",
+                  top: 7,
+                  width: "100%",
+                },
+              ]}
+            >
+              <View style={styles.containerHorizontal}>
                 <Ionicons
-                  name="checkmark-circle-outline"
+                  name={this.props.goal.icon}
                   size={25}
                   color={colors.PrimaryTextColor}
                   style={styles.padding}
                 />
-              </TouchableHighlight>
+                <Text
+                  style={[
+                    styles.normalText,
+                    styles.primaryTextColor,
+                    styles.padding,
+                  ]}
+                >
+                  {this.props.goal.name}
+                </Text>
+              </View>
+
+              <View style={styles.containerHorizontal}>
+                <Text style={styles.primaryTextColor}>
+                  {this.props.goal.progress +
+                    " / " +
+                    this.props.goal.repetitions}
+                </Text>
+
+                <TouchableHighlight
+                  onPress={() => {
+                    this.handleFullfilled();
+                  }}
+                  underlayColor="transparent"
+                >
+                  <Ionicons
+                    name="checkmark-circle-outline"
+                    size={25}
+                    color={colors.PrimaryTextColor}
+                    style={styles.padding}
+                  />
+                </TouchableHighlight>
+              </View>
             </View>
           </View>
         </TouchableHighlight>
