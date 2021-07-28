@@ -26,7 +26,7 @@ class ChangeGoal extends React.Component {
       open2: false,
       addToTracking: false,
       addToHabits: false,
-      timeGoal: false,
+      time: 0,
       icon: (() => {
         return edit ? props.route.params.icon : "book-outline";
       })(),
@@ -43,6 +43,11 @@ class ChangeGoal extends React.Component {
         { id: 3, title: "Monat", val: 3 },
       ],
       ...props.route.params,
+      time: (() => {
+        return this.props.route.params && this.props.route.params.time
+          ? true
+          : false;
+      })(),
     };
   }
   componentWillUnmount() {
@@ -124,7 +129,7 @@ class ChangeGoal extends React.Component {
       alert("Bitte ein Icon auswählen");
       return;
     }
-    if (!this.state.progress && !this.state.timeGoal) {
+    if (!this.state.progress && !this.state.time) {
       alert("Bitte einen Fortschritt eintragen");
       return;
     }
@@ -180,7 +185,7 @@ class ChangeGoal extends React.Component {
           this.state.repetitions,
           this.state.icon,
           this.state.progress,
-          this.state.timeGoal,
+          this.state.time,
           this.state.act_id,
           this.state.id,
         ],
@@ -197,6 +202,7 @@ class ChangeGoal extends React.Component {
   };
 
   render() {
+    console.log("State: ", this.state);
     return (
       <View style={styles.margin}>
         <View style={styles.containerHorizontal}>
@@ -284,11 +290,11 @@ class ChangeGoal extends React.Component {
           <View style={styles.containerHorizontal}>
             <Switch
               style={styles.margin}
-              value={this.state.timeGoal}
+              value={this.state.time}
               onValueChange={() => {
                 this.setState((prevState) => {
                   return {
-                    timeGoal: !prevState.timeGoal,
+                    time: !prevState.time,
                   };
                 });
               }}
@@ -296,7 +302,7 @@ class ChangeGoal extends React.Component {
             <Text style={styles.secondaryText}>Zeitziel</Text>
           </View>
         </View>
-        {this.state.timeGoal && (
+        {this.state.time && (
           <View style={styles.containerHorizontal}>
             <Text style={styles.secondaryText}>Dauer: </Text>
             <TextInput
@@ -337,7 +343,7 @@ class ChangeGoal extends React.Component {
             </TouchableHighlight>
           </View>
         )}
-        {!this.state.timeGoal && (
+        {!this.state.time && (
           <View
             style={[styles.containerHorizontal, styles.center, { zIndex: -1 }]}
           >

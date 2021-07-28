@@ -7,6 +7,7 @@ import Goal from "./Goal.js";
 import * as SQLite from "expo-sqlite";
 import { DAY, WEEK, MONTH } from "./../assets/intervals.js";
 const db = SQLite.openDatabase("goals.db");
+const tracking = SQLite.openDatabase("aktivitys.db");
 
 class OverviewGoals extends React.Component {
   constructor(props) {
@@ -49,7 +50,40 @@ class OverviewGoals extends React.Component {
       tx.executeSql(
         sql,
         [this.state.period],
-        (txObj, { rows: { _array } }) => {
+        async (txObj, { rows: { _array } }) => {
+          _array.map((ele, index) => {
+            if (ele.time)
+              tracking.transaction((tt) => {
+                tt.executeSql(
+                  "SELECT * FROM trackings WHERE act_id = ?",
+                  [ele.act_id],
+                  (txObj, { rows: { _array } }) => {
+                    let time = 0;
+                    const now = new Date();
+                    const todayStart = new Date(
+                      now.getFullYear(),
+                      now.getMonth(),
+                      now.getDate()
+                    );
+                    _array.map((entry) => {
+                      const end = new Date(entry.end_time);
+                      const start = new Date(entry.start_time);
+                      if (end - todayStart >= 0) {
+                        if (start - todayStart >= 0) {
+                          time += entry.duration_s;
+                        } else {
+                          time += (end - todayStart) / 1000;
+                        }
+                      }
+                    });
+                    this.setState((prev) => {
+                      prev.goals[index].progress = time;
+                      return { goals: prev.goals };
+                    });
+                  }
+                );
+              });
+          });
           this.setState({ goals: _array });
         },
         () => console.error("Fehler beim Lesen der Ziele. ")

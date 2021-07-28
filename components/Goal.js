@@ -4,7 +4,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
-import { color } from "react-native-reanimated";
+import { toTime } from "./../helpers/Time.js";
 const db = SQLite.openDatabase("goals.db");
 class Goal extends React.Component {
   constructor(props) {
@@ -24,6 +24,15 @@ class Goal extends React.Component {
         }
       );
     });
+  };
+  width = () => {
+    let value;
+    if (this.props.goal.time)
+      value =
+        (this.props.goal.progress / (this.props.goal.repetitions * 3600)) * 100;
+    else value = (this.props.goal.progress / this.props.goal.repetitions) * 100;
+    if (value >= 100) return "100%";
+    else return value + "%";
   };
   render() {
     return (
@@ -57,12 +66,9 @@ class Goal extends React.Component {
                   colors.PriorityColors[this.props.goal.priority - 1],
                 height: 75,
                 borderRadius: 10,
-                width:
-                  this.props.goal.progress / this.props.goal.repetitions <= 1.0
-                    ? (this.props.goal.progress / this.props.goal.repetitions) *
-                        100 +
-                      "%"
-                    : "100%",
+                width: (() => {
+                  return this.width();
+                })(),
               }}
             ></View>
             <View
@@ -96,25 +102,32 @@ class Goal extends React.Component {
 
               {!this.props.goal.archive && (
                 <View style={styles.containerHorizontal}>
-                  <Text style={styles.primaryTextColor}>
-                    {this.props.goal.progress +
-                      " / " +
-                      this.props.goal.repetitions}
+                  <Text style={[styles.primaryTextColor, styles.padding]}>
+                    {this.props.goal.time
+                      ? toTime(this.props.goal.progress) +
+                        " / " +
+                        this.props.goal.repetitions +
+                        " h"
+                      : this.props.goal.progress +
+                        " / " +
+                        this.props.goal.repetitions}
                   </Text>
 
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.handleFullfilled();
-                    }}
-                    underlayColor="transparent"
-                  >
-                    <Ionicons
-                      name="checkmark-circle-outline"
-                      size={25}
-                      color={colors.PrimaryTextColor}
-                      style={styles.padding}
-                    />
-                  </TouchableHighlight>
+                  {!this.props.goal.time && (
+                    <TouchableHighlight
+                      onPress={() => {
+                        this.handleFullfilled();
+                      }}
+                      underlayColor="transparent"
+                    >
+                      <Ionicons
+                        name="checkmark-circle-outline"
+                        size={25}
+                        color={colors.PrimaryTextColor}
+                        style={styles.padding}
+                      />
+                    </TouchableHighlight>
+                  )}
                 </View>
               )}
             </View>

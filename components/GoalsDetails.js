@@ -7,12 +7,34 @@ import * as colors from "./../assets/colors.js";
 import { DAY, WEEK, MONTH } from "./OverviewGoals.js";
 
 const db = SQLite.openDatabase("goals.db");
+const tracking = SQLite.openDatabase("aktivitys.db");
 
 class GoalsDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    if (props.route.params.time) this.fetchAktivity();
   }
+  fetchAktivity = () => {
+    console.log("Fetching");
+    tracking.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM activities WHERE id = ?",
+        [this.props.route.params.act_id],
+        (txObj, { rows: { _array } }) => {
+          console.log(_array);
+          if (_array.length)
+            this.setState({
+              aktivity_name: _array[0].name,
+              aktivity_icon: _array[0].icon,
+            });
+        },
+        (txObj, error) => {
+          console.log(error);
+        }
+      );
+    });
+  };
   componentWillUnmount() {
     this._unsubscribe();
   }
@@ -51,6 +73,7 @@ class GoalsDetails extends React.Component {
             onPress={() => {
               this.props.navigation.navigate("ChangeGoal", {
                 ...this.props.route.params,
+                ...this.state,
                 edit: true,
               });
             }}
