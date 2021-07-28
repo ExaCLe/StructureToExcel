@@ -129,6 +129,10 @@ class ChangeGoal extends React.Component {
       alert("Bitte ein Icon auswählen");
       return;
     }
+    if (this.state.time && !this.state.act_id) {
+      alert("Bitte eine Aktivität ausfüllen");
+      return;
+    }
     if (!this.state.progress && !this.state.time) {
       alert("Bitte einen Fortschritt eintragen");
       return;
