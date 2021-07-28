@@ -65,7 +65,10 @@ class TrackingOverview extends React.Component {
           <TouchableHighlight
             underlayColor="#ffffff"
             onPress={() =>
-              this.props.navigation.navigate("ChangeAktivity", { edit: false })
+              this.props.navigation.navigate("ChangeAktivity", {
+                edit: false,
+                target: "TrackingOverview",
+              })
             }
           >
             <Ionicons name="add" size={25} color={colors.PrimaryTextColor} />
