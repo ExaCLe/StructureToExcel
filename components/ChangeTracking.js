@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  View,
-  TextInput,
-  Text,
-  TouchableHighlight,
-  Switch,
-  Platform,
-} from "react-native";
+import { View, Alert, Text, TouchableHighlight, Platform } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -21,6 +14,7 @@ class ChangeTracking extends React.Component {
     super(props);
     const edit = props.route.params.edit;
     this.state = {
+      change: false,
       show_start_time: false,
       show_start_date: false,
       show_end_time: false,
@@ -58,6 +52,7 @@ class ChangeTracking extends React.Component {
             icon: this.props.route.params.aktivity.icon,
             name: this.props.route.params.aktivity.name,
             act_id: this.props.route.params.aktivity.id,
+            change: true,
           });
       }
     );
@@ -70,7 +65,21 @@ class ChangeTracking extends React.Component {
           <View style={styles.margin}>
             <TouchableHighlight
               onPress={() => {
-                this.props.navigation.goBack();
+                if (this.state.change && this.state.edit)
+                  Alert.alert(
+                    "Abort Changes",
+                    "Möchtest du wirklich die Veränderungen verwerfen?",
+                    [
+                      { text: "Nein" },
+                      {
+                        text: "Ja",
+                        onPress: () => {
+                          this.props.navigation.goBack();
+                        },
+                      },
+                    ]
+                  );
+                else this.props.navigation.goBack();
               }}
             >
               <Ionicons
@@ -126,6 +135,7 @@ class ChangeTracking extends React.Component {
     this.setState({
       show_start_date: Platform.OS === "ios",
       start_time: currentDate,
+      change: true,
     });
   };
   onChangeStartTime = (event, selectedDate) => {
@@ -133,6 +143,7 @@ class ChangeTracking extends React.Component {
     this.setState({
       show_start_time: Platform.OS === "ios",
       start_time: currentDate,
+      change: true,
     });
   };
   onChangeEndDate = (event, selectedDate) => {
@@ -140,6 +151,7 @@ class ChangeTracking extends React.Component {
     this.setState({
       show_end_date: Platform.OS === "ios",
       end_time: currentDate,
+      change: true,
     });
   };
   onChangeEndTime = (event, selectedDate) => {
@@ -147,6 +159,7 @@ class ChangeTracking extends React.Component {
     this.setState({
       show_end_time: Platform.OS === "ios",
       end_time: currentDate,
+      change: true,
     });
   };
 

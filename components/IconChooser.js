@@ -40,6 +40,7 @@ class IconChooser extends React.Component {
           onPress={() => {
             this.props.navigation.navigate(this.props.route.params.target, {
               icon: obj.item.name,
+              changeIcon: true,
             });
           }}
         >

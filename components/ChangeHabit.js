@@ -5,6 +5,7 @@ import {
   Text,
   TouchableHighlight,
   Switch,
+  Alert,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
@@ -22,6 +23,7 @@ class ChangeHabit extends React.Component {
     super(props);
     const edit = props.route.params.edit;
     this.state = {
+      change: false,
       edit: edit,
       name: (() => {
         return edit ? props.route.params.name : "";
@@ -64,7 +66,7 @@ class ChangeHabit extends React.Component {
       "focus",
       (payload) => {
         if (this.props.route.params && this.props.route.params.icon)
-          this.setState({ icon: this.props.route.params.icon });
+          this.setState({ icon: this.props.route.params.icon, change: true });
       }
     );
     this.props.navigation.setOptions({
@@ -78,7 +80,21 @@ class ChangeHabit extends React.Component {
           <View style={styles.margin}>
             <TouchableHighlight
               onPress={() => {
-                this.props.navigation.goBack();
+                if (this.state.change && this.state.edit)
+                  Alert.alert(
+                    "Abort Changes",
+                    "Möchtest du wirklich die Veränderungen verwerfen?",
+                    [
+                      { text: "Nein" },
+                      {
+                        text: "Ja",
+                        onPress: () => {
+                          this.props.navigation.goBack();
+                        },
+                      },
+                    ]
+                  );
+                else this.props.navigation.goBack();
               }}
             >
               <Ionicons
@@ -208,21 +224,24 @@ class ChangeHabit extends React.Component {
   setValueIntervall = (callback) => {
     this.setState((state) => ({
       valueIntervall: callback(state.valueIntervall),
+      change: true,
     }));
   };
   setValuePriority = (callback) => {
     this.setState((state) => ({
       valuePriority: callback(state.valuePriority),
+      change: true,
     }));
   };
 
   // handles the name change in input
   handleNameChange = (text) => {
-    this.setState({ name: text });
+    this.setState({ name: text, change: true });
   };
 
   handleRepetitionChange = (number) => {
-    if (+number || number == "") this.setState({ repetitions: number });
+    if (+number || number == "")
+      this.setState({ repetitions: number, change: true });
   };
 
   render() {

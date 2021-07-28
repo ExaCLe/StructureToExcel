@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Text,
-  View,
-  Button,
-  TextInput,
-  TouchableHighlight,
-} from "react-native";
+import { Text, View, Alert, TextInput, TouchableHighlight } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
@@ -17,6 +11,7 @@ class AddAktivity extends React.Component {
     super(props);
     const edit = props.route.params.edit;
     this.state = {
+      change: false,
       ...this.props.route.params,
       icon: (() => {
         return edit ? props.route.params.icon : "book-outline";
@@ -31,7 +26,7 @@ class AddAktivity extends React.Component {
       "focus",
       (payload) => {
         if (this.props.route.params && this.props.route.params.icon)
-          this.setState({ icon: this.props.route.params.icon });
+          this.setState({ icon: this.props.route.params.icon, change: true });
       }
     );
     const title = this.props.route.params.edit
@@ -44,7 +39,26 @@ class AddAktivity extends React.Component {
           <View style={styles.margin}>
             <TouchableHighlight
               onPress={() => {
-                this.props.navigation.navigate(this.props.route.params.target);
+                if (this.state.change && this.state.edit)
+                  Alert.alert(
+                    "Abort Changes",
+                    "Möchtest du wirklich die Veränderungen verwerfen?",
+                    [
+                      { text: "Nein" },
+                      {
+                        text: "Ja",
+                        onPress: () => {
+                          this.props.navigation.navigate(
+                            this.props.route.params.target
+                          );
+                        },
+                      },
+                    ]
+                  );
+                else
+                  this.props.navigation.navigate(
+                    this.props.route.params.target
+                  );
               }}
             >
               <Ionicons
@@ -140,7 +154,7 @@ class AddAktivity extends React.Component {
             styles.accentColorText,
           ]}
           onChangeText={(text) => {
-            this.setState({ name: text });
+            this.setState({ name: text, change: true });
           }}
         />
         <View style={[styles.containerHorizontal]}>

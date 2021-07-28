@@ -5,6 +5,7 @@ import {
   TouchableHighlight,
   TextInput,
   Switch,
+  Alert,
 } from "react-native";
 import styles from "./styles.js";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -20,6 +21,7 @@ class ChangeGoal extends React.Component {
     super(props);
     const edit = props.route.params.edit;
     this.state = {
+      change: false,
       aktivity_icon: "",
       aktivity_name: "",
       open1: false,
@@ -57,13 +59,14 @@ class ChangeGoal extends React.Component {
     this._unsubscribe = this.props.navigation.addListener(
       "focus",
       (payload) => {
-        if (this.props.route.params && this.props.route.params.icon)
-          this.setState({ icon: this.props.route.params.icon });
+        if (this.props.route.params && this.props.route.params.changeIcon)
+          this.setState({ icon: this.props.route.params.icon, change: true });
         if (this.props.route.params && this.props.route.params.aktivity)
           this.setState({
             aktivity_icon: this.props.route.params.aktivity.icon,
             aktivity_name: this.props.route.params.aktivity.name,
             act_id: this.props.route.params.aktivity.id,
+            change: true,
           });
       }
     );
@@ -73,7 +76,21 @@ class ChangeGoal extends React.Component {
           <View style={styles.margin}>
             <TouchableHighlight
               onPress={() => {
-                this.props.navigation.goBack();
+                if (this.state.change && this.state.edit)
+                  Alert.alert(
+                    "Abort Changes",
+                    "Möchtest du wirklich die Veränderungen verwerfen?",
+                    [
+                      { text: "Nein" },
+                      {
+                        text: "Ja",
+                        onPress: () => {
+                          this.props.navigation.goBack();
+                        },
+                      },
+                    ]
+                  );
+                else this.props.navigation.goBack();
               }}
             >
               <Ionicons
@@ -100,12 +117,14 @@ class ChangeGoal extends React.Component {
   setValue1 = (callback) => {
     this.setState((state) => ({
       priority: callback(state.priority),
+      change: true,
     }));
   };
 
   setValue2 = (callback) => {
     this.setState((state) => ({
       intervall: callback(state.intervall),
+      change: true,
     }));
   };
   handleSave = () => {
@@ -222,7 +241,7 @@ class ChangeGoal extends React.Component {
               styles.accentColorText,
             ]}
             onChangeText={(text) => {
-              this.setState({ name: text });
+              this.setState({ name: text, change: true });
             }}
           />
         </View>
@@ -299,6 +318,7 @@ class ChangeGoal extends React.Component {
                 this.setState((prevState) => {
                   return {
                     time: !prevState.time,
+                    change: true,
                   };
                 });
               }}
@@ -320,7 +340,8 @@ class ChangeGoal extends React.Component {
                 styles.accentColorText,
               ]}
               onChangeText={(text) => {
-                if (+text || text === "") this.setState({ repetitions: text });
+                if (+text || text === "")
+                  this.setState({ repetitions: text, change: true });
               }}
               keyboardType="numeric"
             />
@@ -367,7 +388,7 @@ class ChangeGoal extends React.Component {
               ]}
               onChangeText={(text) => {
                 if (+text || text === "" || text === "0")
-                  this.setState({ progress: text });
+                  this.setState({ progress: text, change: true });
               }}
               keyboardType="numeric"
             />
@@ -383,7 +404,8 @@ class ChangeGoal extends React.Component {
                 styles.accentColorText,
               ]}
               onChangeText={(text) => {
-                if (+text || text === "") this.setState({ repetitions: text });
+                if (+text || text === "")
+                  this.setState({ repetitions: text, change: true });
               }}
               keyboardType="numeric"
             />
