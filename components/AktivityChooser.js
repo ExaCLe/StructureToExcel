@@ -25,14 +25,23 @@ class AktivityChooser extends React.Component {
       );
     });
   };
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
   componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener(
+      "focus",
+      (payload) => {
+        this.fetchData();
+      }
+    );
     this.props.navigation.setOptions({
       headerLeft: () => {
         return (
           <View style={styles.margin}>
             <TouchableHighlight
               onPress={() => {
-                this.props.navigation.goBack();
+                this.props.navigation.navigate(this.props.route.params.target);
               }}
             >
               <Ionicons
@@ -45,6 +54,32 @@ class AktivityChooser extends React.Component {
           </View>
         );
       },
+      headerRight: () => (
+        <View style={styles.row}>
+          <TouchableHighlight
+            style={styles.buttonTopBar}
+            onPress={() => {
+              if (this.props.route.params.target === "ChangeGoal")
+                this.props.navigation.navigate("ChangeAktivityGoals", {
+                  edit: false,
+                  target: "AktivityChooserGoal",
+                });
+              else if (this.props.route.params.target === "ChangeTracking")
+                this.props.navigation.navigate("ChangeAktivity", {
+                  edit: false,
+                  target: "AktivityChooser",
+                });
+            }}
+          >
+            <Ionicons
+              name="add"
+              size={25}
+              color={colors.PrimaryTextColor}
+              style={styles.padding}
+            />
+          </TouchableHighlight>
+        </View>
+      ),
     });
   }
   // renders an habit entry in the flat list

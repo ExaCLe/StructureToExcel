@@ -44,7 +44,7 @@ class AddAktivity extends React.Component {
           <View style={styles.margin}>
             <TouchableHighlight
               onPress={() => {
-                this.props.navigation.goBack();
+                this.props.navigation.navigate(this.props.route.params.target);
               }}
             >
               <Ionicons
@@ -118,7 +118,7 @@ class AddAktivity extends React.Component {
         sql,
         variables,
         () => {
-          this.props.navigation.goBack();
+          this.props.navigation.navigate(this.props.route.params.target);
         },
         (txObj, error) => {
           console.log(error);
@@ -154,9 +154,18 @@ class AddAktivity extends React.Component {
           <TouchableHighlight
             style={[styles.margin, styles.padding]}
             onPress={() => {
-              this.props.navigation.navigate("IconChooserTracking", {
-                target: "ChangeAktivity",
-              });
+              if (this.props.route.params.target === "AktivityDetails")
+                this.props.navigation.navigate("IconChooserTracking", {
+                  target: "ChangeAktivity",
+                });
+              else if (this.props.route.params.target == "AktivityChooserGoal")
+                this.props.navigation.navigate("IconChooserGoals", {
+                  target: "ChangeAktivityGoals",
+                });
+              else if (this.props.route.params.target == "AktivityChooser")
+                this.props.navigation.navigate("IconChooserTracking", {
+                  target: "ChangeAktivity",
+                });
             }}
           >
             <Text style={[styles.textButton]}> Wähle Icon</Text>

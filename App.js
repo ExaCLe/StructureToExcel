@@ -167,7 +167,7 @@ function Goals() {
           headerTitleStyle: styles.headerText,
         }}
       />
-      <StackHabits.Screen
+      <StackGoals.Screen
         name="IconChooserGoals"
         component={IconChooser}
         options={{
@@ -176,10 +176,19 @@ function Goals() {
           headerTitleStyle: styles.headerText,
         }}
       />
-      <StackTracking.Screen
+      <StackGoals.Screen
         name="AktivityChooserGoal"
         component={AktivityChooser}
         options={{
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackGoals.Screen
+        name="ChangeAktivityGoals"
+        component={ChangeAktivity}
+        options={{
+          title: "Aktivität hinzufügen",
           headerStyle: styles.header,
           headerTitleStyle: styles.headerText,
         }}
