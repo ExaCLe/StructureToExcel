@@ -58,6 +58,23 @@ class AktivityList extends React.Component {
           </View>
         );
       },
+      headerRight: () => (
+        <View style={styles.row}>
+          <TouchableHighlight
+            style={styles.buttonTopBar}
+            onPress={() => {
+              this.props.navigation.navigate("ChangeTracking", { edit: false });
+            }}
+          >
+            <Ionicons
+              name="add"
+              size={25}
+              color={colors.PrimaryTextColor}
+              style={styles.padding}
+            />
+          </TouchableHighlight>
+        </View>
+      ),
     });
   }
   renderItem = (obj) => {

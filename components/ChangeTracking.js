@@ -35,8 +35,14 @@ class ChangeTracking extends React.Component {
         return edit ? props.route.params.icon : "book-outline";
       })(),
       ...props.route.params,
-      start_time: new Date(props.route.params.start_time),
-      end_time: new Date(props.route.params.end_time),
+      start_time: (() => {
+        if (edit) return new Date(props.route.params.start_time);
+        else return new Date();
+      })(),
+      end_time: (() => {
+        if (edit) return new Date(props.route.params.end_time);
+        else return new Date();
+      })(),
     };
   }
   componentWillUnmount() {
