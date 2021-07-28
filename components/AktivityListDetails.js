@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, TouchableHighlight } from "react-native";
+import { Text, View, TouchableHighlight, Alert } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
@@ -57,18 +57,30 @@ class AktivityListDetails extends React.Component {
             style={styles.buttonTopBar}
             underlayColor="#ffffff"
             onPress={() => {
-              db.transaction((tx) => {
-                tx.executeSql(
-                  "DELETE FROM trackings WHERE id=?",
-                  [this.props.route.params.id],
-                  () => {
-                    this.props.navigation.goBack();
+              Alert.alert(
+                "Delete Tracking",
+                "Möchtest du diese Aufzeichnung wirklich löschen? Das ist ein irreversibler Vorgang.",
+                [
+                  { text: "Nein" },
+                  {
+                    text: "Ja",
+                    onPress: () => {
+                      db.transaction((tx) => {
+                        tx.executeSql(
+                          "DELETE FROM trackings WHERE id=?",
+                          [this.props.route.params.id],
+                          () => {
+                            this.props.navigation.goBack();
+                          },
+                          (txObj, error) => {
+                            console.log(error);
+                          }
+                        );
+                      });
+                    },
                   },
-                  (txObj, error) => {
-                    console.log(error);
-                  }
-                );
-              });
+                ]
+              );
             }}
           >
             <Ionicons

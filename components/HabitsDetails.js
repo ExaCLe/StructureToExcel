@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { Text, View, TouchableHighlight, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  TouchableHighlight,
+  ScrollView,
+  Alert,
+} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
@@ -90,16 +96,28 @@ class HabitsDetails extends React.Component {
             style={styles.buttonTopBar}
             underlayColor="#ffffff"
             onPress={() => {
-              db.transaction((tx) => {
-                tx.executeSql(
-                  "DELETE FROM habits WHERE id=?",
-                  [this.props.route.params.id],
-                  () => {
-                    this.props.navigation.goBack();
+              Alert.alert(
+                "Delete Habit",
+                "Möchtest du die Gewohnheit wirklich löschen? Das ist ein unwiderruflicher Vorgang.",
+                [
+                  { text: "Nein" },
+                  {
+                    text: "Ja",
+                    onPress: () => {
+                      db.transaction((tx) => {
+                        tx.executeSql(
+                          "DELETE FROM habits WHERE id=?",
+                          [this.props.route.params.id],
+                          () => {
+                            this.props.navigation.goBack();
+                          },
+                          null
+                        );
+                      });
+                    },
                   },
-                  null
-                );
-              });
+                ]
+              );
             }}
           >
             <Ionicons

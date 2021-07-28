@@ -89,18 +89,30 @@ class GoalsDetails extends React.Component {
             style={styles.buttonTopBar}
             underlayColor="#ffffff"
             onPress={() => {
-              db.transaction((tx) => {
-                tx.executeSql(
-                  "DELETE FROM goals WHERE id=?",
-                  [this.props.route.params.id],
-                  () => {
-                    this.props.navigation.goBack();
+              Alert.alert(
+                "Delete Goal",
+                "Möchtest du das Ziel wirklich löschen? Dieser Vorgang ist unwiederruflich.",
+                [
+                  { text: "Nein" },
+                  {
+                    text: "Ja",
+                    onPress: () => {
+                      db.transaction((tx) => {
+                        tx.executeSql(
+                          "DELETE FROM goals WHERE id=?",
+                          [this.props.route.params.id],
+                          () => {
+                            this.props.navigation.goBack();
+                          },
+                          (txObj, error) => {
+                            console.log(error);
+                          }
+                        );
+                      });
+                    },
                   },
-                  (txObj, error) => {
-                    console.log(error);
-                  }
-                );
-              });
+                ]
+              );
             }}
           >
             <Ionicons
