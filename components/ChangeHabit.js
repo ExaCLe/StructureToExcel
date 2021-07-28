@@ -47,6 +47,8 @@ class ChangeHabit extends React.Component {
       itemsPriority: [
         { id: 1, title: "1", val: 1 },
         { id: 2, title: "2", val: 2 },
+        { id: 3, title: "3", val: 3 },
+        { id: 4, title: "4", val: 4 },
       ],
       repetitions: (() => {
         return edit ? "" + props.route.params.repetitions : "";

@@ -81,7 +81,7 @@ export default class HabitOverview extends React.Component {
         "SELECT * FROM habits WHERE queue IS NULL OR queue = 0",
         null,
         (txObj, { rows: { _array } }) => {
-          this.setState({ habits: _array });
+          this.setState({ habits: _array }, this.calculateScore);
         },
         () => console.error("Fehler beim Lesen der Gewohnheiten. ")
       );
@@ -96,7 +96,43 @@ export default class HabitOverview extends React.Component {
       );
     });
   };
-
+  calculateScore = () => {
+    if (!this.state.habits) return;
+    for (let i = 0; i < this.state.habits.length; i++) {
+      let sql;
+      let expected;
+      if (this.state.habits[i].intervall === 1) {
+        expected = this.state.habits[i].repetitions * 30;
+        sql =
+          "SELECT * FROM checkHabits WHERE habit_id = ? AND date > DATE('now', '-30 day')";
+      } else if (this.state.habits[i].intervall === 2) {
+        expected = this.state.habits[i].repetitions * 8;
+        sql =
+          "SELECT * FROM checkHabits WHERE habit_id = ? AND date > DATE('now', '-56 day')";
+      } else if (this.state.habits[i].intervall === 3) {
+        expected = this.state.habits[i].repetitions * 3;
+        sql =
+          "SELECT * FROM checkHabits WHERE habit_id = ? AND date > DATE('now', '-3 month')";
+      }
+      db.transaction((tx) => {
+        tx.executeSql(
+          sql,
+          [this.state.habits[i].id],
+          (txObj, { rows: { _array } }) => {
+            const value = _array.length - expected / 2;
+            const score = 1 / (1 + Math.exp(-value * 0.2));
+            this.setState((prevState) => {
+              prevState.habits[i].score = score;
+              return { habits: prevState.habits };
+            });
+          },
+          (txObj, error) => {
+            console.log(error);
+          }
+        );
+      });
+    }
+  };
   // expects to get only the checked Habits for today
   addChecksToState = ({ rows: { _array } }) => {
     let newState = this.state;
@@ -122,10 +158,7 @@ export default class HabitOverview extends React.Component {
         [id]
       );
     });
-    this.setState((prevState) => {
-      prevState.habits[index].fullfilled = true;
-      return { habits: [...prevState.habits] };
-    });
+    this.fetchData();
   };
 
   // renders an habit entry in the flat list

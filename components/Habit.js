@@ -11,7 +11,19 @@ const Habit = (props) => {
   return (
     <View>
       <TouchableHighlight
-        style={styles.habitContainer}
+        style={{
+          height: 75,
+          marginBottom: 10,
+          marginTop: 10,
+          marginRight: 10,
+          marginLeft: 10,
+          borderRadius: 10,
+          backgroundColor:
+            colors.SecondaryPriorityColors[props.habit.priority - 1],
+          justifyContent: "center",
+          alignContent: "center",
+          display: "flex",
+        }}
         onPress={() => {
           props.navigation.navigate("HabitDetails", {
             ...props.habit,
@@ -19,49 +31,73 @@ const Habit = (props) => {
           });
         }}
       >
-        <View style={styles.container2}>
-          <View style={styles.containerHorizontal}>
-            <Ionicons
-              name={props.habit.icon}
-              size={25}
-              color={colors.PrimaryTextColor}
-              style={styles.padding}
-            />
-            <Text
-              style={[
-                styles.normalText,
-                styles.primaryTextColor,
-                styles.padding,
-              ]}
-            >
-              {props.habit.name}
-            </Text>
-          </View>
-
-          {!props.queue && (
+        <View>
+          <View
+            style={{
+              zIndex: -1,
+              position: "relative",
+              backgroundColor: colors.PriorityColors[props.habit.priority - 1],
+              height: 75,
+              borderRadius: 10,
+              width: (() => {
+                if (props.habit.score) return props.habit.score * 100 + "%";
+                else return "0%";
+              })(),
+            }}
+          ></View>
+          <View
+            style={[
+              styles.container2,
+              {
+                zIndex: 1,
+                position: "absolute",
+                top: 7,
+                width: "100%",
+              },
+            ]}
+          >
             <View style={styles.containerHorizontal}>
-              {props.habit.fullfilled ? (
-                <Ionicons
-                  name="checkmark-circle-outline"
-                  size={25}
-                  color={colors.PrimaryTextColor}
-                  style={styles.padding}
-                />
-              ) : (
-                <TouchableHighlight
-                  onPress={() => handleFullfilled(props.habit)}
-                  underlayColor="transparent"
-                >
+              <Ionicons
+                name={props.habit.icon}
+                size={25}
+                color={colors.PrimaryTextColor}
+                style={styles.padding}
+              />
+              <Text
+                style={[
+                  styles.normalText,
+                  styles.primaryTextColor,
+                  styles.padding,
+                ]}
+              >
+                {props.habit.name}
+              </Text>
+            </View>
+            {!props.queue && (
+              <View style={styles.containerHorizontal}>
+                {props.habit.fullfilled ? (
                   <Ionicons
-                    name="close-circle-outline"
+                    name="checkmark-circle-outline"
                     size={25}
                     color={colors.PrimaryTextColor}
                     style={styles.padding}
                   />
-                </TouchableHighlight>
-              )}
-            </View>
-          )}
+                ) : (
+                  <TouchableHighlight
+                    onPress={() => handleFullfilled(props.habit)}
+                    underlayColor="transparent"
+                  >
+                    <Ionicons
+                      name="close-circle-outline"
+                      size={25}
+                      color={colors.PrimaryTextColor}
+                      style={styles.padding}
+                    />
+                  </TouchableHighlight>
+                )}
+              </View>
+            )}
+          </View>
         </View>
       </TouchableHighlight>
     </View>
