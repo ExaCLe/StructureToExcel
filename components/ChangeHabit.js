@@ -6,6 +6,7 @@ import {
   TouchableHighlight,
   Switch,
   Alert,
+  Platform,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
@@ -215,10 +216,14 @@ class ChangeHabit extends React.Component {
   };
 
   setOpenIntervall = (openIntervall) => {
-    this.setState({ openIntervall });
+    if (openIntervall)
+      this.setState({ openIntervall: true, openPriority: false });
+    else this.setState({ openIntervall: false });
   };
   setOpenPriority = (openPriority) => {
-    this.setState({ openPriority });
+    if (openPriority)
+      this.setState({ openPriority: true, openIntervall: false });
+    else this.setState({ openPriority: false });
   };
 
   setValueIntervall = (callback) => {
@@ -243,6 +248,11 @@ class ChangeHabit extends React.Component {
     if (+number || number == "")
       this.setState({ repetitions: number, change: true });
   };
+
+  zIndexn1 = (() => {
+    if (Platform.OS === "ios") return { zIndex: -1 };
+    else return {};
+  })();
 
   render() {
     const addHabit = this.addHabit;
@@ -318,7 +328,7 @@ class ChangeHabit extends React.Component {
           />
         </View>
         <View
-          style={[styles.containerHorizontal, styles.margin, { zIndex: -1 }]}
+          style={[styles.containerHorizontal, styles.margin, this.zIndexn1]}
         >
           <Text
             style={[{ zIndex: -2, position: "relative" }, styles.secondaryText]}

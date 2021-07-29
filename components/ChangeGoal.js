@@ -6,6 +6,7 @@ import {
   TextInput,
   Switch,
   Alert,
+  Platform,
 } from "react-native";
 import styles from "./styles.js";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -49,6 +50,11 @@ class ChangeGoal extends React.Component {
         return this.props.route.params && this.props.route.params.time
           ? true
           : false;
+      })(),
+      zIndex: {},
+      zIndex2: (() => {
+        if (Platform.OS === "ios") return { zIndex: 2 };
+        else return {};
       })(),
     };
   }
@@ -107,11 +113,14 @@ class ChangeGoal extends React.Component {
   }
 
   setOpen1 = (open1) => {
-    this.setState({ open1 });
+    if (open1) this.setState({ open1: true, open2: false, zIndex: {} });
+    else this.setState({ open1: false });
   };
 
   setOpen2 = (open2) => {
-    this.setState({ open2 });
+    if (open2)
+      this.setState({ open2: true, open1: false, zIndex: { zIndex: -1 } });
+    else this.setState({ open2: false });
   };
 
   setValue1 = (callback) => {
@@ -223,9 +232,12 @@ class ChangeGoal extends React.Component {
       );
     });
   };
+  zIndex3 = (() => {
+    if (Platform.OS === "ios") return { zIndex: 3 };
+    else return {};
+  })();
 
   render() {
-    console.log("State: ", this.state);
     return (
       <View style={styles.margin}>
         <View style={styles.containerHorizontal}>
@@ -265,7 +277,7 @@ class ChangeGoal extends React.Component {
         >
           <Text style={[styles.textButton]}> Wähle Icon</Text>
         </TouchableHighlight>
-        <View style={[styles.containerHorizontal, { zIndex: 3 }]}>
+        <View style={[styles.containerHorizontal, this.zIndex3]}>
           <Text style={styles.secondaryText}>Intervall: </Text>
           <DropDownPicker
             schema={{
@@ -280,15 +292,16 @@ class ChangeGoal extends React.Component {
             style={[styles.dropdown, styles.margin, styles.fullSize]}
             dropDownContainerStyle={[styles.dropdownMenu, styles.margin]}
             textStyle={[styles.normalText, styles.accentColorText]}
-            zIndex={5000}
-            zIndexInverse={5000}
+            zIndex={0}
+            zIndexInverse={0}
           />
         </View>
 
         <View
           style={[
             styles.containerHorizontal,
-            { zIndex: 2, position: "relative" },
+            this.state.zIndex2,
+            this.state.zIndex,
           ]}
         >
           <Text style={styles.secondaryText}>Priorität: </Text>
