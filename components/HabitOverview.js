@@ -78,7 +78,7 @@ export default class HabitOverview extends React.Component {
     console.log("Fetching data...");
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM habits WHERE queue IS NULL OR queue = 0",
+        "SELECT * FROM habits WHERE queue IS NULL OR queue = 0 ORDER BY intervall, priority",
         null,
         (txObj, { rows: { _array } }) => {
           this.setState({ habits: _array }, this.calculateScore);

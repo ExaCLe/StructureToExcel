@@ -44,8 +44,8 @@ class OverviewGoals extends React.Component {
     console.log("Fetching data for goals...");
     const sql =
       !this.props.route.params || !this.props.route.params.archive
-        ? "SELECT * FROM goals WHERE intervall = ? AND (archive = 0 OR archive is NULL)"
-        : "SELECT * FROM goals WHERE intervall = ? AND archive = 1";
+        ? "SELECT * FROM goals WHERE intervall = ? AND (archive = 0 OR archive is NULL) ORDER BY priority"
+        : "SELECT * FROM goals WHERE intervall = ? AND archive = 1 ORDER BY priority";
     db.transaction((tx) => {
       tx.executeSql(
         sql,
