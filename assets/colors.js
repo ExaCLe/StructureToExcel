@@ -10,10 +10,17 @@ export const PriorityTwoColorSecondary = "#F9E5C8";
 export const PriorityFourColor = "#6BEFA8";
 export const PriorityFourColorSecondary = "#C8F9DE";
 export const NavigationInactiveItem = "#595959";
-export const PriorityColors = ["#EF6B6B", "#EFBA6B", "#EFFFA6", "#6BEFA8"];
-export const SecondaryPriorityColors = [
+export const PriorityColors2 = ["#EF6B6B", "#EFBA6B", "#D8EA71", "#6BEFA8"];
+export const SecondaryPriorityColor2 = [
   "#F9C8C8",
   "#F9E5C8",
-  "#F91363",
+  "#F0F7C9",
   "#C8F9DE",
+];
+export const PriorityColors = ["#E93535", "#E9A135", "#B9D421", "#35E989"];
+export const SecondaryPriorityColors = [
+  "#F17E7E",
+  "#F1C37E",
+  "#D7E972",
+  "#7EF1B4",
 ];
