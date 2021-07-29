@@ -44,8 +44,8 @@ class OverviewGoals extends React.Component {
     console.log("Fetching data for goals...");
     const sql =
       !this.props.route.params || !this.props.route.params.archive
-        ? "SELECT * FROM goals WHERE intervall = ? AND (archive = false OR archive is NULL)"
-        : "SELECT * FROM goals WHERE intervall = ? AND archive = true";
+        ? "SELECT * FROM goals WHERE intervall = ? AND (archive = 0 OR archive is NULL)"
+        : "SELECT * FROM goals WHERE intervall = ? AND archive = 1";
     db.transaction((tx) => {
       tx.executeSql(
         sql,
@@ -86,7 +86,7 @@ class OverviewGoals extends React.Component {
           });
           this.setState({ goals: _array });
         },
-        () => console.error("Fehler beim Lesen der Ziele. ")
+        (txObj, error) => console.error("Fehler beim Lesen der Ziele. ", error)
       );
     });
   };
