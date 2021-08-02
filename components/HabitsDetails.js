@@ -108,10 +108,20 @@ class HabitsDetails extends React.Component {
                         tx.executeSql(
                           "DELETE FROM habits WHERE id=?",
                           [this.props.route.params.id],
+                          () => {},
+                          null
+                        );
+                      });
+                      db.transaction((tx) => {
+                        tx.executeSql(
+                          "DELETE FROM checkHabits WHERE habit_id=?",
+                          [this.props.route.params.id],
                           () => {
                             this.props.navigation.goBack();
                           },
-                          null
+                          (txObj, error) => {
+                            console.log(error);
+                          }
                         );
                       });
                     },
