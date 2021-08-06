@@ -1,5 +1,11 @@
 import React from "react";
-import { View, FlatList, TouchableHighlight } from "react-native";
+import {
+  View,
+  SectionList,
+  FlatList,
+  Text,
+  TouchableHighlight,
+} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
@@ -32,6 +38,13 @@ class IconChooser extends React.Component {
       },
     });
   }
+  renderHeader = ({ section: { title } }) => {
+    return <Text style={[styles.secondaryText, styles.padding]}>{title}</Text>;
+  };
+  renderSectionListItem = ({ item }) => {
+    console.log("Hello?");
+    return <FlatList data={item} numColumns={8} renderItem={this.renderItem} />;
+  };
   // renders an habit entry in the flat list
   renderItem = (obj) => {
     return (
@@ -56,7 +69,13 @@ class IconChooser extends React.Component {
   render() {
     return (
       <View style={{ display: "flex", flexDirection: "row" }}>
-        <FlatList data={icons} renderItem={this.renderItem} numColumns={8} />
+        <SectionList
+          keyExtractor={(item, index) => index}
+          sections={icons}
+          renderItem={this.renderSectionListItem}
+          renderSectionHeader={this.renderHeader}
+          numColumns={8}
+        />
       </View>
     );
   }
