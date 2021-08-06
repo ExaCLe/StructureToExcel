@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   textVerySmall: {
-    fontSize: 10,
+    fontSize: 20,
   },
   textBig: {
     fontSize: 40,

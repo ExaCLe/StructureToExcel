@@ -20,12 +20,18 @@ class HabitsDetails extends React.Component {
       frequency: this.createFrequencyString(),
       dates: [],
     };
+    this.fetchData();
+  }
+
+  fetchData = () => {
+    console.log("Fetching information for details....");
     // get the fullfilled dates out of the db
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM checkHabits WHERE habit_id = ? GROUP BY date",
+        "SELECT * FROM checkHabits WHERE habit_id = ? AND date >= date('now', '-30 days')",
         [this.props.route.params.id],
         (txObj, { rows: { _array } }) => {
+          console.log(_array);
           let now = new Date();
           now.setHours(2);
           now.setMinutes(0);
@@ -47,11 +53,13 @@ class HabitsDetails extends React.Component {
             now: now,
             lastThirtyDays: lastThirtyDays,
           });
+        },
+        (txObj, error) => {
+          console.log(error);
         }
       );
     });
-  }
-
+  };
   componentDidMount() {
     // add the button to the top
     this.props.navigation.setOptions({
@@ -171,7 +179,66 @@ class HabitsDetails extends React.Component {
   calculateDate = (index) => {
     const time = this.state.now - 1000 * 86400 * index;
     const date = new Date(time);
-    return date.getDate() + "." + date.getMonth();
+    return date.getDate() + "." + (date.getMonth() + 1);
+  };
+  addCheck = (index, bool) => {
+    if (!bool) {
+      Alert.alert(
+        "Nachtragen",
+        "Möchtest du wirklich die Gewohnheit nachtragen?",
+        [
+          {
+            text: "Ja",
+            onPress: () => {
+              const sql = `INSERT INTO checkHabits (habit_id, date) VALUES (?, date('now', '-${index} day'))`;
+              console.log(sql);
+              db.transaction((tx) => {
+                tx.executeSql(
+                  sql,
+                  [this.props.route.params.id],
+                  (txObj, result) => {},
+                  (txObj, error) => {
+                    console.log(error);
+                  }
+                );
+              });
+              this.fetchData();
+            },
+          },
+          {
+            text: "Nein",
+          },
+        ]
+      );
+    } else {
+      Alert.alert(
+        "Löschen",
+        "Möchtest du wirklich den Eintrag der Gewohnheit löschen?",
+        [
+          {
+            text: "Ja",
+            onPress: () => {
+              const sql = `DELETE FROM checkHabits WHERE habit_id = ? AND date = date('now', '-${index} day')`;
+              console.log(sql);
+              db.transaction((tx) => {
+                tx.executeSql(
+                  sql,
+                  [this.props.route.params.id],
+                  (txObj, result) => {},
+                  (txObj, error) => {
+                    console.log(error);
+                  }
+                );
+              });
+              this.fetchData();
+            },
+          },
+          {
+            text: "Nein",
+          },
+        ]
+      );
+    }
   };
   render() {
     const changeQueueState = this.changeQueueState;
@@ -205,7 +272,13 @@ class HabitsDetails extends React.Component {
                 : colors.SecondaryTextColor;
               return (
                 <View key={index + 1000}>
-                  <Ionicons name={name} size={25} color={color} />
+                  <TouchableHighlight
+                    onLongPress={() => {
+                      this.addCheck(index, bool);
+                    }}
+                  >
+                    <Ionicons name={name} size={50} color={color} />
+                  </TouchableHighlight>
                   <Text style={[styles.secondaryText, styles.textVerySmall]}>
                     {this.calculateDate(index)}
                   </Text>
@@ -228,7 +301,13 @@ class HabitsDetails extends React.Component {
                 : colors.SecondaryTextColor;
               return (
                 <View key={index + 1000}>
-                  <Ionicons name={name} size={25} color={color} />
+                  <TouchableHighlight
+                    onLongPress={() => {
+                      this.addCheck(index, bool);
+                    }}
+                  >
+                    <Ionicons name={name} size={50} color={color} />
+                  </TouchableHighlight>
                   <Text style={[styles.secondaryText, styles.textVerySmall]}>
                     {this.calculateDate(index)}
                   </Text>
