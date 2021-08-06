@@ -262,6 +262,12 @@ class HabitsDetails extends React.Component {
             {this.state.frequency}
           </Text>
         </View>
+        <View style={styles.containerHorizontal}>
+          <Text style={[styles.secondaryText]}>Score: </Text>
+          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+            {Math.round(this.props.route.params.score * 100) + " %"}
+          </Text>
+        </View>
         <Text style={styles.secondaryText}>Letzten 7 Tage:</Text>
         <View style={styles.containerHorizontal}>
           {this.state.lastSevenDays &&
