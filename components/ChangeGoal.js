@@ -7,9 +7,9 @@ import {
   Switch,
   Alert,
   Platform,
+  ScrollView,
 } from "react-native";
 import styles from "./styles.js";
-import DropDownPicker from "react-native-dropdown-picker";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
 import { Picker } from "@react-native-picker/picker";
@@ -206,12 +206,16 @@ class ChangeGoal extends React.Component {
     if (Platform.OS === "ios") return { zIndex: 3 };
     else return {};
   })();
+  height = (() => {
+    if (Platform.OS === "ios") return { width: "50%", alignSelf: "center" };
+    else return { height: 40 };
+  })();
   intervall = ["Tag", "Woche", "Monat"];
 
   render() {
     console.log("zIndex: ", this.state.zIndex);
     return (
-      <View style={styles.margin}>
+      <ScrollView style={styles.margin}>
         <View style={styles.containerHorizontal}>
           <Text style={styles.secondaryText}>Name: </Text>
           <TextInput
@@ -249,63 +253,44 @@ class ChangeGoal extends React.Component {
         >
           <Text style={[styles.textButton]}> Wähle Icon</Text>
         </TouchableHighlight>
-        <View style={[styles.containerHorizontal, this.zIndex3]}>
+        <View style={[styles.containerHorizontal]}>
           <Text style={styles.secondaryText}>Intervall: </Text>
           <Text style={[styles.normalText, styles.primaryAccentColor]}>
             {this.intervall[this.state.intervall - 1]}
           </Text>
-          <TouchableHighlight
-            style={[styles.margin, styles.padding]}
-            onPress={() => {
-              this.setState((prevState) => ({
-                showIntervall: !prevState.showIntervall,
-              }));
-            }}
-          >
-            <Text style={[styles.textButton]}> Change Intervall</Text>
-          </TouchableHighlight>
         </View>
-        {this.state.showIntervall && (
-          <Picker
-            selectedValue={this.state.intervall}
-            onValueChange={(itemValue, itemIndex) =>
-              this.setState({ intervall: itemValue })
-            }
-          >
-            <Picker.Item label="Tag" value="1" />
-            <Picker.Item label="Woche" value="2" />
-            <Picker.Item label="Monat" value="3" />
-          </Picker>
-        )}
-        <View style={[styles.containerHorizontal, this.zIndex3]}>
+        <Picker
+          style={this.height}
+          selectedValue={this.state.intervall}
+          onValueChange={(itemValue, itemIndex) =>
+            this.setState({ intervall: itemValue })
+          }
+        >
+          <Picker.Item label="Tag" value="1" />
+          <Picker.Item label="Woche" value="2" />
+          <Picker.Item label="Monat" value="3" />
+        </Picker>
+
+        <View style={[styles.containerHorizontal]}>
           <Text style={styles.secondaryText}>Priorität: </Text>
           <Text style={[styles.normalText, styles.primaryAccentColor]}>
             {this.state.priority}
           </Text>
-          <TouchableHighlight
-            style={[styles.margin, styles.padding]}
-            onPress={() => {
-              this.setState((prevState) => ({
-                showPriority: !prevState.showPriority,
-              }));
-            }}
-          >
-            <Text style={[styles.textButton]}> Change Priority</Text>
-          </TouchableHighlight>
         </View>
-        {this.state.showPriority && (
-          <Picker
-            selectedValue={this.state.priority}
-            onValueChange={(itemValue, itemIndex) =>
-              this.setState({ priority: itemValue })
-            }
-          >
-            <Picker.Item label="Priorität 1" value="1" />
-            <Picker.Item label="Priorität 2" value="2" />
-            <Picker.Item label="Priorität 3" value="3" />
-            <Picker.Item label="Priorität 4" value="4" />
-          </Picker>
-        )}
+
+        <Picker
+          style={this.height}
+          selectedValue={this.state.priority}
+          onValueChange={(itemValue, itemIndex) =>
+            this.setState({ priority: itemValue })
+          }
+        >
+          <Picker.Item label="Priorität 1" value="1" />
+          <Picker.Item label="Priorität 2" value="2" />
+          <Picker.Item label="Priorität 3" value="3" />
+          <Picker.Item label="Priorität 4" value="4" />
+        </Picker>
+
         <View style={{ zIndex: -3 }}>
           <View style={styles.containerHorizontal}>
             <Switch
@@ -450,7 +435,7 @@ class ChangeGoal extends React.Component {
         >
           <Text style={styles.primaryButtonText}>Speichern</Text>
         </TouchableHighlight>
-      </View>
+      </ScrollView>
     );
   }
 }
