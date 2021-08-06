@@ -7,11 +7,13 @@ import {
   Switch,
   Alert,
   Platform,
+  ScrollView,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import DropDownPicker from "react-native-dropdown-picker";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { Picker } from "@react-native-picker/picker";
 import * as colors from "../assets/colors.js";
 // for usage: https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage
 // open the database for adding the habits
@@ -34,25 +36,14 @@ class ChangeHabit extends React.Component {
       })(),
       addToGoals: false,
       addToTracking: false,
-      openIntervall: false,
-      openPriority: false,
+      priority: false,
       valueIntervall: (() => {
         return edit ? props.route.params.intervall : 1;
       })(),
       valuePriority: (() => {
         return edit ? props.route.params.priority : 1;
       })(),
-      itemsIntervall: [
-        { id: 1, title: "Tag", val: 1 },
-        { id: 2, title: "Woche", val: 2 },
-        { id: 3, title: "Monat", val: 3 },
-      ],
-      itemsPriority: [
-        { id: 1, title: "1", val: 1 },
-        { id: 2, title: "2", val: 2 },
-        { id: 3, title: "3", val: 3 },
-        { id: 4, title: "4", val: 4 },
-      ],
+      goalIntervall: 1,
       repetitions: (() => {
         return edit ? "" + props.route.params.repetitions : "";
       })(),
@@ -131,6 +122,12 @@ class ChangeHabit extends React.Component {
       alert("Bitte ein Icon auswählen");
       return false;
     }
+    if (this.state.repetitions > this.state.valueIntervall) {
+      alert(
+        "Maximal einmal pro Tag ausführbar. Bitte maximal n Mal in n Tagen als Ziel setzen. "
+      );
+      return false;
+    }
     return true;
   };
   // adds a new habit to the state
@@ -142,7 +139,7 @@ class ChangeHabit extends React.Component {
           "INSERT INTO goals (name, intervall, priority, repetitions, icon, progress, time) VALUES (?, ?, ?, ?, ?, ?, ?) ",
           [
             this.state.name,
-            this.state.valueIntervall,
+            this.state.goalIntervall,
             this.state.valuePriority,
             parseInt(this.state.repetitions),
             this.state.icon,
@@ -189,7 +186,10 @@ class ChangeHabit extends React.Component {
       );
     });
   };
-
+  height = (() => {
+    if (Platform.OS === "ios") return { width: "50%", alignSelf: "center" };
+    else return { height: 40 };
+  })();
   updateHabits = () => {
     // handle change in the databases
     db.transaction((tx) => {
@@ -214,23 +214,9 @@ class ChangeHabit extends React.Component {
       );
     });
   };
-
-  setOpenIntervall = (openIntervall) => {
-    if (openIntervall)
-      this.setState({ openIntervall: true, openPriority: false });
-    else this.setState({ openIntervall: false });
-  };
   setOpenPriority = (openPriority) => {
-    if (openPriority)
-      this.setState({ openPriority: true, openIntervall: false });
+    if (openPriority) this.setState({ openPriority: true });
     else this.setState({ openPriority: false });
-  };
-
-  setValueIntervall = (callback) => {
-    this.setState((state) => ({
-      valueIntervall: callback(state.valueIntervall),
-      change: true,
-    }));
   };
   setValuePriority = (callback) => {
     this.setState((state) => ({
@@ -248,6 +234,10 @@ class ChangeHabit extends React.Component {
     if (+number || number == "")
       this.setState({ repetitions: number, change: true });
   };
+  handleIntervallChange = (number) => {
+    if (+number || number == "")
+      this.setState({ intervall: number, change: true });
+  };
 
   zIndexn1 = (() => {
     if (Platform.OS === "ios") return { zIndex: -1 };
@@ -257,7 +247,7 @@ class ChangeHabit extends React.Component {
   render() {
     const addHabit = this.addHabit;
     return (
-      <View style={styles.backgroundColor}>
+      <ScrollView style={styles.backgroundColor}>
         <Text style={[styles.secondaryText, styles.margin]}>Name:</Text>
         <TextInput
           style={[
@@ -309,48 +299,42 @@ class ChangeHabit extends React.Component {
             keyboardType="numeric"
           />
           <Text style={[styles.normalText, styles.accentColorText]}>
-            Mal pro
+            Mal in
           </Text>
-          <DropDownPicker
-            schema={{
-              label: "title",
-              value: "val",
-            }}
-            open={this.state.openIntervall}
-            value={this.state.valueIntervall}
-            items={this.state.itemsIntervall}
-            setOpen={this.setOpenIntervall}
-            setValue={this.setValueIntervall}
-            style={[styles.dropdown, styles.margin]}
-            dropDownContainerStyle={[styles.dropdownMenu, styles.margin]}
-            textStyle={[styles.normalText, styles.accentColorText]}
-            zIndex={1000}
+          <TextInput
+            placeholder={"7"}
+            value={this.state.intervall}
+            style={[
+              styles.padding,
+              styles.textInputSmall,
+              styles.margin,
+              styles.normalText,
+              styles.accentColorText,
+            ]}
+            onChangeText={this.handleIntervallChange}
+            keyboardType="numeric"
           />
+          <Text style={[styles.normalText, styles.accentColorText]}>Tagen</Text>
         </View>
-        <View
-          style={[styles.containerHorizontal, styles.margin, this.zIndexn1]}
+        <View style={[styles.containerHorizontal]}>
+          <Text style={styles.secondaryText}>Priorität: </Text>
+          <Text style={[styles.normalText, styles.primaryAccentColor]}>
+            {this.state.priority}
+          </Text>
+        </View>
+
+        <Picker
+          style={this.height}
+          selectedValue={this.state.priority}
+          onValueChange={(itemValue, itemIndex) =>
+            this.setState({ priority: itemValue })
+          }
         >
-          <Text
-            style={[{ zIndex: -2, position: "relative" }, styles.secondaryText]}
-          >
-            Priorität
-          </Text>
-          <DropDownPicker
-            schema={{
-              label: "title",
-              value: "val",
-            }}
-            open={this.state.openPriority}
-            value={this.state.valuePriority}
-            items={this.state.itemsPriority}
-            setOpen={this.setOpenPriority}
-            setValue={this.setValuePriority}
-            style={[styles.dropdown, styles.margin]}
-            dropDownContainerStyle={[styles.dropdownMenu, styles.margin]}
-            textStyle={[styles.normalText, styles.accentColorText]}
-            zIndex={999}
-          />
-        </View>
+          <Picker.Item label="Priorität 1" value="1" />
+          <Picker.Item label="Priorität 2" value="2" />
+          <Picker.Item label="Priorität 3" value="3" />
+          <Picker.Item label="Priorität 4" value="4" />
+        </Picker>
         {!this.state.edit && (
           <View style={{ zIndex: -3 }}>
             <View style={styles.containerHorizontal}>
@@ -367,6 +351,24 @@ class ChangeHabit extends React.Component {
               ></Switch>
               <Text style={styles.secondaryText}>Zu Zielen hinzufügen</Text>
             </View>
+            {this.state.addToGoals && (
+              <View>
+                <Text style={styles.secondaryText}>
+                  Intervall für die Ziele:
+                </Text>
+                <Picker
+                  style={this.height}
+                  selectedValue={this.state.goalIntervall}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({ goalIntervall: itemValue })
+                  }
+                >
+                  <Picker.Item label="Tag" value="1" />
+                  <Picker.Item label="Woche" value="2" />
+                  <Picker.Item label="Monat" value="3" />
+                </Picker>
+              </View>
+            )}
             <View style={styles.containerHorizontal}>
               <Switch
                 style={styles.margin}
@@ -405,7 +407,7 @@ class ChangeHabit extends React.Component {
             <Text style={styles.primaryButtonText}>Zur Warteschlange</Text>
           </TouchableHighlight>
         )}
-      </View>
+      </ScrollView>
     );
   }
 }
