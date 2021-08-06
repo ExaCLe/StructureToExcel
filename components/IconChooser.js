@@ -4,7 +4,7 @@ import {
   SectionList,
   FlatList,
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
@@ -21,7 +21,7 @@ class IconChooser extends React.Component {
       headerLeft: () => {
         return (
           <View style={styles.margin}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 this.props.navigation.goBack();
               }}
@@ -32,7 +32,7 @@ class IconChooser extends React.Component {
                 style={styles.padding}
                 color={colors.PrimaryTextColor}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },
@@ -48,7 +48,7 @@ class IconChooser extends React.Component {
   renderItem = (obj) => {
     return (
       <View style={{ display: "flex", flexDirection: "row" }}>
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={() => {
             this.props.navigation.navigate(this.props.route.params.target, {
               icon: obj.item.name,
@@ -61,7 +61,7 @@ class IconChooser extends React.Component {
             size={50}
             color={colors.PrimaryAccentColor}
           />
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   };

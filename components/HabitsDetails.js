@@ -25,7 +25,6 @@ class HabitsDetails extends React.Component {
         "SELECT * FROM checkHabits WHERE habit_id = ? AND date >= date('now', '-30 days')",
         [this.props.route.params.id],
         (txObj, { rows: { _array } }) => {
-          console.log(_array);
           let now = new Date();
           now.setHours(2);
           now.setMinutes(0);
