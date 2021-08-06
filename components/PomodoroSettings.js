@@ -58,23 +58,29 @@ class PomodoroSettings extends React.Component {
     });
   }
 
-  // writes the changes into the db
+  // writes the changes into the db if legit
   componentDidUpdate() {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "UPDATE pomodoroSettings SET workingInterval=?, breakInterval=?, longBreakAfter=? WHERE id=?",
-        [
-          this.state.workingInterval,
-          this.state.breakInterval,
-          this.state.longBreakAfter,
-          this.state.id,
-        ],
-        // success
-        () => {},
-        // error
-        () => {}
-      );
-    });
+    if (
+      parseInt(this.state.workingInterval) > 0 &&
+      parseInt(this.state.breakInterval) > 0 &&
+      parseInt(this.state.longBreakAfter) >= 0
+    ) {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "UPDATE pomodoroSettings SET workingInterval=?, breakInterval=?, longBreakAfter=? WHERE id=?",
+          [
+            this.state.workingInterval,
+            this.state.breakInterval,
+            this.state.longBreakAfter,
+            this.state.id,
+          ],
+          // success
+          () => {},
+          // error
+          () => {}
+        );
+      });
+    }
   }
   render() {
     return (
