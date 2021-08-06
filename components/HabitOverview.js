@@ -104,25 +104,24 @@ export default class HabitOverview extends React.Component {
         Math.round(30 / this.state.habits[i].repetitions) *
         this.state.habits[i].intervall;
       const sql = `SELECT * FROM checkHabits WHERE habit_id = ? AND date > DATE('now', '-${length_intervall} day')`;
-      console.log(
-        Math.round(30 / this.state.habits[i].repetitions),
-        " ",
-        this.state.habits[i].intervall,
-        " ",
-        sql
-      );
       db.transaction((tx) => {
         tx.executeSql(
           sql,
           [this.state.habits[i].id],
           (txObj, { rows: { _array } }) => {
-            const value = _array.length - expected / 2;
-            const score = 1 / (1 + Math.exp(-value * 0.2));
-            console.log(sql, " ", score, " ", _array.length);
-            this.setState((prevState) => {
-              prevState.habits[i].score = score;
-              return { habits: prevState.habits };
-            });
+            if (_array.length == 0) {
+              this.setState((prevState) => {
+                prevState.habits[i].score = 0;
+                return { habits: prevState.habits };
+              });
+            } else {
+              const value = _array.length - expected / 2;
+              const score = 1 / (1 + Math.exp(-value * 0.2));
+              this.setState((prevState) => {
+                prevState.habits[i].score = score;
+                return { habits: prevState.habits };
+              });
+            }
           },
           (txObj, error) => {
             console.log(error);
