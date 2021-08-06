@@ -1,11 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  Text,
-  View,
-  TouchableHighlight,
-  ScrollView,
-  Alert,
-} from "react-native";
+import { Text, View, TouchableOpacity, ScrollView, Alert } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
@@ -67,7 +61,7 @@ class HabitsDetails extends React.Component {
       headerLeft: () => {
         return (
           <View style={styles.margin}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 this.props.navigation.goBack();
               }}
@@ -78,13 +72,13 @@ class HabitsDetails extends React.Component {
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },
       headerRight: () => (
         <View style={styles.row}>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.buttonTopBar}
             onPress={() => {
               this.props.navigation.navigate("ChangeHabit", {
@@ -99,8 +93,8 @@ class HabitsDetails extends React.Component {
               color={colors.PrimaryTextColor}
               style={styles.padding}
             />
-          </TouchableHighlight>
-          <TouchableHighlight
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.buttonTopBar}
             underlayColor="#ffffff"
             onPress={() => {
@@ -144,7 +138,7 @@ class HabitsDetails extends React.Component {
               color={colors.PrimaryTextColor}
               style={styles.padding}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       ),
     });
@@ -278,13 +272,13 @@ class HabitsDetails extends React.Component {
                 : colors.SecondaryTextColor;
               return (
                 <View key={index + 1000}>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onLongPress={() => {
                       this.addCheck(index, bool);
                     }}
                   >
                     <Ionicons name={name} size={50} color={color} />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                   <Text style={[styles.secondaryText, styles.textVerySmall]}>
                     {this.calculateDate(index)}
                   </Text>
@@ -307,13 +301,13 @@ class HabitsDetails extends React.Component {
                 : colors.SecondaryTextColor;
               return (
                 <View key={index + 1000}>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onLongPress={() => {
                       this.addCheck(index, bool);
                     }}
                   >
                     <Ionicons name={name} size={50} color={color} />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                   <Text style={[styles.secondaryText, styles.textVerySmall]}>
                     {this.calculateDate(index)}
                   </Text>
@@ -323,7 +317,7 @@ class HabitsDetails extends React.Component {
         </View>
 
         <Text style={styles.secondaryText}>Monatsstatistik:</Text>
-        <TouchableHighlight
+        <TouchableOpacity
           style={[{ zIndex: -2, position: "relative" }, styles.buttonPrimary]}
           onPress={() => {
             this.props.route.params.queue
@@ -334,7 +328,7 @@ class HabitsDetails extends React.Component {
           <Text style={styles.primaryButtonText}>
             {this.props.route.params.queue ? "To Habits" : "To Queue"}
           </Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </ScrollView>
     );
   }

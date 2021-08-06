@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableHighlight, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "./../assets/colors.js";
@@ -53,7 +53,7 @@ class AktivityTracker extends React.Component {
   render() {
     return (
       <View>
-        <TouchableHighlight
+        <TouchableOpacity
           style={[styles.margin, styles.habitContainer]}
           onPress={() => {
             this.props.navigation.navigate("AktivityDetails", {
@@ -76,7 +76,7 @@ class AktivityTracker extends React.Component {
             </View>
             {/* This is the START button when not running*/}
             {!this.state.running && (
-              <TouchableHighlight
+              <TouchableOpacity
                 style={[styles.margin]}
                 onPress={() => {
                   this.startTimer();
@@ -88,7 +88,7 @@ class AktivityTracker extends React.Component {
                   size={25}
                   color={colors.PrimaryTextColor}
                 />
-              </TouchableHighlight>
+              </TouchableOpacity>
             )}
             {/* This is the END button when not running and the time*/}
             {this.state.running && (
@@ -100,7 +100,7 @@ class AktivityTracker extends React.Component {
                       ? "0" + (this.state.time % 60)
                       : this.state.time % 60)}
                 </Text>
-                <TouchableHighlight
+                <TouchableOpacity
                   onPress={() => {
                     this.stopTimer();
                   }}
@@ -111,11 +111,11 @@ class AktivityTracker extends React.Component {
                     color={colors.PrimaryTextColor}
                     style={styles.padding}
                   />
-                </TouchableHighlight>
+                </TouchableOpacity>
               </View>
             )}
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }

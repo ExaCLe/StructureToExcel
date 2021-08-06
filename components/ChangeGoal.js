@@ -2,7 +2,7 @@ import React from "react";
 import {
   Text,
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   TextInput,
   Switch,
   Alert,
@@ -75,7 +75,7 @@ class ChangeGoal extends React.Component {
       headerLeft: () => {
         return (
           <View style={styles.margin}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 if (this.state.change && this.state.edit)
                   Alert.alert(
@@ -100,7 +100,7 @@ class ChangeGoal extends React.Component {
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },
@@ -243,7 +243,7 @@ class ChangeGoal extends React.Component {
             style={[styles.margin, styles.padding]}
           />
         </View>
-        <TouchableHighlight
+        <TouchableOpacity
           style={[styles.margin, styles.padding]}
           onPress={() => {
             this.props.navigation.navigate("IconChooserGoals", {
@@ -252,7 +252,7 @@ class ChangeGoal extends React.Component {
           }}
         >
           <Text style={[styles.textButton]}> Wähle Icon</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
         <View style={[styles.containerHorizontal]}>
           <Text style={styles.secondaryText}>Intervall: </Text>
           <Text style={[styles.normalText, styles.primaryAccentColor]}>
@@ -338,7 +338,7 @@ class ChangeGoal extends React.Component {
               style={[styles.margin, styles.padding]}
             />
             <Text>{this.state.aktivity_name}</Text>
-            <TouchableHighlight
+            <TouchableOpacity
               style={[styles.margin, styles.padding]}
               onPress={() => {
                 this.props.navigation.navigate("AktivityChooserGoal", {
@@ -347,7 +347,7 @@ class ChangeGoal extends React.Component {
               }}
             >
               <Text style={[styles.textButton]}> Choose Aktivity</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         )}
         {!this.state.time && (
@@ -427,14 +427,14 @@ class ChangeGoal extends React.Component {
             </View>
           </View>
         )}
-        <TouchableHighlight
+        <TouchableOpacity
           style={[styles.buttonPrimary, { zIndex: -3 }]}
           onPress={() => {
             this.handleSave();
           }}
         >
           <Text style={styles.primaryButtonText}>Speichern</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </ScrollView>
     );
   }

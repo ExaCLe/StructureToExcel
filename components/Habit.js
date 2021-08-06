@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
@@ -10,7 +10,7 @@ const Habit = (props) => {
   const handleFullfilled = props.handleFullfilled;
   return (
     <View>
-      <TouchableHighlight
+      <TouchableOpacity
         style={{
           height: 75,
           marginBottom: 10,
@@ -83,7 +83,7 @@ const Habit = (props) => {
                     style={styles.padding}
                   />
                 ) : (
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => handleFullfilled(props.habit)}
                     underlayColor="transparent"
                   >
@@ -93,13 +93,13 @@ const Habit = (props) => {
                       color={colors.PrimaryTextColor}
                       style={styles.padding}
                     />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 )}
               </View>
             )}
           </View>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
   );
 };

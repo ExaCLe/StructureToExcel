@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Alert, TextInput, TouchableHighlight } from "react-native";
+import { Text, View, Alert, TextInput, TouchableOpacity } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
@@ -37,7 +37,7 @@ class AddAktivity extends React.Component {
       headerLeft: () => {
         return (
           <View style={styles.margin}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 if (this.state.change && this.state.edit)
                   Alert.alert(
@@ -67,7 +67,7 @@ class AddAktivity extends React.Component {
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },
@@ -77,7 +77,7 @@ class AddAktivity extends React.Component {
       this.props.navigation.setOptions({
         headerRight: () => {
           return (
-            <TouchableHighlight
+            <TouchableOpacity
               style={styles.buttonTopBar}
               underlayColor="#ffffff"
               onPress={() => {
@@ -100,7 +100,7 @@ class AddAktivity extends React.Component {
                 size={25}
                 color={colors.PrimaryTextColor}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           );
         },
       });
@@ -165,7 +165,7 @@ class AddAktivity extends React.Component {
             color={colors.PrimaryAccentColor}
             style={[styles.margin, styles.padding]}
           />
-          <TouchableHighlight
+          <TouchableOpacity
             style={[styles.margin, styles.padding]}
             onPress={() => {
               if (this.props.route.params.target === "AktivityDetails")
@@ -187,16 +187,16 @@ class AddAktivity extends React.Component {
             }}
           >
             <Text style={[styles.textButton]}> Wähle Icon</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
-        <TouchableHighlight
+        <TouchableOpacity
           style={[styles.buttonPrimary]}
           onPress={() => {
             this.handleSave();
           }}
         >
           <Text style={styles.primaryButtonText}>Speichern</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }

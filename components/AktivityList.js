@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, View, TouchableHighlight, Text } from "react-native";
+import { FlatList, View, TouchableOpacity, Text } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
@@ -43,7 +43,7 @@ class AktivityList extends React.Component {
       headerLeft: () => {
         return (
           <View style={styles.margin}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 this.props.navigation.goBack();
               }}
@@ -54,13 +54,13 @@ class AktivityList extends React.Component {
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },
       headerRight: () => (
         <View style={styles.row}>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.buttonTopBar}
             onPress={() => {
               this.props.navigation.navigate("ChangeTracking", { edit: false });
@@ -72,7 +72,7 @@ class AktivityList extends React.Component {
               color={colors.PrimaryTextColor}
               style={styles.padding}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       ),
     });

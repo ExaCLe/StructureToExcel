@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, TouchableHighlight, Alert } from "react-native";
+import { Text, View, TouchableOpacity, Alert } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
@@ -20,7 +20,7 @@ class AktivityListDetails extends React.Component {
       headerLeft: () => {
         return (
           <View style={styles.margin}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 this.props.navigation.goBack();
               }}
@@ -31,13 +31,13 @@ class AktivityListDetails extends React.Component {
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },
       headerRight: () => (
         <View style={styles.row}>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.buttonTopBar}
             onPress={() => {
               this.props.navigation.navigate("ChangeTracking", {
@@ -52,8 +52,8 @@ class AktivityListDetails extends React.Component {
               color={colors.PrimaryTextColor}
               style={styles.padding}
             />
-          </TouchableHighlight>
-          <TouchableHighlight
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.buttonTopBar}
             underlayColor="#ffffff"
             onPress={() => {
@@ -89,7 +89,7 @@ class AktivityListDetails extends React.Component {
               color={colors.PrimaryTextColor}
               style={styles.padding}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       ),
     });

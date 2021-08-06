@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text, View, Alert, TouchableHighlight } from "react-native";
+import { Text, View, Alert, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
@@ -51,7 +51,7 @@ class GoalsDetails extends React.Component {
       headerLeft: () => {
         return (
           <View style={styles.margin}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 this.props.navigation.goBack();
               }}
@@ -62,13 +62,13 @@ class GoalsDetails extends React.Component {
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },
       headerRight: () => (
         <View style={styles.row}>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.buttonTopBar}
             onPress={() => {
               this.props.navigation.navigate("ChangeGoal", {
@@ -84,8 +84,8 @@ class GoalsDetails extends React.Component {
               color={colors.PrimaryTextColor}
               style={styles.padding}
             />
-          </TouchableHighlight>
-          <TouchableHighlight
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.buttonTopBar}
             underlayColor="#ffffff"
             onPress={() => {
@@ -121,7 +121,7 @@ class GoalsDetails extends React.Component {
               color={colors.PrimaryTextColor}
               style={styles.padding}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       ),
     });
@@ -163,7 +163,7 @@ class GoalsDetails extends React.Component {
               : "week"}
           </Text>
         </View>
-        <TouchableHighlight
+        <TouchableOpacity
           style={[styles.buttonPrimary, { zIndex: -3 }]}
           onPress={() => {
             if (!this.props.route.params.archive)
@@ -199,7 +199,7 @@ class GoalsDetails extends React.Component {
           <Text style={styles.primaryButtonText}>
             {this.props.route.params.archive ? "Reanimieren" : "Archivieren"}
           </Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }

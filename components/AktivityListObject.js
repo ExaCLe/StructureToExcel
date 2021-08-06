@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableHighlight } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
@@ -23,7 +23,7 @@ class AktivityListObject extends React.Component {
   render() {
     return (
       <View>
-        <TouchableHighlight
+        <TouchableOpacity
           style={styles.habitContainer}
           onPress={() =>
             this.props.navigation.navigate("AktivityListDetails", {
@@ -57,7 +57,7 @@ class AktivityListObject extends React.Component {
               <Text>Ende: {this.props.tracking.end_time}</Text>
             </View>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }

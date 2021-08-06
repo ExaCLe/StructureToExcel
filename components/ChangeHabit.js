@@ -3,7 +3,7 @@ import {
   View,
   TextInput,
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
   Switch,
   Alert,
   Platform,
@@ -70,7 +70,7 @@ class ChangeHabit extends React.Component {
       headerLeft: () => {
         return (
           <View style={styles.margin}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 if (this.state.change && this.state.edit)
                   Alert.alert(
@@ -95,7 +95,7 @@ class ChangeHabit extends React.Component {
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },
@@ -270,7 +270,7 @@ class ChangeHabit extends React.Component {
             color={colors.PrimaryAccentColor}
             style={[styles.margin, styles.padding]}
           />
-          <TouchableHighlight
+          <TouchableOpacity
             style={[styles.margin, styles.padding]}
             onPress={() => {
               this.props.navigation.navigate("IconChooserHabits", {
@@ -279,7 +279,7 @@ class ChangeHabit extends React.Component {
             }}
           >
             <Text style={[styles.textButton]}> Wähle Icon</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
         <Text style={[styles.secondaryText, styles.margin]}>
           Wie oft möchtest du sie erfüllen?{" "}
@@ -386,7 +386,7 @@ class ChangeHabit extends React.Component {
           </View>
         )}
 
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={() => {
             if (this.state.edit) this.updateHabits();
             else {
@@ -396,16 +396,16 @@ class ChangeHabit extends React.Component {
           style={[{ zIndex: -2, position: "relative" }, styles.buttonPrimary]}
         >
           <Text style={styles.primaryButtonText}>Speichern</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
         {!this.state.edit && (
-          <TouchableHighlight
+          <TouchableOpacity
             style={[{ zIndex: -2, position: "relative" }, styles.buttonPrimary]}
             onPress={() => {
               addHabit(1);
             }}
           >
             <Text style={styles.primaryButtonText}>Zur Warteschlange</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         )}
       </ScrollView>
     );

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList, TouchableHighlight, Text } from "react-native";
+import { View, FlatList, TouchableOpacity, Text } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
@@ -39,7 +39,7 @@ class AktivityChooser extends React.Component {
       headerLeft: () => {
         return (
           <View style={styles.margin}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 this.props.navigation.navigate(this.props.route.params.target);
               }}
@@ -50,13 +50,13 @@ class AktivityChooser extends React.Component {
                 style={styles.padding}
                 color={colors.PrimaryTextColor}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },
       headerRight: () => (
         <View style={styles.row}>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.buttonTopBar}
             onPress={() => {
               if (this.props.route.params.target === "ChangeGoal")
@@ -77,7 +77,7 @@ class AktivityChooser extends React.Component {
               color={colors.PrimaryTextColor}
               style={styles.padding}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       ),
     });
@@ -86,7 +86,7 @@ class AktivityChooser extends React.Component {
   renderItem = (obj) => {
     return (
       <View style={{ display: "flex", flexDirection: "row" }}>
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={() => {
             this.props.navigation.navigate(this.props.route.params.target, {
               aktivity: obj.item,
@@ -101,7 +101,7 @@ class AktivityChooser extends React.Component {
             />
             <Text>{obj.item.name}</Text>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   };

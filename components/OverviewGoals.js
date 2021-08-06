@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Button, TouchableHighlight, FlatList } from "react-native";
+import { Text, View, Button, TouchableOpacity, FlatList } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
@@ -115,7 +115,7 @@ class OverviewGoals extends React.Component {
           return null;
         return (
           <View style={styles.margin}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 this.props.navigation.goBack();
               }}
@@ -126,14 +126,14 @@ class OverviewGoals extends React.Component {
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },
       headerRight: () => (
         <View style={styles.container}>
           {(!this.props.route.params || !this.props.route.params.archive) && (
-            <TouchableHighlight
+            <TouchableOpacity
               underlayColor="#ffffff"
               onPress={() =>
                 this.props.navigation.push("OverviewGoals", { archive: true })
@@ -145,10 +145,10 @@ class OverviewGoals extends React.Component {
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           )}
 
-          <TouchableHighlight
+          <TouchableOpacity
             underlayColor="#ffffff"
             onPress={() =>
               this.props.navigation.navigate("ChangeGoal", {
@@ -162,7 +162,7 @@ class OverviewGoals extends React.Component {
               color={colors.PrimaryTextColor}
               style={styles.padding}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       ),
     });
@@ -195,7 +195,7 @@ class OverviewGoals extends React.Component {
             keyExtractor={(item) => String(item.id)}
           />
         </View>
-        <TouchableHighlight
+        <TouchableOpacity
           style={[styles.buttonPrimary]}
           onPress={() => {
             if (this.state.period === DAY) changeView(WEEK);
@@ -206,8 +206,8 @@ class OverviewGoals extends React.Component {
           <Text style={styles.primaryButtonText}>
             {this.state.period === DAY ? "Wochenübersicht" : "Tagesübersicht"}
           </Text>
-        </TouchableHighlight>
-        <TouchableHighlight
+        </TouchableOpacity>
+        <TouchableOpacity
           style={[styles.buttonPrimary]}
           onPress={() => {
             if (this.state.period === MONTH) changeView(WEEK);
@@ -220,7 +220,7 @@ class OverviewGoals extends React.Component {
               ? "Wochenübersicht"
               : "Monatsübersicht"}
           </Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList, TouchableHighlight } from "react-native";
+import { View, FlatList, TouchableOpacity } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -48,7 +48,7 @@ export default class HabitOverview extends React.Component {
     this.props.navigation.setOptions({
       headerRight: () => (
         <View style={styles.container}>
-          <TouchableHighlight
+          <TouchableOpacity
             underlayColor="#ffffff"
             onPress={() =>
               this.props.navigation.navigate("ChangeHabit", {
@@ -57,8 +57,8 @@ export default class HabitOverview extends React.Component {
             }
           >
             <Ionicons name="add" size={25} color={colors.PrimaryTextColor} />
-          </TouchableHighlight>
-          <TouchableHighlight
+          </TouchableOpacity>
+          <TouchableOpacity
             underlayColor="#ffffff"
             onPress={() => this.props.navigation.navigate("HabitsQueue")}
           >
@@ -67,7 +67,7 @@ export default class HabitOverview extends React.Component {
               size={25}
               color={colors.PrimaryTextColor}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       ),
     });

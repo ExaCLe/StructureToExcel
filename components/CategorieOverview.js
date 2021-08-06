@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableHighlight, Text } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "./../assets/colors.js";
@@ -28,7 +28,7 @@ class CategorieOverview extends React.Component {
     this.props.navigation.setOptions({
       headerRight: () => (
         <View style={styles.container}>
-          <TouchableHighlight
+          <TouchableOpacity
             underlayColor="#ffffff"
             onPress={() =>
               this.props.navigation.navigate("Categorie", {
@@ -42,7 +42,7 @@ class CategorieOverview extends React.Component {
               color={colors.PrimaryTextColor}
               style={styles.padding}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       ),
     });
@@ -55,7 +55,7 @@ class CategorieOverview extends React.Component {
         >
           Wähle eine Kategorie:
         </Text>
-        <TouchableHighlight
+        <TouchableOpacity
           style={[styles.buttonPrimary]}
           onPress={() =>
             this.props.navigation.navigate("Categorie", {
@@ -64,8 +64,8 @@ class CategorieOverview extends React.Component {
           }
         >
           <Text style={styles.primaryButtonText}>Motivation</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
+        </TouchableOpacity>
+        <TouchableOpacity
           style={[styles.buttonPrimary]}
           onPress={() =>
             this.props.navigation.navigate("Categorie", {
@@ -74,8 +74,8 @@ class CategorieOverview extends React.Component {
           }
         >
           <Text style={styles.primaryButtonText}>Inspiration</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
+        </TouchableOpacity>
+        <TouchableOpacity
           style={[styles.buttonPrimary]}
           onPress={() =>
             this.props.navigation.navigate("Categorie", {
@@ -84,7 +84,7 @@ class CategorieOverview extends React.Component {
           }
         >
           <Text style={styles.primaryButtonText}>Klassiker</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TouchableHighlight, Text } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "./../assets/colors.js";
@@ -66,7 +66,7 @@ class QuotesCategorie extends React.Component {
       headerRight: () => {
         return (
           <View style={styles.row}>
-            <TouchableHighlight
+            <TouchableOpacity
               style={styles.buttonTopBar}
               onPress={() => {
                 const categorie = this.props.route.params.categorie;
@@ -109,7 +109,7 @@ class QuotesCategorie extends React.Component {
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },
@@ -122,7 +122,7 @@ class QuotesCategorie extends React.Component {
       headerLeft: () => {
         return (
           <View style={styles.margin}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 this.props.navigation.goBack();
               }}
@@ -133,7 +133,7 @@ class QuotesCategorie extends React.Component {
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },
@@ -151,7 +151,7 @@ class QuotesCategorie extends React.Component {
       return (
         <View style={[styles.margin, styles.flexContainer, styles.spaceAround]}>
           <Zitat {...quote} />
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.buttonPrimary}
             onPress={() => {
               if (this.state.count + 1 === this.state.favorites.length)
@@ -160,8 +160,8 @@ class QuotesCategorie extends React.Component {
             }}
           >
             <Text style={styles.primaryButtonText}>Nächstes Zitat</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[styles.buttonPrimary, { marginTop: 30 }]}
             onPress={() => {
               if (this.state.count === 0)
@@ -170,7 +170,7 @@ class QuotesCategorie extends React.Component {
             }}
           >
             <Text style={styles.primaryButtonText}>Vorheriges Zitat</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       );
     } else
@@ -179,7 +179,7 @@ class QuotesCategorie extends React.Component {
           <Zitat
             {...Quotes[this.props.route.params.categorie][this.state.count]}
           />
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.buttonPrimary}
             onPress={() => {
               if (
@@ -191,8 +191,8 @@ class QuotesCategorie extends React.Component {
             }}
           >
             <Text style={styles.primaryButtonText}>Nächstes Zitat</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[styles.buttonPrimary, { marginTop: 30 }]}
             onPress={() => {
               if (this.state.count === 0)
@@ -203,7 +203,7 @@ class QuotesCategorie extends React.Component {
             }}
           >
             <Text style={styles.primaryButtonText}>Vorheriges Zitat</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       );
   }

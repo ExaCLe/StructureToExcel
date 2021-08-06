@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableHighlight } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
@@ -37,7 +37,7 @@ class Goal extends React.Component {
   render() {
     return (
       <View>
-        <TouchableHighlight
+        <TouchableOpacity
           style={{
             height: 75,
             marginBottom: 10,
@@ -114,7 +114,7 @@ class Goal extends React.Component {
                   </Text>
 
                   {!this.props.goal.time && (
-                    <TouchableHighlight
+                    <TouchableOpacity
                       onPress={() => {
                         this.handleFullfilled();
                       }}
@@ -126,13 +126,13 @@ class Goal extends React.Component {
                         color={colors.PrimaryTextColor}
                         style={styles.padding}
                       />
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                   )}
                 </View>
               )}
             </View>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, TextInput, TouchableHighlight } from "react-native";
+import { Text, View, TextInput, TouchableOpacity } from "react-native";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -40,7 +40,7 @@ class PomodoroSettings extends React.Component {
       headerLeft: () => {
         return (
           <View style={styles.margin}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 this.props.navigation.goBack();
               }}
@@ -51,7 +51,7 @@ class PomodoroSettings extends React.Component {
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, View, TouchableHighlight, ScrollView } from "react-native";
+import { FlatList, View, TouchableOpacity, ScrollView } from "react-native";
 import AktivityTracker from "./AktivityTracker.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
@@ -62,7 +62,7 @@ class TrackingOverview extends React.Component {
     this.props.navigation.setOptions({
       headerRight: () => (
         <View style={styles.container}>
-          <TouchableHighlight
+          <TouchableOpacity
             underlayColor="#ffffff"
             onPress={() =>
               this.props.navigation.navigate("ChangeAktivity", {
@@ -72,13 +72,13 @@ class TrackingOverview extends React.Component {
             }
           >
             <Ionicons name="add" size={25} color={colors.PrimaryTextColor} />
-          </TouchableHighlight>
-          <TouchableHighlight
+          </TouchableOpacity>
+          <TouchableOpacity
             underlayColor="#ffffff"
             onPress={() => this.props.navigation.navigate("AktivityList")}
           >
             <Ionicons name="map" size={25} color={colors.PrimaryTextColor} />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       ),
     });

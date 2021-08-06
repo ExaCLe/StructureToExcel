@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Text,
-  View,
-  TouchableHighlight,
-  Button,
-  Vibration,
-} from "react-native";
+import { Text, View, TouchableOpacity, Button, Vibration } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "./../assets/colors.js";
@@ -89,7 +83,7 @@ class PomodoroTimer extends React.Component {
       title: "Pomodoro Timer",
       headerRight: () => (
         <View style={styles.container}>
-          <TouchableHighlight
+          <TouchableOpacity
             underlayColor="#ffffff"
             onPress={() => this.props.navigation.navigate("PomodoroSettings")}
           >
@@ -98,7 +92,7 @@ class PomodoroTimer extends React.Component {
               size={25}
               color={colors.PrimaryTextColor}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       ),
     });
@@ -128,7 +122,7 @@ class PomodoroTimer extends React.Component {
                 ? "0" + (this.state.time % 60)
                 : this.state.time % 60)}
           </Text>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.buttonPrimary}
             onPress={() => {
               if (this.state.state === PAUSE) {
@@ -150,8 +144,8 @@ class PomodoroTimer extends React.Component {
             <Text style={styles.primaryButtonText}>
               {this.state.state === PAUSE ? "Starten" : "Pausieren"}
             </Text>
-          </TouchableHighlight>
-          <TouchableHighlight
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.buttonPrimary}
             onPress={() => {
               if (this.state.interval === WORK)
@@ -160,8 +154,8 @@ class PomodoroTimer extends React.Component {
             }}
           >
             <Text style={styles.primaryButtonText}>Reset</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.center}
             onPress={() => {
               this.resetAndChange();
@@ -172,7 +166,7 @@ class PomodoroTimer extends React.Component {
                 ? "Zu Pausenintervall wechseln"
                 : "Zu Arbeitsintervall wechseln"}
             </Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       );
     } else return null;

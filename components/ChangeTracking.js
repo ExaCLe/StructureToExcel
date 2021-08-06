@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Alert, Text, TouchableHighlight, Platform } from "react-native";
+import { View, Alert, Text, TouchableOpacity, Platform } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -63,7 +63,7 @@ class ChangeTracking extends React.Component {
       headerLeft: () => {
         return (
           <View style={styles.margin}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 if (this.state.change && this.state.edit)
                   Alert.alert(
@@ -88,7 +88,7 @@ class ChangeTracking extends React.Component {
                 color={colors.PrimaryTextColor}
                 style={styles.padding}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         );
       },
@@ -175,7 +175,7 @@ class ChangeTracking extends React.Component {
             style={[styles.margin, styles.padding]}
           />
           <Text>{this.state.name}</Text>
-          <TouchableHighlight
+          <TouchableOpacity
             style={[styles.margin, styles.padding]}
             onPress={() => {
               this.props.navigation.navigate("AktivityChooser", {
@@ -184,11 +184,11 @@ class ChangeTracking extends React.Component {
             }}
           >
             <Text style={[styles.textButton]}> Change</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
         <Text style={styles.secondaryText}>Startzeit: </Text>
         <View>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() =>
               this.setState((prevState) => ({
                 show_start_date: !prevState.show_start_date,
@@ -200,7 +200,7 @@ class ChangeTracking extends React.Component {
                 "." +
                 this.state.start_time.getMonth()}
             </Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
           {this.state.show_start_date && (
             <DateTimePicker
               testID="startDateTimePicker"
@@ -214,7 +214,7 @@ class ChangeTracking extends React.Component {
           )}
         </View>
         <View>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() =>
               this.setState((prevState) => ({
                 show_start_time: !prevState.show_start_time,
@@ -228,7 +228,7 @@ class ChangeTracking extends React.Component {
                   ? "0" + this.state.start_time.getMinutes()
                   : this.state.start_time.getMinutes())}
             </Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
           {this.state.show_start_time && (
             <DateTimePicker
               testID="startDateTimePicker"
@@ -243,7 +243,7 @@ class ChangeTracking extends React.Component {
         </View>
         <Text style={styles.secondaryText}>Endzeit:</Text>
         <View>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() =>
               this.setState((prevState) => ({
                 show_end_date: !prevState.show_end_date,
@@ -255,7 +255,7 @@ class ChangeTracking extends React.Component {
                 "." +
                 this.state.end_time.getMonth()}
             </Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
           {this.state.show_end_date && (
             <DateTimePicker
               testID="startDateTimePicker"
@@ -270,7 +270,7 @@ class ChangeTracking extends React.Component {
         </View>
 
         <View>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() =>
               this.setState((prevState) => ({
                 show_end_time: !prevState.show_end_time,
@@ -284,7 +284,7 @@ class ChangeTracking extends React.Component {
                   ? "0" + this.state.end_time.getMinutes()
                   : this.state.end_time.getMinutes())}
             </Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
           {this.state.show_end_time && (
             <DateTimePicker
               testID="startDateTimePicker"
@@ -298,14 +298,14 @@ class ChangeTracking extends React.Component {
           )}
         </View>
 
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={() => {
             this.handleSave();
           }}
           style={[{ zIndex: -2, position: "relative" }, styles.buttonPrimary]}
         >
           <Text style={styles.primaryButtonText}>Speichern</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }

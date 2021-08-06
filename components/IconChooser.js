@@ -42,7 +42,6 @@ class IconChooser extends React.Component {
     return <Text style={[styles.secondaryText, styles.padding]}>{title}</Text>;
   };
   renderSectionListItem = ({ item }) => {
-    console.log("Hello?");
     return <FlatList data={item} numColumns={8} renderItem={this.renderItem} />;
   };
   // renders an habit entry in the flat list
