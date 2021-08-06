@@ -152,7 +152,7 @@ class QuotesCategorie extends React.Component {
         <View style={[styles.margin, styles.flexContainer, styles.spaceAround]}>
           <Zitat {...quote} />
           <TouchableOpacity
-            style={styles.buttonPrimary}
+            style={[styles.buttonPrimary, { backgroundColor: global.color }]}
             onPress={() => {
               if (this.state.count + 1 === this.state.favorites.length)
                 this.setCount(0);
@@ -162,7 +162,11 @@ class QuotesCategorie extends React.Component {
             <Text style={styles.primaryButtonText}>Nächstes Zitat</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.buttonPrimary, { marginTop: 30 }]}
+            style={[
+              styles.buttonPrimary,
+              { backgroundColor: global.color },
+              { marginTop: 30 },
+            ]}
             onPress={() => {
               if (this.state.count === 0)
                 this.setCount(this.state.favorites.length - 1);
@@ -180,7 +184,7 @@ class QuotesCategorie extends React.Component {
             {...Quotes[this.props.route.params.categorie][this.state.count]}
           />
           <TouchableOpacity
-            style={styles.buttonPrimary}
+            style={[styles.buttonPrimary, { backgroundColor: global.color }]}
             onPress={() => {
               if (
                 this.state.count + 1 ===
@@ -193,7 +197,11 @@ class QuotesCategorie extends React.Component {
             <Text style={styles.primaryButtonText}>Nächstes Zitat</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.buttonPrimary, { marginTop: 30 }]}
+            style={[
+              styles.buttonPrimary,
+              { backgroundColor: global.color },
+              { marginTop: 30 },
+            ]}
             onPress={() => {
               if (this.state.count === 0)
                 this.setCount(

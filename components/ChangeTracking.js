@@ -183,7 +183,10 @@ class ChangeTracking extends React.Component {
               });
             }}
           >
-            <Text style={[styles.textButton]}> Change</Text>
+            <Text style={[styles.textButton, { color: global.color }]}>
+              {" "}
+              Change
+            </Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.secondaryText}>Startzeit: </Text>
@@ -302,7 +305,11 @@ class ChangeTracking extends React.Component {
           onPress={() => {
             this.handleSave();
           }}
-          style={[{ zIndex: -2, position: "relative" }, styles.buttonPrimary]}
+          style={[
+            { zIndex: -2, position: "relative" },
+            styles.buttonPrimary,
+            { backgroundColor: global.color },
+          ]}
         >
           <Text style={styles.primaryButtonText}>Speichern</Text>
         </TouchableOpacity>

@@ -145,7 +145,9 @@ class GoalsDetails extends React.Component {
       <View style={styles.margin}>
         <View style={styles.containerHorizontal}>
           <Text style={[styles.secondaryText, styles.columnSize]}>Name: </Text>
-          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+          <Text
+            style={[{ color: global.color }, styles.textBig, styles.margin]}
+          >
             {this.props.route.params.name}
           </Text>
         </View>
@@ -153,7 +155,9 @@ class GoalsDetails extends React.Component {
           <Text style={[styles.secondaryText, styles.columnSize]}>
             Priorität:{" "}
           </Text>
-          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+          <Text
+            style={[{ color: global.color }, styles.textBig, styles.margin]}
+          >
             {this.props.route.params.priority}
           </Text>
         </View>
@@ -161,7 +165,9 @@ class GoalsDetails extends React.Component {
           <Text style={[styles.secondaryText, styles.columnSize]}>
             Interval:{" "}
           </Text>
-          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+          <Text
+            style={[{ color: global.color }, styles.textBig, styles.margin]}
+          >
             {this.props.route.params.intervall === DAY
               ? "Tag"
               : this.props.route.params.intervall === MONTH
@@ -173,7 +179,9 @@ class GoalsDetails extends React.Component {
           <Text style={[styles.secondaryText, styles.columnSize]}>
             Fortschritt:{" "}
           </Text>
-          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+          <Text
+            style={[{ color: global.color }, styles.textBig, styles.margin]}
+          >
             {this.props.route.params.time
               ? toTime(this.props.route.params.progress) +
                 " / " +
@@ -185,7 +193,11 @@ class GoalsDetails extends React.Component {
           </Text>
         </View>
         <TouchableOpacity
-          style={[styles.buttonPrimary, { zIndex: -3 }]}
+          style={[
+            styles.buttonPrimary,
+            { backgroundColor: global.color },
+            { zIndex: -3 },
+          ]}
           onPress={() => {
             if (!this.props.route.params.archive)
               Alert.alert(

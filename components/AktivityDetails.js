@@ -176,7 +176,9 @@ class AktivityDetails extends React.Component {
       <View style={styles.margin}>
         <View style={styles.containerHorizontal}>
           <Text style={[styles.secondaryText, styles.columnSize]}>Name: </Text>
-          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+          <Text
+            style={[{ color: global.color }, styles.textBig, styles.margin]}
+          >
             {this.props.route.params.name}
           </Text>
         </View>
@@ -186,7 +188,7 @@ class AktivityDetails extends React.Component {
               Heute:
             </Text>
             <Text
-              style={[styles.primaryAccentColor, styles.textBig, styles.margin]}
+              style={[{ color: global.color }, styles.textBig, styles.margin]}
             >
               {this.toTime(this.state.today)}
             </Text>
@@ -196,7 +198,7 @@ class AktivityDetails extends React.Component {
               Letzten 24 Stunden:
             </Text>
             <Text
-              style={[styles.primaryAccentColor, styles.textBig, styles.margin]}
+              style={[{ color: global.color }, styles.textBig, styles.margin]}
             >
               {this.toTime(this.state.twentyfourHours)}
             </Text>
@@ -206,7 +208,7 @@ class AktivityDetails extends React.Component {
               Letzten 7 Tage:
             </Text>
             <Text
-              style={[styles.primaryAccentColor, styles.textBig, styles.margin]}
+              style={[{ color: global.color }, styles.textBig, styles.margin]}
             >
               {this.toTime(this.state.lastSeven)}
             </Text>
@@ -216,7 +218,7 @@ class AktivityDetails extends React.Component {
               Letzten 30 Tage:
             </Text>
             <Text
-              style={[styles.primaryAccentColor, styles.textBig, styles.margin]}
+              style={[{ color: global.color }, styles.textBig, styles.margin]}
             >
               {this.toTime(this.state.lastThirty)}
             </Text>

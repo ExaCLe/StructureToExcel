@@ -114,7 +114,7 @@ class PomodoroTimer extends React.Component {
       return (
         <View style={[styles.margin, styles.flexContainer]}>
           <Text
-            style={[styles.veryBigText, styles.accentColorText, styles.center]}
+            style={[styles.veryBigText, { color: global.color }, styles.center]}
           >
             {Math.floor(this.state.time / 60) +
               ":" +
@@ -123,7 +123,7 @@ class PomodoroTimer extends React.Component {
                 : this.state.time % 60)}
           </Text>
           <TouchableOpacity
-            style={styles.buttonPrimary}
+            style={[styles.buttonPrimary, { backgroundColor: global.color }]}
             onPress={() => {
               if (this.state.state === PAUSE) {
                 this.setState((prevState) => ({ time: prevState.time - 1 }));
@@ -146,7 +146,7 @@ class PomodoroTimer extends React.Component {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.buttonPrimary}
+            style={[styles.buttonPrimary, { backgroundColor: global.color }]}
             onPress={() => {
               if (this.state.interval === WORK)
                 this.setState({ time: this.state.workingInterval * 60 });
@@ -161,7 +161,7 @@ class PomodoroTimer extends React.Component {
               this.resetAndChange();
             }}
           >
-            <Text style={styles.textButton}>
+            <Text style={[styles.textButton, { color: global.color }]}>
               {this.state.interval === WORK
                 ? "Zu Pausenintervall wechseln"
                 : "Zu Arbeitsintervall wechseln"}

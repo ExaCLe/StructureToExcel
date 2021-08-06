@@ -224,9 +224,10 @@ class ChangeGoal extends React.Component {
             style={[
               styles.padding,
               styles.textInputSmall,
+              { borderColor: global.color },
               styles.margin,
               styles.normalText,
-              styles.accentColorText,
+              { color: global.color },
             ]}
             onChangeText={(text) => {
               this.setState({ name: text, change: true });
@@ -239,7 +240,7 @@ class ChangeGoal extends React.Component {
           <Ionicons
             name={this.state.icon}
             size={25}
-            color={colors.PrimaryAccentColor}
+            color={global.color}
             style={[styles.margin, styles.padding]}
           />
         </View>
@@ -251,11 +252,14 @@ class ChangeGoal extends React.Component {
             });
           }}
         >
-          <Text style={[styles.textButton]}> Wähle Icon</Text>
+          <Text style={[styles.textButton, { color: global.color }]}>
+            {" "}
+            Wähle Icon
+          </Text>
         </TouchableOpacity>
         <View style={[styles.containerHorizontal]}>
           <Text style={styles.secondaryText}>Intervall: </Text>
-          <Text style={[styles.normalText, styles.primaryAccentColor]}>
+          <Text style={[styles.normalText, { color: global.color }]}>
             {this.intervall[this.state.intervall - 1]}
           </Text>
         </View>
@@ -273,7 +277,7 @@ class ChangeGoal extends React.Component {
 
         <View style={[styles.containerHorizontal]}>
           <Text style={styles.secondaryText}>Priorität: </Text>
-          <Text style={[styles.normalText, styles.primaryAccentColor]}>
+          <Text style={[styles.normalText, { color: global.color }]}>
             {this.state.priority}
           </Text>
         </View>
@@ -317,9 +321,10 @@ class ChangeGoal extends React.Component {
               style={[
                 styles.padding,
                 styles.textInputSmall,
+                { borderColor: global.color },
                 styles.margin,
                 styles.normalText,
-                styles.accentColorText,
+                { color: global.color },
               ]}
               onChangeText={(text) => {
                 if (+text || text === "")
@@ -346,7 +351,16 @@ class ChangeGoal extends React.Component {
                 });
               }}
             >
-              <Text style={[styles.textButton]}> Choose Aktivity</Text>
+              <Text
+                style={[
+                  styles.textButton,
+                  { color: global.color },
+                  { color: global.color },
+                ]}
+              >
+                {" "}
+                Choose Aktivity
+              </Text>
             </TouchableOpacity>
           </View>
         )}
@@ -364,9 +378,10 @@ class ChangeGoal extends React.Component {
               style={[
                 styles.padding,
                 styles.textInputSmall,
+                { borderColor: global.color },
                 styles.margin,
                 styles.normalText,
-                styles.accentColorText,
+                { color: global.color },
               ]}
               onChangeText={(text) => {
                 if (+text || text === "" || text === "0")
@@ -381,9 +396,10 @@ class ChangeGoal extends React.Component {
               style={[
                 styles.padding,
                 styles.textInputSmall,
+                { borderColor: global.color },
                 styles.margin,
                 styles.normalText,
-                styles.accentColorText,
+                { color: global.color },
               ]}
               onChangeText={(text) => {
                 if (+text || text === "")
@@ -428,7 +444,11 @@ class ChangeGoal extends React.Component {
           </View>
         )}
         <TouchableOpacity
-          style={[styles.buttonPrimary, { zIndex: -3 }]}
+          style={[
+            styles.buttonPrimary,
+            { backgroundColor: global.color },
+            { zIndex: -3 },
+          ]}
           onPress={() => {
             this.handleSave();
           }}

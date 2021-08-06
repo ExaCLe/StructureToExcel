@@ -56,7 +56,7 @@ class CategorieOverview extends React.Component {
           Wähle eine Kategorie:
         </Text>
         <TouchableOpacity
-          style={[styles.buttonPrimary]}
+          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
           onPress={() =>
             this.props.navigation.navigate("Categorie", {
               categorie: categories.MOTIVATION,
@@ -66,7 +66,7 @@ class CategorieOverview extends React.Component {
           <Text style={styles.primaryButtonText}>Motivation</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.buttonPrimary]}
+          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
           onPress={() =>
             this.props.navigation.navigate("Categorie", {
               categorie: categories.INSPIRATION,
@@ -76,7 +76,7 @@ class CategorieOverview extends React.Component {
           <Text style={styles.primaryButtonText}>Inspiration</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.buttonPrimary]}
+          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
           onPress={() =>
             this.props.navigation.navigate("Categorie", {
               categorie: categories.CLASSIC,

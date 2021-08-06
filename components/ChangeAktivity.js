@@ -150,8 +150,9 @@ class AddAktivity extends React.Component {
           style={[
             styles.normalText,
             styles.textInputLarge,
+            { borderColor: global.color, color: global.color },
+
             styles.padding,
-            styles.accentColorText,
           ]}
           onChangeText={(text) => {
             this.setState({ name: text, change: true });
@@ -162,7 +163,7 @@ class AddAktivity extends React.Component {
           <Ionicons
             name={this.state.icon}
             size={25}
-            color={colors.PrimaryAccentColor}
+            color={global.color}
             style={[styles.margin, styles.padding]}
           />
           <TouchableOpacity
@@ -186,11 +187,14 @@ class AddAktivity extends React.Component {
                 });
             }}
           >
-            <Text style={[styles.textButton]}> Wähle Icon</Text>
+            <Text style={[styles.textButton, { color: global.color }]}>
+              {" "}
+              Wähle Icon
+            </Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity
-          style={[styles.buttonPrimary]}
+          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
           onPress={() => {
             this.handleSave();
           }}

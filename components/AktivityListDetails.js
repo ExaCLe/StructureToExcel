@@ -113,13 +113,15 @@ class AktivityListDetails extends React.Component {
           <Ionicons
             name={this.props.route.params.icon}
             size={25}
-            color={colors.PrimaryAccentColor}
+            color={global.color}
           />
-          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+          <Text
+            style={[{ color: global.color }, styles.textBig, styles.margin]}
+          >
             {this.props.route.params.name}
           </Text>
         </View>
-        <Text style={[styles.normalText, styles.primaryAccentColor]}>
+        <Text style={[styles.normalText, { color: global.color }]}>
           Dauer: {this.toTime(this.props.route.params.duration_s)}
         </Text>
         <Text>Start: {this.props.route.params.start_time}</Text>

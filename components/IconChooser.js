@@ -56,11 +56,7 @@ class IconChooser extends React.Component {
             });
           }}
         >
-          <Ionicons
-            name={obj.item.name}
-            size={50}
-            color={colors.PrimaryAccentColor}
-          />
+          <Ionicons name={obj.item.name} size={50} color={global.color} />
         </TouchableOpacity>
       </View>
     );

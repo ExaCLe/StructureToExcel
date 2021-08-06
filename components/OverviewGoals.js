@@ -196,7 +196,7 @@ class OverviewGoals extends React.Component {
           />
         </View>
         <TouchableOpacity
-          style={[styles.buttonPrimary]}
+          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
           onPress={() => {
             if (this.state.period === DAY) changeView(WEEK);
             else changeView(DAY);
@@ -208,7 +208,7 @@ class OverviewGoals extends React.Component {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.buttonPrimary]}
+          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
           onPress={() => {
             if (this.state.period === MONTH) changeView(WEEK);
             else changeView(MONTH);

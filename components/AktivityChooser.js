@@ -94,11 +94,7 @@ class AktivityChooser extends React.Component {
           }}
         >
           <View>
-            <Ionicons
-              name={obj.item.icon}
-              size={50}
-              color={colors.PrimaryAccentColor}
-            />
+            <Ionicons name={obj.item.icon} size={50} color={global.color} />
             <Text>{obj.item.name}</Text>
           </View>
         </TouchableOpacity>

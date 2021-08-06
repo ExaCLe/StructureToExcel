@@ -92,7 +92,7 @@ class PomodoroSettings extends React.Component {
             style={[
               styles.normalText,
               styles.textInputLarge,
-              styles.primaryAccentColor,
+              { borderColor: global.color, color: global.color },
               styles.margin,
               styles.padding,
               styles.textCenter,
@@ -113,7 +113,7 @@ class PomodoroSettings extends React.Component {
             style={[
               styles.normalText,
               styles.textInputLarge,
-              styles.primaryAccentColor,
+              { borderColor: global.color, color: global.color },
               styles.margin,
               styles.padding,
               styles.textCenter,
@@ -132,7 +132,7 @@ class PomodoroSettings extends React.Component {
             style={[
               styles.normalText,
               styles.textInputLarge,
-              styles.primaryAccentColor,
+              { borderColor: global.color, color: global.color },
               styles.margin,
               styles.padding,
               styles.textCenter,

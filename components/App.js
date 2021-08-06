@@ -53,7 +53,7 @@ function Settings() {
         component={SettingsScreen}
         options={{
           title: "Settings",
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -68,7 +68,7 @@ function Habit() {
         component={HabitOverview}
         options={{
           title: "Gewohnheiten Übersicht",
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -76,7 +76,7 @@ function Habit() {
         name="ChangeHabit"
         component={ChangeHabit}
         options={{
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -84,7 +84,7 @@ function Habit() {
         name="HabitDetails"
         component={HabitsDetails}
         options={{
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -92,7 +92,7 @@ function Habit() {
         name="HabitsQueue"
         component={HabitsQueue}
         options={{
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -101,7 +101,7 @@ function Habit() {
         component={IconChooser}
         options={{
           title: "Wähle ein Icon",
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -117,7 +117,7 @@ function Quotes() {
         component={CategorieOverview}
         options={{
           title: "Wähle eine Kategorie",
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -126,7 +126,7 @@ function Quotes() {
         component={QuotesCategorie}
         options={{
           title: "Categorie",
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -142,7 +142,7 @@ function Pomodoro() {
         component={PomodoroTimer}
         options={{
           title: "Pomodoro Timer",
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -151,7 +151,7 @@ function Pomodoro() {
         component={PomodoroSettings}
         options={{
           title: "Pomodoro Settings",
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -166,7 +166,7 @@ function Goals() {
         component={OverviewGoals}
         options={{
           title: "Zielübersicht",
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -174,7 +174,7 @@ function Goals() {
         name="ChangeGoal"
         component={ChangeGoal}
         options={{
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -182,7 +182,7 @@ function Goals() {
         name="GoalsDetails"
         component={GoalsDetails}
         options={{
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -191,7 +191,7 @@ function Goals() {
         component={IconChooser}
         options={{
           title: "Wähle ein Icon",
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -199,7 +199,7 @@ function Goals() {
         name="AktivityChooserGoal"
         component={AktivityChooser}
         options={{
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -208,7 +208,7 @@ function Goals() {
         component={ChangeAktivity}
         options={{
           title: "Aktivität hinzufügen",
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -223,7 +223,7 @@ function Tracking() {
         component={TrackingOverview}
         options={{
           title: "Aktivitäten",
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -232,7 +232,7 @@ function Tracking() {
         component={ChangeAktivity}
         options={{
           title: "Aktivität hinzufügen",
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -241,7 +241,7 @@ function Tracking() {
         component={IconChooser}
         options={{
           title: "Wähle ein Icon",
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -249,7 +249,7 @@ function Tracking() {
         name="AktivityDetails"
         component={AktivityDetails}
         options={{
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -257,7 +257,7 @@ function Tracking() {
         name="AktivityList"
         component={AktivityList}
         options={{
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -265,7 +265,7 @@ function Tracking() {
         name="AktivityListDetails"
         component={AktivityListDetails}
         options={{
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -273,7 +273,7 @@ function Tracking() {
         name="ChangeTracking"
         component={ChangeTracking}
         options={{
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -281,7 +281,7 @@ function Tracking() {
         name="AktivityChooser"
         component={AktivityChooser}
         options={{
-          headerStyle: styles.header,
+          headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -298,10 +298,7 @@ export default class App extends React.Component {
   loadColor = async () => {
     const value = await (async () => {
       try {
-        console.log("Evaluating");
         const value = await AsyncStorage.getItem("color");
-        console.log("____________________________________________________");
-        console.log(value);
         if (value !== null) {
           global.color = "#" + value;
           this.setState({ colorLoaded: true });
@@ -322,7 +319,6 @@ export default class App extends React.Component {
   };
   render() {
     if (this.state.fontsLoaded && this.state.colorLoaded) {
-      console.log(global.color);
       return (
         <NavigationContainer>
           <Tab.Navigator
@@ -355,7 +351,7 @@ export default class App extends React.Component {
               activeTintColor: colors.PrimaryTextColor,
               inactiveTintColor: colors.NavigationInactiveItem,
               labelStyle: styles.tabText,
-              style: styles.tabBar,
+              style: [styles.tabBar, { backgroundColor: global.color }],
               tabBarHideOnKeyboard: true,
             }}
           >

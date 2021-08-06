@@ -69,7 +69,7 @@ class Settings extends React.Component {
             styles.padding,
             styles.margin,
             styles.textInputLarge,
-            styles.primaryAccentColor,
+            { borderColor: global.color, color: global.color },
           ]}
           placeholder="Color"
           onChangeText={this.handleInputChange}
@@ -79,7 +79,7 @@ class Settings extends React.Component {
           onPress={() => {
             this.save();
           }}
-          style={[styles.buttonPrimary]}
+          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
         >
           <Text style={styles.primaryButtonText}>Speichern</Text>
         </TouchableOpacity>

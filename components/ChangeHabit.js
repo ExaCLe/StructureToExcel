@@ -254,7 +254,8 @@ class ChangeHabit extends React.Component {
             styles.padding,
             styles.margin,
             styles.textInputLarge,
-            styles.primaryAccentColor,
+            { color: global.color },
+            { borderColor: global.color },
           ]}
           placeholder="Name"
           onChangeText={this.handleNameChange}
@@ -266,7 +267,7 @@ class ChangeHabit extends React.Component {
           <Ionicons
             name={this.state.icon}
             size={25}
-            color={colors.PrimaryAccentColor}
+            color={global.color}
             style={[styles.margin, styles.padding]}
           />
           <TouchableOpacity
@@ -277,7 +278,10 @@ class ChangeHabit extends React.Component {
               });
             }}
           >
-            <Text style={[styles.textButton]}> Wähle Icon</Text>
+            <Text style={[styles.textButton, { color: global.color }]}>
+              {" "}
+              Wähle Icon
+            </Text>
           </TouchableOpacity>
         </View>
         <Text style={[styles.secondaryText, styles.margin]}>
@@ -290,14 +294,15 @@ class ChangeHabit extends React.Component {
             style={[
               styles.padding,
               styles.textInputSmall,
+              { borderColor: global.color },
               styles.margin,
               styles.normalText,
-              styles.accentColorText,
+              { color: global.color },
             ]}
             onChangeText={this.handleRepetitionChange}
             keyboardType="numeric"
           />
-          <Text style={[styles.normalText, styles.accentColorText]}>
+          <Text style={[styles.normalText, { color: global.color }]}>
             Mal in
           </Text>
           <TextInput
@@ -306,18 +311,21 @@ class ChangeHabit extends React.Component {
             style={[
               styles.padding,
               styles.textInputSmall,
+              { borderColor: global.color },
               styles.margin,
               styles.normalText,
-              styles.accentColorText,
+              { color: global.color },
             ]}
             onChangeText={this.handleIntervallChange}
             keyboardType="numeric"
           />
-          <Text style={[styles.normalText, styles.accentColorText]}>Tagen</Text>
+          <Text style={[styles.normalText, { color: global.color }]}>
+            Tagen
+          </Text>
         </View>
         <View style={[styles.containerHorizontal]}>
           <Text style={styles.secondaryText}>Priorität: </Text>
-          <Text style={[styles.normalText, styles.primaryAccentColor]}>
+          <Text style={[styles.normalText, { color: global.color }]}>
             {this.state.priority}
           </Text>
         </View>
@@ -392,13 +400,21 @@ class ChangeHabit extends React.Component {
               addHabit(0);
             }
           }}
-          style={[{ zIndex: -2, position: "relative" }, styles.buttonPrimary]}
+          style={[
+            { zIndex: -2, position: "relative" },
+            styles.buttonPrimary,
+            { backgroundColor: global.color },
+          ]}
         >
           <Text style={styles.primaryButtonText}>Speichern</Text>
         </TouchableOpacity>
         {!this.state.edit && (
           <TouchableOpacity
-            style={[{ zIndex: -2, position: "relative" }, styles.buttonPrimary]}
+            style={[
+              { zIndex: -2, position: "relative" },
+              styles.buttonPrimary,
+              { backgroundColor: global.color },
+            ]}
             onPress={() => {
               addHabit(1);
             }}

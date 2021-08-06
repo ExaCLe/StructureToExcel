@@ -239,7 +239,9 @@ class HabitsDetails extends React.Component {
       <ScrollView style={styles.margin}>
         <View style={styles.containerHorizontal}>
           <Text style={[styles.secondaryText, styles.columnSize]}>Name: </Text>
-          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+          <Text
+            style={[{ color: global.color }, styles.textBig, styles.margin]}
+          >
             {this.props.route.params.name}
           </Text>
         </View>
@@ -247,7 +249,9 @@ class HabitsDetails extends React.Component {
           <Text style={[styles.secondaryText, styles.columnSize]}>
             Priorität:{" "}
           </Text>
-          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+          <Text
+            style={[{ color: global.color }, styles.textBig, styles.margin]}
+          >
             {this.props.route.params.priority}
           </Text>
         </View>
@@ -255,7 +259,9 @@ class HabitsDetails extends React.Component {
           <Text style={[styles.secondaryText, styles.columnSize]}>
             Häufigkeit:{" "}
           </Text>
-          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+          <Text
+            style={[{ color: global.color }, styles.textBig, styles.margin]}
+          >
             {this.props.route.params.repetitions +
               " in " +
               this.props.route.params.interval +
@@ -264,7 +270,9 @@ class HabitsDetails extends React.Component {
         </View>
         <View style={styles.containerHorizontal}>
           <Text style={[styles.secondaryText, styles.columnSize]}>Score: </Text>
-          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+          <Text
+            style={[{ color: global.color }, styles.textBig, styles.margin]}
+          >
             {Math.round(this.props.route.params.score * 100) + " %"}
           </Text>
         </View>
@@ -273,9 +281,7 @@ class HabitsDetails extends React.Component {
           {this.state.lastSevenDays &&
             this.state.lastSevenDays.map((bool, index) => {
               const name = bool ? "checkmark-circle" : "close-circle";
-              const color = bool
-                ? colors.PrimaryAccentColor
-                : colors.SecondaryTextColor;
+              const color = bool ? global.color : colors.SecondaryTextColor;
               return (
                 <View key={index + 1000}>
                   <TouchableOpacity
@@ -302,9 +308,7 @@ class HabitsDetails extends React.Component {
           {this.state.lastThirtyDays &&
             this.state.lastThirtyDays.map((bool, index) => {
               const name = bool ? "checkmark-circle" : "close-circle";
-              const color = bool
-                ? colors.PrimaryAccentColor
-                : colors.SecondaryTextColor;
+              const color = bool ? global.color : colors.SecondaryTextColor;
               return (
                 <View key={index + 1000}>
                   <TouchableOpacity
@@ -324,7 +328,11 @@ class HabitsDetails extends React.Component {
 
         <Text style={styles.secondaryText}>Monatsstatistik:</Text>
         <TouchableOpacity
-          style={[{ zIndex: -2, position: "relative" }, styles.buttonPrimary]}
+          style={[
+            { zIndex: -2, position: "relative" },
+            styles.buttonPrimary,
+            { backgroundColor: global.color },
+          ]}
           onPress={() => {
             this.props.route.params.queue
               ? changeQueueState(0)

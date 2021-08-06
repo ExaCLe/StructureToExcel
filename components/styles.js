@@ -123,17 +123,6 @@ const styles = (() => {
     accentColorText: {
       color: global.color,
     },
-    dropdown: {
-      backgroundColor: "transparent",
-      width: "30%",
-      borderColor: global.color,
-    },
-    dropdownMenu: {
-      width: "30%",
-      borderColor: global.color,
-      backgroundColor: colors.BackgroundColor,
-      zIndex: 4,
-    },
     textInputSmall: {
       borderWidth: 1,
       borderColor: global.color,

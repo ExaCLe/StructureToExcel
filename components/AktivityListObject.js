@@ -24,7 +24,7 @@ class AktivityListObject extends React.Component {
     return (
       <View>
         <TouchableOpacity
-          style={styles.habitContainer}
+          style={[styles.habitContainer, { backgroundColor: global.color }]}
           onPress={() =>
             this.props.navigation.navigate("AktivityListDetails", {
               ...this.props.tracking,

@@ -54,7 +54,11 @@ class AktivityTracker extends React.Component {
     return (
       <View>
         <TouchableOpacity
-          style={[styles.margin, styles.habitContainer]}
+          style={[
+            styles.margin,
+            styles.habitContainer,
+            { backgroundColor: global.color },
+          ]}
           onPress={() => {
             this.props.navigation.navigate("AktivityDetails", {
               ...this.props.activity,
