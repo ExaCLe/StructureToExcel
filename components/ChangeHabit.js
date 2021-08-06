@@ -140,8 +140,8 @@ class ChangeHabit extends React.Component {
           [
             this.state.name,
             this.state.goalIntervall,
-            this.state.valuePriority,
-            parseInt(this.state.repetitions),
+            this.state.priority,
+            0,
             this.state.icon,
             0,
             false,
@@ -170,7 +170,7 @@ class ChangeHabit extends React.Component {
         "INSERT INTO habits (name, priority, intervall, repetitions, icon, queue) VALUES (?, ?, ?, ?, ?, ?)",
         [
           this.state.name,
-          this.state.valuePriority,
+          this.state.priority,
           this.state.valueIntervall,
           parseInt(this.state.repetitions),
           this.state.icon,
@@ -236,7 +236,7 @@ class ChangeHabit extends React.Component {
   };
   handleIntervallChange = (number) => {
     if (+number || number == "")
-      this.setState({ intervall: number, change: true });
+      this.setState({ valueIntervall: number, change: true });
   };
 
   zIndexn1 = (() => {

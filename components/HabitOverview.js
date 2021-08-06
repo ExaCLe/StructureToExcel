@@ -99,21 +99,18 @@ export default class HabitOverview extends React.Component {
   calculateScore = () => {
     if (!this.state.habits) return;
     for (let i = 0; i < this.state.habits.length; i++) {
-      let sql;
-      let expected;
-      if (this.state.habits[i].intervall === 1) {
-        expected = this.state.habits[i].repetitions * 30;
-        sql =
-          "SELECT * FROM checkHabits WHERE habit_id = ? AND date > DATE('now', '-30 day')";
-      } else if (this.state.habits[i].intervall === 2) {
-        expected = this.state.habits[i].repetitions * 8;
-        sql =
-          "SELECT * FROM checkHabits WHERE habit_id = ? AND date > DATE('now', '-56 day')";
-      } else if (this.state.habits[i].intervall === 3) {
-        expected = this.state.habits[i].repetitions * 3;
-        sql =
-          "SELECT * FROM checkHabits WHERE habit_id = ? AND date > DATE('now', '-3 month')";
-      }
+      const expected = 30;
+      const length_intervall =
+        Math.round(30 / this.state.habits[i].repetitions) *
+        this.state.habits[i].intervall;
+      const sql = `SELECT * FROM checkHabits WHERE habit_id = ? AND date > DATE('now', '-${length_intervall} day')`;
+      console.log(
+        Math.round(30 / this.state.habits[i].repetitions),
+        " ",
+        this.state.habits[i].intervall,
+        " ",
+        sql
+      );
       db.transaction((tx) => {
         tx.executeSql(
           sql,
@@ -121,6 +118,7 @@ export default class HabitOverview extends React.Component {
           (txObj, { rows: { _array } }) => {
             const value = _array.length - expected / 2;
             const score = 1 / (1 + Math.exp(-value * 0.2));
+            console.log(sql, " ", score, " ", _array.length);
             this.setState((prevState) => {
               prevState.habits[i].score = score;
               return { habits: prevState.habits };
