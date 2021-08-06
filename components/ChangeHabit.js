@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
-import DropDownPicker from "react-native-dropdown-picker";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
 import * as colors from "../assets/colors.js";
