@@ -5,6 +5,7 @@ import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import { DAY, WEEK, MONTH } from "./OverviewGoals.js";
+import { toTime } from "./../helpers/Time.js";
 
 const db = SQLite.openDatabase("goals.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
@@ -139,28 +140,48 @@ class GoalsDetails extends React.Component {
   };
 
   render() {
+    console.log(this.props.route.params);
     return (
       <View style={styles.margin}>
         <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText]}>Name: </Text>
+          <Text style={[styles.secondaryText, styles.columnSize]}>Name: </Text>
           <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
             {this.props.route.params.name}
           </Text>
         </View>
         <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText]}>Priorität: </Text>
+          <Text style={[styles.secondaryText, styles.columnSize]}>
+            Priorität:{" "}
+          </Text>
           <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
             {this.props.route.params.priority}
           </Text>
         </View>
         <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText]}>Interval: </Text>
+          <Text style={[styles.secondaryText, styles.columnSize]}>
+            Interval:{" "}
+          </Text>
           <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
             {this.props.route.params.intervall === DAY
-              ? "day"
+              ? "Tag"
               : this.props.route.params.intervall === MONTH
-              ? "month"
-              : "week"}
+              ? "Monat"
+              : "Woche"}
+          </Text>
+        </View>
+        <View style={styles.containerHorizontal}>
+          <Text style={[styles.secondaryText, styles.columnSize]}>
+            Fortschritt:{" "}
+          </Text>
+          <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
+            {this.props.route.params.time
+              ? toTime(this.props.route.params.progress) +
+                " / " +
+                this.props.route.params.repetitions +
+                " h"
+              : this.props.route.params.progress +
+                " von " +
+                this.props.route.params.repetitions}
           </Text>
         </View>
         <TouchableOpacity

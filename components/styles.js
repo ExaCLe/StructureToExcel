@@ -18,6 +18,12 @@ const styles = StyleSheet.create({
   tabText: {
     fontFamily: fonts.tabBarFont,
   },
+  flex: {
+    display: "flex",
+  },
+  columnSize: {
+    width: "25%",
+  },
   header: {
     backgroundColor: colors.PrimaryAccentColor,
   },
@@ -29,7 +35,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.PrimaryAccentColor,
     alignSelf: "center",
     width: "80%",
-    paddingTop: 20,
+    paddingTop: 25,
     paddingBottom: 20,
     borderRadius: 20,
     display: "flex",
@@ -74,6 +80,12 @@ const styles = StyleSheet.create({
   },
   fullSize: {
     width: "70%",
+  },
+  containerHorizontalStats: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   containerHorizontal: {
     display: "flex",
@@ -178,7 +190,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   textBig: {
-    fontSize: 40,
+    fontSize: 30,
   },
   row: {
     display: "flex",

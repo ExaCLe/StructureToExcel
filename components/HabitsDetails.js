@@ -238,31 +238,38 @@ class HabitsDetails extends React.Component {
     return (
       <ScrollView style={styles.margin}>
         <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText]}>Name: </Text>
+          <Text style={[styles.secondaryText, styles.columnSize]}>Name: </Text>
           <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
             {this.props.route.params.name}
           </Text>
         </View>
         <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText]}>Priorität: </Text>
+          <Text style={[styles.secondaryText, styles.columnSize]}>
+            Priorität:{" "}
+          </Text>
           <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
             {this.props.route.params.priority}
           </Text>
         </View>
         <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText]}>Häufigkeit: </Text>
+          <Text style={[styles.secondaryText, styles.columnSize]}>
+            Häufigkeit:{" "}
+          </Text>
           <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
-            {this.state.frequency}
+            {this.props.route.params.repetitions +
+              " in " +
+              this.props.route.params.interval +
+              " Tagen"}
           </Text>
         </View>
         <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText]}>Score: </Text>
+          <Text style={[styles.secondaryText, styles.columnSize]}>Score: </Text>
           <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
             {Math.round(this.props.route.params.score * 100) + " %"}
           </Text>
         </View>
         <Text style={styles.secondaryText}>Letzten 7 Tage:</Text>
-        <View style={styles.containerHorizontal}>
+        <View style={styles.containerHorizontalStats}>
           {this.state.lastSevenDays &&
             this.state.lastSevenDays.map((bool, index) => {
               const name = bool ? "checkmark-circle" : "close-circle";
@@ -288,7 +295,7 @@ class HabitsDetails extends React.Component {
         <Text style={styles.secondaryText}>Letzten 30 Tage:</Text>
         <View
           style={[
-            styles.containerHorizontal,
+            styles.containerHorizontalStats,
             { display: "flex", flexWrap: "wrap" },
           ]}
         >

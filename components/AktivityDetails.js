@@ -175,18 +175,52 @@ class AktivityDetails extends React.Component {
     return (
       <View style={styles.margin}>
         <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText]}>Name: </Text>
+          <Text style={[styles.secondaryText, styles.columnSize]}>Name: </Text>
           <Text style={[styles.accentColorText, styles.textBig, styles.margin]}>
             {this.props.route.params.name}
           </Text>
         </View>
         <View>
-          <Text>Heute: {this.toTime(this.state.today)}</Text>
-          <Text>
-            Letzten 24 Stunden: {this.toTime(this.state.twentyfourHours)}
-          </Text>
-          <Text>Letzten 7 Tage: {this.toTime(this.state.lastSeven)}</Text>
-          <Text>Letzten 30 Tage: {this.toTime(this.state.lastThirty)}</Text>
+          <View style={styles.containerHorizontal}>
+            <Text style={[styles.secondaryText, styles.columnSize]}>
+              Heute:
+            </Text>
+            <Text
+              style={[styles.primaryAccentColor, styles.textBig, styles.margin]}
+            >
+              {this.toTime(this.state.today)}
+            </Text>
+          </View>
+          <View style={styles.containerHorizontal}>
+            <Text style={[styles.secondaryText, styles.columnSize]}>
+              Letzten 24 Stunden:
+            </Text>
+            <Text
+              style={[styles.primaryAccentColor, styles.textBig, styles.margin]}
+            >
+              {this.toTime(this.state.twentyfourHours)}
+            </Text>
+          </View>
+          <View style={styles.containerHorizontal}>
+            <Text style={[styles.secondaryText, styles.columnSize]}>
+              Letzten 7 Tage:
+            </Text>
+            <Text
+              style={[styles.primaryAccentColor, styles.textBig, styles.margin]}
+            >
+              {this.toTime(this.state.lastSeven)}
+            </Text>
+          </View>
+          <View style={styles.containerHorizontal}>
+            <Text style={[styles.secondaryText, styles.columnSize]}>
+              Letzten 30 Tage:
+            </Text>
+            <Text
+              style={[styles.primaryAccentColor, styles.textBig, styles.margin]}
+            >
+              {this.toTime(this.state.lastThirty)}
+            </Text>
+          </View>
         </View>
       </View>
     );
