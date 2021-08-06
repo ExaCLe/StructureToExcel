@@ -12,6 +12,7 @@ import styles from "./styles.js";
 import DropDownPicker from "react-native-dropdown-picker";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
+import { Picker } from "@react-native-picker/picker";
 
 import * as SQLite from "expo-sqlite";
 const db = SQLite.openDatabase("goals.db");
@@ -25,26 +26,20 @@ class ChangeGoal extends React.Component {
       change: false,
       aktivity_icon: "",
       aktivity_name: "",
-      open1: false,
-      open2: false,
       addToTracking: false,
       addToHabits: false,
       time: 0,
       icon: (() => {
         return edit ? props.route.params.icon : "book-outline";
       })(),
-      items1: [
-        { id: 1, title: "Priorität 1", val: 1 },
-        { id: 2, title: "Priorität 2", val: 2 },
-        { id: 3, title: "Priorität 3", val: 3 },
-        { id: 4, title: "Priorität 4", val: 4 },
-      ],
-
-      items2: [
-        { id: 1, title: "Tag", val: 1 },
-        { id: 2, title: "Woche", val: 2 },
-        { id: 3, title: "Monat", val: 3 },
-      ],
+      intervall: (() => {
+        if (edit) return props.route.params.intervall;
+        else return 1;
+      })(),
+      priority: (() => {
+        if (edit) return props.route.params.priority;
+        else return 1;
+      })(),
       ...props.route.params,
       time: (() => {
         return this.props.route.params && this.props.route.params.time
@@ -111,31 +106,6 @@ class ChangeGoal extends React.Component {
       },
     });
   }
-
-  setOpen1 = (open1) => {
-    if (open1) this.setState({ open1: true, open2: false, zIndex: {} });
-    else this.setState({ open1: false });
-  };
-
-  setOpen2 = (open2) => {
-    if (open2)
-      this.setState({ open2: true, open1: false, zIndex: { zIndex: -1 } });
-    else this.setState({ open2: false });
-  };
-
-  setValue1 = (callback) => {
-    this.setState((state) => ({
-      priority: callback(state.priority),
-      change: true,
-    }));
-  };
-
-  setValue2 = (callback) => {
-    this.setState((state) => ({
-      intervall: callback(state.intervall),
-      change: true,
-    }));
-  };
   handleSave = () => {
     if (!this.state.name) {
       alert("Bitte einen Namen eintragen");
@@ -236,8 +206,10 @@ class ChangeGoal extends React.Component {
     if (Platform.OS === "ios") return { zIndex: 3 };
     else return {};
   })();
+  intervall = ["Tag", "Woche", "Monat"];
 
   render() {
+    console.log("zIndex: ", this.state.zIndex);
     return (
       <View style={styles.margin}>
         <View style={styles.containerHorizontal}>
@@ -279,49 +251,61 @@ class ChangeGoal extends React.Component {
         </TouchableHighlight>
         <View style={[styles.containerHorizontal, this.zIndex3]}>
           <Text style={styles.secondaryText}>Intervall: </Text>
-          <DropDownPicker
-            schema={{
-              label: "title",
-              value: "val",
+          <Text style={[styles.normalText, styles.primaryAccentColor]}>
+            {this.intervall[this.state.intervall - 1]}
+          </Text>
+          <TouchableHighlight
+            style={[styles.margin, styles.padding]}
+            onPress={() => {
+              this.setState((prevState) => ({
+                showIntervall: !prevState.showIntervall,
+              }));
             }}
-            open={this.state.open2}
-            value={this.state.intervall}
-            items={this.state.items2}
-            setOpen={this.setOpen2}
-            setValue={this.setValue2}
-            style={[styles.dropdown, styles.margin, styles.fullSize]}
-            dropDownContainerStyle={[styles.dropdownMenu, styles.margin]}
-            textStyle={[styles.normalText, styles.accentColorText]}
-            zIndex={0}
-            zIndexInverse={0}
-          />
+          >
+            <Text style={[styles.textButton]}> Change Intervall</Text>
+          </TouchableHighlight>
         </View>
-
-        <View
-          style={[
-            styles.containerHorizontal,
-            this.state.zIndex2,
-            this.state.zIndex,
-          ]}
-        >
+        {this.state.showIntervall && (
+          <Picker
+            selectedValue={this.state.intervall}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ intervall: itemValue })
+            }
+          >
+            <Picker.Item label="Tag" value="1" />
+            <Picker.Item label="Woche" value="2" />
+            <Picker.Item label="Monat" value="3" />
+          </Picker>
+        )}
+        <View style={[styles.containerHorizontal, this.zIndex3]}>
           <Text style={styles.secondaryText}>Priorität: </Text>
-          <DropDownPicker
-            schema={{
-              label: "title",
-              value: "val",
+          <Text style={[styles.normalText, styles.primaryAccentColor]}>
+            {this.state.priority}
+          </Text>
+          <TouchableHighlight
+            style={[styles.margin, styles.padding]}
+            onPress={() => {
+              this.setState((prevState) => ({
+                showPriority: !prevState.showPriority,
+              }));
             }}
-            open={this.state.open1}
-            value={this.state.priority}
-            items={this.state.items1}
-            setOpen={this.setOpen1}
-            setValue={this.setValue1}
-            style={[styles.dropdown, styles.margin, styles.fullSize]}
-            dropDownContainerStyle={[styles.dropdownMenu, styles.margin]}
-            textStyle={[styles.normalText, styles.accentColorText]}
-            zIndex={1000}
-            zIndexInverse={1000}
-          />
+          >
+            <Text style={[styles.textButton]}> Change Priority</Text>
+          </TouchableHighlight>
         </View>
+        {this.state.showPriority && (
+          <Picker
+            selectedValue={this.state.priority}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ priority: itemValue })
+            }
+          >
+            <Picker.Item label="Priorität 1" value="1" />
+            <Picker.Item label="Priorität 2" value="2" />
+            <Picker.Item label="Priorität 3" value="3" />
+            <Picker.Item label="Priorität 4" value="4" />
+          </Picker>
+        )}
         <View style={{ zIndex: -3 }}>
           <View style={styles.containerHorizontal}>
             <Switch
