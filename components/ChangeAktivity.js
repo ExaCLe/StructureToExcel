@@ -180,6 +180,10 @@ class AddAktivity extends React.Component {
                 this.props.navigation.navigate("IconChooserTracking", {
                   target: "ChangeAktivity",
                 });
+              else
+                this.props.navigation.navigate("IconChooserTracking", {
+                  target: "ChangeAktivity",
+                });
             }}
           >
             <Text style={[styles.textButton]}> Wähle Icon</Text>
