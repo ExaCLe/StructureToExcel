@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 
-import styles from "./styles.js";
+import { styles } from "./App.js";
 
 const selectImages = (name) => {
   if (name === "Harvey Specter") return require("../assets/HarveySpecter.jpg");

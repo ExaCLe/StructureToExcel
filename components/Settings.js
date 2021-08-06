@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, TouchableOpacity, TextInput } from "react-native";
 import AktivityTracker from "./AktivityTracker.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import styles from "./styles.js";
+import { styles } from "./App.js";
 import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import AsyncStorage from "@react-native-async-storage/async-storage";

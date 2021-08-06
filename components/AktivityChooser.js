@@ -1,7 +1,7 @@
 import React from "react";
 import { View, FlatList, TouchableOpacity, Text } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import styles from "./styles.js";
+import { styles } from "./App.js";
 import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 const db = SQLite.openDatabase("aktivitys.db");

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Text, View, Alert, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
-import styles from "./styles.js";
+import { styles } from "./App.js";
 import * as colors from "./../assets/colors.js";
 import { DAY, WEEK, MONTH } from "./OverviewGoals.js";
 import { toTime } from "./../helpers/Time.js";
