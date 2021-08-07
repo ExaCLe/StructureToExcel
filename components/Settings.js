@@ -6,6 +6,7 @@ import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ColorPicker, fromHsv } from "react-native-color-picker";
 
 class Settings extends React.Component {
   constructor(props) {
@@ -14,9 +15,9 @@ class Settings extends React.Component {
     this.loadData();
   }
   handleInputChange = (input) => {
-    if (input.length <= 6) {
+    if (input.length <= 7) {
       let good = true;
-      for (let i = 0; i < input.length; i++) {
+      for (let i = 1; i < input.length; i++) {
         const letter = input[i];
         if (
           !(
@@ -49,14 +50,21 @@ class Settings extends React.Component {
       console.log(value);
       if (value !== null) {
         this.setState({ color: value });
-        global.color = "#" + value;
       }
     } catch (e) {}
   };
   save = async () => {
     try {
+      if (
+        !(this.state.color.length === 4 || this.state.color.length === 7) &&
+        !this.state.color[0] === "#"
+      ) {
+        alert(
+          "Ungülite Eingabe. Bitte in der Form #xxx oder #xxxxxx eingeben."
+        );
+        return;
+      }
       await AsyncStorage.setItem("color", this.state.color);
-      global.color = "#" + this.state.color;
       alert("Gespeichert. Bitte App neu starten.");
     } catch (e) {}
   };
@@ -71,10 +79,17 @@ class Settings extends React.Component {
             styles.textInputLarge,
             { borderColor: global.color, color: global.color },
           ]}
-          placeholder="Color"
+          placeholder="#"
           onChangeText={this.handleInputChange}
           value={this.state.color}
         ></TextInput>
+        <ColorPicker
+          color={this.state.color}
+          onColorChange={(color) => {
+            this.setState({ color: fromHsv(color) });
+          }}
+          style={{ flex: 1 }}
+        />
         <TouchableOpacity
           onPress={() => {
             this.save();

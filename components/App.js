@@ -300,7 +300,7 @@ export default class App extends React.Component {
       try {
         const value = await AsyncStorage.getItem("color");
         if (value !== null) {
-          global.color = "#" + value;
+          global.color = value;
           this.setState({ colorLoaded: true });
         }
       } catch (e) {
