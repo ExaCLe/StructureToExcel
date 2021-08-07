@@ -4,6 +4,7 @@ import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
+import PrimaryButton from "./PrimaryButton.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AddAktivity extends React.Component {
@@ -193,14 +194,12 @@ class AddAktivity extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
+        <PrimaryButton
           onPress={() => {
             this.handleSave();
           }}
-        >
-          <Text style={styles.primaryButtonText}>Speichern</Text>
-        </TouchableOpacity>
+          text={"Speichern"}
+        />
       </View>
     );
   }

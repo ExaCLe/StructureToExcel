@@ -15,6 +15,7 @@ import * as colors from "../assets/colors.js";
 import { Picker } from "@react-native-picker/picker";
 
 import * as SQLite from "expo-sqlite";
+import PrimaryButton from "./PrimaryButton.js";
 const db = SQLite.openDatabase("goals.db");
 const habits = SQLite.openDatabase("habits.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
@@ -443,18 +444,12 @@ class ChangeGoal extends React.Component {
             </View>
           </View>
         )}
-        <TouchableOpacity
-          style={[
-            styles.buttonPrimary,
-            { backgroundColor: global.color },
-            { zIndex: -3 },
-          ]}
+        <PrimaryButton
+          text={"Speichern"}
           onPress={() => {
             this.handleSave();
           }}
-        >
-          <Text style={styles.primaryButtonText}>Speichern</Text>
-        </TouchableOpacity>
+        />
       </ScrollView>
     );
   }

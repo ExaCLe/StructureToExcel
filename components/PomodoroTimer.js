@@ -4,6 +4,7 @@ import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
+import PrimaryButton from "./PrimaryButton.js";
 const db = SQLite.openDatabase("pomodoro.db");
 
 const WORK = "working";
@@ -122,8 +123,8 @@ class PomodoroTimer extends React.Component {
                 ? "0" + (this.state.time % 60)
                 : this.state.time % 60)}
           </Text>
-          <TouchableOpacity
-            style={[styles.buttonPrimary, { backgroundColor: global.color }]}
+          <PrimaryButton
+            text={this.state.state === PAUSE ? "Starten" : "Pausieren"}
             onPress={() => {
               if (this.state.state === PAUSE) {
                 this.setState((prevState) => ({ time: prevState.time - 1 }));
@@ -140,21 +141,15 @@ class PomodoroTimer extends React.Component {
                 this.setState({ state: PAUSE });
               }
             }}
-          >
-            <Text style={styles.primaryButtonText}>
-              {this.state.state === PAUSE ? "Starten" : "Pausieren"}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonPrimary, { backgroundColor: global.color }]}
+          />
+          <PrimaryButton
+            text={"Reset"}
             onPress={() => {
               if (this.state.interval === WORK)
                 this.setState({ time: this.state.workingInterval * 60 });
               else this.setState({ time: this.state.breakInterval * 60 });
             }}
-          >
-            <Text style={styles.primaryButtonText}>Reset</Text>
-          </TouchableOpacity>
+          />
           <TouchableOpacity
             style={styles.center}
             onPress={() => {

@@ -4,6 +4,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
+import PrimaryButton from "./PrimaryButton.js";
 
 const db = SQLite.openDatabase("habits.db");
 
@@ -325,24 +326,14 @@ class HabitsDetails extends React.Component {
               );
             })}
         </View>
-
-        <Text style={styles.secondaryText}>Monatsstatistik:</Text>
-        <TouchableOpacity
-          style={[
-            { zIndex: -2, position: "relative" },
-            styles.buttonPrimary,
-            { backgroundColor: global.color },
-          ]}
+        <PrimaryButton
+          text={this.props.route.params.queue ? "To Habits" : "To Queue"}
           onPress={() => {
             this.props.route.params.queue
               ? changeQueueState(0)
               : changeQueueState(1);
           }}
-        >
-          <Text style={styles.primaryButtonText}>
-            {this.props.route.params.queue ? "To Habits" : "To Queue"}
-          </Text>
-        </TouchableOpacity>
+        />
       </ScrollView>
     );
   }

@@ -6,6 +6,7 @@ import * as colors from "../assets/colors.js";
 import Goal from "./Goal.js";
 import * as SQLite from "expo-sqlite";
 import { DAY, WEEK, MONTH } from "./../assets/intervals.js";
+import PrimaryButton from "./PrimaryButton.js";
 const db = SQLite.openDatabase("goals.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
 
@@ -195,32 +196,26 @@ class OverviewGoals extends React.Component {
             keyExtractor={(item) => String(item.id)}
           />
         </View>
-        <TouchableOpacity
-          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
+        <PrimaryButton
+          text={
+            this.state.period === DAY ? "Wochenübersicht" : "Tagesübersicht"
+          }
           onPress={() => {
             if (this.state.period === DAY) changeView(WEEK);
             else changeView(DAY);
             this.fetchData();
           }}
-        >
-          <Text style={styles.primaryButtonText}>
-            {this.state.period === DAY ? "Wochenübersicht" : "Tagesübersicht"}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
+        />
+        <PrimaryButton
+          text={
+            this.state.period === MONTH ? "Wochenübersicht" : "Monatsübersicht"
+          }
           onPress={() => {
             if (this.state.period === MONTH) changeView(WEEK);
             else changeView(MONTH);
             this.fetchData();
           }}
-        >
-          <Text style={styles.primaryButtonText}>
-            {this.state.period === MONTH
-              ? "Wochenübersicht"
-              : "Monatsübersicht"}
-          </Text>
-        </TouchableOpacity>
+        />
       </View>
     );
   }

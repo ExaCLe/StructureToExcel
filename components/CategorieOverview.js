@@ -5,6 +5,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "./../assets/colors.js";
 import * as categories from "./../assets/categories.js";
 import * as SQLite from "expo-sqlite";
+import PrimaryButton from "./PrimaryButton.js";
 const db = SQLite.openDatabase("favorites.db");
 
 class CategorieOverview extends React.Component {
@@ -55,36 +56,30 @@ class CategorieOverview extends React.Component {
         >
           Wähle eine Kategorie:
         </Text>
-        <TouchableOpacity
-          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
+        <PrimaryButton
           onPress={() =>
             this.props.navigation.navigate("Categorie", {
               categorie: categories.MOTIVATION,
             })
           }
-        >
-          <Text style={styles.primaryButtonText}>Motivation</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
+          text={"Motivation"}
+        />
+        <PrimaryButton
           onPress={() =>
             this.props.navigation.navigate("Categorie", {
               categorie: categories.INSPIRATION,
             })
           }
-        >
-          <Text style={styles.primaryButtonText}>Inspiration</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
+          text={"Inspiration"}
+        />
+        <PrimaryButton
           onPress={() =>
             this.props.navigation.navigate("Categorie", {
               categorie: categories.CLASSIC,
             })
           }
-        >
-          <Text style={styles.primaryButtonText}>Klassiker</Text>
-        </TouchableOpacity>
+          text={"Klassiker"}
+        />
       </View>
     );
   }

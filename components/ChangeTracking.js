@@ -5,6 +5,7 @@ import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import PrimaryButton from "./PrimaryButton.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
@@ -184,7 +185,6 @@ class ChangeTracking extends React.Component {
             }}
           >
             <Text style={[styles.textButton, { color: global.color }]}>
-              {" "}
               Change
             </Text>
           </TouchableOpacity>
@@ -300,19 +300,12 @@ class ChangeTracking extends React.Component {
             />
           )}
         </View>
-
-        <TouchableOpacity
+        <PrimaryButton
+          text={"Speichern"}
           onPress={() => {
             this.handleSave();
           }}
-          style={[
-            { zIndex: -2, position: "relative" },
-            styles.buttonPrimary,
-            { backgroundColor: global.color },
-          ]}
-        >
-          <Text style={styles.primaryButtonText}>Speichern</Text>
-        </TouchableOpacity>
+        />
       </View>
     );
   }

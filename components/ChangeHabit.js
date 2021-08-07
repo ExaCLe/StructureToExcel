@@ -14,6 +14,7 @@ import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
 import * as colors from "../assets/colors.js";
+import PrimaryButton from "./PrimaryButton.js";
 // for usage: https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage
 // open the database for adding the habits
 const db = SQLite.openDatabase("habits.db");
@@ -392,35 +393,22 @@ class ChangeHabit extends React.Component {
             </View>
           </View>
         )}
-
-        <TouchableOpacity
+        <PrimaryButton
+          text={"Speichern"}
           onPress={() => {
             if (this.state.edit) this.updateHabits();
             else {
               addHabit(0);
             }
           }}
-          style={[
-            { zIndex: -2, position: "relative" },
-            styles.buttonPrimary,
-            { backgroundColor: global.color },
-          ]}
-        >
-          <Text style={styles.primaryButtonText}>Speichern</Text>
-        </TouchableOpacity>
+        />
         {!this.state.edit && (
-          <TouchableOpacity
-            style={[
-              { zIndex: -2, position: "relative" },
-              styles.buttonPrimary,
-              { backgroundColor: global.color },
-            ]}
+          <PrimaryButton
+            text={"Zur Warteschlange"}
             onPress={() => {
               addHabit(1);
             }}
-          >
-            <Text style={styles.primaryButtonText}>Zur Warteschlange</Text>
-          </TouchableOpacity>
+          />
         )}
       </ScrollView>
     );

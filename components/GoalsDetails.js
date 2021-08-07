@@ -6,6 +6,7 @@ import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import { DAY, WEEK, MONTH } from "./OverviewGoals.js";
 import { toTime } from "./../helpers/Time.js";
+import PrimaryButton from "./PrimaryButton.js";
 
 const db = SQLite.openDatabase("goals.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
@@ -192,12 +193,8 @@ class GoalsDetails extends React.Component {
                 this.props.route.params.repetitions}
           </Text>
         </View>
-        <TouchableOpacity
-          style={[
-            styles.buttonPrimary,
-            { backgroundColor: global.color },
-            { zIndex: -3 },
-          ]}
+        <PrimaryButton
+          text={this.props.route.params.archive ? "Reanimieren" : "Archivieren"}
           onPress={() => {
             if (!this.props.route.params.archive)
               Alert.alert(
@@ -228,11 +225,7 @@ class GoalsDetails extends React.Component {
                 ]
               );
           }}
-        >
-          <Text style={styles.primaryButtonText}>
-            {this.props.route.params.archive ? "Reanimieren" : "Archivieren"}
-          </Text>
-        </TouchableOpacity>
+        />
       </View>
     );
   }

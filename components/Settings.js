@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, TouchableOpacity, TextInput } from "react-native";
+import { Text, ScrollView, TouchableOpacity, TextInput } from "react-native";
 import AktivityTracker from "./AktivityTracker.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
@@ -7,6 +7,8 @@ import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ColorPicker, fromHsv } from "react-native-color-picker";
+import PrimaryButton from "./PrimaryButton.js";
+import Test from "./Test.js";
 
 class Settings extends React.Component {
   constructor(props) {
@@ -70,7 +72,7 @@ class Settings extends React.Component {
   };
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
         <TextInput
           style={[
             styles.normalText,
@@ -88,17 +90,10 @@ class Settings extends React.Component {
           onColorChange={(color) => {
             this.setState({ color: fromHsv(color) });
           }}
-          style={{ flex: 1 }}
+          style={{ height: 500 }}
         />
-        <TouchableOpacity
-          onPress={() => {
-            this.save();
-          }}
-          style={[styles.buttonPrimary, { backgroundColor: global.color }]}
-        >
-          <Text style={styles.primaryButtonText}>Speichern</Text>
-        </TouchableOpacity>
-      </View>
+        <PrimaryButton onPress={this.save} text={"Speichern"} />
+      </ScrollView>
     );
   }
 }

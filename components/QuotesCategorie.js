@@ -9,6 +9,7 @@ import * as categories from "./../assets/categories.js";
 
 import Zitat from "./Zitat.js";
 import Quotes from "../assets/Quotes.js";
+import PrimaryButton from "./PrimaryButton.js";
 
 class QuotesCategorie extends React.Component {
   constructor(props) {
@@ -151,30 +152,22 @@ class QuotesCategorie extends React.Component {
       return (
         <View style={[styles.margin, styles.flexContainer, styles.spaceAround]}>
           <Zitat {...quote} />
-          <TouchableOpacity
-            style={[styles.buttonPrimary, { backgroundColor: global.color }]}
+          <PrimaryButton
+            text={"Nächstes Zitat"}
             onPress={() => {
               if (this.state.count + 1 === this.state.favorites.length)
                 this.setCount(0);
               else this.setCount(this.state.count + 1);
             }}
-          >
-            <Text style={styles.primaryButtonText}>Nächstes Zitat</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.buttonPrimary,
-              { backgroundColor: global.color },
-              { marginTop: 30 },
-            ]}
+          />
+          <PrimaryButton
+            text={"Vorheriges Zitat"}
             onPress={() => {
               if (this.state.count === 0)
                 this.setCount(this.state.favorites.length - 1);
               else this.setCount(this.state.count - 1);
             }}
-          >
-            <Text style={styles.primaryButtonText}>Vorheriges Zitat</Text>
-          </TouchableOpacity>
+          />
         </View>
       );
     } else
@@ -183,8 +176,8 @@ class QuotesCategorie extends React.Component {
           <Zitat
             {...Quotes[this.props.route.params.categorie][this.state.count]}
           />
-          <TouchableOpacity
-            style={[styles.buttonPrimary, { backgroundColor: global.color }]}
+          <PrimaryButton
+            text={"Nächstes Zitat"}
             onPress={() => {
               if (
                 this.state.count + 1 ===
@@ -193,15 +186,9 @@ class QuotesCategorie extends React.Component {
                 this.setCount(0);
               else this.setCount(this.state.count + 1);
             }}
-          >
-            <Text style={styles.primaryButtonText}>Nächstes Zitat</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.buttonPrimary,
-              { backgroundColor: global.color },
-              { marginTop: 30 },
-            ]}
+          />
+          <PrimaryButton
+            text={"Vorheriges Zitat"}
             onPress={() => {
               if (this.state.count === 0)
                 this.setCount(
@@ -209,9 +196,7 @@ class QuotesCategorie extends React.Component {
                 );
               else this.setCount(this.state.count - 1);
             }}
-          >
-            <Text style={styles.primaryButtonText}>Vorheriges Zitat</Text>
-          </TouchableOpacity>
+          />
         </View>
       );
   }
