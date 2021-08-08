@@ -8,7 +8,7 @@ import * as SQLite from "expo-sqlite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ColorPicker, fromHsv } from "react-native-color-picker";
 import PrimaryButton from "./PrimaryButton.js";
-import Parse from "parse/react-native";
+import Parse, { User } from "parse/react-native";
 
 const habits = SQLite.openDatabase("habits.db");
 
@@ -17,6 +17,18 @@ class Settings extends React.Component {
     super(props);
     this.state = { color: "ffffff" };
     this.loadData();
+  }
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
+  componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener(
+      "focus",
+      (payload) => {
+        if (this.props.route.params && this.props.route.params.synchronize)
+          this.syncronize();
+      }
+    );
   }
   handleInputChange = (input) => {
     if (input.length <= 7) {
@@ -71,14 +83,33 @@ class Settings extends React.Component {
       alert("Gespeichert. Bitte App neu starten.");
     } catch (e) {}
   };
-  saveHabits = async (_array) => {
+
+  syncronize = async () => {
+    const currentUser = await Parse.User.currentAsync();
+    if (currentUser === null) {
+      this.props.navigation.navigate("Login");
+      return;
+    }
+    /* start with the habits */
+    habits.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM habits",
+        null,
+        (txObj, { rows: { _array } }) => {
+          this.saveHabits(_array, currentUser);
+        }
+      );
+    });
+  };
+
+  saveHabits = async (_array, currentUser) => {
     for (let i = 0; i < _array.length; i++) {
       const habit = _array[i];
       let Habit = new Parse.Object("Habit");
       if (habit.object_id) {
         Habit.set("objectId", habit.object_id + "");
       }
-      Habit.set("user_id", 1);
+      Habit.set("user", currentUser);
       Habit.set("icon", habit.icon);
       Habit.set("intervall", habit.intervall);
       Habit.set("name", habit.name);
@@ -87,6 +118,7 @@ class Settings extends React.Component {
       Habit.set("queue", habit.queue);
       try {
         const savedHabit = await Habit.save();
+        console.log("Saved ", habit.name);
         habits.transaction((tx) => {
           tx.executeSql(
             "UPDATE habits SET object_id = ? WHERE id = ?",
@@ -106,12 +138,13 @@ class Settings extends React.Component {
         "SELECT * FROM checkHabits JOIN habits WHERE checkHabits.habit_id = habits.id",
         null,
         (txObj, { rows: { _array } }) => {
-          this.saveHabitChecks(_array);
+          this.saveHabitChecks(_array, currentUser);
         }
       );
     });
   };
-  saveHabitChecks = async (_array) => {
+
+  saveHabitChecks = async (_array, currentUser) => {
     for (let i = 0; i < _array.length; i++) {
       const habit_entry = _array[i];
       let Habit_Entry = new Parse.Object("Habit_Entry");
@@ -120,15 +153,16 @@ class Settings extends React.Component {
         return;
       }
       if (habit_entry.object_id_check) {
-        Habit_Entry.set("objectId", habit.object_id_check + "");
+        Habit_Entry.set("objectId", habit_entry.object_id_check + "");
       }
       let Habit = new Parse.Object("Habit");
       Habit.set("objectId", habit_entry.object_id);
-      Habit_Entry.set("user_id", 1);
+      Habit_Entry.set("user", currentUser);
       Habit_Entry.set("habit", Habit);
       Habit_Entry.set("date", habit_entry.date);
       try {
         const savedHabitEntry = await Habit_Entry.save();
+        console.log("Saved Habit Entry. ");
         habits.transaction((tx) => {
           tx.executeSql(
             "UPDATE checkHabits SET object_id_check = ? WHERE id = ?",
@@ -144,18 +178,7 @@ class Settings extends React.Component {
       }
     }
   };
-  syncronize = () => {
-    /* start with the habits */
-    habits.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM habits",
-        null,
-        (txObj, { rows: { _array } }) => {
-          this.saveHabits(_array);
-        }
-      );
-    });
-  };
+
   render() {
     return (
       <ScrollView style={{ flex: 1 }}>
@@ -180,6 +203,18 @@ class Settings extends React.Component {
         />
         <PrimaryButton onPress={this.save} text={"Speichern"} />
         <PrimaryButton onPress={this.syncronize} text={"Synchronisieren"} />
+        <PrimaryButton
+          onPress={async () => {
+            try {
+              await Parse.User.logOut();
+              const currentUser = await Parse.User.currentAsync();
+              if (currentUser === null) alert("Successfully logged out.");
+            } catch (error) {
+              alert("Error when loggin out.");
+            }
+          }}
+          text={"logout"}
+        />
       </ScrollView>
     );
   }
