@@ -7,11 +7,12 @@ import PropTypes from "prop-types";
 const TextfieldAndLabel = (props) => {
   return (
     <View style={[styles.containerHorizontal, {}]}>
-      <Text style={[styles.secondaryText, { width: "30%" }]}>
+      <Text style={[styles.secondaryText, { width: props.labelWidth }]}>
         {props.label}
       </Text>
       <View style={{ width: props.width }}>
         <Textfield
+          secureTextEntry={props.secureTextEntry}
           placeholder={props.placeholder}
           value={props.value}
           onChangeText={props.onChangeText}

@@ -21,6 +21,7 @@ const Textfield = (props) => {
       ]}
       onChangeText={props.onChangeText}
       keyboardType={props.keyboardType}
+      secureTextEntry={props.secureTextEntry}
     />
   );
 };
