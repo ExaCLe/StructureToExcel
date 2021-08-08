@@ -94,6 +94,7 @@ class PomodoroSettings extends React.Component {
           value={"" + this.state.workingInterval}
           width="30%"
           textAlign="center"
+          labelWidth="30%"
         />
         <TextfieldAndLabel
           value={this.state.breakInterval + ""}
@@ -104,6 +105,7 @@ class PomodoroSettings extends React.Component {
           width="30%"
           textAlign="center"
           label="Pausenintervalllänge in Minuten: "
+          labelWidth="30%"
         />
         <TextfieldAndLabel
           keyboardType="numeric"
@@ -114,6 +116,7 @@ class PomodoroSettings extends React.Component {
           onChangeText={(text) => {
             if (+text || text === "") this.setState({ longBreakAfter: text });
           }}
+          labelWidth="30%"
         />
       </View>
     );
