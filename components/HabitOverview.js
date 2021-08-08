@@ -17,23 +17,23 @@ export default class HabitOverview extends React.Component {
       habits: null,
     };
     // create a table for the habits if not existing already
-    // db.transaction((tx) => {
-    //   tx.executeSql(
-    //     "DROP TABLE habits ;",
-    //     null,
-    //     () => {},
-    //     (txObj, error) => {}
-    //   );
-    //   tx.executeSql(
-    //     "DROP TABLE checkHabits ;",
-    //     null,
-    //     () => {},
-    //     (txObj, error) => {}
-    //   );
-    // });
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, queue BOOLEAN, object_id TEXT, deleted BOOLEAN);",
+        "DROP TABLE habits ;",
+        null,
+        () => {},
+        (txObj, error) => {}
+      );
+      tx.executeSql(
+        "DROP TABLE checkHabits ;",
+        null,
+        () => {},
+        (txObj, error) => {}
+      );
+    });
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, queue BOOLEAN, object_id TEXT, deleted BOOLEAN, updatedAt DATETIME);",
         null,
         () => {},
         (txObj, error) => {}
@@ -42,7 +42,7 @@ export default class HabitOverview extends React.Component {
     // create table for the habits fullfilling
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE checkHabits (id INTEGER PRIMARY KEY, habit_id INTEGER, date TEXT, object_id_check TEXT, habit_object_id TEXT, deleted BOOLEAN, FOREIGN KEY(habit_id) REFERENCES habits(id), FOREIGN KEY(habit_object_id) REFERENCES habits(object_id));"
+        "CREATE TABLE checkHabits (id INTEGER PRIMARY KEY, habit_id INTEGER, date TEXT, object_id_check TEXT, habit_object_id TEXT, deleted BOOLEAN, updatedAt DATETIME, FOREIGN KEY(habit_id) REFERENCES habits(id), FOREIGN KEY(habit_object_id) REFERENCES habits(object_id));"
       );
     });
 

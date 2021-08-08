@@ -133,6 +133,15 @@ class Settings extends React.Component {
         console.log("Error when saving ", habit.name, " ", error);
       }
     }
+    try {
+      let query = new Parse.Query("Habit");
+      query.equalTo("user", currentUser);
+      let queryResults = await query.find();
+      this.factorInHabits(queryResults);
+    } catch (error) {
+      console.error(error);
+    }
+
     habits.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM checkHabits JOIN habits WHERE checkHabits.habit_id = habits.id",
@@ -142,6 +151,72 @@ class Settings extends React.Component {
         }
       );
     });
+  };
+
+  factorInHabits = async (array) => {
+    for (let i = 0; i < array.length; i++) {
+      const habit = array[i];
+      habits.transaction((tx) => {
+        tx.executeSql(
+          "SELECT * FROM habits WHERE object_id = ?",
+          [habit.id],
+          (txObj, { rows: { _array } }) => {
+            if (_array.length === 0) {
+              habits.transaction((tx) => {
+                tx.executeSql(
+                  "INSERT INTO habits (name, priority, intervall, repetitions, icon, queue, object_id) VALUES (?, ?, ?, ?, ?, ?, ?);",
+                  [
+                    habit.get("name"),
+                    habit.get("priority"),
+                    habit.get("intervall"),
+                    habit.get("repetitions"),
+                    habit.get("icon"),
+                    habit.get("queue"),
+                    habit.id,
+                  ],
+                  () => {
+                    console.log("Inserted ", habit.get("name"));
+                  },
+                  (txObj, error) => {
+                    console.log(
+                      "Error inserting ",
+                      habit.get("name"),
+                      ":",
+                      error
+                    );
+                  }
+                );
+              });
+            } else {
+              habits.transaction((tx) => {
+                tx.executeSql(
+                  "UPDATE habits SET name=?, intervall=?, priority=?, repetitions=?, icon=? WHERE object_id=?",
+                  [
+                    habit.get("name"),
+                    habit.get("intervall"),
+                    habit.get("priority"),
+                    habit.get("repetitions"),
+                    habit.get("icon"),
+                    habit.id,
+                  ],
+                  () => {
+                    console.log("Updated ", habit.get("name"));
+                  },
+                  (txObj, error) => {
+                    console.log(
+                      "Error updating ",
+                      habit.get("name"),
+                      ":",
+                      error
+                    );
+                  }
+                );
+              });
+            }
+          }
+        );
+      });
+    }
   };
 
   saveHabitChecks = async (_array, currentUser) => {

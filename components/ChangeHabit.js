@@ -163,7 +163,7 @@ class ChangeHabit extends React.Component {
     }
     db.transaction((tx) => {
       tx.executeSql(
-        "INSERT INTO habits (name, priority, intervall, repetitions, icon, queue) VALUES (?, ?, ?, ?, ?, ?)",
+        "INSERT INTO habits (name, priority, intervall, repetitions, icon, queue, updatedAt) VALUES (?, ?, ?, ?, ?, ?, DATETIME('now'))",
         [
           this.state.name,
           this.state.priority,
@@ -191,7 +191,7 @@ class ChangeHabit extends React.Component {
     // handle change in the databases
     db.transaction((tx) => {
       tx.executeSql(
-        "UPDATE habits SET name=?, intervall=?, priority=?, repetitions=?, icon=? WHERE id=?",
+        "UPDATE habits SET name=?, intervall=?, priority=?, repetitions=?, icon=?, updatedAt=DATETIME('now') WHERE id=?",
         [
           this.state.name,
           this.state.intervall,
