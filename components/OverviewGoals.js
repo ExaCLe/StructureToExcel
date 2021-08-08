@@ -7,6 +7,7 @@ import Goal from "./Goal.js";
 import * as SQLite from "expo-sqlite";
 import { DAY, WEEK, MONTH } from "./../assets/intervals.js";
 import PrimaryButton from "./PrimaryButton.js";
+import BackButton from "./BackButton.js";
 const db = SQLite.openDatabase("goals.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
 
@@ -115,20 +116,11 @@ class OverviewGoals extends React.Component {
         if (!this.props.route.params || !this.props.route.params.archive)
           return null;
         return (
-          <View style={styles.margin}>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.goBack();
-              }}
-            >
-              <Ionicons
-                name="arrow-back"
-                size={25}
-                color={colors.PrimaryTextColor}
-                style={styles.padding}
-              />
-            </TouchableOpacity>
-          </View>
+          <BackButton
+            onPress={() => {
+              this.props.navigation.goBack();
+            }}
+          />
         );
       },
       headerRight: () => (

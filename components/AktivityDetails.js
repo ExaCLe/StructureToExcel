@@ -4,6 +4,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
+import BackButton from "./BackButton.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 
@@ -83,20 +84,11 @@ class AktivityDetails extends React.Component {
       title: this.props.route.params.name + " Details",
       headerLeft: () => {
         return (
-          <View style={styles.margin}>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.goBack();
-              }}
-            >
-              <Ionicons
-                name="arrow-back"
-                size={25}
-                color={colors.PrimaryTextColor}
-                style={styles.padding}
-              />
-            </TouchableOpacity>
-          </View>
+          <BackButton
+            onPress={() => {
+              this.props.navigation.goBack();
+            }}
+          />
         );
       },
       headerRight: () => (

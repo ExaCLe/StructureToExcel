@@ -5,6 +5,7 @@ import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import Habit from "./Habit.js";
+import BackButton from "./BackButton.js";
 const db = SQLite.openDatabase("habits.db");
 
 class HabitsQueue extends React.Component {
@@ -43,20 +44,11 @@ class HabitsQueue extends React.Component {
       title: "Warteschlange",
       headerLeft: () => {
         return (
-          <View style={styles.margin}>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate("HabitOverview");
-              }}
-            >
-              <Ionicons
-                name="arrow-back"
-                size={25}
-                color={colors.PrimaryTextColor}
-                style={styles.padding}
-              />
-            </TouchableOpacity>
-          </View>
+          <BackButton
+            onPress={() => {
+              this.props.navigation.navigate("HabitOverview");
+            }}
+          />
         );
       },
       headerRight: () => (

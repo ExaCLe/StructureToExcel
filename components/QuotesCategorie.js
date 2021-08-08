@@ -10,6 +10,7 @@ import * as categories from "./../assets/categories.js";
 import Zitat from "./Zitat.js";
 import Quotes from "../assets/Quotes.js";
 import PrimaryButton from "./PrimaryButton.js";
+import BackButton from "./BackButton.js";
 
 class QuotesCategorie extends React.Component {
   constructor(props) {
@@ -122,20 +123,11 @@ class QuotesCategorie extends React.Component {
       title: this.props.route.params.categorie,
       headerLeft: () => {
         return (
-          <View style={styles.margin}>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.goBack();
-              }}
-            >
-              <Ionicons
-                name="arrow-back"
-                size={25}
-                color={colors.PrimaryTextColor}
-                style={styles.padding}
-              />
-            </TouchableOpacity>
-          </View>
+          <BackButton
+            onPress={() => {
+              this.props.navigation.goBack();
+            }}
+          />
         );
       },
     });

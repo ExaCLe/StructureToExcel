@@ -5,6 +5,7 @@ import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import PrimaryButton from "./PrimaryButton.js";
+import BackButton from "./BackButton.js";
 
 const db = SQLite.openDatabase("habits.db");
 
@@ -60,20 +61,11 @@ class HabitsDetails extends React.Component {
       title: this.props.route.params.name + " Details",
       headerLeft: () => {
         return (
-          <View style={styles.margin}>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.goBack();
-              }}
-            >
-              <Ionicons
-                name="arrow-back"
-                size={25}
-                color={colors.PrimaryTextColor}
-                style={styles.padding}
-              />
-            </TouchableOpacity>
-          </View>
+          <BackButton
+            onPress={() => {
+              this.props.navigation.goBack();
+            }}
+          />
         );
       },
       headerRight: () => (

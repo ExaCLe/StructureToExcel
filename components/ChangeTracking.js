@@ -6,6 +6,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import PrimaryButton from "./PrimaryButton.js";
+import BackButton from "./BackButton.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
@@ -63,34 +64,25 @@ class ChangeTracking extends React.Component {
       })(),
       headerLeft: () => {
         return (
-          <View style={styles.margin}>
-            <TouchableOpacity
-              onPress={() => {
-                if (this.state.change && this.state.edit)
-                  Alert.alert(
-                    "Abort Changes",
-                    "Möchtest du wirklich die Veränderungen verwerfen?",
-                    [
-                      { text: "Nein" },
-                      {
-                        text: "Ja",
-                        onPress: () => {
-                          this.props.navigation.goBack();
-                        },
+          <BackButton
+            onPress={() => {
+              if (this.state.change && this.state.edit)
+                Alert.alert(
+                  "Abort Changes",
+                  "Möchtest du wirklich die Veränderungen verwerfen?",
+                  [
+                    { text: "Nein" },
+                    {
+                      text: "Ja",
+                      onPress: () => {
+                        this.props.navigation.goBack();
                       },
-                    ]
-                  );
-                else this.props.navigation.goBack();
-              }}
-            >
-              <Ionicons
-                name="arrow-back"
-                size={25}
-                color={colors.PrimaryTextColor}
-                style={styles.padding}
-              />
-            </TouchableOpacity>
-          </View>
+                    },
+                  ]
+                );
+              else this.props.navigation.goBack();
+            }}
+          />
         );
       },
     });

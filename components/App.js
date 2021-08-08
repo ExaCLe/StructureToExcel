@@ -30,6 +30,7 @@ import ChangeTracking from "./ChangeTracking.js";
 import AktivityChooser from "./AktivityChooser.js";
 import SettingsScreen from "./Settings.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoginScreen from "./LoginScreen.js";
 
 const StackHabits = createStackNavigator();
 
@@ -53,6 +54,15 @@ function Settings() {
         component={SettingsScreen}
         options={{
           title: "Settings",
+          headerStyle: { backgroundColor: global.color },
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackSettings.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          title: "Login",
           headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}

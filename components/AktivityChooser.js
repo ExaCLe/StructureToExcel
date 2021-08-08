@@ -4,6 +4,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
+import BackButton from "./BackButton.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AktivityChooser extends React.Component {
@@ -38,20 +39,11 @@ class AktivityChooser extends React.Component {
     this.props.navigation.setOptions({
       headerLeft: () => {
         return (
-          <View style={styles.margin}>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate(this.props.route.params.target);
-              }}
-            >
-              <Ionicons
-                name="arrow-back"
-                size={25}
-                style={styles.padding}
-                color={colors.PrimaryTextColor}
-              />
-            </TouchableOpacity>
-          </View>
+          <BackButton
+            onPress={() =>
+              this.props.navigation.navigate(this.props.route.params.target)
+            }
+          />
         );
       },
       headerRight: () => (

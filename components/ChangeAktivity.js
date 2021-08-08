@@ -5,6 +5,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import PrimaryButton from "./PrimaryButton.js";
+import BackButton from "./BackButton.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AddAktivity extends React.Component {
@@ -37,39 +38,28 @@ class AddAktivity extends React.Component {
       title: title,
       headerLeft: () => {
         return (
-          <View style={styles.margin}>
-            <TouchableOpacity
-              onPress={() => {
-                if (this.state.change && this.state.edit)
-                  Alert.alert(
-                    "Abort Changes",
-                    "Möchtest du wirklich die Veränderungen verwerfen?",
-                    [
-                      { text: "Nein" },
-                      {
-                        text: "Ja",
-                        onPress: () => {
-                          this.props.navigation.navigate(
-                            this.props.route.params.target
-                          );
-                        },
+          <BackButton
+            onPress={() => {
+              if (this.state.change && this.state.edit)
+                Alert.alert(
+                  "Abort Changes",
+                  "Möchtest du wirklich die Veränderungen verwerfen?",
+                  [
+                    { text: "Nein" },
+                    {
+                      text: "Ja",
+                      onPress: () => {
+                        this.props.navigation.navigate(
+                          this.props.route.params.target
+                        );
                       },
-                    ]
-                  );
-                else
-                  this.props.navigation.navigate(
-                    this.props.route.params.target
-                  );
-              }}
-            >
-              <Ionicons
-                name="arrow-back"
-                size={25}
-                color={colors.PrimaryTextColor}
-                style={styles.padding}
-              />
-            </TouchableOpacity>
-          </View>
+                    },
+                  ]
+                );
+              else
+                this.props.navigation.navigate(this.props.route.params.target);
+            }}
+          />
         );
       },
     });

@@ -10,6 +10,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import icons from "./../assets/icons.js";
+import BackButton from "./BackButton.js";
 
 class IconChooser extends React.Component {
   constructor(props) {
@@ -20,20 +21,11 @@ class IconChooser extends React.Component {
     this.props.navigation.setOptions({
       headerLeft: () => {
         return (
-          <View style={styles.margin}>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.goBack();
-              }}
-            >
-              <Ionicons
-                name="arrow-back"
-                size={25}
-                style={styles.padding}
-                color={colors.PrimaryTextColor}
-              />
-            </TouchableOpacity>
-          </View>
+          <BackButton
+            onPress={() => {
+              this.props.navigation.goBack();
+            }}
+          />
         );
       },
     });

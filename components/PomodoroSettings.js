@@ -1,9 +1,16 @@
 import React from "react";
-import { Text, View, TextInput, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  BackHandler,
+} from "react-native";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
+import BackButton from "./BackButton.js";
 const db = SQLite.openDatabase("pomodoro.db");
 
 class PomodoroSettings extends React.Component {
@@ -39,20 +46,11 @@ class PomodoroSettings extends React.Component {
     this.props.navigation.setOptions({
       headerLeft: () => {
         return (
-          <View style={styles.margin}>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.goBack();
-              }}
-            >
-              <Ionicons
-                name="arrow-back"
-                size={25}
-                color={colors.PrimaryTextColor}
-                style={styles.padding}
-              />
-            </TouchableOpacity>
-          </View>
+          <BackButton
+            onPress={() => {
+              this.props.navigation.goBack();
+            }}
+          />
         );
       },
     });
