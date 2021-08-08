@@ -8,7 +8,9 @@ import * as SQLite from "expo-sqlite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ColorPicker, fromHsv } from "react-native-color-picker";
 import PrimaryButton from "./PrimaryButton.js";
-import Test from "./Test.js";
+import Parse from "parse/react-native";
+
+const habits = SQLite.openDatabase("habits.db");
 
 class Settings extends React.Component {
   constructor(props) {
@@ -49,7 +51,6 @@ class Settings extends React.Component {
   loadData = async () => {
     try {
       const value = await AsyncStorage.getItem("color");
-      console.log(value);
       if (value !== null) {
         this.setState({ color: value });
       }
@@ -69,6 +70,91 @@ class Settings extends React.Component {
       await AsyncStorage.setItem("color", this.state.color);
       alert("Gespeichert. Bitte App neu starten.");
     } catch (e) {}
+  };
+  saveHabits = async (_array) => {
+    for (let i = 0; i < _array.length; i++) {
+      const habit = _array[i];
+      let Habit = new Parse.Object("Habit");
+      if (habit.object_id) {
+        Habit.set("objectId", habit.object_id + "");
+      }
+      Habit.set("user_id", 1);
+      Habit.set("icon", habit.icon);
+      Habit.set("intervall", habit.intervall);
+      Habit.set("name", habit.name);
+      Habit.set("priority", habit.priority);
+      Habit.set("repetitions", habit.repetitions);
+      Habit.set("queue", habit.queue);
+      try {
+        const savedHabit = await Habit.save();
+        habits.transaction((tx) => {
+          tx.executeSql(
+            "UPDATE habits SET object_id = ? WHERE id = ?",
+            [savedHabit.id, habit.id],
+            () => {},
+            (txObj, error) => {
+              console.log(error);
+            }
+          );
+        });
+      } catch (error) {
+        console.log("Error when saving ", habit.name, " ", error);
+      }
+    }
+    habits.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM checkHabits JOIN habits WHERE checkHabits.habit_id = habits.id",
+        null,
+        (txObj, { rows: { _array } }) => {
+          this.saveHabitChecks(_array);
+        }
+      );
+    });
+  };
+  saveHabitChecks = async (_array) => {
+    for (let i = 0; i < _array.length; i++) {
+      const habit_entry = _array[i];
+      let Habit_Entry = new Parse.Object("Habit_Entry");
+      if (habit_entry.object_id === null) {
+        alert("Something went wrong. Please try again.");
+        return;
+      }
+      if (habit_entry.object_id_check) {
+        Habit_Entry.set("objectId", habit.object_id_check + "");
+      }
+      let Habit = new Parse.Object("Habit");
+      Habit.set("objectId", habit_entry.object_id);
+      Habit_Entry.set("user_id", 1);
+      Habit_Entry.set("habit", Habit);
+      Habit_Entry.set("date", habit_entry.date);
+      try {
+        const savedHabitEntry = await Habit_Entry.save();
+        habits.transaction((tx) => {
+          tx.executeSql(
+            "UPDATE checkHabits SET object_id_check = ? WHERE id = ?",
+            [savedHabitEntry.id, habit_entry.id],
+            () => {},
+            (txObj, error) => {
+              console.log(error);
+            }
+          );
+        });
+      } catch (error) {
+        console.log("Error when saving ", habit_entry.name, " Entry ", error);
+      }
+    }
+  };
+  syncronize = () => {
+    /* start with the habits */
+    habits.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM habits",
+        null,
+        (txObj, { rows: { _array } }) => {
+          this.saveHabits(_array);
+        }
+      );
+    });
   };
   render() {
     return (
@@ -93,6 +179,7 @@ class Settings extends React.Component {
           style={{ height: 500 }}
         />
         <PrimaryButton onPress={this.save} text={"Speichern"} />
+        <PrimaryButton onPress={this.syncronize} text={"Synchronisieren"} />
       </ScrollView>
     );
   }

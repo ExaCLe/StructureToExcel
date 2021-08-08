@@ -37,15 +37,18 @@ class ChangeHabit extends React.Component {
       addToGoals: false,
       addToTracking: false,
       priority: false,
-      valueIntervall: (() => {
-        return edit ? props.route.params.intervall : 1;
+      intervall: (() => {
+        return edit ? "" + props.route.params.intervall : "";
       })(),
       valuePriority: (() => {
-        return edit ? props.route.params.priority : 1;
+        return edit ? "" + props.route.params.priority : "";
       })(),
       goalIntervall: 1,
       repetitions: (() => {
         return edit ? "" + props.route.params.repetitions : "";
+      })(),
+      priority: (() => {
+        return edit ? props.route.params.priority : 1;
       })(),
       id: props.route.params.id,
     };
@@ -106,11 +109,11 @@ class ChangeHabit extends React.Component {
       alert("Bitte einen Namen eintragen");
       return false;
     }
-    if (!this.state.valuePriority) {
+    if (!this.state.priority) {
       alert("Bitte eine Priorität auswählen");
       return false;
     }
-    if (!this.state.valueIntervall) {
+    if (!this.state.intervall) {
       alert("Bitte ein Intervall auswählen");
       return false;
     }
@@ -122,7 +125,7 @@ class ChangeHabit extends React.Component {
       alert("Bitte ein Icon auswählen");
       return false;
     }
-    if (this.state.repetitions > this.state.valueIntervall) {
+    if (this.state.repetitions > this.state.intervall) {
       alert(
         "Maximal einmal pro Tag ausführbar. Bitte maximal n Mal in n Tagen als Ziel setzen. "
       );
@@ -171,7 +174,7 @@ class ChangeHabit extends React.Component {
         [
           this.state.name,
           this.state.priority,
-          this.state.valueIntervall,
+          this.state.intervall,
           parseInt(this.state.repetitions),
           this.state.icon,
           queue,
@@ -181,6 +184,7 @@ class ChangeHabit extends React.Component {
           else this.props.navigation.navigate("HabitsQueue");
         },
         (txObj, error) => {
+          alert("Speichern nicht erfolgreich. Bitte erneut versuchen.");
           console.log(error);
         }
       );
@@ -197,13 +201,14 @@ class ChangeHabit extends React.Component {
         "UPDATE habits SET name=?, intervall=?, priority=?, repetitions=?, icon=? WHERE id=?",
         [
           this.state.name,
-          this.state.valueIntervall,
+          this.state.intervall,
           this.state.valuePriority,
           this.state.repetitions,
           this.state.icon,
           this.state.id,
         ],
         (txObj, resultSet) => {
+          console.log(resultSet);
           this.props.navigation.navigate("HabitDetails", {
             ...this.state,
           });
@@ -236,7 +241,7 @@ class ChangeHabit extends React.Component {
   };
   handleIntervallChange = (number) => {
     if (+number || number == "")
-      this.setState({ valueIntervall: number, change: true });
+      this.setState({ intervall: number, change: true });
   };
 
   zIndexn1 = (() => {

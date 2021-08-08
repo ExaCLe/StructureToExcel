@@ -17,9 +17,23 @@ export default class HabitOverview extends React.Component {
       habits: null,
     };
     // create a table for the habits if not existing already
+    // db.transaction((tx) => {
+    //   tx.executeSql(
+    //     "DROP TABLE habits ;",
+    //     null,
+    //     () => {},
+    //     (txObj, error) => {}
+    //   );
+    //   tx.executeSql(
+    //     "DROP TABLE checkHabits ;",
+    //     null,
+    //     () => {},
+    //     (txObj, error) => {}
+    //   );
+    // });
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, queue BOOLEAN);",
+        "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, queue BOOLEAN, object_id TEXT, deleted BOOLEAN);",
         null,
         () => {},
         (txObj, error) => {}
@@ -28,7 +42,7 @@ export default class HabitOverview extends React.Component {
     // create table for the habits fullfilling
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE checkHabits (id INTEGER PRIMARY KEY, habit_id INTEGER, date TEXT, FOREIGN KEY(habit_id) REFERENCES habits(id));"
+        "CREATE TABLE checkHabits (id INTEGER PRIMARY KEY, habit_id INTEGER, date TEXT, object_id_check TEXT, habit_object_id TEXT, deleted BOOLEAN, FOREIGN KEY(habit_id) REFERENCES habits(id), FOREIGN KEY(habit_object_id) REFERENCES habits(object_id));"
       );
     });
 
@@ -81,6 +95,7 @@ export default class HabitOverview extends React.Component {
         "SELECT * FROM habits WHERE queue IS NULL OR queue = 0 ORDER BY priority",
         null,
         (txObj, { rows: { _array } }) => {
+          console.log(_array);
           this.setState({ habits: _array }, this.calculateScore);
         },
         () => console.error("Fehler beim Lesen der Gewohnheiten. ")
@@ -91,6 +106,7 @@ export default class HabitOverview extends React.Component {
         "SELECT * FROM checkHabits WHERE date = date('now');",
         null,
         (txObj, results) => {
+          console.log(results.rows._array);
           this.addChecksToState(results);
         }
       );
