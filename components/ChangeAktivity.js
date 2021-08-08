@@ -1,11 +1,12 @@
 import React from "react";
-import { Text, View, Alert, TextInput, TouchableOpacity } from "react-native";
+import { Text, View, Alert, TouchableOpacity } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import PrimaryButton from "./PrimaryButton.js";
 import BackButton from "./BackButton.js";
+import TextfieldAndLabel from "./TextfieldAndLabel.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AddAktivity extends React.Component {
@@ -134,20 +135,14 @@ class AddAktivity extends React.Component {
   render() {
     return (
       <View style={styles.margin}>
-        <Text style={[styles.secondaryText]}>Name: </Text>
-        <TextInput
-          placeholder="Name"
-          value={this.state.name}
-          style={[
-            styles.normalText,
-            styles.textInputLarge,
-            { borderColor: global.color, color: global.color },
-
-            styles.padding,
-          ]}
+        <TextfieldAndLabel
           onChangeText={(text) => {
             this.setState({ name: text, change: true });
           }}
+          placeholder="Name"
+          value={this.state.name}
+          label={"Name: "}
+          width={"50%"}
         />
         <View style={[styles.containerHorizontal]}>
           <Text style={[styles.secondaryText, styles.margin]}>Icon: </Text>

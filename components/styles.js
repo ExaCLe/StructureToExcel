@@ -114,7 +114,6 @@ const styles = (() => {
       borderColor: global.color,
       borderRadius: 10,
       paddingLeft: 20,
-      minWidth: "50%",
     },
     textCenter: {
       textAlign: "center",
@@ -123,12 +122,10 @@ const styles = (() => {
     accentColorText: {
       color: global.color,
     },
-    textInputSmall: {
+    textInput: {
       borderWidth: 1,
       borderColor: global.color,
       borderRadius: 10,
-      width: "25%",
-      textAlign: "center",
     },
     container: {
       display: "flex",

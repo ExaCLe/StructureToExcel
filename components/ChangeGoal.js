@@ -3,7 +3,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TextInput,
   Switch,
   Alert,
   Platform,
@@ -17,6 +16,8 @@ import { Picker } from "@react-native-picker/picker";
 import * as SQLite from "expo-sqlite";
 import PrimaryButton from "./PrimaryButton.js";
 import BackButton from "./BackButton.js";
+import TextfieldAndLabel from "./TextfieldAndLabel.js";
+import Textfield from "./Textfield.js";
 const db = SQLite.openDatabase("goals.db");
 const habits = SQLite.openDatabase("habits.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
@@ -209,24 +210,15 @@ class ChangeGoal extends React.Component {
     console.log("zIndex: ", this.state.zIndex);
     return (
       <ScrollView style={styles.margin}>
-        <View style={styles.containerHorizontal}>
-          <Text style={styles.secondaryText}>Name: </Text>
-          <TextInput
-            placeholder="Name"
-            value={this.state.name}
-            style={[
-              styles.padding,
-              styles.textInputSmall,
-              { borderColor: global.color },
-              styles.margin,
-              styles.normalText,
-              { color: global.color },
-            ]}
-            onChangeText={(text) => {
-              this.setState({ name: text, change: true });
-            }}
-          />
-        </View>
+        <TextfieldAndLabel
+          onChangeText={(text) => {
+            this.setState({ name: text, change: true });
+          }}
+          placeholder="Name"
+          value={this.state.name}
+          label={"Name: "}
+          width={"50%"}
+        />
 
         <View style={[styles.containerHorizontal]}>
           <Text style={[styles.secondaryText, styles.margin]}>Icon: </Text>
@@ -246,7 +238,6 @@ class ChangeGoal extends React.Component {
           }}
         >
           <Text style={[styles.textButton, { color: global.color }]}>
-            {" "}
             Wähle Icon
           </Text>
         </TouchableOpacity>
@@ -306,99 +297,81 @@ class ChangeGoal extends React.Component {
           </View>
         </View>
         {this.state.time && (
-          <View style={styles.containerHorizontal}>
-            <Text style={styles.secondaryText}>Dauer: </Text>
-            <TextInput
+          <View>
+            <TextfieldAndLabel
               placeholder="12 h"
               value={this.state.repetitions ? this.state.repetitions + "" : ""}
-              style={[
-                styles.padding,
-                styles.textInputSmall,
-                { borderColor: global.color },
-                styles.margin,
-                styles.normalText,
-                { color: global.color },
-              ]}
               onChangeText={(text) => {
                 if (+text || text === "")
                   this.setState({ repetitions: text, change: true });
               }}
               keyboardType="numeric"
+              width="50%"
+              label="Dauer in Std.: "
             />
-            <Text>Stunden</Text>
-            <Text style={[styles.secondaryText, styles.margin]}>
-              Aktivity:{" "}
-            </Text>
-            <Ionicons
-              name={this.state.aktivity_icon}
-              size={25}
-              color={colors.PrimaryAccentColor}
-              style={[styles.margin, styles.padding]}
-            />
-            <Text>{this.state.aktivity_name}</Text>
-            <TouchableOpacity
-              style={[styles.margin, styles.padding]}
-              onPress={() => {
-                this.props.navigation.navigate("AktivityChooserGoal", {
-                  target: "ChangeGoal",
-                });
-              }}
-            >
-              <Text
-                style={[
-                  styles.textButton,
-                  { color: global.color },
-                  { color: global.color },
-                ]}
-              >
-                {" "}
-                Choose Aktivity
+            <View style={styles.containerHorizontal}>
+              <Text style={[styles.secondaryText, styles.margin]}>
+                Aktivity:{" "}
               </Text>
-            </TouchableOpacity>
+              <Ionicons
+                name={this.state.aktivity_icon}
+                size={25}
+                color={colors.PrimaryAccentColor}
+                style={[styles.margin, styles.padding]}
+              />
+              <Text>{this.state.aktivity_name}</Text>
+              <TouchableOpacity
+                style={[styles.margin, styles.padding]}
+                onPress={() => {
+                  this.props.navigation.navigate("AktivityChooserGoal", {
+                    target: "ChangeGoal",
+                  });
+                }}
+              >
+                <Text
+                  style={[
+                    styles.textButton,
+                    { color: global.color },
+                    { color: global.color },
+                  ]}
+                >
+                  {" "}
+                  Choose Aktivity
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
         {!this.state.time && (
           <View
             style={[styles.containerHorizontal, styles.center, { zIndex: -1 }]}
           >
-            <TextInput
+            <Textfield
               placeholder="6"
               value={
                 this.state.progress || this.state.progress === "0"
                   ? this.state.progress + ""
                   : ""
               }
-              style={[
-                styles.padding,
-                styles.textInputSmall,
-                { borderColor: global.color },
-                styles.margin,
-                styles.normalText,
-                { color: global.color },
-              ]}
               onChangeText={(text) => {
                 if (+text || text === "" || text === "0")
                   this.setState({ progress: text, change: true });
               }}
               keyboardType="numeric"
+              width="20%"
+              textAlign="center"
             />
-            <Text style={styles.secondaryText}>von</Text>
-            <TextInput
+            <Text style={[styles.secondaryText, styles.margin]}>von</Text>
+            <Textfield
               placeholder="12"
               value={this.state.repetitions ? this.state.repetitions + "" : ""}
-              style={[
-                styles.padding,
-                styles.textInputSmall,
-                { borderColor: global.color },
-                styles.margin,
-                styles.normalText,
-                { color: global.color },
-              ]}
               onChangeText={(text) => {
                 if (+text || text === "")
                   this.setState({ repetitions: text, change: true });
               }}
               keyboardType="numeric"
+              width="20%"
+              textAlign="center"
             />
           </View>
         )}

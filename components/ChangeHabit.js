@@ -1,7 +1,6 @@
 import React from "react";
 import {
   View,
-  TextInput,
   Text,
   TouchableOpacity,
   Switch,
@@ -16,6 +15,8 @@ import { Picker } from "@react-native-picker/picker";
 import * as colors from "../assets/colors.js";
 import PrimaryButton from "./PrimaryButton.js";
 import BackButton from "./BackButton.js";
+import TextfieldAndLabel from "./TextfieldAndLabel.js";
+import Textfield from "./Textfield.js";
 // for usage: https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage
 // open the database for adding the habits
 const db = SQLite.openDatabase("habits.db");
@@ -244,22 +245,14 @@ class ChangeHabit extends React.Component {
   render() {
     const addHabit = this.addHabit;
     return (
-      <ScrollView style={styles.backgroundColor}>
-        <Text style={[styles.secondaryText, styles.margin]}>Name:</Text>
-        <TextInput
-          style={[
-            styles.normalText,
-            styles.padding,
-            styles.margin,
-            styles.textInputLarge,
-            { color: global.color },
-            { borderColor: global.color },
-          ]}
+      <ScrollView style={[styles.backgroundColor, styles.padding]}>
+        <TextfieldAndLabel
           placeholder="Name"
           onChangeText={this.handleNameChange}
           value={this.state.name}
+          label="Name: "
+          width="50%"
         />
-        {/* View here? */}
         <View style={[styles.containerHorizontal]}>
           <Text style={[styles.secondaryText, styles.margin]}>Icon: </Text>
           <Ionicons
@@ -286,38 +279,31 @@ class ChangeHabit extends React.Component {
           Wie oft möchtest du sie erfüllen?{" "}
         </Text>
         <View style={styles.containerHorizontal}>
-          <TextInput
-            placeholder={"7"}
-            value={this.state.repetitions}
-            style={[
-              styles.padding,
-              styles.textInputSmall,
-              { borderColor: global.color },
-              styles.margin,
-              styles.normalText,
-              { color: global.color },
-            ]}
+          <Textfield
             onChangeText={this.handleRepetitionChange}
             keyboardType="numeric"
+            placeholder={"7"}
+            value={this.state.repetitions}
+            width="15%"
+            textAlign="center"
           />
-          <Text style={[styles.normalText, { color: global.color }]}>
+          <Text
+            style={[styles.normalText, { color: global.color }, styles.margin]}
+          >
             Mal in
           </Text>
-          <TextInput
-            placeholder={"7"}
-            value={this.state.intervall}
-            style={[
-              styles.padding,
-              styles.textInputSmall,
-              { borderColor: global.color },
-              styles.margin,
-              styles.normalText,
-              { color: global.color },
-            ]}
+
+          <Textfield
             onChangeText={this.handleIntervallChange}
             keyboardType="numeric"
+            placeholder={"7"}
+            value={this.state.intervall}
+            width="15%"
+            textAlign="center"
           />
-          <Text style={[styles.normalText, { color: global.color }]}>
+          <Text
+            style={[styles.normalText, { color: global.color }, styles.margin]}
+          >
             Tagen
           </Text>
         </View>

@@ -11,6 +11,7 @@ import * as colors from "./../assets/colors.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import BackButton from "./BackButton.js";
+import TextfieldAndLabel from "./TextfieldAndLabel.js";
 const db = SQLite.openDatabase("pomodoro.db");
 
 class PomodoroSettings extends React.Component {
@@ -83,65 +84,37 @@ class PomodoroSettings extends React.Component {
   render() {
     return (
       <View style={styles.margin}>
-        <Text style={styles.secondaryText}>Arbeitsintervalllänge: </Text>
-        <View style={styles.containerHorizontal}>
-          <TextInput
-            value={"" + this.state.workingInterval}
-            style={[
-              styles.normalText,
-              styles.textInputLarge,
-              { borderColor: global.color, color: global.color },
-              styles.margin,
-              styles.padding,
-              styles.textCenter,
-            ]}
-            onChangeText={(text) => {
-              if (+text || text === "" || text === "0" || text === "0.")
-                this.setState({ workingInterval: text });
-            }}
-            keyboardType="numeric"
-          />
-          <Text style={styles.secondaryText}>Minuten</Text>
-        </View>
-
-        <Text style={styles.secondaryText}>Pausenintervalllänge: </Text>
-        <View style={styles.containerHorizontal}>
-          <TextInput
-            value={this.state.breakInterval + ""}
-            style={[
-              styles.normalText,
-              styles.textInputLarge,
-              { borderColor: global.color, color: global.color },
-              styles.margin,
-              styles.padding,
-              styles.textCenter,
-            ]}
-            onChangeText={(text) => {
-              if (+text || text === "") this.setState({ breakInterval: text });
-            }}
-            keyboardType="numeric"
-          />
-          <Text style={styles.secondaryText}>Minuten</Text>
-        </View>
-        <Text style={styles.secondaryText}>Lange Pause nach: </Text>
-        <View style={styles.containerHorizontal}>
-          <TextInput
-            value={this.state.longBreakAfter + ""}
-            style={[
-              styles.normalText,
-              styles.textInputLarge,
-              { borderColor: global.color, color: global.color },
-              styles.margin,
-              styles.padding,
-              styles.textCenter,
-            ]}
-            onChangeText={(text) => {
-              if (+text || text === "") this.setState({ longBreakAfter: text });
-            }}
-            keyboardType="numeric"
-          />
-          <Text style={styles.secondaryText}>Intervallen</Text>
-        </View>
+        <TextfieldAndLabel
+          label="Arbeitsintervalllänge in Minuten: "
+          onChangeText={(text) => {
+            if (+text || text === "" || text === "0" || text === "0.")
+              this.setState({ workingInterval: text });
+          }}
+          keyboardType="numeric"
+          value={"" + this.state.workingInterval}
+          width="30%"
+          textAlign="center"
+        />
+        <TextfieldAndLabel
+          value={this.state.breakInterval + ""}
+          onChangeText={(text) => {
+            if (+text || text === "") this.setState({ breakInterval: text });
+          }}
+          keyboardType="numeric"
+          width="30%"
+          textAlign="center"
+          label="Pausenintervalllänge in Minuten: "
+        />
+        <TextfieldAndLabel
+          keyboardType="numeric"
+          width="30%"
+          textAlign="center"
+          label="Lange Pause nach (Intervallen): "
+          value={this.state.longBreakAfter + ""}
+          onChangeText={(text) => {
+            if (+text || text === "") this.setState({ longBreakAfter: text });
+          }}
+        />
       </View>
     );
   }
