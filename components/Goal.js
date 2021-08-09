@@ -16,8 +16,12 @@ class Goal extends React.Component {
     this.setState({});
     db.transaction((tx) => {
       tx.executeSql(
-        "UPDATE goals SET progress = ? WHERE id = ? ",
-        [this.props.goal.progress, this.props.goal.id],
+        "UPDATE goals SET progress = ?, version=? WHERE id = ? ",
+        [
+          this.props.goal.progress,
+          this.props.goal.version + 1,
+          this.props.goal.id,
+        ],
         () => {},
         () => {
           console.log("error");

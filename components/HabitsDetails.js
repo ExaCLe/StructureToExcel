@@ -143,8 +143,12 @@ class HabitsDetails extends React.Component {
   changeQueueState = (value) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "UPDATE habits SET queue=? WHERE id=?",
-        [value, this.props.route.params.id],
+        "UPDATE habits SET queue=?, version=? WHERE id=?",
+        [
+          value,
+          this.props.route.params.version + 1,
+          this.props.route.params.id,
+        ],
         (txObj, resultSet) => {
           if (!value) this.props.navigation.navigate("HabitOverview");
           else this.props.navigation.navigate("HabitsQueue");
@@ -207,12 +211,15 @@ class HabitsDetails extends React.Component {
           {
             text: "Ja",
             onPress: () => {
-              const sql = `UPDATE checkHabits SET deleted = 1 WHERE habit_id = ? AND date = date('now', '-${index} day')`;
+              const sql = `UPDATE checkHabits SET deleted = 1, version=? WHERE habit_id = ? AND date = date('now', '-${index} day')`;
               console.log(sql);
               db.transaction((tx) => {
                 tx.executeSql(
                   sql,
-                  [this.props.route.params.id],
+                  [
+                    this.props.route.params.version + 1,
+                    this.props.route.params.id,
+                  ],
                   (txObj, result) => {},
                   (txObj, error) => {
                     console.log(error);

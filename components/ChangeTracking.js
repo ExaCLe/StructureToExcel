@@ -96,7 +96,7 @@ class ChangeTracking extends React.Component {
       return;
     }
     const sql = this.props.route.params.edit
-      ? "UPDATE trackings SET act_id = ? , start_time =? , end_time =?, duration_s = ? WHERE id = ?"
+      ? "UPDATE trackings SET act_id = ? , start_time =? , end_time =?, duration_s = ?, version=? WHERE id = ?"
       : "INSERT INTO trackings (act_id, start_time, end_time, duration_s) VALUES (?, ?, ?, ?);";
     // handle change in the databases
     db.transaction((tx) => {
@@ -107,6 +107,7 @@ class ChangeTracking extends React.Component {
           this.state.start_time.toISOString(),
           this.state.end_time.toISOString(),
           duration,
+          this.state.version + 1,
           this.state.id,
         ],
         () => {

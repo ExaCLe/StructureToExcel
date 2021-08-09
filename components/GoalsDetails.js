@@ -93,8 +93,11 @@ class GoalsDetails extends React.Component {
                     onPress: () => {
                       db.transaction((tx) => {
                         tx.executeSql(
-                          "UPDATE goals SET deleted=1 WHERE id=?",
-                          [this.props.route.params.id],
+                          "UPDATE goals SET deleted=1, version=? WHERE id=?",
+                          [
+                            this.props.route.params.version + 1,
+                            this.props.route.params.id,
+                          ],
                           () => {
                             this.props.navigation.goBack();
                           },
@@ -123,8 +126,8 @@ class GoalsDetails extends React.Component {
   archiveGoal = (bool) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "UPDATE goals SET archive = ? WHERE id = ?",
-        [bool, this.props.route.params.id],
+        "UPDATE goals SET archive = ?, version=? WHERE id = ?",
+        [bool, this.props.route.params.version + 1, this.props.route.params.id],
         () => {
           this.props.navigation.goBack();
         }

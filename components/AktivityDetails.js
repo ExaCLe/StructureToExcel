@@ -124,8 +124,11 @@ class AktivityDetails extends React.Component {
                     onPress: () => {
                       db.transaction((tx) => {
                         tx.executeSql(
-                          "UPDATE activities SET deleted=1 WHERE id=?",
-                          [this.props.route.params.id],
+                          "UPDATE activities SET deleted=1, version=? WHERE id=?",
+                          [
+                            this.props.route.params.version + 1,
+                            this.props.route.params.id,
+                          ],
                           () => {
                             this.props.navigation.goBack();
                           },
@@ -134,8 +137,11 @@ class AktivityDetails extends React.Component {
                           }
                         );
                         tx.executeSql(
-                          "UPDATE trackings SET deleted=1 WHERE act_id=?",
-                          [this.props.route.params.id],
+                          "UPDATE trackings SET deleted=1, version=? WHERE act_id=?",
+                          [
+                            this.props.route.params.version + 1,
+                            this.props.route.params.id,
+                          ],
                           () => {
                             this.props.navigation.goBack();
                           },

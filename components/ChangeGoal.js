@@ -168,7 +168,7 @@ class ChangeGoal extends React.Component {
         "INSERT INTO goals (name, intervall, priority, repetitions, icon, progress, time, act_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
     } else {
       sql =
-        "UPDATE goals SET name=?, intervall=?, priority=?, repetitions=?, icon=?, progress=?, time=? , act_id = ? WHERE id = ?";
+        "UPDATE goals SET name=?, intervall=?, priority=?, repetitions=?, icon=?, progress=?, time=? , act_id = ?, version=? WHERE id = ?";
     }
     // execute the sql
     db.transaction((tx) => {
@@ -183,6 +183,7 @@ class ChangeGoal extends React.Component {
           this.state.progress,
           this.state.time,
           this.state.act_id,
+          this.state.version + 1,
           this.state.id,
         ],
         () => {

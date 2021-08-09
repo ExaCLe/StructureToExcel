@@ -75,8 +75,11 @@ class AddAktivity extends React.Component {
               onPress={() => {
                 db.transaction((tx) => {
                   tx.executeSql(
-                    "UPDATE activities SET deleted=1 WHERE id=?",
-                    [this.props.route.params.id],
+                    "UPDATE activities SET deleted=1, version=? WHERE id=?",
+                    [
+                      this.props.route.params.version + 1,
+                      this.props.route.params.id,
+                    ],
                     () => {
                       this.props.navigation.goBack();
                     },
@@ -115,8 +118,13 @@ class AddAktivity extends React.Component {
       sql = "INSERT INTO activities (name, icon) VALUES (?, ?) ";
       variables = [this.state.name, this.state.icon];
     } else {
-      sql = "UPDATE activities SET name=?, icon=? WHERE id = ?";
-      variables = [this.state.name, this.state.icon, this.state.id];
+      sql = "UPDATE activities SET name=?, icon=?, version=? WHERE id = ?";
+      variables = [
+        this.state.name,
+        this.state.icon,
+        this.state.version + 1,
+        this.state.id,
+      ];
     }
     // execute the sql
     db.transaction((tx) => {
