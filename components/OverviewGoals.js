@@ -16,26 +16,26 @@ class OverviewGoals extends React.Component {
     super(props);
     this.state = { goals: [], period: DAY };
     // create a table for the habits if not existing already
+    // db.transaction((tx) => {
+    //   tx.executeSql(
+    //     "DROP TABLE goals ;",
+    //     null,
+    //     () => {},
+    //     (txObj, error) => {}
+    //   );
+    // });
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS goals (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, progress INT, time BOOLEAN);",
+        "CREATE TABLE IF NOT EXISTS goals (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, progress INT, time BOOLEAN, version INTEGER NOT NULL DEFAULT 0, object_id TEXT, deleted BOOLEAN DEFAULT 0, archive BOOLEAN, act_id INTEGER);",
         null,
         // success
         () => {
           console.log("success");
         },
         // error
-        (txObj, error) => {}
-      );
-    });
-    db.transaction((tx) => {
-      tx.executeSql("ALTER TABLE goals ADD archive BOOLEAN", null, () =>
-        console.log("success2")
-      );
-    });
-    db.transaction((tx) => {
-      tx.executeSql("ALTER TABLE goals ADD act_id INTEGER", null, () =>
-        console.log("success2")
+        (txObj, error) => {
+          console.log(error);
+        }
       );
     });
     // get the goals from the database
@@ -53,6 +53,7 @@ class OverviewGoals extends React.Component {
         sql,
         [this.state.period],
         async (txObj, { rows: { _array } }) => {
+          console.log(_array);
           _array.map((ele, index) => {
             if (ele.time)
               tracking.transaction((tt) => {
