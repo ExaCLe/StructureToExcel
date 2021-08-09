@@ -17,26 +17,28 @@ export default class HabitOverview extends React.Component {
       habits: null,
     };
     // create a table for the habits if not existing already
+    // db.transaction((tx) => {
+    //   tx.executeSql(
+    //     "DROP TABLE habits ;",
+    //     null,
+    //     () => {},
+    //     (txObj, error) => {}
+    //   );
+    //   tx.executeSql(
+    //     "DROP TABLE checkHabits ;",
+    //     null,
+    //     () => {},
+    //     (txObj, error) => {}
+    //   );
+    // });
     db.transaction((tx) => {
       tx.executeSql(
-        "DROP TABLE habits ;",
+        "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, queue BOOLEAN, object_id TEXT, deleted BOOLEAN, updatedAt DATETIME, version INTEGER NOT NULL DEFAULT 0);",
         null,
         () => {},
-        (txObj, error) => {}
-      );
-      tx.executeSql(
-        "DROP TABLE checkHabits ;",
-        null,
-        () => {},
-        (txObj, error) => {}
-      );
-    });
-    db.transaction((tx) => {
-      tx.executeSql(
-        "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, queue BOOLEAN, object_id TEXT, deleted BOOLEAN, updatedAt DATETIME);",
-        null,
-        () => {},
-        (txObj, error) => {}
+        (txObj, error) => {
+          // console.log(error);
+        }
       );
     });
     // create table for the habits fullfilling
@@ -92,21 +94,20 @@ export default class HabitOverview extends React.Component {
     console.log("Fetching data...");
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM habits WHERE queue IS NULL OR queue = 0 ORDER BY priority",
+        "SELECT * FROM habits WHERE (queue IS NULL OR queue = 0) AND (deleted = 0 OR deleted IS NULL) ORDER BY priority",
         null,
         (txObj, { rows: { _array } }) => {
-          console.log(_array);
           this.setState({ habits: _array }, this.calculateScore);
         },
-        () => console.error("Fehler beim Lesen der Gewohnheiten. ")
+        (txObj, error) =>
+          console.error("Fehler beim Lesen der Gewohnheiten. ", error)
       );
     });
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM checkHabits WHERE date = date('now');",
+        "SELECT * FROM checkHabits WHERE date = date('now') AND (deleted = 0 OR deleted IS NULL);",
         null,
         (txObj, results) => {
-          console.log(results.rows._array);
           this.addChecksToState(results);
         }
       );
@@ -119,7 +120,7 @@ export default class HabitOverview extends React.Component {
       const length_intervall =
         Math.round(30 / this.state.habits[i].repetitions) *
         this.state.habits[i].intervall;
-      const sql = `SELECT * FROM checkHabits WHERE habit_id = ? AND date > DATE('now', '-${length_intervall} day')`;
+      const sql = `SELECT * FROM checkHabits WHERE habit_id = ? AND date > DATE('now', '-${length_intervall} day') AND (deleted = 0 OR deleted IS NULL)`;
       db.transaction((tx) => {
         tx.executeSql(
           sql,

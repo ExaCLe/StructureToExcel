@@ -24,7 +24,7 @@ class HabitsDetails extends React.Component {
     // get the fullfilled dates out of the db
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM checkHabits WHERE habit_id = ? AND date >= date('now', '-30 days')",
+        "SELECT * FROM checkHabits WHERE habit_id = ? AND date >= date('now', '-30 days') AND (deleted = 0 OR deleted IS NULL)",
         [this.props.route.params.id],
         (txObj, { rows: { _array } }) => {
           let now = new Date();
@@ -100,15 +100,18 @@ class HabitsDetails extends React.Component {
                     onPress: () => {
                       db.transaction((tx) => {
                         tx.executeSql(
-                          "DELETE FROM habits WHERE id=?",
-                          [this.props.route.params.id],
+                          "UPDATE habits SET deleted = 1, version = ? WHERE id=?",
+                          [
+                            this.props.route.params.version + 2,
+                            this.props.route.params.id,
+                          ],
                           () => {},
                           null
                         );
                       });
                       db.transaction((tx) => {
                         tx.executeSql(
-                          "DELETE FROM checkHabits WHERE habit_id=?",
+                          "UPDATE checkHabits SET deleted = 1, version = 1 WHERE habit_id=?",
                           [this.props.route.params.id],
                           () => {
                             this.props.navigation.goBack();
@@ -204,7 +207,7 @@ class HabitsDetails extends React.Component {
           {
             text: "Ja",
             onPress: () => {
-              const sql = `DELETE FROM checkHabits WHERE habit_id = ? AND date = date('now', '-${index} day')`;
+              const sql = `UPDATE checkHabits SET deleted = 1 WHERE habit_id = ? AND date = date('now', '-${index} day')`;
               console.log(sql);
               db.transaction((tx) => {
                 tx.executeSql(

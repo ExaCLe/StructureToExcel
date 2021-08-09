@@ -52,6 +52,9 @@ class ChangeHabit extends React.Component {
       priority: (() => {
         return edit ? props.route.params.priority : 1;
       })(),
+      version: (() => {
+        return edit ? props.route.params.version : 0;
+      })(),
       id: props.route.params.id,
     };
   }
@@ -189,15 +192,17 @@ class ChangeHabit extends React.Component {
   })();
   updateHabits = () => {
     // handle change in the databases
+    console.log(this.state);
     db.transaction((tx) => {
       tx.executeSql(
-        "UPDATE habits SET name=?, intervall=?, priority=?, repetitions=?, icon=?, updatedAt=DATETIME('now') WHERE id=?",
+        "UPDATE habits SET name=?, intervall=?, priority=?, repetitions=?, icon=?, updatedAt=DATETIME('now'), version=? WHERE id=?",
         [
           this.state.name,
           this.state.intervall,
           this.state.valuePriority,
           this.state.repetitions,
           this.state.icon,
+          this.state.version + 1,
           this.state.id,
         ],
         (txObj, resultSet) => {

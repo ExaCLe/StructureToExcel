@@ -107,8 +107,15 @@ class Settings extends React.Component {
       const habit = _array[i];
       let Habit = new Parse.Object("Habit");
       if (habit.object_id) {
+        let query = new Parse.Query("Habit");
+        query.equalTo("objectId", habit.object_id + "");
+        const result = await query.find();
+        const version = result[0].get("version");
+        if (habit.version < version) continue;
         Habit.set("objectId", habit.object_id + "");
       }
+      Habit.set("version", habit.version);
+      Habit.set("deleted", habit.deleted);
       Habit.set("user", currentUser);
       Habit.set("icon", habit.icon);
       Habit.set("intervall", habit.intervall);
@@ -144,7 +151,7 @@ class Settings extends React.Component {
 
     habits.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM checkHabits JOIN habits WHERE checkHabits.habit_id = habits.id",
+        "SELECT * FROM habits JOIN checkHabits WHERE checkHabits.habit_id = habits.id",
         null,
         (txObj, { rows: { _array } }) => {
           this.saveHabitChecks(_array, currentUser);
@@ -156,6 +163,7 @@ class Settings extends React.Component {
   factorInHabits = async (array) => {
     for (let i = 0; i < array.length; i++) {
       const habit = array[i];
+      if (habit.get("deleted")) continue;
       habits.transaction((tx) => {
         tx.executeSql(
           "SELECT * FROM habits WHERE object_id = ?",
@@ -164,7 +172,7 @@ class Settings extends React.Component {
             if (_array.length === 0) {
               habits.transaction((tx) => {
                 tx.executeSql(
-                  "INSERT INTO habits (name, priority, intervall, repetitions, icon, queue, object_id) VALUES (?, ?, ?, ?, ?, ?, ?);",
+                  "INSERT INTO habits (name, priority, intervall, repetitions, icon, queue, object_id, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
                   [
                     habit.get("name"),
                     habit.get("priority"),
@@ -173,6 +181,7 @@ class Settings extends React.Component {
                     habit.get("icon"),
                     habit.get("queue"),
                     habit.id,
+                    habit.get("version"),
                   ],
                   () => {
                     console.log("Inserted ", habit.get("name"));
@@ -188,30 +197,33 @@ class Settings extends React.Component {
                 );
               });
             } else {
-              habits.transaction((tx) => {
-                tx.executeSql(
-                  "UPDATE habits SET name=?, intervall=?, priority=?, repetitions=?, icon=? WHERE object_id=?",
-                  [
-                    habit.get("name"),
-                    habit.get("intervall"),
-                    habit.get("priority"),
-                    habit.get("repetitions"),
-                    habit.get("icon"),
-                    habit.id,
-                  ],
-                  () => {
-                    console.log("Updated ", habit.get("name"));
-                  },
-                  (txObj, error) => {
-                    console.log(
-                      "Error updating ",
+              if (_array[0].version < habit.get("version"))
+                habits.transaction((tx) => {
+                  tx.executeSql(
+                    "UPDATE habits SET name=?, intervall=?, priority=?, repetitions=?, icon=?, version=?, deleted=? WHERE object_id=?",
+                    [
                       habit.get("name"),
-                      ":",
-                      error
-                    );
-                  }
-                );
-              });
+                      habit.get("intervall"),
+                      habit.get("priority"),
+                      habit.get("repetitions"),
+                      habit.get("icon"),
+                      habit.get("version"),
+                      habit.get("deleted"),
+                      habit.id,
+                    ],
+                    () => {
+                      console.log("Updated ", habit.get("name"));
+                    },
+                    (txObj, error) => {
+                      console.log(
+                        "Error updating ",
+                        habit.get("name"),
+                        ":",
+                        error
+                      );
+                    }
+                  );
+                });
             }
           }
         );
@@ -232,6 +244,7 @@ class Settings extends React.Component {
       }
       let Habit = new Parse.Object("Habit");
       Habit.set("objectId", habit_entry.object_id);
+      Habit_Entry.set("deleted", habit_entry.deleted);
       Habit_Entry.set("user", currentUser);
       Habit_Entry.set("habit", Habit);
       Habit_Entry.set("date", habit_entry.date);
