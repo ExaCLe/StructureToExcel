@@ -4,7 +4,7 @@ import styles from "./styles.js";
 
 const PrimaryButton = (props) => {
   return (
-    <View>
+    <View style={props.style}>
       <TouchableOpacity
         onPress={() => props.onPress()}
         style={[styles.buttonPrimary, { backgroundColor: global.color }]}

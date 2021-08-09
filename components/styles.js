@@ -44,10 +44,23 @@ const styles = (() => {
       alignItems: "center",
       marginBottom: 20,
     },
+    smallPrimaryButton: {
+      textAlign: "center",
+      backgroundColor: global.color,
+      alignSelf: "center",
+      width: "95%",
+      paddingTop: 10,
+      paddingBottom: 10,
+      borderRadius: 20,
+      display: "flex",
+      alignItems: "center",
+      marginBottom: 10,
+    },
     primaryButtonText: {
       fontFamily: fonts.primaryFont,
       fontSize: 24,
       color: colors.PrimaryTextColor,
+      textAlign: "center",
     },
     primaryAccentColor: {
       color: global.color,

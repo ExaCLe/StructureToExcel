@@ -9,7 +9,7 @@ import * as categories from "./../assets/categories.js";
 
 import Zitat from "./Zitat.js";
 import Quotes from "../assets/Quotes.js";
-import PrimaryButton from "./PrimaryButton.js";
+import SmallPrimaryButton from "./SmallPrimaryButton.js";
 import BackButton from "./BackButton.js";
 
 class QuotesCategorie extends React.Component {
@@ -144,16 +144,26 @@ class QuotesCategorie extends React.Component {
       return (
         <View style={[styles.margin, styles.flexContainer, styles.spaceAround]}>
           <Zitat {...quote} />
-          <PrimaryButton
-            text={"Nächstes Zitat"}
+          <SmallPrimaryButton
+            icon={"caret-back"}
             onPress={() => {
               if (this.state.count + 1 === this.state.favorites.length)
                 this.setCount(0);
               else this.setCount(this.state.count + 1);
             }}
           />
-          <PrimaryButton
-            text={"Vorheriges Zitat"}
+          <SmallPrimaryButton
+            icon={"help"}
+            onPress={() => {
+              this.setState({
+                count: Math.floor(Math.random() * this.state.favorites.length),
+              });
+            }}
+            style={{ width: "33%" }}
+            width="95%"
+          />
+          <SmallPrimaryButton
+            icon={"caret-forward"}
             onPress={() => {
               if (this.state.count === 0)
                 this.setCount(this.state.favorites.length - 1);
@@ -164,31 +174,57 @@ class QuotesCategorie extends React.Component {
       );
     } else
       return (
-        <View style={[styles.margin, styles.flexContainer, styles.spaceAround]}>
+        <View
+          style={[
+            styles.margin,
+            styles.flexContainer,
+            styles.spaceAround,
+            { height: "100%" },
+          ]}
+        >
           <Zitat
             {...Quotes[this.props.route.params.categorie][this.state.count]}
           />
-          <PrimaryButton
-            text={"Nächstes Zitat"}
-            onPress={() => {
-              if (
-                this.state.count + 1 ===
-                Quotes[this.props.route.params.categorie].length
-              )
-                this.setCount(0);
-              else this.setCount(this.state.count + 1);
-            }}
-          />
-          <PrimaryButton
-            text={"Vorheriges Zitat"}
-            onPress={() => {
-              if (this.state.count === 0)
-                this.setCount(
-                  Quotes[this.props.route.params.categorie].length - 1
-                );
-              else this.setCount(this.state.count - 1);
-            }}
-          />
+          <View style={[styles.containerHorizontal]}>
+            <SmallPrimaryButton
+              icon={"caret-back"}
+              onPress={() => {
+                if (this.state.count === 0)
+                  this.setCount(
+                    Quotes[this.props.route.params.categorie].length - 1
+                  );
+                else this.setCount(this.state.count - 1);
+              }}
+              style={{ width: "33%" }}
+              width="95%"
+            />
+            <SmallPrimaryButton
+              icon={"help"}
+              onPress={() => {
+                this.setState({
+                  count: Math.floor(
+                    Math.random() *
+                      Quotes[this.props.route.params.categorie].length
+                  ),
+                });
+              }}
+              style={{ width: "33%" }}
+              width="95%"
+            />
+            <SmallPrimaryButton
+              icon={"caret-forward"}
+              onPress={() => {
+                if (
+                  this.state.count + 1 ===
+                  Quotes[this.props.route.params.categorie].length
+                )
+                  this.setCount(0);
+                else this.setCount(this.state.count + 1);
+              }}
+              style={{ width: "33%" }}
+              width="95%"
+            />
+          </View>
         </View>
       );
   }
