@@ -44,7 +44,7 @@ export default class HabitOverview extends React.Component {
     // create table for the habits fullfilling
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE checkHabits (id INTEGER PRIMARY KEY, habit_id INTEGER, date TEXT, object_id_check TEXT, habit_object_id TEXT, deleted BOOLEAN, updatedAt DATETIME, FOREIGN KEY(habit_id) REFERENCES habits(id), FOREIGN KEY(habit_object_id) REFERENCES habits(object_id));"
+        "CREATE TABLE checkHabits (id INTEGER PRIMARY KEY, habit_id INTEGER, date TEXT, object_id_check TEXT, habit_object_id TEXT, deleted BOOLEAN, updatedAt DATETIME, version INTEGER DEFAULT 0, FOREIGN KEY(habit_id) REFERENCES habits(id), FOREIGN KEY(habit_object_id) REFERENCES habits(object_id));"
       );
     });
 
@@ -108,6 +108,7 @@ export default class HabitOverview extends React.Component {
         "SELECT * FROM checkHabits WHERE date = date('now') AND (deleted = 0 OR deleted IS NULL);",
         null,
         (txObj, results) => {
+          console.log(results.rows._array);
           this.addChecksToState(results);
         }
       );

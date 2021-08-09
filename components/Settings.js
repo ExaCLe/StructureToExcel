@@ -136,7 +136,7 @@ class Settings extends React.Component {
         query.equalTo("objectId", habit.object_id + "");
         const result = await query.find();
         const version = result[0].get("version");
-        if (habit.version < version) continue;
+        if (habit.version <= version) continue;
         Habit.set("objectId", habit.object_id + "");
       }
       Habit.set("version", habit.version);
@@ -265,6 +265,11 @@ class Settings extends React.Component {
         return;
       }
       if (habit_entry.object_id_check) {
+        let query = new Parse.Query("Habit_Entry");
+        query.equalTo("objectId", habit_entry.object_id_check + "");
+        const result = await query.find();
+        const version = result[0].get("version");
+        if (habit_entry.version <= version) continue;
         Habit_Entry.set("objectId", habit_entry.object_id_check + "");
       }
       let Habit = new Parse.Object("Habit");
@@ -290,6 +295,102 @@ class Settings extends React.Component {
         console.log("Error when saving ", habit_entry.name, " Entry ", error);
       }
     }
+    try {
+      let query = new Parse.Query("Habit_Entry");
+      query.equalTo("user", currentUser);
+      let queryResults = await query.find();
+      this.factorInHabitEntrys(queryResults);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  factorInHabitEntrys = async (array) => {
+    for (let i = 0; i < array.length; i++) {
+      const habit_entry = array[i];
+      habits.transaction((tx) => {
+        tx.executeSql(
+          "SELECT * FROM checkHabits WHERE object_id_check = ?",
+          [habit_entry.id],
+          (txObj, { rows: { _array } }) => {
+            if (_array.length === 0) {
+              if (!habit_entry.get("deleted"))
+                habits.transaction((tx) => {
+                  tx.executeSql(
+                    "SELECT id FROM habits WHERE object_id = ?",
+                    [habit_entry.get("habit").id],
+                    (txObj, { rows: { _array } }) => {
+                      if (_array.length === 0) {
+                        alert(
+                          "Something went wrong with the Habit Entrys. Please try again."
+                        );
+                        return;
+                      }
+                      tx.executeSql(
+                        "INSERT INTO checkHabits (habit_id, date, object_id_check, version) VALUES (?, ?, ?, ?);",
+                        [
+                          _array[0].id,
+                          habit_entry.get("date"),
+                          habit_entry.id,
+                          habit_entry.get("version"),
+                        ],
+                        () => {
+                          console.log("Inserted ", habit_entry.id);
+                        },
+                        (txObj, error) => {
+                          console.log(
+                            "Error inserting ",
+                            habit_entry.id,
+                            ":",
+                            error
+                          );
+                        }
+                      );
+                    }
+                  );
+                });
+            } else {
+              if (_array[0].version < habit_entry.get("version"))
+                habits.transaction((tx) => {
+                  tx.executeSql(
+                    "SELECT id FROM habits WHERE object_id = ?",
+                    [habit_entry.get("habit").id],
+                    (txObj, { rows: { _array } }) => {
+                      if (_array.length === 0) {
+                        alert(
+                          "Something went wrong with the Habit Entrys. Please try again."
+                        );
+                        return;
+                      }
+                      tx.executeSql(
+                        "UPDATE checkHabits SET date=?, habit_id=?, version=?, deleted=? WHERE object_id_check=?",
+                        [
+                          habit_entry.get("date"),
+                          _array[0].id,
+                          habit_entry.get("version"),
+                          habit_entry.get("deleted"),
+                          habit_entry.id,
+                        ],
+                        () => {
+                          console.log("Updated ", habit_entry.id);
+                        },
+                        (txObj, error) => {
+                          console.log(
+                            "Error updating ",
+                            habit_entry.id,
+                            ":",
+                            error
+                          );
+                        }
+                      );
+                    }
+                  );
+                });
+            }
+          }
+        );
+      });
+    }
   };
 
   saveGoals = async (_array, currentUser) => {
@@ -301,7 +402,7 @@ class Settings extends React.Component {
         query.equalTo("objectId", goal.object_id + "");
         const result = await query.find();
         const version = result[0].get("version");
-        if (goal.version < version) continue;
+        if (goal.version <= version) continue;
         Goal.set("objectId", goal.object_id + "");
       }
       Goal.set("version", goal.version);
@@ -427,7 +528,7 @@ class Settings extends React.Component {
         query.equalTo("objectId", aktivity.object_id + "");
         const result = await query.find();
         const version = result[0].get("version");
-        if (aktivity.version < version) continue;
+        if (aktivity.version <= version) continue;
         Aktivity.set("objectId", aktivity.object_id + "");
       }
       Aktivity.set("version", aktivity.version);
@@ -556,7 +657,7 @@ class Settings extends React.Component {
         query.equalTo("objectId", tracking.object_id_tracking + "");
         const result = await query.find();
         const version = result[0].get("version");
-        if (tracking.version < version) continue;
+        if (tracking.version <= version) continue;
         Tracking.set("objectId", tracking.object_id_tracking + "");
       }
       let Aktivity = new Parse.Object("Aktivity");
@@ -645,20 +746,38 @@ class Settings extends React.Component {
               if (_array[0].version < tracking.get("version"))
                 aktivities.transaction((tx) => {
                   tx.executeSql(
-                    "UPDATE trackings SET start_time=?, end_time=?, duration_s=?, version=?, deleted=? WHERE object_id_tracking=?",
-                    [
-                      tracking.get("start_time"),
-                      tracking.get("end_time"),
-                      tracking.get("duration_s"),
-                      tracking.get("version"),
-                      tracking.get("deleted"),
-                      tracking.id,
-                    ],
-                    () => {
-                      console.log("Updated ", tracking.id);
-                    },
-                    (txObj, error) => {
-                      console.log("Error updating ", tracking.id, ":", error);
+                    "SELECT id FROM activities WHERE object_id = ?",
+                    [tracking.get("aktivity").id],
+                    (txObj, { rows: { _array } }) => {
+                      if (_array.length === 0) {
+                        alert(
+                          "Something went wrong with the trackings. Please try again."
+                        );
+                        return;
+                      }
+                      tx.executeSql(
+                        "UPDATE trackings SET act_id=?, start_time=?, end_time=?, duration_s=?, version=?, deleted=? WHERE object_id_tracking=?",
+                        [
+                          _array[0].id,
+                          tracking.get("start_time"),
+                          tracking.get("end_time"),
+                          tracking.get("duration_s"),
+                          tracking.get("version"),
+                          tracking.get("deleted"),
+                          tracking.id,
+                        ],
+                        () => {
+                          console.log("Updated ", tracking.id);
+                        },
+                        (txObj, error) => {
+                          console.log(
+                            "Error updating ",
+                            tracking.id,
+                            ":",
+                            error
+                          );
+                        }
+                      );
                     }
                   );
                 });
