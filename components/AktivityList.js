@@ -54,6 +54,14 @@ class AktivityList extends React.Component {
       headerRight: () => (
         <View style={styles.row}>
           <TouchableOpacity
+            underlayColor="#ffffff"
+            onPress={() =>
+              this.props.navigation.navigate("Help", { screen: "tracking" })
+            }
+          >
+            <Ionicons name="help" size={25} color={colors.PrimaryTextColor} />
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.buttonTopBar}
             onPress={() => {
               this.props.navigation.navigate("ChangeTracking", { edit: false });

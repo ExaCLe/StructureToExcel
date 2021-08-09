@@ -26,7 +26,60 @@ class Help extends React.Component {
     if (screen === "aktivity") {
       elements = "Aktivity";
     } else if (screen === "tracking") {
-      elements = "Tracking";
+      elements = (
+        <View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Trackings</Text>
+            <Text style={styles.paragraph}>
+              Hier sind alle Aufzeichungen deiner Aktivitäten eingetragen. Du
+              kannst sie bearbeiten, ansehen, löschen oder ganz neue Einträge
+              einfügen.
+            </Text>
+          </View>
+
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Hinzufügen</Text>
+            <Text style={styles.paragraph}>
+              Neue Ziele kannst du über das{" "}
+              <Ionicons
+                name="add"
+                size={25}
+                color={colors.SecondaryTextColor}
+              />{" "}
+              Symbol hinzufügen. Hierbei musst du dann noche die zugehörige
+              Aktivität auswählen und dann noch den Start und Entzeitpunkt des
+              Eintrages bestimmen.
+            </Text>
+          </View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Bearbeiten</Text>
+            <Text style={styles.paragraph}>
+              Um einen Eintrag zu bearbeiten musst du ihn einfach antippen und
+              dann in den Bearbeitunsmodus über das Symbol
+              <Ionicons
+                name="pencil"
+                size={25}
+                color={colors.SecondaryTextColor}
+              />{" "}
+              oben rechts wechseln. Hier kannst du dann die zugehörige
+              Aktivität, den Start- und Endzeitpunkt festlegen.
+            </Text>
+          </View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Löschen des Eintrages</Text>
+            <Text style={styles.paragraph}>
+              Tippe dazu einfach den Eintrag an, um die Details zu sehen und
+              tippe dann auf das Symbol
+              <Ionicons
+                name="trash"
+                size={25}
+                color={colors.SecondaryTextColor}
+              />
+              .
+            </Text>
+          </View>
+        </View>
+      );
     } else if (screen === "goals") {
       elements = (
         <View>
