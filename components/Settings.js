@@ -585,6 +585,88 @@ class Settings extends React.Component {
         console.log("Error when saving ", tracking.name, " Entry ", error);
       }
     }
+    try {
+      let query = new Parse.Query("Tracking");
+      query.equalTo("user", currentUser);
+      let queryResults = await query.find();
+      this.factorInTrackings(queryResults);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  factorInTrackings = async (array) => {
+    for (let i = 0; i < array.length; i++) {
+      const tracking = array[i];
+      aktivities.transaction((tx) => {
+        tx.executeSql(
+          "SELECT * FROM trackings WHERE object_id_tracking = ?",
+          [tracking.id],
+          (txObj, { rows: { _array } }) => {
+            if (_array.length === 0) {
+              if (!tracking.get("deleted"))
+                aktivities.transaction((tx) => {
+                  tx.executeSql(
+                    "SELECT id FROM activities WHERE object_id = ?",
+                    [tracking.get("aktivity").id],
+                    (txObj, { rows: { _array } }) => {
+                      if (_array.length === 0) {
+                        alert(
+                          "Something went wrong with the trackings. Please try again."
+                        );
+                        return;
+                      }
+                      tx.executeSql(
+                        "INSERT INTO trackings (act_id, start_time, end_time, duration_s, object_id_tracking, version) VALUES (?, ?, ?, ?, ?, ?);",
+                        [
+                          _array[0].id,
+                          tracking.get("start_time"),
+                          tracking.get("end_time"),
+                          tracking.get("duration_s"),
+                          tracking.id,
+                          tracking.get("version"),
+                        ],
+                        () => {
+                          console.log("Inserted ", tracking.id);
+                        },
+                        (txObj, error) => {
+                          console.log(
+                            "Error inserting ",
+                            tracking.id,
+                            ":",
+                            error
+                          );
+                        }
+                      );
+                    }
+                  );
+                });
+            } else {
+              if (_array[0].version < tracking.get("version"))
+                aktivities.transaction((tx) => {
+                  tx.executeSql(
+                    "UPDATE trackings SET start_time=?, end_time=?, duration_s=?, version=?, deleted=? WHERE object_id_tracking=?",
+                    [
+                      tracking.get("start_time"),
+                      tracking.get("end_time"),
+                      tracking.get("duration_s"),
+                      tracking.get("version"),
+                      tracking.get("deleted"),
+                      tracking.id,
+                    ],
+                    () => {
+                      console.log("Updated ", tracking.id);
+                    },
+                    (txObj, error) => {
+                      console.log("Error updating ", tracking.id, ":", error);
+                    }
+                  );
+                });
+            }
+          }
+        );
+      });
+    }
   };
 
   render() {

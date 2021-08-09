@@ -20,7 +20,7 @@ class AktivityList extends React.Component {
     console.log("Fetching data for aktivity list...");
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM activities JOIN trackings ON trackings.act_id = activities.id WHERE (deleted=0 OR deleted IS NULL)",
+        "SELECT * FROM activities JOIN trackings ON trackings.act_id = activities.id WHERE (trackings.deleted=0 OR trackings.deleted IS NULL)",
         null,
         (txObj, { rows: { _array } }) => {
           console.log(_array);
