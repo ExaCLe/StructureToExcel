@@ -312,6 +312,9 @@ export default class App extends React.Component {
         if (value !== null) {
           global.color = value;
           this.setState({ colorLoaded: true });
+        } else {
+          global.color = "#F00943";
+          this.setState({ colorLoaded: true });
         }
       } catch (e) {
         console.error(e);
