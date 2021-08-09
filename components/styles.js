@@ -61,6 +61,19 @@ const styles = (() => {
       fontFamily: fonts.primaryFont,
       color: colors.SecondaryTextColor,
     },
+    paragraph: {
+      fontSize: 20,
+      fontFamily: fonts.primaryFont,
+      color: colors.SecondaryTextColor,
+    },
+    h1: {
+      fontSize: 20,
+      fontFamily: fonts.headerFont,
+      color: colors.PrimaryAccentColor,
+      width: "100%",
+      marginBottom: 10,
+      marginTop: 10,
+    },
     habitContainer: {
       height: 75,
       marginBottom: 10,
@@ -83,6 +96,7 @@ const styles = (() => {
     fullSize: {
       width: "70%",
     },
+
     containerHorizontalStats: {
       display: "flex",
       flexDirection: "row",
@@ -93,6 +107,13 @@ const styles = (() => {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
+    },
+    paragraphContainer: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      flexWrap: "wrap",
+      margin: 10,
     },
     marginBottom: {
       marginBottom: 15,

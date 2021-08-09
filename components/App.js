@@ -31,6 +31,7 @@ import AktivityChooser from "./AktivityChooser.js";
 import SettingsScreen from "./Settings.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoginScreen from "./LoginScreen.js";
+import Help from "./Help.js";
 
 const StackHabits = createStackNavigator();
 
@@ -115,6 +116,15 @@ function Habit() {
           headerTitleStyle: styles.headerText,
         }}
       />
+      <StackHabits.Screen
+        name="Help"
+        component={Help}
+        options={{
+          title: "Hilfe",
+          headerStyle: { backgroundColor: global.color },
+          headerTitleStyle: styles.headerText,
+        }}
+      />
     </StackHabits.Navigator>
   );
 }
@@ -140,6 +150,15 @@ function Quotes() {
           headerTitleStyle: styles.headerText,
         }}
       />
+      <StackQuotes.Screen
+        name="Help"
+        component={Help}
+        options={{
+          title: "Hilfe",
+          headerStyle: { backgroundColor: global.color },
+          headerTitleStyle: styles.headerText,
+        }}
+      />
     </StackQuotes.Navigator>
   );
 }
@@ -161,6 +180,15 @@ function Pomodoro() {
         component={PomodoroSettings}
         options={{
           title: "Pomodoro Settings",
+          headerStyle: { backgroundColor: global.color },
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackPomodoro.Screen
+        name="Help"
+        component={Help}
+        options={{
+          title: "Hilfe",
           headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
@@ -218,6 +246,15 @@ function Goals() {
         component={ChangeAktivity}
         options={{
           title: "Aktivität hinzufügen",
+          headerStyle: { backgroundColor: global.color },
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackGoals.Screen
+        name="Help"
+        component={Help}
+        options={{
+          title: "Hilfe",
           headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}
@@ -291,6 +328,15 @@ function Tracking() {
         name="AktivityChooser"
         component={AktivityChooser}
         options={{
+          headerStyle: { backgroundColor: global.color },
+          headerTitleStyle: styles.headerText,
+        }}
+      />
+      <StackTracking.Screen
+        name="Help"
+        component={Help}
+        options={{
+          title: "Hilfe",
           headerStyle: { backgroundColor: global.color },
           headerTitleStyle: styles.headerText,
         }}

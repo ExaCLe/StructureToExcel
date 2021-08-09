@@ -67,6 +67,14 @@ export default class HabitOverview extends React.Component {
           <TouchableOpacity
             underlayColor="#ffffff"
             onPress={() =>
+              this.props.navigation.navigate("Help", { screen: "habits" })
+            }
+          >
+            <Ionicons name="help" size={25} color={colors.PrimaryTextColor} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            underlayColor="#ffffff"
+            onPress={() =>
               this.props.navigation.navigate("ChangeHabit", {
                 edit: false,
               })
