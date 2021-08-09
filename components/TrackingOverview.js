@@ -82,6 +82,14 @@ class TrackingOverview extends React.Component {
           <TouchableOpacity
             underlayColor="#ffffff"
             onPress={() =>
+              this.props.navigation.navigate("Help", { screen: "aktivities" })
+            }
+          >
+            <Ionicons name="help" size={25} color={colors.PrimaryTextColor} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            underlayColor="#ffffff"
+            onPress={() =>
               this.props.navigation.navigate("ChangeAktivity", {
                 edit: false,
                 target: "TrackingOverview",

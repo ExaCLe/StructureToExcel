@@ -23,8 +23,93 @@ class Help extends React.Component {
   render() {
     const screen = this.props.route.params.screen;
     let elements;
-    if (screen === "aktivity") {
-      elements = "Aktivity";
+    if (screen === "aktivities") {
+      elements = (
+        <View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Aktivitäten tracken.</Text>
+            <Text style={styles.paragraph}>
+              Hier kannst du verfolgen wie viel Zeit du mit den
+              unterschiedlichen Tätigkeiten verbringst.
+            </Text>
+          </View>
+
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Hinzufügen</Text>
+            <Text style={styles.paragraph}>
+              Neue Aktivitäten kannst du über das{" "}
+              <Ionicons
+                name="add"
+                size={25}
+                color={colors.SecondaryTextColor}
+              />{" "}
+              Symbol hinzufügen. Dabei hast du die Möglichkeit einen Namen zu
+              vergeben und ein Icon auszuwählen.
+            </Text>
+          </View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Warum ist dies sinnvoll?</Text>
+            <Text style={styles.paragraph}>
+              Dies kann sinnvoll sein, um bewusster mit deiner Zeit umzugehen
+              oder um deine täglichen Arbeitsziele nicht mehr output sondern
+              input-basiert zu gestalten und so stressfreier durch die Woche zu
+              gelangen.
+            </Text>
+          </View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Bearbeiten der Aktivität</Text>
+            <Text style={styles.paragraph}>
+              Öffne dazu einfach die Details indem du die Aktivität anklickst
+              und dann kannst du über
+              <Ionicons
+                name="pencil"
+                size={25}
+                color={colors.SecondaryTextColor}
+              />{" "}
+              dieses Symbol in dem Bearbeitungsmodus gelangen.
+            </Text>
+          </View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Löschen der Aktivität</Text>
+            <Text style={styles.paragraph}>
+              Öffne dazu einfach die Details indem du die Aktivität anklickst
+              und dann kannst du über
+              <Ionicons
+                name="trash"
+                size={25}
+                color={colors.SecondaryTextColor}
+              />{" "}
+              dieses Symbol die Aktivität löschen.
+            </Text>
+          </View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Starten einer Aufzeichnung</Text>
+            <Text style={styles.paragraph}>
+              Tippe dazu einfach das Symbol
+              <Ionicons
+                name="play"
+                size={25}
+                color={colors.SecondaryTextColor}
+              />{" "}
+              an.
+            </Text>
+          </View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>
+              Stoppen und Speichern einer Aufzeichnung
+            </Text>
+            <Text style={styles.paragraph}>
+              Tippe dazu einfach das Symbol
+              <Ionicons
+                name="stop"
+                size={25}
+                color={colors.SecondaryTextColor}
+              />{" "}
+              an.
+            </Text>
+          </View>
+        </View>
+      );
     } else if (screen === "tracking") {
       elements = (
         <View>
@@ -278,7 +363,14 @@ class Help extends React.Component {
     }
 
     return (
-      <ScrollView style={[{ flex: 1 }, styles.padding, styles.margin]}>
+      <ScrollView
+        style={[
+          { flex: 1 },
+          styles.padding,
+          styles.margin,
+          { marginBottom: 0 },
+        ]}
+      >
         {elements}
       </ScrollView>
     );
