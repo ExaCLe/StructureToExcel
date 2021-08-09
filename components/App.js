@@ -411,7 +411,7 @@ export default class App extends React.Component {
               inactiveTintColor: colors.NavigationInactiveItem,
               labelStyle: styles.tabText,
               style: [styles.tabBar, { backgroundColor: global.color }],
-              tabBarHideOnKeyboard: true,
+              keyboardHidesTabBar: true,
             }}
           >
             <Tab.Screen name="Habits" component={Habit} />
