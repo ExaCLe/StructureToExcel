@@ -1,5 +1,10 @@
 import React from "react";
-import { Text, ScrollView, TouchableOpacity, TextInput } from "react-native";
+import {
+  RefreshControl,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import AktivityTracker from "./AktivityTracker.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
@@ -14,10 +19,21 @@ const habits = SQLite.openDatabase("habits.db");
 const goals = SQLite.openDatabase("goals.db");
 const aktivities = SQLite.openDatabase("aktivitys.db");
 
+const IDLE = "IDLE";
+const SYNCING = "SYNCRONIZING";
+
 class Settings extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { color: "ffffff" };
+    this.state = {
+      color: "ffffff",
+      state: IDLE,
+      updatedHabits: null,
+      updatedHabitEntrys: null,
+      updatedGoals: null,
+      updatedAktivities: null,
+      updatedTrackings: null,
+    };
     this.loadData();
   }
   componentWillUnmount() {
@@ -87,9 +103,11 @@ class Settings extends React.Component {
   };
 
   syncronize = async () => {
+    this.setState({ state: SYNCING });
     const currentUser = await Parse.User.currentAsync();
     if (currentUser === null) {
       this.props.navigation.navigate("Login");
+      this.setState({ state: IDLE });
       return;
     }
     /* start with the habits */
@@ -128,6 +146,7 @@ class Settings extends React.Component {
   };
 
   saveHabits = async (_array, currentUser) => {
+    let count = 0;
     for (let i = 0; i < _array.length; i++) {
       const habit = _array[i];
       let Habit = new Parse.Object("Habit");
@@ -150,6 +169,7 @@ class Settings extends React.Component {
       Habit.set("queue", habit.queue);
       try {
         const savedHabit = await Habit.save();
+        count++;
         console.log("Saved ", habit.name);
         habits.transaction((tx) => {
           tx.executeSql(
@@ -169,7 +189,7 @@ class Settings extends React.Component {
       let query = new Parse.Query("Habit");
       query.equalTo("user", currentUser);
       let queryResults = await query.find();
-      this.factorInHabits(queryResults);
+      this.factorInHabits(queryResults, count);
     } catch (error) {
       console.error(error);
     }
@@ -185,7 +205,7 @@ class Settings extends React.Component {
     });
   };
 
-  factorInHabits = async (array) => {
+  factorInHabits = async (array, count) => {
     for (let i = 0; i < array.length; i++) {
       const habit = array[i];
       habits.transaction((tx) => {
@@ -208,6 +228,7 @@ class Settings extends React.Component {
                     habit.get("version"),
                   ],
                   () => {
+                    count++;
                     console.log("Inserted ", habit.get("name"));
                   },
                   (txObj, error) => {
@@ -237,6 +258,7 @@ class Settings extends React.Component {
                       habit.id,
                     ],
                     () => {
+                      count++;
                       console.log("Updated ", habit.get("name"));
                     },
                     (txObj, error) => {
@@ -254,9 +276,11 @@ class Settings extends React.Component {
         );
       });
     }
+    this.setState({ updatedHabits: count });
   };
 
   saveHabitChecks = async (_array, currentUser) => {
+    let count = 0;
     for (let i = 0; i < _array.length; i++) {
       const habit_entry = _array[i];
       let Habit_Entry = new Parse.Object("Habit_Entry");
@@ -281,6 +305,7 @@ class Settings extends React.Component {
       try {
         const savedHabitEntry = await Habit_Entry.save();
         console.log("Saved Habit Entry. ");
+        count++;
         habits.transaction((tx) => {
           tx.executeSql(
             "UPDATE checkHabits SET object_id_check = ? WHERE id = ?",
@@ -299,13 +324,13 @@ class Settings extends React.Component {
       let query = new Parse.Query("Habit_Entry");
       query.equalTo("user", currentUser);
       let queryResults = await query.find();
-      this.factorInHabitEntrys(queryResults);
+      this.factorInHabitEntrys(queryResults, count);
     } catch (error) {
       console.error(error);
     }
   };
 
-  factorInHabitEntrys = async (array) => {
+  factorInHabitEntrys = async (array, count) => {
     for (let i = 0; i < array.length; i++) {
       const habit_entry = array[i];
       habits.transaction((tx) => {
@@ -335,6 +360,7 @@ class Settings extends React.Component {
                           habit_entry.get("version"),
                         ],
                         () => {
+                          count++;
                           console.log("Inserted ", habit_entry.id);
                         },
                         (txObj, error) => {
@@ -372,6 +398,7 @@ class Settings extends React.Component {
                           habit_entry.id,
                         ],
                         () => {
+                          count++;
                           console.log("Updated ", habit_entry.id);
                         },
                         (txObj, error) => {
@@ -391,9 +418,11 @@ class Settings extends React.Component {
         );
       });
     }
+    this.setState({ updatedHabitEntrys: count });
   };
 
   saveGoals = async (_array, currentUser) => {
+    let count = 0;
     for (let i = 0; i < _array.length; i++) {
       const goal = _array[i];
       let Goal = new Parse.Object("Goal");
@@ -419,6 +448,7 @@ class Settings extends React.Component {
       Goal.set("progress", goal.progress);
       try {
         const savedGoal = await Goal.save();
+        count++;
         console.log("Saved ", goal.name);
         goals.transaction((tx) => {
           tx.executeSql(
@@ -438,13 +468,13 @@ class Settings extends React.Component {
       let query = new Parse.Query("Goal");
       query.equalTo("user", currentUser);
       let queryResults = await query.find();
-      this.facotrInGoals(queryResults);
+      this.facotrInGoals(queryResults, count);
     } catch (error) {
       console.error(error);
     }
   };
 
-  facotrInGoals = async (array) => {
+  facotrInGoals = async (array, count) => {
     for (let i = 0; i < array.length; i++) {
       const goal = array[i];
       goals.transaction((tx) => {
@@ -469,6 +499,7 @@ class Settings extends React.Component {
                     goal.get("version"),
                   ],
                   () => {
+                    count++;
                     console.log("Inserted ", goal.get("name"));
                   },
                   (txObj, error) => {
@@ -500,6 +531,7 @@ class Settings extends React.Component {
                       goal.id,
                     ],
                     () => {
+                      count++;
                       console.log("Updated ", goal.get("name"));
                     },
                     (txObj, error) => {
@@ -517,9 +549,11 @@ class Settings extends React.Component {
         );
       });
     }
+    this.setState({ updatedGoals: count });
   };
 
   saveAktivities = async (_array, currentUser) => {
+    let count = 0;
     for (let i = 0; i < _array.length; i++) {
       const aktivity = _array[i];
       let Aktivity = new Parse.Object("Aktivity");
@@ -540,6 +574,7 @@ class Settings extends React.Component {
       Aktivity.set("color", aktivity.color);
       try {
         const savedAktivity = await Aktivity.save();
+        count++;
         console.log("Saved ", aktivity.name);
         aktivities.transaction((tx) => {
           tx.executeSql(
@@ -559,7 +594,7 @@ class Settings extends React.Component {
       let query = new Parse.Query("Aktivity");
       query.equalTo("user", currentUser);
       let queryResults = await query.find();
-      this.factorInAktivitys(queryResults);
+      this.factorInAktivitys(queryResults, count);
     } catch (error) {
       console.error(error);
     }
@@ -578,7 +613,7 @@ class Settings extends React.Component {
     });
   };
 
-  factorInAktivitys = async (array) => {
+  factorInAktivitys = async (array, count) => {
     for (let i = 0; i < array.length; i++) {
       const aktivity = array[i];
       aktivities.transaction((tx) => {
@@ -599,6 +634,7 @@ class Settings extends React.Component {
                       aktivity.get("version"),
                     ],
                     () => {
+                      count++;
                       console.log("Inserted ", aktivity.get("name"));
                     },
                     (txObj, error) => {
@@ -625,6 +661,7 @@ class Settings extends React.Component {
                       aktivity.id,
                     ],
                     () => {
+                      count++;
                       console.log("Updated ", aktivity.get("name"));
                     },
                     (txObj, error) => {
@@ -642,9 +679,11 @@ class Settings extends React.Component {
         );
       });
     }
+    this.setState({ updatedAktivities: count });
   };
 
   saveTrackings = async (_array, currentUser) => {
+    let count = 0;
     for (let i = 0; i < _array.length; i++) {
       const tracking = _array[i];
       let Tracking = new Parse.Object("Tracking");
@@ -671,6 +710,7 @@ class Settings extends React.Component {
       Tracking.set("version", tracking.version);
       try {
         const savedTracking = await Tracking.save();
+        count++;
         console.log("Saved Tracking Entry. ");
         aktivities.transaction((tx) => {
           tx.executeSql(
@@ -690,13 +730,13 @@ class Settings extends React.Component {
       let query = new Parse.Query("Tracking");
       query.equalTo("user", currentUser);
       let queryResults = await query.find();
-      this.factorInTrackings(queryResults);
+      this.factorInTrackings(queryResults, count);
     } catch (error) {
       console.error(error);
     }
   };
 
-  factorInTrackings = async (array) => {
+  factorInTrackings = async (array, count) => {
     for (let i = 0; i < array.length; i++) {
       const tracking = array[i];
       aktivities.transaction((tx) => {
@@ -728,6 +768,7 @@ class Settings extends React.Component {
                           tracking.get("version"),
                         ],
                         () => {
+                          count++;
                           console.log("Inserted ", tracking.id);
                         },
                         (txObj, error) => {
@@ -767,6 +808,7 @@ class Settings extends React.Component {
                           tracking.id,
                         ],
                         () => {
+                          count++;
                           console.log("Updated ", tracking.id);
                         },
                         (txObj, error) => {
@@ -786,11 +828,45 @@ class Settings extends React.Component {
         );
       });
     }
+    this.setState({ updatedTrackings: count });
   };
+
+  componentDidUpdate() {
+    if (
+      this.state.updatedAktivities !== null &&
+      this.state.updatedGoals !== null &&
+      this.state.updatedHabitEntrys !== null &&
+      this.state.updatedHabits !== null &&
+      this.state.updatedTrackings !== null &&
+      this.state.state === SYNCING
+    ) {
+      alert(
+        `Synchronisation erfolgreich. Updated: ${this.state.updatedAktivities} Aktivities, ${this.state.updatedGoals} Goals, ${this.state.updatedHabitEntrys} Habit Entries, ${this.state.updatedHabits} Habits, ${this.state.updatedTrackings} Trackings. `
+      );
+      this.setState({
+        state: IDLE,
+        updatedAktivities: null,
+        updatedTrackings: null,
+        updatedGoals: null,
+        updatedHabitEntrys: null,
+        updatedHabits: null,
+      });
+    }
+  }
 
   render() {
     return (
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView
+        style={{ flex: 1 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.state === SYNCING}
+            onRefresh={() => {
+              this.syncronize();
+            }}
+          />
+        }
+      >
         <TextInput
           style={[
             styles.normalText,
