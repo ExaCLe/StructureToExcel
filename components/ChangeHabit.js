@@ -250,7 +250,10 @@ class ChangeHabit extends React.Component {
   render() {
     const addHabit = this.addHabit;
     return (
-      <ScrollView style={[styles.backgroundColor, styles.padding]}>
+      <ScrollView
+        style={[styles.backgroundColor, styles.padding]}
+        keyboardShouldPersistTaps="handled"
+      >
         <TextfieldAndLabel
           placeholder="Name"
           onChangeText={this.handleNameChange}

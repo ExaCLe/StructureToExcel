@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Alert, TouchableOpacity } from "react-native";
+import { Text, View, Alert, TouchableOpacity, ScrollView } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
@@ -142,7 +142,7 @@ class AddAktivity extends React.Component {
   };
   render() {
     return (
-      <View style={styles.margin}>
+      <ScrollView style={styles.margin} keyboardShouldPersistTaps="handled">
         <TextfieldAndLabel
           onChangeText={(text) => {
             this.setState({ name: text, change: true });
@@ -193,7 +193,7 @@ class AddAktivity extends React.Component {
           }}
           text={"Speichern"}
         />
-      </View>
+      </ScrollView>
     );
   }
 }
