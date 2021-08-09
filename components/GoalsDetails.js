@@ -22,7 +22,7 @@ class GoalsDetails extends React.Component {
     console.log("Fetching");
     tracking.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM activities WHERE id = ?",
+        "SELECT * FROM activities WHERE id = ? AND (deleted=0 OR deleted IS NULL)",
         [this.props.route.params.act_id],
         (txObj, { rows: { _array } }) => {
           console.log(_array);
@@ -93,7 +93,7 @@ class GoalsDetails extends React.Component {
                     onPress: () => {
                       db.transaction((tx) => {
                         tx.executeSql(
-                          "DELETE FROM goals WHERE id=?",
+                          "UPDATE goals SET deleted=1 WHERE id=?",
                           [this.props.route.params.id],
                           () => {
                             this.props.navigation.goBack();

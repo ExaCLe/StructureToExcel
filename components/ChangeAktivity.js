@@ -75,7 +75,7 @@ class AddAktivity extends React.Component {
               onPress={() => {
                 db.transaction((tx) => {
                   tx.executeSql(
-                    "DELETE FROM activities WHERE id=?",
+                    "UPDATE activities SET deleted=1 WHERE id=?",
                     [this.props.route.params.id],
                     () => {
                       this.props.navigation.goBack();

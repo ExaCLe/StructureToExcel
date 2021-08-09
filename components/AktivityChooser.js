@@ -16,7 +16,7 @@ class AktivityChooser extends React.Component {
   fetchData = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM activities",
+        "SELECT * FROM activities WHERE (deleted=0 OR deleted IS NULL)",
         null,
         (txObj, { rows: { _array } }) => {
           this.setState({ aktivitys: _array });

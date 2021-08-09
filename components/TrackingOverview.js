@@ -12,20 +12,36 @@ class TrackingOverview extends React.Component {
     super(props);
     this.state = { aktivitys: [] };
     // create a table for the activities if not existing already
+    // db.transaction((tx) => {
+    //   tx.executeSql(
+    //     "DROP TABLE activities ;",
+    //     null,
+    //     () => {},
+    //     (txObj, error) => {}
+    //   );
+    //   tx.executeSql(
+    //     "DROP TABLE trackings ;",
+    //     null,
+    //     () => {},
+    //     (txObj, error) => {}
+    //   );
+    // });
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE activities (id INTEGER PRIMARY KEY, name TEXT, icon TEXT, color TEXT);",
+        "CREATE TABLE IF NOT EXISTS activities (id INTEGER PRIMARY KEY, name TEXT, icon TEXT, color TEXT, deleted BOOLEAN DEFAULT 0, object_id TEXT, version INTEGER DEFAULT 0);",
         null,
         // success
         () => {},
         // error
-        (txObj, error) => {}
+        (txObj, error) => {
+          console.log(error);
+        }
       );
     });
     // create the table for the tracking entries
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE trackings (id INTEGER PRIMARY KEY, act_id INTEGER, start_time TEXT, end_time TEXT, duration_s INTEGER , FOREIGN KEY (act_id) REFERENCES activities(id)); ",
+        "CREATE TABLE trackings (id INTEGER PRIMARY KEY, act_id INTEGER, start_time TEXT, end_time TEXT, duration_s INTEGER, deleted BOOLEAN DEFAULT 0, object_id_tracking TEXT, version INTEGER DEFAULT 0, FOREIGN KEY (act_id) REFERENCES activities(id)); ",
         null,
         () => {},
         () => {}
@@ -39,9 +55,10 @@ class TrackingOverview extends React.Component {
     console.log("Fetching data for aktivitys...");
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM activities",
+        "SELECT * FROM activities WHERE (deleted=0 OR deleted IS NULL)",
         null,
         (txObj, { rows: { _array } }) => {
+          console.log(_array);
           this.setState({ aktivitys: _array });
         },
         (txObj, error) =>

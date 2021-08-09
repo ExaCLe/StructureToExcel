@@ -40,8 +40,8 @@ class QuotesCategorie extends React.Component {
     console.log("Fetching data for favorites...");
     const sql =
       this.props.route.params.categorie === categories.FAVORITES
-        ? "SELECT * FROM favorites"
-        : "SELECT id FROM favorites WHERE categorie = ?";
+        ? "SELECT * FROM favorites WHERE (deleted=0 OR deleted IS NULL)"
+        : "SELECT id FROM favorites WHERE categorie = ? AND (deleted=0 OR deleted IS NULL)";
     const values =
       this.props.route.params.categorie === categories.FAVORITES
         ? null
@@ -73,7 +73,7 @@ class QuotesCategorie extends React.Component {
               onPress={() => {
                 const categorie = this.props.route.params.categorie;
                 const sql = this.state.favorite
-                  ? "DELETE FROM favorites WHERE id=?"
+                  ? "UPDATE favorites SET deleted=1 WHERE id=?"
                   : "INSERT INTO favorites (id, categorie) VALUES (?, ?) ";
                 const key =
                   this.props.route.params.categorie === categories.FAVORITES

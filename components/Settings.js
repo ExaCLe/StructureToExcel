@@ -12,6 +12,7 @@ import Parse, { User } from "parse/react-native";
 
 const habits = SQLite.openDatabase("habits.db");
 const goals = SQLite.openDatabase("goals.db");
+const aktivities = SQLite.openDatabase("aktivitys.db");
 
 class Settings extends React.Component {
   constructor(props) {
@@ -111,6 +112,19 @@ class Settings extends React.Component {
         }
       );
     });
+    /* continue with the aktivities */
+    aktivities.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM activities",
+        null,
+        (txObj, { rows: { _array } }) => {
+          this.saveAktivities(_array, currentUser);
+        },
+        (txObj, error) => {
+          console.log(error);
+        }
+      );
+    });
   };
 
   saveHabits = async (_array, currentUser) => {
@@ -174,7 +188,6 @@ class Settings extends React.Component {
   factorInHabits = async (array) => {
     for (let i = 0; i < array.length; i++) {
       const habit = array[i];
-      if (habit.get("deleted")) continue;
       habits.transaction((tx) => {
         tx.executeSql(
           "SELECT * FROM habits WHERE object_id = ?",
@@ -333,7 +346,6 @@ class Settings extends React.Component {
   facotrInGoals = async (array) => {
     for (let i = 0; i < array.length; i++) {
       const goal = array[i];
-      if (goal.get("deleted")) continue;
       goals.transaction((tx) => {
         tx.executeSql(
           "SELECT * FROM goals WHERE object_id = ?",
@@ -403,6 +415,175 @@ class Settings extends React.Component {
           }
         );
       });
+    }
+  };
+
+  saveAktivities = async (_array, currentUser) => {
+    for (let i = 0; i < _array.length; i++) {
+      const aktivity = _array[i];
+      let Aktivity = new Parse.Object("Aktivity");
+      if (aktivity.object_id) {
+        let query = new Parse.Query("Aktivity");
+        query.equalTo("objectId", aktivity.object_id + "");
+        const result = await query.find();
+        const version = result[0].get("version");
+        if (aktivity.version < version) continue;
+        Aktivity.set("objectId", aktivity.object_id + "");
+      }
+      Aktivity.set("version", aktivity.version);
+      Aktivity.set("deleted", aktivity.deleted);
+      Aktivity.set("user", currentUser);
+      Aktivity.set("icon", aktivity.icon);
+      Aktivity.set("name", aktivity.name);
+      Aktivity.set("id", aktivity.id);
+      Aktivity.set("color", aktivity.color);
+      try {
+        const savedAktivity = await Aktivity.save();
+        console.log("Saved ", aktivity.name);
+        aktivities.transaction((tx) => {
+          tx.executeSql(
+            "UPDATE activities SET object_id = ? WHERE id = ?",
+            [savedAktivity.id, aktivity.id],
+            () => {},
+            (txObj, error) => {
+              console.log(error);
+            }
+          );
+        });
+      } catch (error) {
+        console.log("Error when saving ", aktivity.name, " ", error);
+      }
+    }
+    try {
+      let query = new Parse.Query("Aktivity");
+      query.equalTo("user", currentUser);
+      let queryResults = await query.find();
+      this.factorInAktivitys(queryResults);
+    } catch (error) {
+      console.error(error);
+    }
+
+    aktivities.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM activities JOIN trackings WHERE trackings.act_id = activities.id",
+        null,
+        (txObj, { rows: { _array } }) => {
+          this.saveTrackings(_array, currentUser);
+        },
+        (txObj, error) => {
+          console.log(error);
+        }
+      );
+    });
+  };
+
+  factorInAktivitys = async (array) => {
+    for (let i = 0; i < array.length; i++) {
+      const aktivity = array[i];
+      aktivities.transaction((tx) => {
+        tx.executeSql(
+          "SELECT * FROM activities WHERE object_id = ?",
+          [aktivity.id],
+          (txObj, { rows: { _array } }) => {
+            if (_array.length === 0) {
+              if (!aktivity.get("deleted"))
+                aktivities.transaction((tx) => {
+                  tx.executeSql(
+                    "INSERT INTO activities (name, icon, color, object_id, version) VALUES (?, ?, ?, ?, ?);",
+                    [
+                      aktivity.get("name"),
+                      aktivity.get("icon"),
+                      aktivity.get("color"),
+                      aktivity.id,
+                      aktivity.get("version"),
+                    ],
+                    () => {
+                      console.log("Inserted ", aktivity.get("name"));
+                    },
+                    (txObj, error) => {
+                      console.log(
+                        "Error inserting ",
+                        aktivity.get("name"),
+                        ":",
+                        error
+                      );
+                    }
+                  );
+                });
+            } else {
+              if (_array[0].version < aktivity.get("version"))
+                aktivities.transaction((tx) => {
+                  tx.executeSql(
+                    "UPDATE activities SET name=?, icon=?, color=?, version=?, deleted=? WHERE object_id=?",
+                    [
+                      aktivity.get("name"),
+                      aktivity.get("icon"),
+                      aktivity.get("color"),
+                      aktivity.get("version"),
+                      aktivity.get("deleted"),
+                      aktivity.id,
+                    ],
+                    () => {
+                      console.log("Updated ", aktivity.get("name"));
+                    },
+                    (txObj, error) => {
+                      console.log(
+                        "Error updating ",
+                        aktivity.get("name"),
+                        ":",
+                        error
+                      );
+                    }
+                  );
+                });
+            }
+          }
+        );
+      });
+    }
+  };
+
+  saveTrackings = async (_array, currentUser) => {
+    for (let i = 0; i < _array.length; i++) {
+      const tracking = _array[i];
+      let Tracking = new Parse.Object("Tracking");
+      if (tracking.object_id === null) {
+        alert("Something went wrong. Please try again.");
+        return;
+      }
+      if (tracking.object_id_tracking) {
+        let query = new Parse.Query("Tracking");
+        query.equalTo("objectId", tracking.object_id_tracking + "");
+        const result = await query.find();
+        const version = result[0].get("version");
+        if (tracking.version < version) continue;
+        Tracking.set("objectId", tracking.object_id_tracking + "");
+      }
+      let Aktivity = new Parse.Object("Aktivity");
+      Aktivity.set("objectId", tracking.object_id);
+      Tracking.set("deleted", tracking.deleted);
+      Tracking.set("user", currentUser);
+      Tracking.set("aktivity", Aktivity);
+      Tracking.set("start_time", tracking.start_time);
+      Tracking.set("end_time", tracking.end_time);
+      Tracking.set("duration_s", tracking.duration_s);
+      Tracking.set("version", tracking.version);
+      try {
+        const savedTracking = await Tracking.save();
+        console.log("Saved Tracking Entry. ");
+        aktivities.transaction((tx) => {
+          tx.executeSql(
+            "UPDATE trackings SET object_id_tracking = ? WHERE id = ?",
+            [savedTracking.id, tracking.id],
+            () => {},
+            (txObj, error) => {
+              console.log(error);
+            }
+          );
+        });
+      } catch (error) {
+        console.log("Error when saving ", tracking.name, " Entry ", error);
+      }
     }
   };
 

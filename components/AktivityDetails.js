@@ -18,7 +18,7 @@ class AktivityDetails extends React.Component {
   loadTime = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM trackings WHERE act_id = ?",
+        "SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL)",
         [this.props.route.params.id],
         (txObj, { rows: { _array } }) => {
           let twentyfourHours = 0,
@@ -124,7 +124,17 @@ class AktivityDetails extends React.Component {
                     onPress: () => {
                       db.transaction((tx) => {
                         tx.executeSql(
-                          "DELETE FROM activities WHERE id=?",
+                          "UPDATE activities SET deleted=1 WHERE id=?",
+                          [this.props.route.params.id],
+                          () => {
+                            this.props.navigation.goBack();
+                          },
+                          (txObj, error) => {
+                            console.log(error);
+                          }
+                        );
+                        tx.executeSql(
+                          "UPDATE trackings SET deleted=1 WHERE act_id=?",
                           [this.props.route.params.id],
                           () => {
                             this.props.navigation.goBack();

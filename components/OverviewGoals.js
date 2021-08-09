@@ -46,8 +46,8 @@ class OverviewGoals extends React.Component {
     console.log("Fetching data for goals...");
     const sql =
       !this.props.route.params || !this.props.route.params.archive
-        ? "SELECT * FROM goals WHERE intervall = ? AND (archive = 0 OR archive is NULL) ORDER BY priority"
-        : "SELECT * FROM goals WHERE intervall = ? AND archive = 1 ORDER BY priority";
+        ? "SELECT * FROM goals WHERE intervall = ? AND (archive = 0 OR archive is NULL) AND (deleted=0 OR deleted IS NULL) ORDER BY priority"
+        : "SELECT * FROM goals WHERE intervall = ? AND archive = 1 AND (deleted=0 OR deleted IS NULL) ORDER BY priority";
     db.transaction((tx) => {
       tx.executeSql(
         sql,
@@ -58,7 +58,7 @@ class OverviewGoals extends React.Component {
             if (ele.time)
               tracking.transaction((tt) => {
                 tt.executeSql(
-                  "SELECT * FROM trackings WHERE act_id = ?",
+                  "SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL)",
                   [ele.act_id],
                   (txObj, { rows: { _array } }) => {
                     let time = 0;

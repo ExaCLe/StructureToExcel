@@ -59,7 +59,7 @@ class AktivityListDetails extends React.Component {
                     onPress: () => {
                       db.transaction((tx) => {
                         tx.executeSql(
-                          "DELETE FROM trackings WHERE id=?",
+                          "UPDATE trackings SET deleted=1 WHERE id=?",
                           [this.props.route.params.id],
                           () => {
                             this.props.navigation.goBack();
