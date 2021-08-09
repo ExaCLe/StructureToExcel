@@ -127,21 +127,30 @@ class OverviewGoals extends React.Component {
       headerRight: () => (
         <View style={styles.container}>
           {(!this.props.route.params || !this.props.route.params.archive) && (
-            <TouchableOpacity
-              underlayColor="#ffffff"
-              onPress={() =>
-                this.props.navigation.push("OverviewGoals", { archive: true })
-              }
-            >
-              <Ionicons
-                name="archive"
-                size={25}
-                color={colors.PrimaryTextColor}
-                style={styles.padding}
-              />
-            </TouchableOpacity>
+            <View>
+              <TouchableOpacity
+                underlayColor="#ffffff"
+                onPress={() =>
+                  this.props.navigation.push("OverviewGoals", { archive: true })
+                }
+              >
+                <Ionicons
+                  name="archive"
+                  size={25}
+                  color={colors.PrimaryTextColor}
+                  style={styles.padding}
+                />
+              </TouchableOpacity>
+            </View>
           )}
-
+          <TouchableOpacity
+            underlayColor="#ffffff"
+            onPress={() =>
+              this.props.navigation.navigate("Help", { screen: "goals" })
+            }
+          >
+            <Ionicons name="help" size={25} color={colors.PrimaryTextColor} />
+          </TouchableOpacity>
           <TouchableOpacity
             underlayColor="#ffffff"
             onPress={() =>

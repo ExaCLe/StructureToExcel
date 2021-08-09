@@ -28,7 +28,110 @@ class Help extends React.Component {
     } else if (screen === "tracking") {
       elements = "Tracking";
     } else if (screen === "goals") {
-      elements = "Goals";
+      elements = (
+        <View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Ziele</Text>
+            <Text style={styles.paragraph}>
+              Hier kannst du Ziele hinzufügen und deinen Fortschritt bei der
+              Erfüllung verfolgen.
+            </Text>
+          </View>
+
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Hinzufügen</Text>
+            <Text style={styles.paragraph}>
+              Neue Ziele kannst du über das{" "}
+              <Ionicons
+                name="add"
+                size={25}
+                color={colors.SecondaryTextColor}
+              />{" "}
+              Symbol hinzufügen. Dabei hast du die Möglichkeit einen Namen zu
+              vergeben, wie oft du das Ziel erfüllen möchtest und ein Icon
+              auswählen. Des Weiteren kannst du eine Priorität festlegen, die du
+              später daran erkennen kannst, dass sich die Einträge des Ziels
+              anders einfärben.
+            </Text>
+          </View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Updaten des Fortschritts</Text>
+            <Text style={styles.paragraph}>
+              Wenn du bei einem Ziel Fortschritt erzielt hast, dann kannst du
+              diesen über das Symbol
+              <Ionicons
+                name="add"
+                size={25}
+                color={colors.SecondaryTextColor}
+              />{" "}
+              hinzufügen. Falls du einen größeren Fortschritt gemacht hast oder
+              falls du deinen Fortschritt zurücksetzen möchtest, dann kannst du
+              dies beim Bearbeiten des Ziel machen.
+            </Text>
+          </View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Bearbeiten des Ziels</Text>
+            <Text style={styles.paragraph}>
+              Öffne dazu einfach die Details indem du das Ziel anklickst und
+              dann kannst du über
+              <Ionicons
+                name="pencil"
+                size={25}
+                color={colors.SecondaryTextColor}
+              />{" "}
+              dieses Symbol in dem Bearbeitungsmodus gelangen.
+            </Text>
+          </View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Löschen des Ziels</Text>
+            <Text style={styles.paragraph}>
+              Öffne dazu einfach die Details indem du das Ziel anklickst und
+              dann kannst du über
+              <Ionicons
+                name="trash"
+                size={25}
+                color={colors.SecondaryTextColor}
+              />{" "}
+              dieses Symbol das Ziel löschen.
+            </Text>
+          </View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Ansicht Wechseln</Text>
+            <Text style={styles.paragraph}>
+              Je nachdem welches Intervall du gewählt hast, musst die die
+              Ansicht der Ziele wechseln, damit dein Ziel sichtbar ist. Drücke
+              dazu einfach einen der Buttons über der unteren Navigationsleiste,
+              wenn du in einer Übersicht bist, um ein anderes Intervall
+              auszuwählen.
+            </Text>
+          </View>
+          <View style={styles.paragraphContainer}>
+            <Text style={styles.h1}>Zeitziele</Text>
+            <Text style={styles.paragraph}>
+              Du kannst auch Zeitziele anlegen, wobei du hier dann den
+              Fortschritt mithilfe des Trackens im Tracking-Tab verfolgen
+              kannst.
+            </Text>
+            <Text style={styles.paragraph}>
+              Du musst dann eine Aktivität erstellen und das Ziel dann damit
+              verbinden. Beispielsweise könntest du dir das Ziel setzen, jede
+              Woche 10 Stunden zu lesen.
+            </Text>
+            <Text style={styles.paragraph}>
+              Dafür musst du dann beim Erstellen des Ziel, den Slider für das
+              Zeitziel aktivieren und dann eine Aktivität auswählen (in diesem
+              Beispiel Lesen.) Falls du noch keine Aktivität hast, kannst du
+              auch direkt über das
+              <Ionicons
+                name="add"
+                size={25}
+                color={colors.SecondaryTextColor}
+              />{" "}
+              Symbol eine erstellen.
+            </Text>
+          </View>
+        </View>
+      );
     } else if (screen === "habits") {
       elements = (
         <View>
