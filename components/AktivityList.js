@@ -81,6 +81,31 @@ class AktivityList extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        {this.state.aktivitys.length === 0 && (
+          <View
+            style={[
+              styles.containerHorizontal,
+              styles.margin,
+              styles.padding,
+              { flexWrap: "wrap" },
+            ]}
+          >
+            <Text style={styles.secondaryText}>Füge über </Text>
+            <Ionicons
+              name={"add"}
+              size={30}
+              color={colors.SecondaryTextColor}
+            />
+            <Text style={styles.secondaryText}>neue Trackings ein.</Text>
+            <Text style={styles.secondaryText}>Hilfe kannst du über </Text>
+            <Ionicons
+              name={"help"}
+              size={30}
+              color={colors.SecondaryTextColor}
+            />
+            <Text style={styles.secondaryText}>erhalten</Text>
+          </View>
+        )}
         <FlatList
           renderItem={this.renderItem}
           data={this.state.aktivitys}

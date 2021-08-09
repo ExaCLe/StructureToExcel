@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList, TouchableOpacity } from "react-native";
+import { View, FlatList, TouchableOpacity, Text } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -14,7 +14,7 @@ export default class HabitOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      habits: null,
+      habits: [],
     };
     // create a table for the habits if not existing already
     // db.transaction((tx) => {
@@ -190,6 +190,31 @@ export default class HabitOverview extends React.Component {
   render() {
     return (
       <View style={[styles.margin, styles.flex, { flex: 1 }]}>
+        {this.state.habits.length === 0 && (
+          <View
+            style={[
+              styles.containerHorizontal,
+              styles.margin,
+              styles.padding,
+              { flexWrap: "wrap" },
+            ]}
+          >
+            <Text style={styles.secondaryText}>Füge über </Text>
+            <Ionicons
+              name={"add"}
+              size={30}
+              color={colors.SecondaryTextColor}
+            />
+            <Text style={styles.secondaryText}>neue Gewohnheiten ein.</Text>
+            <Text style={styles.secondaryText}>Hilfe kannst du über </Text>
+            <Ionicons
+              name={"help"}
+              size={30}
+              color={colors.SecondaryTextColor}
+            />
+            <Text style={styles.secondaryText}>erhalten</Text>
+          </View>
+        )}
         <FlatList
           data={this.state.habits}
           renderItem={this.renderItem}

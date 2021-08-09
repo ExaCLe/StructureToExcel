@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, View, TouchableOpacity, ScrollView } from "react-native";
+import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import AktivityTracker from "./AktivityTracker.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
@@ -101,12 +101,37 @@ class TrackingOverview extends React.Component {
     });
   }
   render() {
+    console.log(this.state.aktivitys.length === 0);
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, display: "flex" }}>
         <ScrollView>
+          {this.state.aktivitys.length === 0 && (
+            <View
+              style={[
+                styles.containerHorizontal,
+                styles.margin,
+                styles.padding,
+                { flexWrap: "wrap" },
+              ]}
+            >
+              <Text style={styles.secondaryText}>Füge über </Text>
+              <Ionicons
+                name={"add"}
+                size={30}
+                color={colors.SecondaryTextColor}
+              />
+              <Text style={styles.secondaryText}>neue Aktivitäten ein.</Text>
+              <Text style={styles.secondaryText}>Hilfe kannst du über </Text>
+              <Ionicons
+                name={"help"}
+                size={30}
+                color={colors.SecondaryTextColor}
+              />
+              <Text style={styles.secondaryText}>erhalten</Text>
+            </View>
+          )}
           {this.state.aktivitys.map((activity) => (
             <AktivityTracker
-              AktivityTracker
               activity={activity}
               navigation={this.props.navigation}
               key={String(activity.id)}
