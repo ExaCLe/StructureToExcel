@@ -55,7 +55,7 @@ function Settings() {
         component={SettingsScreen}
         options={{
           title: "Settings",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -64,7 +64,7 @@ function Settings() {
         component={LoginScreen}
         options={{
           title: "Login",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -79,7 +79,7 @@ function Habit() {
         component={HabitOverview}
         options={{
           title: "Gewohnheiten Übersicht",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -87,7 +87,7 @@ function Habit() {
         name="ChangeHabit"
         component={ChangeHabit}
         options={{
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -95,7 +95,7 @@ function Habit() {
         name="HabitDetails"
         component={HabitsDetails}
         options={{
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -103,7 +103,7 @@ function Habit() {
         name="HabitsQueue"
         component={HabitsQueue}
         options={{
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -112,7 +112,7 @@ function Habit() {
         component={IconChooser}
         options={{
           title: "Wähle ein Icon",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -121,7 +121,7 @@ function Habit() {
         component={Help}
         options={{
           title: "Hilfe",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -137,7 +137,7 @@ function Quotes() {
         component={CategorieOverview}
         options={{
           title: "Wähle eine Kategorie",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -146,7 +146,7 @@ function Quotes() {
         component={QuotesCategorie}
         options={{
           title: "Categorie",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -155,7 +155,7 @@ function Quotes() {
         component={Help}
         options={{
           title: "Hilfe",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -171,7 +171,7 @@ function Pomodoro() {
         component={PomodoroTimer}
         options={{
           title: "Pomodoro Timer",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -180,7 +180,7 @@ function Pomodoro() {
         component={PomodoroSettings}
         options={{
           title: "Pomodoro Settings",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -189,7 +189,7 @@ function Pomodoro() {
         component={Help}
         options={{
           title: "Hilfe",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -204,7 +204,7 @@ function Goals() {
         component={OverviewGoals}
         options={{
           title: "Zielübersicht",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -212,7 +212,7 @@ function Goals() {
         name="ChangeGoal"
         component={ChangeGoal}
         options={{
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -220,7 +220,7 @@ function Goals() {
         name="GoalsDetails"
         component={GoalsDetails}
         options={{
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -229,7 +229,7 @@ function Goals() {
         component={IconChooser}
         options={{
           title: "Wähle ein Icon",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -237,7 +237,7 @@ function Goals() {
         name="AktivityChooserGoal"
         component={AktivityChooser}
         options={{
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -246,7 +246,7 @@ function Goals() {
         component={ChangeAktivity}
         options={{
           title: "Aktivität hinzufügen",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -255,7 +255,7 @@ function Goals() {
         component={Help}
         options={{
           title: "Hilfe",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -270,7 +270,7 @@ function Tracking() {
         component={TrackingOverview}
         options={{
           title: "Aktivitäten",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -279,7 +279,7 @@ function Tracking() {
         component={ChangeAktivity}
         options={{
           title: "Aktivität hinzufügen",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -288,7 +288,7 @@ function Tracking() {
         component={IconChooser}
         options={{
           title: "Wähle ein Icon",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -296,7 +296,7 @@ function Tracking() {
         name="AktivityDetails"
         component={AktivityDetails}
         options={{
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -304,7 +304,7 @@ function Tracking() {
         name="AktivityList"
         component={AktivityList}
         options={{
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -312,7 +312,7 @@ function Tracking() {
         name="AktivityListDetails"
         component={AktivityListDetails}
         options={{
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -320,7 +320,7 @@ function Tracking() {
         name="ChangeTracking"
         component={ChangeTracking}
         options={{
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -328,7 +328,7 @@ function Tracking() {
         name="AktivityChooser"
         component={AktivityChooser}
         options={{
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
@@ -337,7 +337,7 @@ function Tracking() {
         component={Help}
         options={{
           title: "Hilfe",
-          headerStyle: styles.header,
+          headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}
       />
