@@ -7,6 +7,7 @@ import * as colors from "../assets/colors.js";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import PrimaryButton from "./PrimaryButton.js";
 import BackButton from "./BackButton.js";
+import TextButton from "./TextButton.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
@@ -169,18 +170,14 @@ class ChangeTracking extends React.Component {
             style={[styles.margin, styles.padding]}
           />
           <Text>{this.state.name}</Text>
-          <TouchableOpacity
-            style={[styles.margin, styles.padding]}
+          <TextButton
+            text="Change"
             onPress={() => {
               this.props.navigation.navigate("AktivityChooser", {
                 target: "ChangeTracking",
               });
             }}
-          >
-            <Text style={[styles.textButton, { color: global.color }]}>
-              Change
-            </Text>
-          </TouchableOpacity>
+          />
         </View>
         <Text style={styles.secondaryText}>Startzeit: </Text>
         <View>

@@ -5,6 +5,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import PrimaryButton from "./PrimaryButton.js";
+import TextButton from "./TextButton.js";
 const db = SQLite.openDatabase("pomodoro.db");
 
 const WORK = "working";
@@ -150,18 +151,16 @@ class PomodoroTimer extends React.Component {
               else this.setState({ time: this.state.breakInterval * 60 });
             }}
           />
-          <TouchableOpacity
-            style={styles.center}
+          <TextButton
+            text={
+              this.state.interval === WORK
+                ? "Zu Pausenintervall wechseln"
+                : "Zu Arbeitsintervall wechseln"
+            }
             onPress={() => {
               this.resetAndChange();
             }}
-          >
-            <Text style={[styles.textButton, { color: global.color }]}>
-              {this.state.interval === WORK
-                ? "Zu Pausenintervall wechseln"
-                : "Zu Arbeitsintervall wechseln"}
-            </Text>
-          </TouchableOpacity>
+          />
         </View>
       );
     } else return null;

@@ -7,6 +7,7 @@ import {
   Alert,
   Platform,
   ScrollView,
+  TextBase,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
@@ -17,6 +18,7 @@ import PrimaryButton from "./PrimaryButton.js";
 import BackButton from "./BackButton.js";
 import TextfieldAndLabel from "./TextfieldAndLabel.js";
 import Textfield from "./Textfield.js";
+import TextButton from "./TextButton.js";
 // for usage: https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage
 // open the database for adding the habits
 const db = SQLite.openDatabase("habits.db");
@@ -269,19 +271,14 @@ class ChangeHabit extends React.Component {
             color={global.color}
             style={[styles.margin, styles.padding]}
           />
-          <TouchableOpacity
-            style={[styles.margin, styles.padding]}
+          <TextButton
+            text="Wähle Icon"
             onPress={() => {
               this.props.navigation.navigate("IconChooserHabits", {
                 target: "ChangeHabit",
               });
             }}
-          >
-            <Text style={[styles.textButton, { color: global.color }]}>
-              {" "}
-              Wähle Icon
-            </Text>
-          </TouchableOpacity>
+          />
         </View>
         <Text style={[styles.secondaryText, styles.margin]}>
           Wie oft möchtest du sie erfüllen?{" "}

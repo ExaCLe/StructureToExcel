@@ -7,6 +7,7 @@ import * as SQLite from "expo-sqlite";
 import PrimaryButton from "./PrimaryButton.js";
 import BackButton from "./BackButton.js";
 import TextfieldAndLabel from "./TextfieldAndLabel.js";
+import TextButton from "./TextButton.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AddAktivity extends React.Component {
@@ -160,8 +161,7 @@ class AddAktivity extends React.Component {
             color={global.color}
             style={[styles.margin, styles.padding]}
           />
-          <TouchableOpacity
-            style={[styles.margin, styles.padding]}
+          <TextButton
             onPress={() => {
               if (this.props.route.params.target === "AktivityDetails")
                 this.props.navigation.navigate("IconChooserTracking", {
@@ -180,12 +180,8 @@ class AddAktivity extends React.Component {
                   target: "ChangeAktivity",
                 });
             }}
-          >
-            <Text style={[styles.textButton, { color: global.color }]}>
-              {" "}
-              Wähle Icon
-            </Text>
-          </TouchableOpacity>
+            text="Wähle Icon"
+          />
         </View>
         <PrimaryButton
           onPress={() => {

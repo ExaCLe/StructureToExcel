@@ -18,6 +18,7 @@ import PrimaryButton from "./PrimaryButton.js";
 import BackButton from "./BackButton.js";
 import TextfieldAndLabel from "./TextfieldAndLabel.js";
 import Textfield from "./Textfield.js";
+import TextButton from "./TextButton.js";
 const db = SQLite.openDatabase("goals.db");
 const habits = SQLite.openDatabase("habits.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
@@ -229,19 +230,16 @@ class ChangeGoal extends React.Component {
             color={global.color}
             style={[styles.margin, styles.padding]}
           />
+          <TextButton
+            text="Wähle Icon"
+            onPress={() => {
+              this.props.navigation.navigate("IconChooserGoals", {
+                target: "ChangeGoal",
+              });
+            }}
+          />
         </View>
-        <TouchableOpacity
-          style={[styles.margin, styles.padding]}
-          onPress={() => {
-            this.props.navigation.navigate("IconChooserGoals", {
-              target: "ChangeGoal",
-            });
-          }}
-        >
-          <Text style={[styles.textButton, { color: global.color }]}>
-            Wähle Icon
-          </Text>
-        </TouchableOpacity>
+
         <View style={[styles.containerHorizontal]}>
           <Text style={styles.secondaryText}>Intervall: </Text>
           <Text style={[styles.normalText, { color: global.color }]}>
@@ -321,25 +319,14 @@ class ChangeGoal extends React.Component {
                 style={[styles.margin, styles.padding]}
               />
               <Text>{this.state.aktivity_name}</Text>
-              <TouchableOpacity
-                style={[styles.margin, styles.padding]}
+              <TextButton
+                text="Wähle Aktivität"
                 onPress={() => {
                   this.props.navigation.navigate("AktivityChooserGoal", {
                     target: "ChangeGoal",
                   });
                 }}
-              >
-                <Text
-                  style={[
-                    styles.textButton,
-                    { color: global.color },
-                    { color: global.color },
-                  ]}
-                >
-                  {" "}
-                  Choose Aktivity
-                </Text>
-              </TouchableOpacity>
+              />
             </View>
           </View>
         )}
