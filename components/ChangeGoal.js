@@ -209,7 +209,6 @@ class ChangeGoal extends React.Component {
   intervall = ["Tag", "Woche", "Monat"];
 
   render() {
-    console.log("zIndex: ", this.state.zIndex);
     return (
       <ScrollView style={styles.margin} keyboardShouldPersistTaps="handled">
         <TextfieldAndLabel
