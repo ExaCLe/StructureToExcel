@@ -11,64 +11,56 @@ const db = SQLite.openDatabase("aktivitys.db");
 class AktivityDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { loaded: false };
     this.loadTime();
   }
   // loads the tracked time out of the db
   loadTime = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL)",
+        "SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL) AND start_time > DATE('now', 'start of day')",
         [this.props.route.params.id],
         (txObj, { rows: { _array } }) => {
-          let twentyfourHours = 0,
-            lastSeven = 0,
-            lastThirty = 0,
-            today = 0;
-          const now = new Date();
-          const todayStart = new Date(
-            now.getFullYear(),
-            now.getMonth(),
-            now.getDate()
-          );
-          _array.map((entry) => {
-            const end = new Date(entry.end_time);
-            const start = new Date(entry.start_time);
-            if (end - todayStart >= 0) {
-              if (start - todayStart >= 0) {
-                today += entry.duration_s;
-              } else {
-                today += (end - todayStart) / 1000;
-              }
-            }
-            if ((now - end) / 1000 / 3600 <= 24) {
-              if ((now - start) / 1000 / 3600 <= 24)
-                twentyfourHours += entry.duration_s;
-              else twentyfourHours += 24 * 3600 - (now - end) / 1000;
-            }
-            if ((now - end) / 1000 / 3600 / 24 < 7) {
-              if ((now - start) / 1000 / 3600 / 24 <= 7)
-                lastSeven += entry.duration_s;
-              else lastSeven += 24 * 3600 * 7 - (now - end) / 1000;
-            }
-            if ((now - end) / 1000 / 3600 / 24 < 30) {
-              if ((now - start) / 1000 / 3600 / 24 <= 30)
-                lastThirty += entry.duration_s;
-              else lastThirty += 24 * 3600 * 7 - (now - end) / 1000;
-            }
+          let sum = 0;
+          _array.map((ele) => {
+            sum += ele.duration_s;
           });
-          this.setState({
-            today: today,
-            twentyfourHours: twentyfourHours,
-            lastSeven: lastSeven,
-            lastThirty: lastThirty,
+          this.setState({ today: sum });
+        }
+      );
+      tx.executeSql(
+        "SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL) AND start_time > DATE('now', '-7 days', 'weekday 1')",
+        [this.props.route.params.id],
+        (txObj, { rows: { _array } }) => {
+          let sum = 0;
+          _array.map((ele) => {
+            sum += ele.duration_s;
           });
-        },
-        (txObj, error) =>
-          console.error("Fehler beim Lesen der Zeiten. " + error)
+          this.setState({ lastWeek: sum });
+        }
+      );
+      tx.executeSql(
+        "SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL) AND start_time > DATE('now', 'start of month')",
+        [this.props.route.params.id],
+        (txObj, { rows: { _array } }) => {
+          let sum = 0;
+          _array.map((ele) => {
+            sum += ele.duration_s;
+          });
+          this.setState({ lastMonth: sum });
+        }
       );
     });
   };
+  componentDidUpdate() {
+    if (
+      this.state.lastMonth &&
+      this.state.lastWeek &&
+      this.state.today &&
+      !this.state.loaded
+    )
+      this.setState({ loaded: true });
+  }
   componentWillUnmount() {
     this._unsubscribe();
   }
@@ -179,7 +171,7 @@ class AktivityDetails extends React.Component {
     );
   };
   render() {
-    console.log("render");
+    if (!this.state.loaded) return null;
     return (
       <View style={styles.margin}>
         <View style={styles.containerHorizontal}>
@@ -203,32 +195,22 @@ class AktivityDetails extends React.Component {
           </View>
           <View style={styles.containerHorizontal}>
             <Text style={[styles.secondaryText, styles.columnSize]}>
-              Letzten 24 Stunden:
+              Letzte Woche:
             </Text>
             <Text
               style={[{ color: global.color }, styles.textBig, styles.margin]}
             >
-              {this.toTime(this.state.twentyfourHours)}
+              {this.toTime(this.state.lastWeek)}
             </Text>
           </View>
           <View style={styles.containerHorizontal}>
             <Text style={[styles.secondaryText, styles.columnSize]}>
-              Letzten 7 Tage:
+              Letzter Monat:
             </Text>
             <Text
               style={[{ color: global.color }, styles.textBig, styles.margin]}
             >
-              {this.toTime(this.state.lastSeven)}
-            </Text>
-          </View>
-          <View style={styles.containerHorizontal}>
-            <Text style={[styles.secondaryText, styles.columnSize]}>
-              Letzten 30 Tage:
-            </Text>
-            <Text
-              style={[{ color: global.color }, styles.textBig, styles.margin]}
-            >
-              {this.toTime(this.state.lastThirty)}
+              {this.toTime(this.state.lastMonth)}
             </Text>
           </View>
         </View>
