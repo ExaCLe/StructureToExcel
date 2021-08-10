@@ -89,6 +89,10 @@ class ChangeTracking extends React.Component {
     });
   }
   handleSave = () => {
+    if (!this.state.act_id) {
+      alert("Bitte Aktivität auswählen");
+      return;
+    }
     const start = this.state.start_time;
     const end = this.state.end_time;
     const duration = (end - start) / 1000;
@@ -193,7 +197,7 @@ class ChangeTracking extends React.Component {
             <Text style={[styles.normalText, styles.padding]}>
               {this.state.start_time.getDate() +
                 "." +
-                this.state.start_time.getMonth()}
+                (this.state.start_time.getMonth() + 1)}
             </Text>
           </TouchableOpacity>
           {this.state.show_start_date && (
@@ -248,7 +252,7 @@ class ChangeTracking extends React.Component {
             <Text style={[styles.normalText, styles.padding]}>
               {this.state.end_time.getDate() +
                 "." +
-                this.state.end_time.getMonth()}
+                (this.state.end_time.getMonth() + 1)}
             </Text>
           </TouchableOpacity>
           {this.state.show_end_date && (
