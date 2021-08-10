@@ -7,7 +7,7 @@ import * as SQLite from "expo-sqlite";
 
 import Habit from "./Habit.js";
 import styles from "./styles.js";
-import * as colors from "./../assets/colors.js";
+import * as colors from "../assets/colors.js";
 import HeaderIcon from "./HeaderIcon.js";
 const db = SQLite.openDatabase("habits.db");
 

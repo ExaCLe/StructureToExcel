@@ -1,7 +1,7 @@
 import React from "react";
 import { FlatList, View, TouchableOpacity, Text } from "react-native";
 import styles from "./styles.js";
-import * as colors from "./../assets/colors.js";
+import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import AktivityListObject from "./AktivityListObject.js";
 import BackButton from "./BackButton.js";

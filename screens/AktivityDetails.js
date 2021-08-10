@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, TouchableOpacity, Alert, Modal } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
-import * as colors from "./../assets/colors.js";
+import * as colors from "../assets/colors.js";
 import BackButton from "./BackButton.js";
 import TextButton from "./TextButton.js";
 import PopUp from "./PopUp.js";

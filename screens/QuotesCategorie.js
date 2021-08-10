@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import * as colors from "./../assets/colors.js";
+import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 const db = SQLite.openDatabase("favorites.db");
-import * as categories from "./../assets/categories.js";
+import * as categories from "../assets/categories.js";
 
 import Zitat from "./Zitat.js";
 import Quotes from "../assets/Quotes.js";

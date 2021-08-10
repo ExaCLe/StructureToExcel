@@ -2,7 +2,7 @@ import React from "react";
 import { View, FlatList, TouchableOpacity, Text } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
-import * as colors from "./../assets/colors.js";
+import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import BackButton from "./BackButton.js";
 import HeaderIcon from "./HeaderIcon.js";

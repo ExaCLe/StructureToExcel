@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { color } from "react-native-reanimated";
-import * as colors from "./../assets/colors.js";
-import * as fonts from "./../assets/fonts/fonts.js";
+import * as colors from "../assets/colors.js";
+import * as fonts from "../assets/fonts/fonts.js";
 
 const styles = (() => {
   console.log("Asking for styles");

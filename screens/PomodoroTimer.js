@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, TouchableOpacity, Button, Vibration } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import * as colors from "./../assets/colors.js";
+import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import PrimaryButton from "./PrimaryButton.js";
 import TextButton from "./TextButton.js";

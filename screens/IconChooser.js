@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
-import * as colors from "./../assets/colors.js";
-import icons from "./../assets/icons.js";
+import * as colors from "../assets/colors.js";
+import icons from "../assets/icons.js";
 import BackButton from "./BackButton.js";
 
 class IconChooser extends React.Component {

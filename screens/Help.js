@@ -3,7 +3,7 @@ import { Text, View, ScrollView } from "react-native";
 import BackButton from "./BackButton";
 import styles from "./styles";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import * as colors from "./../assets/colors.js";
+import * as colors from "../assets/colors.js";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 class Help extends React.Component {

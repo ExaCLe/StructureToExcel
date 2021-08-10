@@ -2,9 +2,9 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
-import * as colors from "./../assets/colors.js";
+import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
-import { toTime } from "./../helpers/Time.js";
+import { toTime } from "../helpers/Time.js";
 const db = SQLite.openDatabase("goals.db");
 class Goal extends React.Component {
   constructor(props) {

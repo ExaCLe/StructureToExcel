@@ -5,7 +5,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
 import Goal from "./Goal.js";
 import * as SQLite from "expo-sqlite";
-import { DAY, WEEK, MONTH } from "./../assets/intervals.js";
+import { DAY, WEEK, MONTH } from "../assets/intervals.js";
 import PrimaryButton from "./PrimaryButton.js";
 import BackButton from "./BackButton.js";
 import SmallPrimaryButton from "./SmallPrimaryButton.js";

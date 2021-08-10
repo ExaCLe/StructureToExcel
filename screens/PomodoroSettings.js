@@ -7,7 +7,7 @@ import {
   BackHandler,
 } from "react-native";
 import styles from "./styles.js";
-import * as colors from "./../assets/colors.js";
+import * as colors from "../assets/colors.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import BackButton from "./BackButton.js";
