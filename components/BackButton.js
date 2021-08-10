@@ -6,7 +6,7 @@ import * as colors from "./../assets/colors.js";
 
 const BackButton = (props) => {
   return (
-    <View style={styles.margin}>
+    <View style={styles.padding}>
       <TouchableOpacity
         onPress={() => {
           props.onPress();
