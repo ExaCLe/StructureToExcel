@@ -96,6 +96,7 @@ class ChangeTracking extends React.Component {
       alert("Startzeit muss vor Endzeit liegen");
       return;
     }
+    const version = this.state.version ? this.state.version + 1 : 0;
     const sql = this.props.route.params.edit
       ? "UPDATE trackings SET act_id = ? , start_time =? , end_time =?, duration_s = ?, version=? WHERE id = ?"
       : "INSERT INTO trackings (act_id, start_time, end_time, duration_s) VALUES (?, ?, ?, ?);";
@@ -108,7 +109,7 @@ class ChangeTracking extends React.Component {
           this.state.start_time.toISOString(),
           this.state.end_time.toISOString(),
           duration,
-          this.state.version + 1,
+          version,
           this.state.id,
         ],
         () => {
@@ -159,6 +160,7 @@ class ChangeTracking extends React.Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       <View style={styles.backgroundColor}>
         <View style={[styles.containerHorizontal]}>
