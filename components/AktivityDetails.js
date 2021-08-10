@@ -7,6 +7,8 @@ import BackButton from "./BackButton.js";
 import TextButton from "./TextButton.js";
 import PopUp from "./PopUp.js";
 import HeaderIcon from "./HeaderIcon.js";
+import { toTime } from "../helpers/Time.js";
+import Last10Statistics from "./Last10Statistics.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 
@@ -34,7 +36,9 @@ class AktivityDetails extends React.Component {
           _array.map((ele) => {
             sum += ele.duration_s;
           });
-          this.setState({ today: sum });
+          this.setState({ today: sum }, () => {
+            this.checkLoaded();
+          });
         }
       );
       tx.executeSql(
@@ -45,7 +49,9 @@ class AktivityDetails extends React.Component {
           _array.map((ele) => {
             sum += ele.duration_s;
           });
-          this.setState({ lastWeek: sum });
+          this.setState({ lastWeek: sum }, () => {
+            this.checkLoaded();
+          });
         },
         (txObj, error) => {
           console.log(error);
@@ -59,12 +65,15 @@ class AktivityDetails extends React.Component {
           _array.map((ele) => {
             sum += ele.duration_s;
           });
-          this.setState({ lastMonth: sum });
+
+          this.setState({ lastMonth: sum }, () => {
+            this.checkLoaded();
+          });
         }
       );
     });
   };
-  componentDidUpdate() {
+  checkLoaded = () => {
     if (
       this.state.lastMonth !== null &&
       this.state.lastWeek !== null &&
@@ -72,17 +81,8 @@ class AktivityDetails extends React.Component {
       !this.state.loaded
     )
       this.setState({ loaded: true });
-  }
-  componentWillUnmount() {
-    this._unsubscribe();
-  }
+  };
   componentDidMount() {
-    this._unsubscribe = this.props.navigation.addListener(
-      "focus",
-      (payload) => {
-        this.render();
-      }
-    );
     // add the button to the top
     this.props.navigation.setOptions({
       title: this.props.route.params.name + " Details",
@@ -212,17 +212,9 @@ class AktivityDetails extends React.Component {
     }
     this.setState({ showModalToday: true });
   };
-  toTime = (time) => {
-    if (!time && time !== 0) return "";
-    return (
-      Math.floor(time / 3600) +
-      " h " +
-      Math.floor((time % 3600) / 60) +
-      " min " +
-      (time % 60) +
-      " s"
-    );
-  };
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.loaded;
+  }
   render() {
     if (!this.state.loaded) return null;
     return (
@@ -231,31 +223,7 @@ class AktivityDetails extends React.Component {
           visible={this.state.showModalToday}
           close={() => this.setState({ showModalToday: false })}
         >
-          <View
-            style={{
-              display: "flex",
-              alignSelf: "center",
-            }}
-          >
-            {this.state.lastTen.map((ele, index) => {
-              return (
-                <View key={index} style={[styles.containerHorizontal, {}]}>
-                  <Text
-                    style={[
-                      styles.primaryAccentColor,
-                      styles.normalText,
-                      { width: 50 },
-                    ]}
-                  >
-                    {index + 1}:
-                  </Text>
-                  <Text style={[styles.primaryAccentColor, styles.normalText]}>
-                    {this.toTime(ele)}
-                  </Text>
-                </View>
-              );
-            })}
-          </View>
+          <Last10Statistics lastTen={this.state.lastTen} />
         </PopUp>
         <View style={styles.containerHorizontal}>
           <Text style={[styles.secondaryText, styles.columnSize]}>Name: </Text>
@@ -273,7 +241,7 @@ class AktivityDetails extends React.Component {
             <Text
               style={[{ color: global.color }, styles.textBig, styles.margin]}
             >
-              {this.toTime(this.state.today)}
+              {toTime(this.state.today)}
             </Text>
             <TextButton
               text="Letzte 10 Tage"
@@ -289,7 +257,7 @@ class AktivityDetails extends React.Component {
             <Text
               style={[{ color: global.color }, styles.textBig, styles.margin]}
             >
-              {this.toTime(this.state.lastWeek)}
+              {toTime(this.state.lastWeek)}
             </Text>
             <TextButton
               text="Letzte 10 Wochen"
@@ -305,7 +273,7 @@ class AktivityDetails extends React.Component {
             <Text
               style={[{ color: global.color }, styles.textBig, styles.margin]}
             >
-              {this.toTime(this.state.lastMonth)}
+              {toTime(this.state.lastMonth)}
             </Text>
             <TextButton
               text="Letzte 10 Monate"
