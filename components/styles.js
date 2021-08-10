@@ -28,11 +28,6 @@ const styles = (() => {
     },
     header: {
       backgroundColor: global.color,
-      shadowColor: "grey",
-      shadowRadius: 1,
-      shadowOpacity: 0.3,
-      elevation: 6,
-      shadowOffset: { width: 5, height: 5 },
     },
     headerText: {
       fontFamily: fonts.headerFont,
