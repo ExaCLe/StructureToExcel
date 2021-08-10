@@ -9,6 +9,7 @@ import PopUp from "./PopUp.js";
 import HeaderIcon from "./HeaderIcon.js";
 import { toTime } from "../helpers/Time.js";
 import Last10Statistics from "./Last10Statistics.js";
+import InformationRow from "./InformationRow.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 
@@ -225,63 +226,37 @@ class AktivityDetails extends React.Component {
         >
           <Last10Statistics lastTen={this.state.lastTen} />
         </PopUp>
-        <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText, styles.columnSize]}>Name: </Text>
-          <Text
-            style={[{ color: global.color }, styles.textBig, styles.margin]}
-          >
-            {this.props.route.params.name}
-          </Text>
-        </View>
+        <InformationRow label="Name: " content={this.props.route.params.name} />
+        <InformationRow label="Heute: " content={toTime(this.state.today)} />
+        <InformationRow
+          label="Diese Woche: "
+          content={toTime(this.state.lastWeek)}
+        />
+        <InformationRow
+          label="Dieser Monat: "
+          content={toTime(this.state.lastMonth)}
+        />
         <View>
-          <View style={styles.containerHorizontal}>
-            <Text style={[styles.secondaryText, styles.columnSize]}>
-              Heute:
-            </Text>
-            <Text
-              style={[{ color: global.color }, styles.textBig, styles.margin]}
-            >
-              {toTime(this.state.today)}
-            </Text>
-            <TextButton
-              text="Letzte 10 Tage"
-              onPress={() => {
-                this.calculateTimes("today");
-              }}
-            />
-          </View>
-          <View style={styles.containerHorizontal}>
-            <Text style={[styles.secondaryText, styles.columnSize]}>
-              Letzte Woche:
-            </Text>
-            <Text
-              style={[{ color: global.color }, styles.textBig, styles.margin]}
-            >
-              {toTime(this.state.lastWeek)}
-            </Text>
-            <TextButton
-              text="Letzte 10 Wochen"
-              onPress={() => {
-                this.calculateTimes("week");
-              }}
-            />
-          </View>
-          <View style={styles.containerHorizontal}>
-            <Text style={[styles.secondaryText, styles.columnSize]}>
-              Letzter Monat:
-            </Text>
-            <Text
-              style={[{ color: global.color }, styles.textBig, styles.margin]}
-            >
-              {toTime(this.state.lastMonth)}
-            </Text>
-            <TextButton
-              text="Letzte 10 Monate"
-              onPress={() => {
-                this.calculateTimes("month");
-              }}
-            />
-          </View>
+          <TextButton
+            text="Letzte 10 Tage"
+            onPress={() => {
+              this.calculateTimes("today");
+            }}
+          />
+
+          <TextButton
+            text="Letzte 10 Wochen"
+            onPress={() => {
+              this.calculateTimes("week");
+            }}
+          />
+
+          <TextButton
+            text="Letzte 10 Monate"
+            onPress={() => {
+              this.calculateTimes("month");
+            }}
+          />
         </View>
       </View>
     );

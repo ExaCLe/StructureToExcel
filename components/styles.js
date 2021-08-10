@@ -27,7 +27,7 @@ const styles = (() => {
       display: "flex",
     },
     columnSize: {
-      width: "25%",
+      width: "30%",
     },
     header: {
       backgroundColor: global.color,
