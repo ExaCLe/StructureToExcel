@@ -21,6 +21,9 @@ class AddAktivity extends React.Component {
       icon: (() => {
         return edit ? props.route.params.icon : "book-outline";
       })(),
+      first_icon: (() => {
+        return edit ? props.route.params.icon : "book-outline";
+      })(),
     };
   }
   componentWillUnmount() {
@@ -30,7 +33,11 @@ class AddAktivity extends React.Component {
     this._unsubscribe = this.props.navigation.addListener(
       "focus",
       (payload) => {
-        if (this.props.route.params && this.props.route.params.icon)
+        if (
+          this.props.route.params &&
+          this.props.route.params.icon &&
+          this.state.first_icon !== this.props.route.params.icon
+        )
           this.setState({ icon: this.props.route.params.icon, change: true });
       }
     );
@@ -43,24 +50,7 @@ class AddAktivity extends React.Component {
         return (
           <BackButton
             onPress={() => {
-              if (this.state.change && this.state.edit)
-                Alert.alert(
-                  "Abort Changes",
-                  "Möchtest du wirklich die Veränderungen verwerfen?",
-                  [
-                    { text: "Nein" },
-                    {
-                      text: "Ja",
-                      onPress: () => {
-                        this.props.navigation.navigate(
-                          this.props.route.params.target
-                        );
-                      },
-                    },
-                  ]
-                );
-              else
-                this.props.navigation.navigate(this.props.route.params.target);
+              this.confirmQuit();
             }}
           />
         );
@@ -74,21 +64,7 @@ class AddAktivity extends React.Component {
             <HeaderIcon
               name="trash"
               onPress={() => {
-                db.transaction((tx) => {
-                  tx.executeSql(
-                    "UPDATE activities SET deleted=1, version=? WHERE id=?",
-                    [
-                      this.props.route.params.version + 1,
-                      this.props.route.params.id,
-                    ],
-                    () => {
-                      this.props.navigation.navigate("TrackingOverview");
-                    },
-                    () => {
-                      console.log("Fehler beim Löschen der Aktivität");
-                    }
-                  );
-                });
+                this.confirmDelete();
               }}
             />
           );
@@ -96,6 +72,52 @@ class AddAktivity extends React.Component {
       });
     }
   }
+  confirmDelete = () => {
+    Alert.alert(
+      "Delete Aktivity",
+      "Möchtest du diese Aktivität wirklich löschen? Das ist ein irreversibler Vorgang.",
+      [
+        { text: "Nein" },
+        {
+          text: "Ja",
+          onPress: () => {
+            db.transaction((tx) => {
+              tx.executeSql(
+                "UPDATE activities SET deleted=1, version=? WHERE id=?",
+                [
+                  this.props.route.params.version + 1,
+                  this.props.route.params.id,
+                ],
+                () => {
+                  this.props.navigation.navigate("TrackingOverview");
+                },
+                () => {
+                  console.log("Fehler beim Löschen der Aktivität");
+                }
+              );
+            });
+          },
+        },
+      ]
+    );
+  };
+  confirmQuit = () => {
+    if (this.state.change && this.state.edit)
+      Alert.alert(
+        "Abort Changes",
+        "Möchtest du wirklich die Veränderungen verwerfen?",
+        [
+          { text: "Nein" },
+          {
+            text: "Ja",
+            onPress: () => {
+              this.props.navigation.navigate(this.props.route.params.target);
+            },
+          },
+        ]
+      );
+    else this.props.navigation.navigate(this.props.route.params.target);
+  };
   handleSave = () => {
     // decide on the right sql command
     let sql;
@@ -138,6 +160,7 @@ class AddAktivity extends React.Component {
     });
   };
   render() {
+    console.log("RENDERING", this.state.change);
     return (
       <ScrollView style={styles.margin} keyboardShouldPersistTaps="handled">
         <TextfieldAndLabel
