@@ -13,6 +13,9 @@ const styles = (() => {
     fullSize: {
       flex: 1,
     },
+    fullHeight: {
+      height: "100%",
+    },
     tabBar: {
       backgroundColor: global.color,
       paddingTop: 10,
@@ -28,6 +31,9 @@ const styles = (() => {
     },
     header: {
       backgroundColor: global.color,
+    },
+    paddingBottom: {
+      paddingBottom: 10,
     },
     headerText: {
       fontFamily: fonts.headerFont,
@@ -89,6 +95,12 @@ const styles = (() => {
     normalText: {
       fontSize: 24,
       fontFamily: fonts.primaryFont,
+    },
+    primaryText: {
+      fontSize: 24,
+      fontFamily: fonts.primaryFont,
+      color: colors.PrimaryAccentColor,
+      padding: 10,
     },
     secondaryText: {
       fontSize: 20,
@@ -199,7 +211,7 @@ const styles = (() => {
     },
     divider: {
       height: 1,
-      backgroundColor: "#000000",
+      backgroundColor: colors.PrimaryAccentColor,
     },
     text: {
       paddingLeft: 5,

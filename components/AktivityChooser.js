@@ -6,6 +6,7 @@ import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import BackButton from "./BackButton.js";
 import HeaderIcon from "./HeaderIcon.js";
+import Divider from "./Divider.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AktivityChooser extends React.Component {
@@ -71,7 +72,7 @@ class AktivityChooser extends React.Component {
   // renders an habit entry in the flat list
   renderItem = (obj) => {
     return (
-      <View style={{ display: "flex", flexDirection: "row" }}>
+      <View style={styles.paddingBottom}>
         <TouchableOpacity
           onPress={() => {
             this.props.navigation.navigate(this.props.route.params.target, {
@@ -79,9 +80,9 @@ class AktivityChooser extends React.Component {
             });
           }}
         >
-          <View>
+          <View style={[styles.containerHorizontal]}>
             <Ionicons name={obj.item.icon} size={50} color={global.color} />
-            <Text>{obj.item.name}</Text>
+            <Text style={styles.primaryText}>{obj.item.name}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -90,11 +91,13 @@ class AktivityChooser extends React.Component {
   render() {
     if (!this.state.loaded) return null;
     return (
-      <View style={{ display: "flex", flexDirection: "row" }}>
+      <View stlye={styles.fullScreen}>
         <FlatList
           data={this.state.aktivitys}
           renderItem={this.renderItem}
           keyExtractor={(ele) => String(ele.id)}
+          style={[styles.padding, styles.margin, styles.fullHeight]}
+          ItemSeparatorComponent={Divider}
         />
       </View>
     );
