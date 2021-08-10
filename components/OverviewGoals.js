@@ -130,20 +130,20 @@ class OverviewGoals extends React.Component {
         <View style={styles.container}>
           {(!this.props.route.params || !this.props.route.params.archive) && (
             <HeaderIcon
-              name="trash"
+              name="archive"
               onPress={() =>
                 this.props.navigation.push("OverviewGoals", { archive: true })
               }
             />
           )}
           <HeaderIcon
-            name="trash"
+            name="help"
             onPress={() =>
               this.props.navigation.navigate("Help", { screen: "goals" })
             }
           />
           <HeaderIcon
-            name="trash"
+            name="add"
             onPress={() =>
               this.props.navigation.navigate("ChangeGoal", {
                 edit: false,

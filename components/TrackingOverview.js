@@ -81,13 +81,13 @@ class TrackingOverview extends React.Component {
       headerRight: () => (
         <View style={styles.container}>
           <HeaderIcon
-            name="trash"
+            name="help"
             onPress={() =>
               this.props.navigation.navigate("Help", { screen: "aktivities" })
             }
           />
           <HeaderIcon
-            name="trash"
+            name="add"
             onPress={() =>
               this.props.navigation.navigate("ChangeAktivity", {
                 edit: false,
@@ -96,7 +96,7 @@ class TrackingOverview extends React.Component {
             }
           />
           <HeaderIcon
-            name="trash"
+            name="list"
             onPress={() => this.props.navigation.navigate("AktivityList")}
           />
         </View>

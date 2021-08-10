@@ -87,7 +87,7 @@ class PomodoroTimer extends React.Component {
       headerRight: () => (
         <View style={styles.container}>
           <HeaderIcon
-            name="trash"
+            name="settings"
             onPress={() => this.props.navigation.navigate("PomodoroSettings")}
           />
         </View>

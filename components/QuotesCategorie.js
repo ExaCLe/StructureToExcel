@@ -70,7 +70,7 @@ class QuotesCategorie extends React.Component {
         return (
           <View style={styles.row}>
             <HeaderIcon
-              name="trash"
+              name="heart"
               onPress={() => {
                 const categorie = this.props.route.params.categorie;
                 const sql = this.state.favorite

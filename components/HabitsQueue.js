@@ -55,7 +55,7 @@ class HabitsQueue extends React.Component {
       headerRight: () => (
         <View style={styles.container}>
           <HeaderIcon
-            name="trash"
+            name="add"
             onPress={() =>
               this.props.navigation.navigate("ChangeHabit", {
                 edit: false,
