@@ -17,9 +17,10 @@ const InformationRow = (props) => {
       )}
       {props.icon && (
         <Ionicons
+          style={styles.margin}
           name={props.icon}
           color={colors.PrimaryAccentColor}
-          size={25}
+          size={35}
         />
       )}
     </View>
