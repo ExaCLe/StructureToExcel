@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput, View, Text } from "react-native";
-import styles from "./styles";
+import styles from "../styles";
 import Textfield from "./Textfield";
 import PropTypes from "prop-types";
 

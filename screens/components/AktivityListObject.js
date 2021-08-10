@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import styles from "./styles.js";
-import * as colors from "../assets/colors.js";
-import { toTime, extractTime } from "../helpers/Time.js";
+import styles from "../styles.js";
+import * as colors from "../../assets/colors.js";
+import { toTime, extractTime } from "../../helpers/Time.js";
 
 class AktivityListObject extends React.Component {
   constructor(props) {

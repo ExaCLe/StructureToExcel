@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, Modal, TouchableOpacity } from "react-native";
-import styles from "./styles";
+import styles from "../styles";
 
 const PopUp = (props) => {
   return (

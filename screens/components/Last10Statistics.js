@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
-import styles from "./styles";
-import { toTime } from "../helpers/Time";
+import styles from "../styles";
+import { toTime } from "../../helpers/Time";
 
 const Last10Statistics = (props) => {
   return (

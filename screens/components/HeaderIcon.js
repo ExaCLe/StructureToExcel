@@ -1,8 +1,8 @@
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import styles from "./styles.js";
-import * as colors from "../assets/colors.js";
+import styles from "../styles.js";
+import * as colors from "../../assets/colors.js";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const HeaderIcon = (props) => {

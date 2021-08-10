@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput } from "react-native";
-import styles from "./styles";
+import styles from "../styles";
 
 const Textfield = (props) => {
   return (
