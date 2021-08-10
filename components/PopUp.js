@@ -6,7 +6,7 @@ const PopUp = (props) => {
   return (
     <View>
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={props.visible}
         onRequestClose={() => {
