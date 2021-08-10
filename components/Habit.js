@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 import Divider from "./Divider.js";
 
@@ -75,6 +76,20 @@ const Habit = (props) => {
             </View>
             {!props.queue && (
               <View style={styles.containerHorizontal}>
+                <Text
+                  style={[
+                    styles.normalText,
+                    styles.primaryTextColor,
+                    styles.padding,
+                  ]}
+                >
+                  {props.habit.streak}
+                </Text>
+                <FontAwesome5
+                  name="fire"
+                  color={colors.PrimaryTextColor}
+                  size={25}
+                />
                 {props.habit.fullfilled ? (
                   <Ionicons
                     name="checkmark-circle-outline"

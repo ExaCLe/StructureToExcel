@@ -266,8 +266,8 @@ class HabitsDetails extends React.Component {
             style={[{ color: global.color }, styles.textBig, styles.margin]}
           >
             {this.props.route.params.repetitions +
-              " in " +
-              this.props.route.params.interval +
+              " Mal in " +
+              this.props.route.params.intervall +
               " Tagen"}
           </Text>
         </View>

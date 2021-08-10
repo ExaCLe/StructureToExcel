@@ -16,21 +16,6 @@ export default class HabitOverview extends React.Component {
     this.state = {
       habits: [],
     };
-    // create a table for the habits if not existing already
-    // db.transaction((tx) => {
-    //   tx.executeSql(
-    //     "DROP TABLE habits ;",
-    //     null,
-    //     () => {},
-    //     (txObj, error) => {}
-    //   );
-    //   tx.executeSql(
-    //     "DROP TABLE checkHabits ;",
-    //     null,
-    //     () => {},
-    //     (txObj, error) => {}
-    //   );
-    // });
     db.transaction((tx) => {
       tx.executeSql(
         "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, queue BOOLEAN, object_id TEXT, deleted BOOLEAN, updatedAt DATETIME, version INTEGER NOT NULL DEFAULT 0);",
@@ -116,7 +101,6 @@ export default class HabitOverview extends React.Component {
         "SELECT * FROM checkHabits WHERE date = date('now') AND (deleted = 0 OR deleted IS NULL);",
         null,
         (txObj, results) => {
-          console.log(results.rows._array);
           this.addChecksToState(results);
         }
       );
@@ -148,6 +132,68 @@ export default class HabitOverview extends React.Component {
                 return { habits: prevState.habits };
               });
             }
+          },
+          (txObj, error) => {
+            console.log(error);
+          }
+        );
+      });
+    }
+    this.calculateStreaks();
+  };
+  calculateStreaks = () => {
+    for (let i = 0; i < this.state.habits.length; i++) {
+      const habit = this.state.habits[i];
+      // get all the entrys from the db
+      db.transaction((tx) => {
+        tx.executeSql(
+          "SELECT * FROM checkHabits WHERE habit_id = ? AND (deleted = 0 OR deleted IS NULL) ORDER BY date DESC",
+          [habit.id],
+          (txObj, { rows: { _array } }) => {
+            if (_array.length === 0) {
+              this.setState((prevState) => {
+                prevState.habits[i].streak = 0;
+                return prevState;
+              });
+              return;
+            }
+            let valid = true;
+            let count = 0;
+            let index = 0;
+            let fullfilled = 0;
+            let date = new Date();
+            let current_date = new Date(_array[0].date);
+            date.setHours(current_date.getHours());
+            date.setMinutes(current_date.getMinutes());
+            date.setSeconds(current_date.getSeconds());
+            date.setMilliseconds(current_date.getMilliseconds());
+            // as long as the streak is not broken continue
+            while (valid) {
+              // search for enough checks in the last period
+              for (let j = 0; j < habit.intervall; j++) {
+                const days_since_date =
+                  (date - current_date) / 1000 / 3600 / 24;
+                if (days_since_date <= habit.intervall) fullfilled++;
+                else if (fullfilled < habit.repetitions) {
+                  valid = false;
+                  break;
+                } else {
+                  break;
+                }
+                if (_array.length <= ++index) {
+                  valid = false;
+                  break;
+                }
+                current_date = new Date(_array[index].date);
+              }
+              count += fullfilled;
+              fullfilled = 0;
+              date = new Date(date - 1000 * 3600 * 24 * habit.intervall);
+            }
+            this.setState((prevState) => {
+              prevState.habits[i].streak = count;
+              return prevState;
+            });
           },
           (txObj, error) => {
             console.log(error);
