@@ -9,6 +9,7 @@ import Habit from "./components/Habit.js";
 import styles from "./styles.js";
 import * as colors from "../assets/colors.js";
 import HeaderIcon from "./components/HeaderIcon.js";
+import AppStatusBar from "./components/StatusBar.js";
 const db = SQLite.openDatabase("habits.db");
 
 export default class HabitOverview extends React.Component {
@@ -236,6 +237,7 @@ export default class HabitOverview extends React.Component {
   render() {
     return (
       <View style={[styles.margin, styles.flex, { flex: 1 }]}>
+        <AppStatusBar />
         {this.state.habits.length === 0 && (
           <View
             style={[

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, TouchableHighlight, View } from "react-native";
+import { Button, StatusBar, TouchableHighlight, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Ionicons from "react-native-vector-icons/Ionicons";
