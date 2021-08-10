@@ -82,7 +82,7 @@ class AddAktivity extends React.Component {
                       this.props.route.params.id,
                     ],
                     () => {
-                      this.props.navigation.goBack();
+                      this.props.navigation.navigate("TrackingOverview");
                     },
                     () => {
                       console.log("Fehler beim Löschen der Aktivität");
@@ -127,7 +127,9 @@ class AddAktivity extends React.Component {
         sql,
         variables,
         () => {
-          this.props.navigation.navigate(this.props.route.params.target);
+          this.props.navigation.navigate(this.props.route.params.target, {
+            ...this.state,
+          });
         },
         (txObj, error) => {
           console.log(error);
