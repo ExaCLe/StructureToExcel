@@ -158,6 +158,7 @@ class Settings extends React.Component {
         if (habit.version <= version) continue;
         Habit.set("objectId", habit.object_id + "");
       }
+      if (!habit.object_id && habit.deleted) continue;
       Habit.set("version", habit.version);
       Habit.set("deleted", habit.deleted);
       Habit.set("user", currentUser);
