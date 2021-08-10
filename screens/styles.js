@@ -100,6 +100,9 @@ const styles = (() => {
       fontSize: 18,
       fontFamily: fonts.primaryFont,
     },
+    extraMargin: {
+      margin: 40,
+    },
     statsContainer: {
       display: "flex",
       flexDirection: "row",

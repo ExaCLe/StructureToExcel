@@ -1,8 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import styles from "./styles.js";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import * as colors from "../assets/colors.js";
 import * as categories from "../assets/categories.js";
 import * as SQLite from "expo-sqlite";
 import PrimaryButton from "./components/PrimaryButton.js";
@@ -15,14 +13,14 @@ class CategorieOverview extends React.Component {
     // create a table for the habits if not existing already
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE favorites (id INTEGER, categorie TEXT ); ",
+        "CREATE TABLE IF NOT EXISTS favorites (id INTEGER, categorie TEXT ); ",
         null,
         // success
-        () => {
-          console.log("success");
-        },
+        () => {},
         // error
-        (txObj, error) => {}
+        (txObj, error) => {
+          console.log(error);
+        }
       );
     });
   }
@@ -44,12 +42,7 @@ class CategorieOverview extends React.Component {
   }
   render() {
     return (
-      <View style={[styles.margin, styles.flexContainer]}>
-        <Text
-          style={[styles.secondaryText, styles.center, styles.marginBottom]}
-        >
-          Wähle eine Kategorie:
-        </Text>
+      <View style={[styles.extraMargin, styles.flexContainer]}>
         <PrimaryButton
           onPress={() =>
             this.props.navigation.navigate("Categorie", {
