@@ -11,7 +11,16 @@ const SmallPrimaryButton = (props) => {
         onPress={() => props.onPress()}
         style={[styles.smallPrimaryButton, { backgroundColor: global.color }]}
       >
-        <Ionicons name={props.icon} color={colors.PrimaryTextColor} size={30} />
+        {props.icon && (
+          <Ionicons
+            name={props.icon}
+            color={colors.PrimaryTextColor}
+            size={30}
+          />
+        )}
+        {props.text && (
+          <Text style={styles.primaryButtonText}>{props.text}</Text>
+        )}
       </TouchableOpacity>
     </View>
   );

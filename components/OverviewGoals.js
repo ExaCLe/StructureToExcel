@@ -8,6 +8,7 @@ import * as SQLite from "expo-sqlite";
 import { DAY, WEEK, MONTH } from "./../assets/intervals.js";
 import PrimaryButton from "./PrimaryButton.js";
 import BackButton from "./BackButton.js";
+import SmallPrimaryButton from "./SmallPrimaryButton.js";
 const db = SQLite.openDatabase("goals.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
 
@@ -190,7 +191,17 @@ class OverviewGoals extends React.Component {
   render() {
     const changeView = this.changeView;
     return (
-      <View>
+      <View
+        style={[
+          styles.margin,
+          styles.flexContainer,
+          {
+            paddingBottom: 15,
+            height: "100%",
+            justifyContent: "space-between",
+          },
+        ]}
+      >
         {this.state.goals.length === 0 && (
           <View
             style={[
@@ -216,33 +227,45 @@ class OverviewGoals extends React.Component {
             <Text style={styles.secondaryText}>erhalten</Text>
           </View>
         )}
-        <View style={[styles.margin, styles.flex]}>
+        <View>
           <FlatList
             data={this.state.goals}
             renderItem={this.renderItem}
             keyExtractor={(item) => String(item.id)}
           />
         </View>
-        <PrimaryButton
-          text={
-            this.state.period === DAY ? "Wochenübersicht" : "Tagesübersicht"
-          }
-          onPress={() => {
-            if (this.state.period === DAY) changeView(WEEK);
-            else changeView(DAY);
-            this.fetchData();
-          }}
-        />
-        <PrimaryButton
-          text={
-            this.state.period === MONTH ? "Wochenübersicht" : "Monatsübersicht"
-          }
-          onPress={() => {
-            if (this.state.period === MONTH) changeView(WEEK);
-            else changeView(MONTH);
-            this.fetchData();
-          }}
-        />
+        <View style={[styles.containerHorizontal]}>
+          <SmallPrimaryButton
+            text={"Tag"}
+            onPress={() => {
+              if (this.state.period !== DAY) {
+                changeView(DAY);
+                this.fetchData();
+              }
+            }}
+            style={{ width: "33%" }}
+          />
+          <SmallPrimaryButton
+            text={"Woche"}
+            onPress={() => {
+              if (this.state.period !== WEEK) {
+                changeView(WEEK);
+                this.fetchData();
+              }
+            }}
+            style={{ width: "33%" }}
+          />
+          <SmallPrimaryButton
+            text={"Monat"}
+            onPress={() => {
+              if (this.state.period !== MONTH) {
+                changeView(MONTH);
+                this.fetchData();
+              }
+            }}
+            style={{ width: "33%" }}
+          />
+        </View>
       </View>
     );
   }

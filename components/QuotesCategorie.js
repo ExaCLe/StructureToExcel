@@ -179,7 +179,7 @@ class QuotesCategorie extends React.Component {
             styles.margin,
             styles.flexContainer,
             styles.spaceAround,
-            { height: "100%" },
+            { height: "100%", backgroundColor: "blue" },
           ]}
         >
           <Zitat
