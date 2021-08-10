@@ -11,7 +11,7 @@ const db = SQLite.openDatabase("aktivitys.db");
 class AktivityChooser extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { aktivitys: [] };
+    this.state = { aktivitys: [], loaded: false };
     this.fetchData();
   }
   fetchData = () => {
@@ -20,7 +20,7 @@ class AktivityChooser extends React.Component {
         "SELECT * FROM activities WHERE (deleted=0 OR deleted IS NULL)",
         null,
         (txObj, { rows: { _array } }) => {
-          this.setState({ aktivitys: _array });
+          this.setState({ aktivitys: _array, loaded: true });
         },
         (txObj, error) =>
           console.error("Fehler beim Lesen der Aktivitäten. " + error)
@@ -34,7 +34,7 @@ class AktivityChooser extends React.Component {
     this._unsubscribe = this.props.navigation.addListener(
       "focus",
       (payload) => {
-        this.fetchData();
+        if (this.state.loaded) this.fetchData();
       }
     );
     this.props.navigation.setOptions({
@@ -88,6 +88,7 @@ class AktivityChooser extends React.Component {
     );
   };
   render() {
+    if (!this.state.loaded) return null;
     return (
       <View style={{ display: "flex", flexDirection: "row" }}>
         <FlatList
