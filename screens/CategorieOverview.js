@@ -5,8 +5,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
 import * as categories from "../assets/categories.js";
 import * as SQLite from "expo-sqlite";
-import PrimaryButton from "./PrimaryButton.js";
-import HeaderIcon from "./HeaderIcon.js";
+import PrimaryButton from "./components/PrimaryButton.js";
+import HeaderIcon from "./components/HeaderIcon.js";
 const db = SQLite.openDatabase("favorites.db");
 
 class CategorieOverview extends React.Component {

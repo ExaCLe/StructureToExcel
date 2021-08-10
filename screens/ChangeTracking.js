@@ -5,9 +5,9 @@ import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import PrimaryButton from "./PrimaryButton.js";
-import BackButton from "./BackButton.js";
-import TextButton from "./TextButton.js";
+import PrimaryButton from "./components/PrimaryButton.js";
+import BackButton from "./components/BackButton.js";
+import TextButton from "./components/TextButton.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 const tracking = SQLite.openDatabase("aktivitys.db");

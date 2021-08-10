@@ -6,9 +6,9 @@ import styles from "./styles.js";
 import * as colors from "../assets/colors.js";
 import { DAY, WEEK, MONTH } from "./OverviewGoals.js";
 import { toTime } from "../helpers/Time.js";
-import PrimaryButton from "./PrimaryButton.js";
-import BackButton from "./BackButton.js";
-import HeaderIcon from "./HeaderIcon.js";
+import PrimaryButton from "./components/PrimaryButton.js";
+import BackButton from "./components/BackButton.js";
+import HeaderIcon from "./components/HeaderIcon.js";
 
 const db = SQLite.openDatabase("goals.db");
 const tracking = SQLite.openDatabase("aktivitys.db");

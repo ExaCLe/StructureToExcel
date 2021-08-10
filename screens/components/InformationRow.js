@@ -1,6 +1,8 @@
 import React from "react";
 import { Text, View } from "react-native";
 import styles from "../styles";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import * as colors from "../../assets/colors.js";
 
 const InformationRow = (props) => {
   return (
@@ -8,9 +10,18 @@ const InformationRow = (props) => {
       <Text style={[styles.secondaryText, styles.columnSize]}>
         {props.label}
       </Text>
-      <Text style={[{ color: global.color }, styles.textBig, styles.margin]}>
-        {props.content}
-      </Text>
+      {!props.icon && (
+        <Text style={[{ color: global.color }, styles.textBig, styles.margin]}>
+          {props.content}
+        </Text>
+      )}
+      {props.icon && (
+        <Ionicons
+          name={props.icon}
+          color={colors.PrimaryAccentColor}
+          size={25}
+        />
+      )}
     </View>
   );
 };

@@ -3,13 +3,13 @@ import { Text, View, Button, TouchableOpacity, FlatList } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
-import Goal from "./Goal.js";
+import Goal from "./components/Goal.js";
 import * as SQLite from "expo-sqlite";
 import { DAY, WEEK, MONTH } from "../assets/intervals.js";
-import PrimaryButton from "./PrimaryButton.js";
-import BackButton from "./BackButton.js";
-import SmallPrimaryButton from "./SmallPrimaryButton.js";
-import HeaderIcon from "./HeaderIcon.js";
+import PrimaryButton from "./components/PrimaryButton.js";
+import BackButton from "./components/BackButton.js";
+import SmallPrimaryButton from "./components/SmallPrimaryButton.js";
+import HeaderIcon from "./components/HeaderIcon.js";
 const db = SQLite.openDatabase("goals.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
 

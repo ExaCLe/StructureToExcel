@@ -4,9 +4,9 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
-import Habit from "./Habit.js";
-import BackButton from "./BackButton.js";
-import HeaderIcon from "./HeaderIcon.js";
+import Habit from "./components/Habit.js";
+import BackButton from "./components/BackButton.js";
+import HeaderIcon from "./components/HeaderIcon.js";
 const db = SQLite.openDatabase("habits.db");
 
 class HabitsQueue extends React.Component {

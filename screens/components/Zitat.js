@@ -4,9 +4,10 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import styles from "../styles.js";
 
 const selectImages = (name) => {
-  if (name === "Harvey Specter") return require("../assets/HarveySpecter.jpg");
+  if (name === "Harvey Specter")
+    return require("../../assets/HarveySpecter.jpg");
   else if (name === "Jessica Pearson")
-    return require("../assets/JessicaPearson.jpeg");
+    return require("../../assets/JessicaPearson.jpeg");
 };
 
 const Zitat = (props) => {

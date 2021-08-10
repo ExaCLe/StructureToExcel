@@ -1,5 +1,5 @@
 import React from "react";
-import App2 from "./components/App.js";
+import App2 from "./screens/App.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Parse from "parse/react-native";
 

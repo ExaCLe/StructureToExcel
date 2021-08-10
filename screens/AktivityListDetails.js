@@ -4,9 +4,10 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import * as colors from "../assets/colors.js";
-import BackButton from "./BackButton.js";
-import HeaderIcon from "./HeaderIcon.js";
+import BackButton from "./components/BackButton.js";
+import HeaderIcon from "./components/HeaderIcon.js";
 import { toTime } from "../helpers/Time.js";
+import InformationRow from "./components/InformationRow.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 
@@ -43,55 +44,55 @@ class AktivityListDetails extends React.Component {
           <HeaderIcon
             name="trash"
             onPress={() => {
-              Alert.alert(
-                "Delete Tracking",
-                "Möchtest du diese Aufzeichnung wirklich löschen? Das ist ein irreversibler Vorgang.",
-                [
-                  { text: "Nein" },
-                  {
-                    text: "Ja",
-                    onPress: () => {
-                      db.transaction((tx) => {
-                        tx.executeSql(
-                          "UPDATE trackings SET deleted=1, version=? WHERE id=?",
-                          [
-                            this.props.route.params.version + 1,
-                            this.props.route.params.id,
-                          ],
-                          () => {
-                            this.props.navigation.goBack();
-                          },
-                          (txObj, error) => {
-                            console.log(error);
-                          }
-                        );
-                      });
-                    },
-                  },
-                ]
-              );
+              this.confirmDelete();
             }}
           />
         </View>
       ),
     });
   }
+  confirmDelete = () => {
+    Alert.alert(
+      "Delete Tracking",
+      "Möchtest du diese Aufzeichnung wirklich löschen? Das ist ein irreversibler Vorgang.",
+      [
+        { text: "Nein" },
+        {
+          text: "Ja",
+          onPress: () => {
+            db.transaction((tx) => {
+              tx.executeSql(
+                "UPDATE trackings SET deleted=1, version=? WHERE id=?",
+                [
+                  this.props.route.params.version + 1,
+                  this.props.route.params.id,
+                ],
+                () => {
+                  this.props.navigation.goBack();
+                },
+                (txObj, error) => {
+                  console.log(error);
+                }
+              );
+            });
+          },
+        },
+      ]
+    );
+  };
+
   render() {
+    console.log("Rendering");
     return (
       <View style={styles.margin}>
-        <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText]}>Activity: </Text>
-          <Ionicons
-            name={this.props.route.params.icon}
-            size={25}
-            color={global.color}
-          />
-          <Text
-            style={[{ color: global.color }, styles.textBig, styles.margin]}
-          >
-            {this.props.route.params.name}
-          </Text>
-        </View>
+        <InformationRow
+          label="Aktivity Name: "
+          content={this.props.route.params.name}
+        />
+        <InformationRow
+          label="Aktivity Icon: "
+          icon={this.props.route.params.icon}
+        />
         <Text style={[styles.normalText, { color: global.color }]}>
           Dauer: {toTime(this.props.route.params.duration_s)}
         </Text>

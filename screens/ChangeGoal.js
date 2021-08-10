@@ -14,11 +14,11 @@ import * as colors from "../assets/colors.js";
 import { Picker } from "@react-native-picker/picker";
 
 import * as SQLite from "expo-sqlite";
-import PrimaryButton from "./PrimaryButton.js";
-import BackButton from "./BackButton.js";
-import TextfieldAndLabel from "./TextfieldAndLabel.js";
-import Textfield from "./Textfield.js";
-import TextButton from "./TextButton.js";
+import PrimaryButton from "./components/PrimaryButton.js";
+import BackButton from "./components/BackButton.js";
+import TextfieldAndLabel from "./components/TextfieldAndLabel.js";
+import Textfield from "./components/Textfield.js";
+import TextButton from "./components/TextButton.js";
 const db = SQLite.openDatabase("goals.db");
 const habits = SQLite.openDatabase("habits.db");
 const tracking = SQLite.openDatabase("aktivitys.db");

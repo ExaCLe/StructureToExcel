@@ -3,10 +3,10 @@ import { FlatList, View, TouchableOpacity, Text } from "react-native";
 import styles from "./styles.js";
 import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
-import AktivityListObject from "./AktivityListObject.js";
-import BackButton from "./BackButton.js";
-import HeaderIcon from "./HeaderIcon.js";
-import TrackingHelp from "./TrackingHelp.js";
+import AktivityListObject from "./components/AktivityListObject.js";
+import BackButton from "./components/BackButton.js";
+import HeaderIcon from "./components/HeaderIcon.js";
+import TrackingHelp from "./components/TrackingHelp.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AktivityList extends React.Component {

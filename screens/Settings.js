@@ -5,14 +5,14 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import AktivityTracker from "./AktivityTracker.js";
+import AktivityTracker from "./components/AktivityTracker.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ColorPicker, fromHsv } from "react-native-color-picker";
-import PrimaryButton from "./PrimaryButton.js";
+import PrimaryButton from "./components/PrimaryButton.js";
 import Parse, { User } from "parse/react-native";
 
 const habits = SQLite.openDatabase("habits.db");

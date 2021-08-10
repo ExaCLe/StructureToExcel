@@ -7,11 +7,11 @@ import * as SQLite from "expo-sqlite";
 const db = SQLite.openDatabase("favorites.db");
 import * as categories from "../assets/categories.js";
 
-import Zitat from "./Zitat.js";
+import Zitat from "./components/Zitat.js";
 import Quotes from "../assets/Quotes.js";
-import SmallPrimaryButton from "./SmallPrimaryButton.js";
-import BackButton from "./BackButton.js";
-import HeaderIcon from "./HeaderIcon.js";
+import SmallPrimaryButton from "./components/SmallPrimaryButton.js";
+import BackButton from "./components/BackButton.js";
+import HeaderIcon from "./components/HeaderIcon.js";
 
 class QuotesCategorie extends React.Component {
   constructor(props) {

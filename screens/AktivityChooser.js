@@ -4,9 +4,9 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
-import BackButton from "./BackButton.js";
-import HeaderIcon from "./HeaderIcon.js";
-import Divider from "./Divider.js";
+import BackButton from "./components/BackButton.js";
+import HeaderIcon from "./components/HeaderIcon.js";
+import Divider from "./components/Divider.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AktivityChooser extends React.Component {

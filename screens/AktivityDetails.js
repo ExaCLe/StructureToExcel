@@ -3,13 +3,13 @@ import { Text, View, TouchableOpacity, Alert, Modal } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import * as colors from "../assets/colors.js";
-import BackButton from "./BackButton.js";
-import TextButton from "./TextButton.js";
-import PopUp from "./PopUp.js";
-import HeaderIcon from "./HeaderIcon.js";
+import BackButton from "./components/BackButton.js";
+import TextButton from "./components/TextButton.js";
+import PopUp from "./components/PopUp.js";
+import HeaderIcon from "./components/HeaderIcon.js";
 import { toTime } from "../helpers/Time.js";
-import Last10Statistics from "./Last10Statistics.js";
-import InformationRow from "./InformationRow.js";
+import Last10Statistics from "./components/Last10Statistics.js";
+import InformationRow from "./components/InformationRow.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 

@@ -14,11 +14,11 @@ import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
 import * as colors from "../assets/colors.js";
-import PrimaryButton from "./PrimaryButton.js";
-import BackButton from "./BackButton.js";
-import TextfieldAndLabel from "./TextfieldAndLabel.js";
-import Textfield from "./Textfield.js";
-import TextButton from "./TextButton.js";
+import PrimaryButton from "./components/PrimaryButton.js";
+import BackButton from "./components/BackButton.js";
+import TextfieldAndLabel from "./components/TextfieldAndLabel.js";
+import Textfield from "./components/Textfield.js";
+import TextButton from "./components/TextButton.js";
 // for usage: https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage
 // open the database for adding the habits
 const db = SQLite.openDatabase("habits.db");

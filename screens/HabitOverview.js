@@ -5,10 +5,10 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 
-import Habit from "./Habit.js";
+import Habit from "./components/Habit.js";
 import styles from "./styles.js";
 import * as colors from "../assets/colors.js";
-import HeaderIcon from "./HeaderIcon.js";
+import HeaderIcon from "./components/HeaderIcon.js";
 const db = SQLite.openDatabase("habits.db");
 
 export default class HabitOverview extends React.Component {
