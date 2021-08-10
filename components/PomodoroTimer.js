@@ -152,6 +152,7 @@ class PomodoroTimer extends React.Component {
             }}
           />
           <TextButton
+            style={{ alignSelf: "center", justifySelf: "center" }}
             text={
               this.state.interval === WORK
                 ? "Zu Pausenintervall wechseln"
