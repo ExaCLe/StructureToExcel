@@ -96,6 +96,15 @@ const styles = (() => {
       fontSize: 24,
       fontFamily: fonts.primaryFont,
     },
+    statsText: {
+      fontSize: 18,
+      fontFamily: fonts.primaryFont,
+    },
+    statsContainer: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
     primaryText: {
       fontSize: 24,
       fontFamily: fonts.primaryFont,

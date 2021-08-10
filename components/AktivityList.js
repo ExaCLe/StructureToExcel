@@ -1,18 +1,18 @@
 import React from "react";
 import { FlatList, View, TouchableOpacity, Text } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import AktivityListObject from "./AktivityListObject.js";
 import BackButton from "./BackButton.js";
 import HeaderIcon from "./HeaderIcon.js";
+import TrackingHelp from "./TrackingHelp.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AktivityList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { aktivitys: [] };
+    this.state = { aktivitys: [], loaded: false };
     // get the activities from the database
     this.fetchData();
   }
@@ -24,8 +24,7 @@ class AktivityList extends React.Component {
         "SELECT * FROM activities JOIN trackings ON trackings.act_id = activities.id WHERE (trackings.deleted=0 OR trackings.deleted IS NULL) ORDER BY start_time",
         null,
         (txObj, { rows: { _array } }) => {
-          console.log(_array);
-          this.setState({ aktivitys: _array.reverse() });
+          this.setState({ loaded: true, aktivitys: _array.reverse() });
         },
         (txObj, error) =>
           console.error("Fehler beim Lesen der Aktivitäten. " + error)
@@ -39,7 +38,7 @@ class AktivityList extends React.Component {
     this._unsubscribe = this.props.navigation.addListener(
       "focus",
       (payload) => {
-        this.fetchData();
+        if (this.state.loaded) this.fetchData();
       }
     );
     this.props.navigation.setOptions({
@@ -79,33 +78,13 @@ class AktivityList extends React.Component {
     );
   };
   render() {
+    if (!this.state.loaded) return null;
     return (
       <View style={{ flex: 1 }}>
-        {this.state.aktivitys.length === 0 && (
-          <View
-            style={[
-              styles.containerHorizontal,
-              styles.margin,
-              styles.padding,
-              { flexWrap: "wrap" },
-            ]}
-          >
-            <Text style={styles.secondaryText}>Füge über </Text>
-            <Ionicons
-              name={"add"}
-              size={30}
-              color={colors.SecondaryTextColor}
-            />
-            <Text style={styles.secondaryText}>neue Trackings ein.</Text>
-            <Text style={styles.secondaryText}>Hilfe kannst du über </Text>
-            <Ionicons
-              name={"help"}
-              size={30}
-              color={colors.SecondaryTextColor}
-            />
-            <Text style={styles.secondaryText}>erhalten</Text>
-          </View>
-        )}
+        {/* Help on empty screen */}
+        {this.state.aktivitys.length === 0 && <TrackingHelp />}
+
+        {/* Entrys */}
         <FlatList
           renderItem={this.renderItem}
           data={this.state.aktivitys}

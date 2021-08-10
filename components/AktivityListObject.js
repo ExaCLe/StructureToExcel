@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
-import { toTime } from "../helpers/Time.js";
+import { toTime, extractTime } from "../helpers/Time.js";
 
 class AktivityListObject extends React.Component {
   constructor(props) {
@@ -40,12 +40,20 @@ class AktivityListObject extends React.Component {
                 {this.props.tracking.name}
               </Text>
             </View>
-            <View>
-              <Text style={[styles.normalText, styles.primaryTextColor]}>
-                Dauer: {toTime(this.props.tracking.duration_s)}
-              </Text>
-              <Text>Start: {this.props.tracking.start_time}</Text>
-              <Text>Ende: {this.props.tracking.end_time}</Text>
+            <View style={styles.margin}>
+              <TimeStats
+                time={toTime(this.props.tracking.duration_s)}
+                label="Dauer:   "
+              />
+              <TimeStats
+                time={extractTime(this.props.tracking.start_time)}
+                label="Start: "
+              />
+
+              <TimeStats
+                time={extractTime(this.props.tracking.end_time)}
+                label="Ende: "
+              />
             </View>
           </View>
         </TouchableOpacity>
@@ -53,5 +61,18 @@ class AktivityListObject extends React.Component {
     );
   }
 }
+
+const TimeStats = (props) => {
+  return (
+    <View style={styles.statsContainer}>
+      <Text style={[styles.statsText, styles.primaryTextColor]}>
+        {props.label}
+      </Text>
+      <Text style={[styles.statsText, styles.primaryTextColor]}>
+        {props.time}
+      </Text>
+    </View>
+  );
+};
 
 export default AktivityListObject;

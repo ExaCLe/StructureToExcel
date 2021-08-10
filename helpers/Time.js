@@ -1,11 +1,20 @@
 export const toTime = (time) => {
   if (!time && time !== 0) return "";
   return (
-    Math.floor(time / 3600) +
+    zeroPad(Math.floor(time / 3600)) +
     " h " +
-    Math.floor((time % 3600) / 60) +
+    zeroPad(Math.floor((time % 3600) / 60)) +
     " min " +
-    Math.round(time % 60) +
+    zeroPad(Math.round(time % 60)) +
     " s"
   );
 };
+
+export const extractTime = (time) => {
+  const date = new Date(time);
+  return `${zeroPad(date.getHours())}:${zeroPad(date.getMinutes())} ${zeroPad(
+    date.getDate()
+  )}.${zeroPad(date.getMonth())}.${date.getFullYear()}`;
+};
+
+const zeroPad = (num) => String(num).padStart(2, "0");
