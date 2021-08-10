@@ -7,14 +7,14 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const HeaderIcon = (props) => {
   return (
-    <TouchableOpacity onPress={() => props.onPress()}>
+    <TouchableOpacity onPress={() => props.onPress()} style={[styles.padding]}>
       {(props.type === undefined || props.type === "Ionicons") && (
-        <Ionicons color={colors.PrimaryTextColor} size={25} name={props.name} />
+        <Ionicons color={colors.PrimaryTextColor} size={30} name={props.name} />
       )}
       {props.type === "MaterialIcons" && (
         <MaterialIcons
           name={props.name}
-          size={25}
+          size={30}
           color={colors.PrimaryTextColor}
         />
       )}
