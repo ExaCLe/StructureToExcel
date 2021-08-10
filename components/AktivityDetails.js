@@ -1,17 +1,26 @@
 import React from "react";
-import { Text, View, TouchableOpacity, Alert } from "react-native";
+import { Text, View, TouchableOpacity, Alert, Modal } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import BackButton from "./BackButton.js";
+import TextButton from "./TextButton.js";
+import PopUp from "./PopUp.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AktivityDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { loaded: false };
+    this.state = {
+      loaded: false,
+      showModalToday: false,
+      today: null,
+      lastMonth: null,
+      lastWeek: null,
+      lastTen: new Array(10),
+    };
     this.loadTime();
   }
   // loads the tracked time out of the db
@@ -37,6 +46,9 @@ class AktivityDetails extends React.Component {
             sum += ele.duration_s;
           });
           this.setState({ lastWeek: sum });
+        },
+        (txObj, error) => {
+          console.log(error);
         }
       );
       tx.executeSql(
@@ -54,9 +66,9 @@ class AktivityDetails extends React.Component {
   };
   componentDidUpdate() {
     if (
-      this.state.lastMonth &&
-      this.state.lastWeek &&
-      this.state.today &&
+      this.state.lastMonth !== null &&
+      this.state.lastWeek !== null &&
+      this.state.today !== null &&
       !this.state.loaded
     )
       this.setState({ loaded: true });
@@ -159,6 +171,62 @@ class AktivityDetails extends React.Component {
       ),
     });
   }
+  calculateTimes = (period) => {
+    if (period === "today") {
+      this.setState((prevState) => {
+        prevState.lastTen[0] = prevState.today;
+        return prevState;
+      });
+    } else if (period === "week") {
+      this.setState((prevState) => {
+        prevState.lastTen[0] = prevState.lastWeek;
+        return prevState;
+      });
+    } else if (period === "month") {
+      this.setState((prevState) => {
+        prevState.lastTen[0] = prevState.lastMonth;
+        return prevState;
+      });
+    }
+    for (let i = 1; i < 10; i++) {
+      let sql;
+      if (period === "today") {
+        sql = `SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL) AND start_time > DATE('now', '-${i} day', 'start of day') AND start_time < DATE('now', '-${
+          i - 1
+        } day', 'start of day')`;
+      } else if (period === "week") {
+        sql = `SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL) AND start_time > DATE('now', '-${
+          (i + 1) * 7
+        } days', 'weekday 1') AND start_time < DATE('now', '-${
+          i * 7
+        } day', 'weekday 1')`;
+      } else if (period === "month") {
+        sql = `SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL) AND start_time > DATE('now', '-${i} month', 'start of month') AND start_time < DATE('now', '-${
+          i - 1
+        } month', 'start of month')`;
+      }
+      db.transaction((tx) => {
+        tx.executeSql(
+          sql,
+          [this.props.route.params.id],
+          (txObj, { rows: { _array } }) => {
+            let sum = 0;
+            _array.map((ele) => {
+              sum += ele.duration_s;
+            });
+            this.setState((prevState) => {
+              prevState.lastTen[i] = sum;
+              return prevState;
+            });
+          },
+          (txObj, error) => {
+            console.log(error);
+          }
+        );
+      });
+    }
+    this.setState({ showModalToday: true });
+  };
   toTime = (time) => {
     if (!time && time !== 0) return "";
     return (
@@ -174,6 +242,36 @@ class AktivityDetails extends React.Component {
     if (!this.state.loaded) return null;
     return (
       <View style={styles.margin}>
+        <PopUp
+          visible={this.state.showModalToday}
+          close={() => this.setState({ showModalToday: false })}
+        >
+          <View
+            style={{
+              display: "flex",
+              alignSelf: "center",
+            }}
+          >
+            {this.state.lastTen.map((ele, index) => {
+              return (
+                <View key={index} style={[styles.containerHorizontal, {}]}>
+                  <Text
+                    style={[
+                      styles.primaryAccentColor,
+                      styles.normalText,
+                      { width: 50 },
+                    ]}
+                  >
+                    {index + 1}:
+                  </Text>
+                  <Text style={[styles.primaryAccentColor, styles.normalText]}>
+                    {this.toTime(ele)}
+                  </Text>
+                </View>
+              );
+            })}
+          </View>
+        </PopUp>
         <View style={styles.containerHorizontal}>
           <Text style={[styles.secondaryText, styles.columnSize]}>Name: </Text>
           <Text
@@ -192,6 +290,12 @@ class AktivityDetails extends React.Component {
             >
               {this.toTime(this.state.today)}
             </Text>
+            <TextButton
+              text="Letzte 10 Tage"
+              onPress={() => {
+                this.calculateTimes("today");
+              }}
+            />
           </View>
           <View style={styles.containerHorizontal}>
             <Text style={[styles.secondaryText, styles.columnSize]}>
@@ -202,6 +306,12 @@ class AktivityDetails extends React.Component {
             >
               {this.toTime(this.state.lastWeek)}
             </Text>
+            <TextButton
+              text="Letzte 10 Wochen"
+              onPress={() => {
+                this.calculateTimes("week");
+              }}
+            />
           </View>
           <View style={styles.containerHorizontal}>
             <Text style={[styles.secondaryText, styles.columnSize]}>
@@ -212,6 +322,12 @@ class AktivityDetails extends React.Component {
             >
               {this.toTime(this.state.lastMonth)}
             </Text>
+            <TextButton
+              text="Letzte 10 Monate"
+              onPress={() => {
+                this.calculateTimes("month");
+              }}
+            />
           </View>
         </View>
       </View>

@@ -44,6 +44,17 @@ const styles = (() => {
       alignItems: "center",
       marginBottom: 20,
     },
+    modalContainer: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    modal: {
+      width: "80%",
+      height: "40%",
+      backgroundColor: "white",
+      borderRadius: 20,
+    },
     smallPrimaryButton: {
       textAlign: "center",
       backgroundColor: global.color,
