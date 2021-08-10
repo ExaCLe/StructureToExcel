@@ -1,12 +1,10 @@
 import React from "react";
-import { Text, View, TouchableOpacity, Alert } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { View, Alert } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
-import * as colors from "../assets/colors.js";
 import BackButton from "./components/BackButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
-import { toTime } from "../helpers/Time.js";
+import { extractTimeDetailed, toTime } from "../helpers/Time.js";
 import InformationRow from "./components/InformationRow.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
@@ -82,7 +80,6 @@ class AktivityListDetails extends React.Component {
   };
 
   render() {
-    console.log("Rendering");
     return (
       <View style={styles.margin}>
         <InformationRow
@@ -93,11 +90,18 @@ class AktivityListDetails extends React.Component {
           label="Aktivity Icon: "
           icon={this.props.route.params.icon}
         />
-        <Text style={[styles.normalText, { color: global.color }]}>
-          Dauer: {toTime(this.props.route.params.duration_s)}
-        </Text>
-        <Text>Start: {this.props.route.params.start_time}</Text>
-        <Text>Ende: {this.props.route.params.end_time}</Text>
+        <InformationRow
+          label="Dauer:"
+          content={toTime(this.props.route.params.duration_s)}
+        />
+        <InformationRow
+          label="Start"
+          content={extractTimeDetailed(this.props.route.params.start_time)}
+        />
+        <InformationRow
+          label="Ende"
+          content={extractTimeDetailed(this.props.route.params.end_time)}
+        />
       </View>
     );
   }

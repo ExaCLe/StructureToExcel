@@ -17,4 +17,13 @@ export const extractTime = (time) => {
   )}.${zeroPad(date.getMonth())}.${date.getFullYear()}`;
 };
 
+export const extractTimeDetailed = (time) => {
+  const date = new Date(time);
+  return `${zeroPad(date.getHours())}:${zeroPad(date.getMinutes())}:${zeroPad(
+    date.getSeconds()
+  )} Uhr ${zeroPad(date.getDate())}.${zeroPad(
+    date.getMonth()
+  )}.${date.getFullYear()}`;
+};
+
 const zeroPad = (num) => String(num).padStart(2, "0");
