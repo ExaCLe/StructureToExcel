@@ -9,6 +9,7 @@ import { DAY, WEEK, MONTH } from "./../assets/intervals.js";
 import PrimaryButton from "./PrimaryButton.js";
 import BackButton from "./BackButton.js";
 import SmallPrimaryButton from "./SmallPrimaryButton.js";
+import HeaderIcon from "./HeaderIcon.js";
 const db = SQLite.openDatabase("goals.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
 
@@ -128,45 +129,27 @@ class OverviewGoals extends React.Component {
       headerRight: () => (
         <View style={styles.container}>
           {(!this.props.route.params || !this.props.route.params.archive) && (
-            <View>
-              <TouchableOpacity
-                underlayColor="#ffffff"
-                onPress={() =>
-                  this.props.navigation.push("OverviewGoals", { archive: true })
-                }
-              >
-                <Ionicons
-                  name="archive"
-                  size={25}
-                  color={colors.PrimaryTextColor}
-                  style={styles.padding}
-                />
-              </TouchableOpacity>
-            </View>
+            <HeaderIcon
+              name="trash"
+              onPress={() =>
+                this.props.navigation.push("OverviewGoals", { archive: true })
+              }
+            />
           )}
-          <TouchableOpacity
-            underlayColor="#ffffff"
+          <HeaderIcon
+            name="trash"
             onPress={() =>
               this.props.navigation.navigate("Help", { screen: "goals" })
             }
-          >
-            <Ionicons name="help" size={25} color={colors.PrimaryTextColor} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            underlayColor="#ffffff"
+          />
+          <HeaderIcon
+            name="trash"
             onPress={() =>
               this.props.navigation.navigate("ChangeGoal", {
                 edit: false,
               })
             }
-          >
-            <Ionicons
-              name="add"
-              size={25}
-              color={colors.PrimaryTextColor}
-              style={styles.padding}
-            />
-          </TouchableOpacity>
+          />
         </View>
       ),
     });

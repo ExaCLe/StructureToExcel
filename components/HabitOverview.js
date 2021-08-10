@@ -8,6 +8,7 @@ import * as SQLite from "expo-sqlite";
 import Habit from "./Habit.js";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
+import HeaderIcon from "./HeaderIcon.js";
 const db = SQLite.openDatabase("habits.db");
 
 export default class HabitOverview extends React.Component {
@@ -49,34 +50,25 @@ export default class HabitOverview extends React.Component {
     this.props.navigation.setOptions({
       headerRight: () => (
         <View style={styles.container}>
-          <TouchableOpacity
-            underlayColor="#ffffff"
+          <HeaderIcon
+            name="help"
             onPress={() =>
               this.props.navigation.navigate("Help", { screen: "habits" })
             }
-          >
-            <Ionicons name="help" size={25} color={colors.PrimaryTextColor} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            underlayColor="#ffffff"
+          />
+          <HeaderIcon
             onPress={() =>
               this.props.navigation.navigate("ChangeHabit", {
                 edit: false,
               })
             }
-          >
-            <Ionicons name="add" size={25} color={colors.PrimaryTextColor} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            underlayColor="#ffffff"
+            name="add"
+          />
+          <HeaderIcon
+            name="queue"
+            type="MaterialIcons"
             onPress={() => this.props.navigation.navigate("HabitsQueue")}
-          >
-            <MaterialIcons
-              name="queue"
-              size={25}
-              color={colors.PrimaryTextColor}
-            />
-          </TouchableOpacity>
+          />
         </View>
       ),
     });

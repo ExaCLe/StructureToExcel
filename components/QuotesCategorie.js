@@ -11,6 +11,7 @@ import Zitat from "./Zitat.js";
 import Quotes from "../assets/Quotes.js";
 import SmallPrimaryButton from "./SmallPrimaryButton.js";
 import BackButton from "./BackButton.js";
+import HeaderIcon from "./HeaderIcon.js";
 
 class QuotesCategorie extends React.Component {
   constructor(props) {
@@ -68,8 +69,8 @@ class QuotesCategorie extends React.Component {
       headerRight: () => {
         return (
           <View style={styles.row}>
-            <TouchableOpacity
-              style={styles.buttonTopBar}
+            <HeaderIcon
+              name="trash"
               onPress={() => {
                 const categorie = this.props.route.params.categorie;
                 const sql = this.state.favorite
@@ -104,14 +105,7 @@ class QuotesCategorie extends React.Component {
                   );
                 });
               }}
-            >
-              <Ionicons
-                name={this.state.favorite ? "heart" : "heart-outline"}
-                size={25}
-                color={colors.PrimaryTextColor}
-                style={styles.padding}
-              />
-            </TouchableOpacity>
+            />
           </View>
         );
       },

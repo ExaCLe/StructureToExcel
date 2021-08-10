@@ -6,6 +6,7 @@ import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import Habit from "./Habit.js";
 import BackButton from "./BackButton.js";
+import HeaderIcon from "./HeaderIcon.js";
 const db = SQLite.openDatabase("habits.db");
 
 class HabitsQueue extends React.Component {
@@ -53,21 +54,14 @@ class HabitsQueue extends React.Component {
       },
       headerRight: () => (
         <View style={styles.container}>
-          <TouchableOpacity
-            underlayColor="#ffffff"
+          <HeaderIcon
+            name="trash"
             onPress={() =>
               this.props.navigation.navigate("ChangeHabit", {
                 edit: false,
               })
             }
-          >
-            <Ionicons
-              name="add"
-              size={25}
-              color={colors.PrimaryTextColor}
-              style={styles.padding}
-            />
-          </TouchableOpacity>
+          />
         </View>
       ),
     });

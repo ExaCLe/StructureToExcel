@@ -12,19 +12,13 @@ const Habit = (props) => {
   return (
     <View>
       <TouchableOpacity
-        style={{
-          height: 75,
-          marginBottom: 10,
-          marginTop: 10,
-          marginRight: 10,
-          marginLeft: 10,
-          borderRadius: 10,
-          backgroundColor:
-            colors.SecondaryPriorityColors[props.habit.priority - 1],
-          justifyContent: "center",
-          alignContent: "center",
-          display: "flex",
-        }}
+        style={[
+          styles.habitContainer,
+          {
+            backgroundColor:
+              colors.SecondaryPriorityColors[props.habit.priority - 1],
+          },
+        ]}
         onPress={() => {
           props.navigation.navigate("HabitDetails", {
             ...props.habit,

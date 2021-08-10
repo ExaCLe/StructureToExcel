@@ -8,6 +8,7 @@ import PrimaryButton from "./PrimaryButton.js";
 import BackButton from "./BackButton.js";
 import TextfieldAndLabel from "./TextfieldAndLabel.js";
 import TextButton from "./TextButton.js";
+import HeaderIcon from "./HeaderIcon.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AddAktivity extends React.Component {
@@ -70,9 +71,8 @@ class AddAktivity extends React.Component {
       this.props.navigation.setOptions({
         headerRight: () => {
           return (
-            <TouchableOpacity
-              style={styles.buttonTopBar}
-              underlayColor="#ffffff"
+            <HeaderIcon
+              name="trash"
               onPress={() => {
                 db.transaction((tx) => {
                   tx.executeSql(
@@ -90,13 +90,7 @@ class AddAktivity extends React.Component {
                   );
                 });
               }}
-            >
-              <Ionicons
-                name="trash"
-                size={25}
-                color={colors.PrimaryTextColor}
-              />
-            </TouchableOpacity>
+            />
           );
         },
       });

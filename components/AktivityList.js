@@ -6,6 +6,7 @@ import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import AktivityListObject from "./AktivityListObject.js";
 import BackButton from "./BackButton.js";
+import HeaderIcon from "./HeaderIcon.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AktivityList extends React.Component {
@@ -53,27 +54,18 @@ class AktivityList extends React.Component {
       },
       headerRight: () => (
         <View style={styles.row}>
-          <TouchableOpacity
-            underlayColor="#ffffff"
+          <HeaderIcon
+            name="help"
             onPress={() =>
               this.props.navigation.navigate("Help", { screen: "tracking" })
             }
-          >
-            <Ionicons name="help" size={25} color={colors.PrimaryTextColor} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonTopBar}
+          />
+          <HeaderIcon
+            name="add"
             onPress={() => {
               this.props.navigation.navigate("ChangeTracking", { edit: false });
             }}
-          >
-            <Ionicons
-              name="add"
-              size={25}
-              color={colors.PrimaryTextColor}
-              style={styles.padding}
-            />
-          </TouchableOpacity>
+          />
         </View>
       ),
     });

@@ -6,6 +6,7 @@ import * as colors from "./../assets/colors.js";
 import * as categories from "./../assets/categories.js";
 import * as SQLite from "expo-sqlite";
 import PrimaryButton from "./PrimaryButton.js";
+import HeaderIcon from "./HeaderIcon.js";
 const db = SQLite.openDatabase("favorites.db");
 
 class CategorieOverview extends React.Component {
@@ -29,21 +30,14 @@ class CategorieOverview extends React.Component {
     this.props.navigation.setOptions({
       headerRight: () => (
         <View style={styles.container}>
-          <TouchableOpacity
-            underlayColor="#ffffff"
+          <HeaderIcon
+            name="heart"
             onPress={() =>
               this.props.navigation.navigate("Categorie", {
                 categorie: categories.FAVORITES,
               })
             }
-          >
-            <Ionicons
-              name="heart"
-              size={25}
-              color={colors.PrimaryTextColor}
-              style={styles.padding}
-            />
-          </TouchableOpacity>
+          />
         </View>
       ),
     });

@@ -6,6 +6,7 @@ import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import PrimaryButton from "./PrimaryButton.js";
 import TextButton from "./TextButton.js";
+import HeaderIcon from "./HeaderIcon.js";
 const db = SQLite.openDatabase("pomodoro.db");
 
 const WORK = "working";
@@ -85,16 +86,10 @@ class PomodoroTimer extends React.Component {
       title: "Pomodoro Timer",
       headerRight: () => (
         <View style={styles.container}>
-          <TouchableOpacity
-            underlayColor="#ffffff"
+          <HeaderIcon
+            name="trash"
             onPress={() => this.props.navigation.navigate("PomodoroSettings")}
-          >
-            <Ionicons
-              name="settings"
-              size={25}
-              color={colors.PrimaryTextColor}
-            />
-          </TouchableOpacity>
+          />
         </View>
       ),
     });

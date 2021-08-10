@@ -5,6 +5,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
+import HeaderIcon from "./HeaderIcon.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class TrackingOverview extends React.Component {
@@ -79,31 +80,25 @@ class TrackingOverview extends React.Component {
     this.props.navigation.setOptions({
       headerRight: () => (
         <View style={styles.container}>
-          <TouchableOpacity
-            underlayColor="#ffffff"
+          <HeaderIcon
+            name="trash"
             onPress={() =>
               this.props.navigation.navigate("Help", { screen: "aktivities" })
             }
-          >
-            <Ionicons name="help" size={25} color={colors.PrimaryTextColor} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            underlayColor="#ffffff"
+          />
+          <HeaderIcon
+            name="trash"
             onPress={() =>
               this.props.navigation.navigate("ChangeAktivity", {
                 edit: false,
                 target: "TrackingOverview",
               })
             }
-          >
-            <Ionicons name="add" size={25} color={colors.PrimaryTextColor} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            underlayColor="#ffffff"
+          />
+          <HeaderIcon
+            name="trash"
             onPress={() => this.props.navigation.navigate("AktivityList")}
-          >
-            <Ionicons name="map" size={25} color={colors.PrimaryTextColor} />
-          </TouchableOpacity>
+          />
         </View>
       ),
     });

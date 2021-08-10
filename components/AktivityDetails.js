@@ -1,12 +1,12 @@
 import React from "react";
 import { Text, View, TouchableOpacity, Alert, Modal } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import BackButton from "./BackButton.js";
 import TextButton from "./TextButton.js";
 import PopUp from "./PopUp.js";
+import HeaderIcon from "./HeaderIcon.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 
@@ -97,8 +97,8 @@ class AktivityDetails extends React.Component {
       },
       headerRight: () => (
         <View style={styles.row}>
-          <TouchableOpacity
-            style={styles.buttonTopBar}
+          <HeaderIcon
+            name="pencil"
             onPress={() => {
               this.props.navigation.navigate("ChangeAktivity", {
                 ...this.props.route.params,
@@ -106,17 +106,9 @@ class AktivityDetails extends React.Component {
                 target: "AktivityDetails",
               });
             }}
-          >
-            <Ionicons
-              name="pencil"
-              size={25}
-              color={colors.PrimaryTextColor}
-              style={styles.padding}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonTopBar}
-            underlayColor="#ffffff"
+          />
+          <HeaderIcon
+            name="trash"
             onPress={() => {
               Alert.alert(
                 "Delete Aktivity",
@@ -159,14 +151,7 @@ class AktivityDetails extends React.Component {
                 ]
               );
             }}
-          >
-            <Ionicons
-              name="trash"
-              size={25}
-              color={colors.PrimaryTextColor}
-              style={styles.padding}
-            />
-          </TouchableOpacity>
+          />
         </View>
       ),
     });

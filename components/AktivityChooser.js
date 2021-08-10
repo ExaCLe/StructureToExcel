@@ -5,6 +5,7 @@ import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import BackButton from "./BackButton.js";
+import HeaderIcon from "./HeaderIcon.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AktivityChooser extends React.Component {
@@ -48,8 +49,7 @@ class AktivityChooser extends React.Component {
       },
       headerRight: () => (
         <View style={styles.row}>
-          <TouchableOpacity
-            style={styles.buttonTopBar}
+          <HeaderIcon
             onPress={() => {
               if (this.props.route.params.target === "ChangeGoal")
                 this.props.navigation.navigate("ChangeAktivityGoals", {
@@ -62,14 +62,8 @@ class AktivityChooser extends React.Component {
                   target: "AktivityChooser",
                 });
             }}
-          >
-            <Ionicons
-              name="add"
-              size={25}
-              color={colors.PrimaryTextColor}
-              style={styles.padding}
-            />
-          </TouchableOpacity>
+            name="add"
+          />
         </View>
       ),
     });

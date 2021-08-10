@@ -5,6 +5,8 @@ import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import BackButton from "./BackButton.js";
+import HeaderIcon from "./HeaderIcon.js";
+import { toTime } from "../helpers/Time.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 
@@ -29,25 +31,17 @@ class AktivityListDetails extends React.Component {
       },
       headerRight: () => (
         <View style={styles.row}>
-          <TouchableOpacity
-            style={styles.buttonTopBar}
+          <HeaderIcon
+            name="pencil"
             onPress={() => {
               this.props.navigation.navigate("ChangeTracking", {
                 ...this.props.route.params,
                 edit: true,
               });
             }}
-          >
-            <Ionicons
-              name="pencil"
-              size={25}
-              color={colors.PrimaryTextColor}
-              style={styles.padding}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonTopBar}
-            underlayColor="#ffffff"
+          />
+          <HeaderIcon
+            name="trash"
             onPress={() => {
               Alert.alert(
                 "Delete Tracking",
@@ -77,29 +71,11 @@ class AktivityListDetails extends React.Component {
                 ]
               );
             }}
-          >
-            <Ionicons
-              name="trash"
-              size={25}
-              color={colors.PrimaryTextColor}
-              style={styles.padding}
-            />
-          </TouchableOpacity>
+          />
         </View>
       ),
     });
   }
-  toTime = (time) => {
-    if (!time && time !== 0) return "";
-    return (
-      Math.floor(time / 3600) +
-      " h " +
-      Math.floor((time % 3600) / 60) +
-      " min " +
-      Math.round(time % 60) +
-      " s"
-    );
-  };
   render() {
     return (
       <View style={styles.margin}>
@@ -117,7 +93,7 @@ class AktivityListDetails extends React.Component {
           </Text>
         </View>
         <Text style={[styles.normalText, { color: global.color }]}>
-          Dauer: {this.toTime(this.props.route.params.duration_s)}
+          Dauer: {toTime(this.props.route.params.duration_s)}
         </Text>
         <Text>Start: {this.props.route.params.start_time}</Text>
         <Text>Ende: {this.props.route.params.end_time}</Text>

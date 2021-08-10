@@ -6,6 +6,7 @@ import styles from "./styles.js";
 import * as colors from "./../assets/colors.js";
 import PrimaryButton from "./PrimaryButton.js";
 import BackButton from "./BackButton.js";
+import HeaderIcon from "./HeaderIcon.js";
 
 const db = SQLite.openDatabase("habits.db");
 
@@ -70,25 +71,17 @@ class HabitsDetails extends React.Component {
       },
       headerRight: () => (
         <View style={styles.row}>
-          <TouchableOpacity
-            style={styles.buttonTopBar}
+          <HeaderIcon
+            name="pencil"
             onPress={() => {
               this.props.navigation.navigate("ChangeHabit", {
                 ...this.props.route.params,
                 edit: true,
               });
             }}
-          >
-            <Ionicons
-              name="pencil"
-              size={25}
-              color={colors.PrimaryTextColor}
-              style={styles.padding}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonTopBar}
-            underlayColor="#ffffff"
+          />
+          <HeaderIcon
+            name="trash"
             onPress={() => {
               Alert.alert(
                 "Delete Habit",
@@ -126,14 +119,7 @@ class HabitsDetails extends React.Component {
                 ]
               );
             }}
-          >
-            <Ionicons
-              name="trash"
-              size={25}
-              color={colors.PrimaryTextColor}
-              style={styles.padding}
-            />
-          </TouchableOpacity>
+          />
         </View>
       ),
     });

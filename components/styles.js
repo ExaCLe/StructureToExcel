@@ -28,6 +28,11 @@ const styles = (() => {
     },
     header: {
       backgroundColor: global.color,
+      shadowColor: "grey",
+      shadowRadius: 1,
+      shadowOpacity: 0.3,
+      elevation: 6,
+      shadowOffset: { width: 5, height: 5 },
     },
     headerText: {
       fontFamily: fonts.headerFont,
@@ -43,6 +48,11 @@ const styles = (() => {
       display: "flex",
       alignItems: "center",
       marginBottom: 20,
+      shadowColor: "grey",
+      shadowRadius: 1,
+      shadowOpacity: 0.3,
+      elevation: 6,
+      shadowOffset: { width: 5, height: 5 },
     },
     modalContainer: {
       flex: 1,
@@ -66,6 +76,11 @@ const styles = (() => {
       display: "flex",
       alignItems: "center",
       marginBottom: 10,
+      shadowColor: "grey",
+      shadowRadius: 1,
+      shadowOpacity: 0.3,
+      elevation: 6,
+      shadowOffset: { width: 5, height: 5 },
     },
     primaryButtonText: {
       fontFamily: fonts.primaryFont,
@@ -107,6 +122,11 @@ const styles = (() => {
       borderRadius: 10,
       justifyContent: "center",
       backgroundColor: global.color,
+      shadowColor: "grey",
+      shadowRadius: 1,
+      shadowOpacity: 0.3,
+      elevation: 6,
+      shadowOffset: { width: 5, height: 5 },
     },
     primaryTextColor: {
       color: colors.PrimaryTextColor,
