@@ -8,7 +8,7 @@ import TextButton from "./components/TextButton.js";
 import PopUp from "./components/PopUp.js";
 import HeaderIcon from "./components/HeaderIcon.js";
 import { toTime } from "../helpers/Time.js";
-import Last10Statistics from "./components/Last10Statistics.js";
+import Last5Statistics from "./components/Last5Statistics.js";
 import InformationRow from "./components/InformationRow.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
@@ -22,7 +22,7 @@ class AktivityDetails extends React.Component {
       today: null,
       lastMonth: null,
       lastWeek: null,
-      lastTen: new Array(10),
+      lastFive: new Array(5),
     };
     this.loadTime();
   }
@@ -161,21 +161,21 @@ class AktivityDetails extends React.Component {
   calculateTimes = (period) => {
     if (period === "today") {
       this.setState((prevState) => {
-        prevState.lastTen[0] = prevState.today;
+        prevState.lastFive[0] = prevState.today;
         return prevState;
       });
     } else if (period === "week") {
       this.setState((prevState) => {
-        prevState.lastTen[0] = prevState.lastWeek;
+        prevState.lastFive[0] = prevState.lastWeek;
         return prevState;
       });
     } else if (period === "month") {
       this.setState((prevState) => {
-        prevState.lastTen[0] = prevState.lastMonth;
+        prevState.lastFive[0] = prevState.lastMonth;
         return prevState;
       });
     }
-    for (let i = 1; i < 10; i++) {
+    for (let i = 1; i < 5; i++) {
       let sql;
       if (period === "today") {
         sql = `SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL) AND start_time > DATE('now', '-${i} day', 'start of day') AND start_time < DATE('now', '-${
@@ -202,7 +202,7 @@ class AktivityDetails extends React.Component {
               sum += ele.duration_s;
             });
             this.setState((prevState) => {
-              prevState.lastTen[i] = sum;
+              prevState.lastFive[i] = sum;
               return prevState;
             });
           },
@@ -225,7 +225,7 @@ class AktivityDetails extends React.Component {
           visible={this.state.showModalToday}
           close={() => this.setState({ showModalToday: false })}
         >
-          <Last10Statistics lastTen={this.state.lastTen} />
+          <Last5Statistics lastFive={this.state.lastFive} />
         </PopUp>
         <InformationRow label="Name: " content={this.props.route.params.name} />
         <InformationRow label="Heute: " content={toTime(this.state.today)} />
@@ -239,21 +239,21 @@ class AktivityDetails extends React.Component {
         />
         <View>
           <TextButton
-            text="Letzte 10 Tage"
+            text="Letzte 5 Tage"
             onPress={() => {
               this.calculateTimes("today");
             }}
           />
 
           <TextButton
-            text="Letzte 10 Wochen"
+            text="Letzte 5 Wochen"
             onPress={() => {
               this.calculateTimes("week");
             }}
           />
 
           <TextButton
-            text="Letzte 10 Monate"
+            text="Letzte 5 Monate"
             onPress={() => {
               this.calculateTimes("month");
             }}

@@ -61,7 +61,7 @@ const styles = (() => {
       alignItems: "center",
     },
     modal: {
-      width: "80%",
+      width: "95%",
       height: "40%",
       backgroundColor: "white",
       borderRadius: 20,
@@ -259,7 +259,7 @@ const styles = (() => {
       fontSize: 20,
     },
     textVerySmall: {
-      fontSize: 20,
+      fontSize: 10,
     },
     textBig: {
       fontSize: 30,
