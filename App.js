@@ -15,16 +15,6 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
   }
-  createInstallation = async () => {
-    const Installation = Parse.Object.extend(Parse.Installation);
-    const installation = new Installation();
-
-    installation.set("deviceType", Platform.OS);
-    await installation.save();
-  };
-  componentDidMount() {
-    this.createInstallation();
-  }
   render() {
     return <App2 />;
   }
