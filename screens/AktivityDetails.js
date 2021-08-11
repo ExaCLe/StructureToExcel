@@ -111,50 +111,53 @@ class AktivityDetails extends React.Component {
           <HeaderIcon
             name="trash"
             onPress={() => {
-              Alert.alert(
-                "Delete Aktivity",
-                "Möchtest du diese Aktivität wirklich archivieren? Das ist ein unwiderruflicher Vorgang.",
-                [
-                  { text: "Nein" },
-                  {
-                    text: "Ja",
-                    onPress: () => {
-                      db.transaction((tx) => {
-                        tx.executeSql(
-                          "UPDATE activities SET deleted=1, version=? WHERE id=?",
-                          [
-                            this.props.route.params.version + 1,
-                            this.props.route.params.id,
-                          ],
-                          () => {},
-                          (txObj, error) => {
-                            console.log(error);
-                          }
-                        );
-                        tx.executeSql(
-                          "UPDATE trackings SET deleted=1, version=? WHERE act_id=?",
-                          [
-                            this.props.route.params.version + 1,
-                            this.props.route.params.id,
-                          ],
-                          () => {
-                            this.props.navigation.navigate("TrackingOverview");
-                          },
-                          (txObj, error) => {
-                            console.log(error);
-                          }
-                        );
-                      });
-                    },
-                  },
-                ]
-              );
+              this.confirmDelete();
             }}
           />
         </View>
       ),
     });
   }
+  confirmDelete = () => {
+    Alert.alert(
+      "Delete Aktivity",
+      "Möchtest du diese Aktivität wirklich archivieren? Das ist ein unwiderruflicher Vorgang.",
+      [
+        { text: "Nein" },
+        {
+          text: "Ja",
+          onPress: () => {
+            db.transaction((tx) => {
+              tx.executeSql(
+                "UPDATE activities SET deleted=1, version=? WHERE id=?",
+                [
+                  this.props.route.params.version + 1,
+                  this.props.route.params.id,
+                ],
+                () => {},
+                (txObj, error) => {
+                  console.log(error);
+                }
+              );
+              tx.executeSql(
+                "UPDATE trackings SET deleted=1, version=? WHERE act_id=?",
+                [
+                  this.props.route.params.version + 1,
+                  this.props.route.params.id,
+                ],
+                () => {
+                  this.props.navigation.navigate("TrackingOverview");
+                },
+                (txObj, error) => {
+                  console.log(error);
+                }
+              );
+            });
+          },
+        },
+      ]
+    );
+  };
   calculateTimes = (period) => {
     if (period === "today") {
       this.setState((prevState) => {
