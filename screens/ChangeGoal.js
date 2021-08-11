@@ -22,6 +22,7 @@ import TextButton from "./components/TextButton.js";
 import InformationRow from "./components/InformationRow.js";
 import * as fonts from "./../assets/fonts/fonts.js";
 import IconRowWithChange from "./components/IconRowWithChange.js";
+import AktivityRow from "./components/AktivityRow.js";
 const db = SQLite.openDatabase("goals.db");
 const habits = SQLite.openDatabase("habits.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
@@ -340,33 +341,15 @@ class ChangeGoal extends React.Component {
               width="50%"
               label="Dauer in Std.: "
             />
-            <View style={styles.containerHorizontal}>
-              <Text style={[styles.secondaryText, styles.columnSize]}>
-                Aktivity:{" "}
-              </Text>
-              {!!this.state.aktivity_name && (
-                <View style={styles.containerHorizontal}>
-                  <Ionicons
-                    name={this.state.aktivity_icon}
-                    size={25}
-                    color={colors.PrimaryAccentColor}
-                  />
-                  <Text
-                    style={[styles.normalText, styles.padding, styles.margin]}
-                  >
-                    {this.state.aktivity_name}
-                  </Text>
-                </View>
-              )}
-              <TextButton
-                text="Ändere Aktivität"
-                onPress={() => {
-                  this.props.navigation.navigate("AktivityChooserGoal", {
-                    target: "ChangeGoal",
-                  });
-                }}
-              />
-            </View>
+            <AktivityRow
+              name={this.state.aktivity_name}
+              icon={this.state.aktivity_icon}
+              onPress={() => {
+                this.props.navigation.navigate("AktivityChooserGoal", {
+                  target: "ChangeGoal",
+                });
+              }}
+            />
           </View>
         )}
         {!this.state.time && (

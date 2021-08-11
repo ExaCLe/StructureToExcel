@@ -8,6 +8,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import PrimaryButton from "./components/PrimaryButton.js";
 import BackButton from "./components/BackButton.js";
 import TextButton from "./components/TextButton.js";
+import AktivityRow from "./components/AktivityRow.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
@@ -15,7 +16,9 @@ const tracking = SQLite.openDatabase("aktivitys.db");
 class ChangeTracking extends React.Component {
   constructor(props) {
     super(props);
-    const edit = props.route.params.edit;
+    let edit;
+    if (props.route.params) edit = props.route.params.edit;
+    else edit = false;
     this.state = {
       change: false,
       show_start_time: false,
@@ -175,24 +178,15 @@ class ChangeTracking extends React.Component {
     console.log(this.state);
     return (
       <View style={styles.mainContainer}>
-        <View style={[styles.containerHorizontal]}>
-          <Text style={[styles.secondaryText, styles.margin]}>Aktivity: </Text>
-          <Ionicons
-            name={this.state.icon}
-            size={25}
-            color={colors.PrimaryAccentColor}
-            style={[styles.margin, styles.padding]}
-          />
-          <Text>{this.state.name}</Text>
-          <TextButton
-            text="Change"
-            onPress={() => {
-              this.props.navigation.navigate("AktivityChooser", {
-                target: "ChangeTracking",
-              });
-            }}
-          />
-        </View>
+        <AktivityRow
+          onPress={() => {
+            this.props.navigation.navigate("AktivityChooser", {
+              target: "ChangeTracking",
+            });
+          }}
+          icon={this.state.icon}
+          name={this.state.name}
+        />
         <Text style={styles.secondaryText}>Startzeit: </Text>
         <View>
           <TouchableOpacity
