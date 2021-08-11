@@ -12,6 +12,8 @@ import Last5Statistics from "./components/Last5Statistics.js";
 import InformationRow from "./components/InformationRow.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
+const SHOWING = "showing";
+const CLOSE = "close";
 
 class AktivityDetails extends React.Component {
   constructor(props) {
@@ -23,6 +25,7 @@ class AktivityDetails extends React.Component {
       lastMonth: null,
       lastWeek: null,
       lastFive: new Array(5),
+      state: CLOSE,
     };
     this.loadTime();
   }
@@ -159,6 +162,7 @@ class AktivityDetails extends React.Component {
     );
   };
   calculateTimes = (period) => {
+    this.setState({ state: SHOWING });
     if (period === "today") {
       this.setState((prevState) => {
         prevState.lastFive[0] = prevState.today;
@@ -212,18 +216,37 @@ class AktivityDetails extends React.Component {
         );
       });
     }
-    this.setState({ showModalToday: true });
   };
   shouldComponentUpdate(nextProps, nextState) {
-    return nextState.loaded;
+    if (!nextState.loaded) return false;
+    if (nextState.showModalToday) return true;
+    if (nextState.state === SHOWING) {
+      let bool = true;
+      for (let i = 0; i < 5; i++) {
+        if (nextState.lastFive[i] === undefined) bool = false;
+      }
+      if (bool) {
+        this.setState({ showModalToday: true });
+        return true;
+      }
+      return false;
+    }
+    return true;
   }
   render() {
     if (!this.state.loaded) return null;
+    console.log(this.state.state);
     return (
       <View style={styles.margin}>
         <PopUp
           visible={this.state.showModalToday}
-          close={() => this.setState({ showModalToday: false })}
+          close={() =>
+            this.setState({
+              showModalToday: false,
+              state: CLOSE,
+              lastFive: new Array(5),
+            })
+          }
         >
           <Last5Statistics lastFive={this.state.lastFive} />
         </PopUp>

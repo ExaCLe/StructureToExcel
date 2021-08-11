@@ -10,6 +10,7 @@ const Last5Statistics = (props) => {
   props.lastFive.map((ele) => {
     if (max < ele) max = ele;
   });
+  console.log("LAST FIVE", props.lastFive);
   return (
     <View
       style={{

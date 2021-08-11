@@ -4,6 +4,7 @@ import styles from "./../styles";
 import * as colors from "./../../assets/colors.js";
 
 const AnimatedBar = (props) => {
+  console.log(props.height);
   const heightAnim = useRef(new Animated.Value(0)).current;
   const progressPercent = heightAnim.interpolate({
     inputRange: [0, 100],
@@ -18,13 +19,15 @@ const AnimatedBar = (props) => {
   }, [heightAnim]);
   return (
     <Animated.View
-      style={{
-        backgroundColor: colors.PrimaryAccentColor,
-        height: progressPercent,
-        borderRadius: 10,
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
-      }}
+      style={[
+        {
+          backgroundColor: colors.PrimaryAccentColor,
+          height: progressPercent,
+          borderRadius: 10,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        },
+      ]}
     ></Animated.View>
   );
 };
