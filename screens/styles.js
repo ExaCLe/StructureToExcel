@@ -19,6 +19,10 @@ const styles = (() => {
       backgroundColor: colors.BackgroundColor,
       flex: 1,
     },
+    topDownMargin: {
+      marginTop: 10,
+      marginBottom: 10,
+    },
     fullHeight: {
       height: "100%",
     },

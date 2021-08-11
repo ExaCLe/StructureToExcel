@@ -6,7 +6,7 @@ import TextButton from "./TextButton";
 
 const IconRowWithChange = (props) => {
   return (
-    <View style={[styles.containerHorizontal]}>
+    <View style={[styles.containerHorizontal, styles.topDownMargin]}>
       <Text style={[styles.secondaryText, styles.columnSize]}>Icon: </Text>
       <Ionicons name={props.icon} size={25} color={global.color} />
       <TextButton

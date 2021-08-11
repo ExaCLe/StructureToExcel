@@ -18,7 +18,7 @@ const Textfield = (props) => {
         },
 
         styles.padding,
-        { paddingLeft: 25 },
+        { paddingLeft: 15, paddingRight: 15 },
       ]}
       onChangeText={props.onChangeText}
       keyboardType={props.keyboardType}

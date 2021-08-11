@@ -1,25 +1,15 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Switch,
-  Alert,
-  Platform,
-  ScrollView,
-  TextBase,
-} from "react-native";
+import { View, Text, Switch, Alert, Platform, ScrollView } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
 import * as colors from "../assets/colors.js";
 import PrimaryButton from "./components/PrimaryButton.js";
 import BackButton from "./components/BackButton.js";
 import TextfieldAndLabel from "./components/TextfieldAndLabel.js";
 import Textfield from "./components/Textfield.js";
-import TextButton from "./components/TextButton.js";
 import IconRowWithChange from "./components/IconRowWithChange.js";
+import InformationRow from "./components/InformationRow.js";
 // for usage: https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage
 // open the database for adding the habits
 const db = SQLite.openDatabase("habits.db");
@@ -65,6 +55,7 @@ class ChangeHabit extends React.Component {
       })(),
     };
   }
+
   componentWillUnmount() {
     this._unsubscribe();
   }
@@ -86,27 +77,31 @@ class ChangeHabit extends React.Component {
         return (
           <BackButton
             onPress={() => {
-              if (this.state.change && this.state.edit)
-                Alert.alert(
-                  "Abort Changes",
-                  "Möchtest du wirklich die Veränderungen verwerfen?",
-                  [
-                    { text: "Nein" },
-                    {
-                      text: "Ja",
-                      onPress: () => {
-                        this.props.navigation.goBack();
-                      },
-                    },
-                  ]
-                );
-              else this.props.navigation.goBack();
+              this.confirmAbort();
             }}
           />
         );
       },
     });
   }
+
+  confirmAbort = () => {
+    if (this.state.change && this.state.edit)
+      Alert.alert(
+        "Abort Changes",
+        "Möchtest du wirklich die Veränderungen verwerfen?",
+        [
+          { text: "Nein" },
+          {
+            text: "Ja",
+            onPress: () => {
+              this.props.navigation.goBack();
+            },
+          },
+        ]
+      );
+    else this.props.navigation.goBack();
+  };
   checkComplete = () => {
     if (!this.state.name) {
       alert("Bitte einen Namen eintragen");
@@ -195,7 +190,7 @@ class ChangeHabit extends React.Component {
   };
   height = (() => {
     if (Platform.OS === "ios") return { width: "50%", alignSelf: "center" };
-    else return { height: 40 };
+    else return { height: 60 };
   })();
   updateHabits = () => {
     // handle change in the databases
@@ -249,11 +244,6 @@ class ChangeHabit extends React.Component {
       this.setState({ intervall: number, change: true });
   };
 
-  zIndexn1 = (() => {
-    if (Platform.OS === "ios") return { zIndex: -1 };
-    else return {};
-  })();
-
   render() {
     const addHabit = this.addHabit;
     return (
@@ -266,7 +256,7 @@ class ChangeHabit extends React.Component {
           onChangeText={this.handleNameChange}
           value={this.state.name}
           label="Name: "
-          width="50%"
+          width="70%"
         />
         <IconRowWithChange
           onPress={() => {
@@ -276,16 +266,16 @@ class ChangeHabit extends React.Component {
           }}
           icon={this.state.icon}
         />
-        <Text style={[styles.secondaryText, styles.margin]}>
+        <Text style={[styles.secondaryText, styles.topDownMargin]}>
           Wie oft möchtest du sie erfüllen?{" "}
         </Text>
-        <View style={styles.containerHorizontal}>
+        <View style={[styles.containerHorizontal, styles.topDownMargin]}>
           <Textfield
             onChangeText={this.handleRepetitionChange}
             keyboardType="numeric"
             placeholder={"7"}
             value={this.state.repetitions}
-            width="15%"
+            width="20%"
             textAlign="center"
           />
           <Text
@@ -299,7 +289,7 @@ class ChangeHabit extends React.Component {
             keyboardType="numeric"
             placeholder={"7"}
             value={this.state.intervall}
-            width="15%"
+            width="20%"
             textAlign="center"
           />
           <Text
@@ -308,12 +298,7 @@ class ChangeHabit extends React.Component {
             Tagen
           </Text>
         </View>
-        <View style={[styles.containerHorizontal]}>
-          <Text style={styles.secondaryText}>Priorität: </Text>
-          <Text style={[styles.normalText, { color: global.color }]}>
-            {this.state.priority}
-          </Text>
-        </View>
+        <InformationRow label="Priorität:" content={this.state.priority} />
 
         <Picker
           style={this.height}
@@ -322,10 +307,26 @@ class ChangeHabit extends React.Component {
             this.setState({ priority: itemValue })
           }
         >
-          <Picker.Item label="Priorität 1" value="1" />
-          <Picker.Item label="Priorität 2" value="2" />
-          <Picker.Item label="Priorität 3" value="3" />
-          <Picker.Item label="Priorität 4" value="4" />
+          <Picker.Item
+            label="Priorität 1"
+            value="1"
+            color={colors.PrimaryAccentColor}
+          />
+          <Picker.Item
+            label="Priorität 2"
+            value="2"
+            color={colors.PrimaryAccentColor}
+          />
+          <Picker.Item
+            label="Priorität 3"
+            value="3"
+            color={colors.PrimaryAccentColor}
+          />
+          <Picker.Item
+            label="Priorität 4"
+            value="4"
+            color={colors.PrimaryAccentColor}
+          />
         </Picker>
         {!this.state.edit && (
           <View style={{ zIndex: -3 }}>
@@ -355,9 +356,21 @@ class ChangeHabit extends React.Component {
                     this.setState({ goalIntervall: itemValue })
                   }
                 >
-                  <Picker.Item label="Tag" value="1" />
-                  <Picker.Item label="Woche" value="2" />
-                  <Picker.Item label="Monat" value="3" />
+                  <Picker.Item
+                    label="Tag"
+                    value="1"
+                    color={colors.PrimaryAccentColor}
+                  />
+                  <Picker.Item
+                    label="Woche"
+                    value="2"
+                    color={colors.PrimaryAccentColor}
+                  />
+                  <Picker.Item
+                    label="Monat"
+                    value="3"
+                    color={colors.PrimaryAccentColor}
+                  />
                 </Picker>
               </View>
             )}
