@@ -280,7 +280,7 @@ class HabitsDetails extends React.Component {
                   >
                     <Ionicons name={name} size={50} color={color} />
                   </TouchableOpacity>
-                  <Text style={[styles.secondaryText, styles.textVerySmall]}>
+                  <Text style={[styles.secondaryText, styles.textSmall]}>
                     {this.calculateDate(index)}
                   </Text>
                 </View>
@@ -307,7 +307,7 @@ class HabitsDetails extends React.Component {
                   >
                     <Ionicons name={name} size={50} color={color} />
                   </TouchableOpacity>
-                  <Text style={[styles.secondaryText, styles.textVerySmall]}>
+                  <Text style={[styles.secondaryText, styles.textSmall]}>
                     {this.calculateDate(index)}
                   </Text>
                 </View>
