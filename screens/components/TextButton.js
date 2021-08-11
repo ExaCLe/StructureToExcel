@@ -5,7 +5,7 @@ import styles from "../styles";
 const TextButton = (props) => {
   return (
     <TouchableOpacity
-      style={[styles.margin, styles.padding, props.style]}
+      style={[{ marginBottom: 10, marginTop: 10 }, props.style]}
       onPress={() => {
         props.onPress();
       }}

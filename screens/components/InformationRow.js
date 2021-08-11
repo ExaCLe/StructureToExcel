@@ -11,7 +11,7 @@ const InformationRow = (props) => {
         {props.label}
       </Text>
       {!props.icon && (
-        <Text style={[{ color: global.color }, styles.textBig, styles.margin]}>
+        <Text style={[{ color: global.color }, styles.normalText]}>
           {props.content}
         </Text>
       )}

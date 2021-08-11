@@ -28,6 +28,11 @@ const styles = (() => {
     },
     columnSize: {
       width: "30%",
+      maxWidth: 190,
+    },
+    picker: {
+      fontFamily: fonts.primaryFont,
+      fontSize: 24,
     },
     header: {
       backgroundColor: global.color,
@@ -95,6 +100,7 @@ const styles = (() => {
     normalText: {
       fontSize: 24,
       fontFamily: fonts.primaryFont,
+      color: colors.PrimaryAccentColor,
     },
     statsText: {
       fontSize: 18,

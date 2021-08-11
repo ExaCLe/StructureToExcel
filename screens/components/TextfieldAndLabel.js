@@ -5,9 +5,11 @@ import Textfield from "./Textfield";
 import PropTypes from "prop-types";
 
 const TextfieldAndLabel = (props) => {
+  let labelWidth = {};
+  if (props.labelWidth) labelWidth = { width: props.labelWidth };
   return (
-    <View style={[styles.containerHorizontal, {}]}>
-      <Text style={[styles.secondaryText, { width: props.labelWidth }]}>
+    <View style={[styles.containerHorizontal]}>
+      <Text style={[styles.secondaryText, styles.columnSize, labelWidth]}>
         {props.label}
       </Text>
       <View style={{ width: props.width }}>

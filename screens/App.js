@@ -198,7 +198,7 @@ function Pomodoro() {
 }
 function Goals() {
   return (
-    <StackGoals.Navigator>
+    <StackGoals.Navigator initialRouteName="ChangeGoal">
       <StackGoals.Screen
         name="OverviewGoals"
         component={OverviewGoals}
@@ -381,6 +381,7 @@ export default class App extends React.Component {
       return (
         <NavigationContainer>
           <Tab.Navigator
+            initialRouteName="Goals"
             screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName;

@@ -19,13 +19,17 @@ import BackButton from "./components/BackButton.js";
 import TextfieldAndLabel from "./components/TextfieldAndLabel.js";
 import Textfield from "./components/Textfield.js";
 import TextButton from "./components/TextButton.js";
+import InformationRow from "./components/InformationRow.js";
+import * as fonts from "./../assets/fonts/fonts.js";
 const db = SQLite.openDatabase("goals.db");
 const habits = SQLite.openDatabase("habits.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
 class ChangeGoal extends React.Component {
   constructor(props) {
     super(props);
-    const edit = props.route.params.edit;
+    let edit;
+    if (!props.route.params) edit = false;
+    else edit = props.route.params.edit;
     this.state = {
       change: false,
       aktivity_icon: "",
@@ -80,27 +84,30 @@ class ChangeGoal extends React.Component {
         return (
           <BackButton
             onPress={() => {
-              if (this.state.change && this.state.edit)
-                Alert.alert(
-                  "Abort Changes",
-                  "Möchtest du wirklich die Veränderungen verwerfen?",
-                  [
-                    { text: "Nein" },
-                    {
-                      text: "Ja",
-                      onPress: () => {
-                        this.props.navigation.goBack();
-                      },
-                    },
-                  ]
-                );
-              else this.props.navigation.goBack();
+              this.confirmAbort();
             }}
           />
         );
       },
     });
   }
+  confirmAbort = () => {
+    if (this.state.change && this.state.edit)
+      Alert.alert(
+        "Abort Changes",
+        "Möchtest du wirklich die Veränderungen verwerfen?",
+        [
+          { text: "Nein" },
+          {
+            text: "Ja",
+            onPress: () => {
+              this.props.navigation.goBack();
+            },
+          },
+        ]
+      );
+    else this.props.navigation.goBack();
+  };
   handleSave = () => {
     if (!this.state.name) {
       alert("Bitte einen Namen eintragen");
@@ -211,13 +218,9 @@ class ChangeGoal extends React.Component {
       );
     });
   };
-  zIndex3 = (() => {
-    if (Platform.OS === "ios") return { zIndex: 3 };
-    else return {};
-  })();
   height = (() => {
     if (Platform.OS === "ios") return { width: "50%", alignSelf: "center" };
-    else return { height: 40 };
+    else return { height: 60 };
   })();
   intervall = ["Tag", "Woche", "Monat"];
 
@@ -235,13 +238,8 @@ class ChangeGoal extends React.Component {
         />
 
         <View style={[styles.containerHorizontal]}>
-          <Text style={[styles.secondaryText, styles.margin]}>Icon: </Text>
-          <Ionicons
-            name={this.state.icon}
-            size={25}
-            color={global.color}
-            style={[styles.margin, styles.padding]}
-          />
+          <Text style={[styles.secondaryText, styles.columnSize]}>Icon: </Text>
+          <Ionicons name={this.state.icon} size={25} color={global.color} />
           <TextButton
             text="Wähle Icon"
             onPress={() => {
@@ -249,45 +247,69 @@ class ChangeGoal extends React.Component {
                 target: "ChangeGoal",
               });
             }}
+            style={styles.margin}
           />
         </View>
 
-        <View style={[styles.containerHorizontal]}>
-          <Text style={styles.secondaryText}>Intervall: </Text>
-          <Text style={[styles.normalText, { color: global.color }]}>
-            {this.intervall[this.state.intervall - 1]}
-          </Text>
-        </View>
+        <InformationRow
+          content={this.intervall[this.state.intervall - 1]}
+          label="Intervall: "
+        />
         <Picker
-          style={this.height}
+          style={[this.height, styles.picker]}
           selectedValue={this.state.intervall}
           onValueChange={(itemValue, itemIndex) =>
             this.setState({ intervall: itemValue })
           }
+          itemStyle={styles.normalText}
         >
-          <Picker.Item label="Tag" value="1" />
-          <Picker.Item label="Woche" value="2" />
-          <Picker.Item label="Monat" value="3" />
+          <Picker.Item
+            label="Tag"
+            value="1"
+            color={colors.PrimaryAccentColor}
+          />
+          <Picker.Item
+            label="Woche"
+            value="2"
+            color={colors.PrimaryAccentColor}
+          />
+          <Picker.Item
+            label="Monat"
+            value="3"
+            color={colors.PrimaryAccentColor}
+          />
         </Picker>
 
-        <View style={[styles.containerHorizontal]}>
-          <Text style={styles.secondaryText}>Priorität: </Text>
-          <Text style={[styles.normalText, { color: global.color }]}>
-            {this.state.priority}
-          </Text>
-        </View>
+        <InformationRow content={this.state.priority} label="Priorität:" />
 
         <Picker
-          style={this.height}
+          itemStyle={styles.normalText}
+          style={[this.height, styles.picker]}
           selectedValue={this.state.priority}
           onValueChange={(itemValue, itemIndex) =>
             this.setState({ priority: itemValue })
           }
         >
-          <Picker.Item label="Priorität 1" value="1" />
-          <Picker.Item label="Priorität 2" value="2" />
-          <Picker.Item label="Priorität 3" value="3" />
-          <Picker.Item label="Priorität 4" value="4" />
+          <Picker.Item
+            label="Priorität 1"
+            value="1"
+            color={colors.PrimaryAccentColor}
+          />
+          <Picker.Item
+            label="Priorität 2"
+            value="2"
+            color={colors.PrimaryAccentColor}
+          />
+          <Picker.Item
+            label="Priorität 3"
+            value="3"
+            color={colors.PrimaryAccentColor}
+          />
+          <Picker.Item
+            label="Priorität 4"
+            value="4"
+            color={colors.PrimaryAccentColor}
+          />
         </Picker>
 
         <View style={{ zIndex: -3 }}>
@@ -321,18 +343,25 @@ class ChangeGoal extends React.Component {
               label="Dauer in Std.: "
             />
             <View style={styles.containerHorizontal}>
-              <Text style={[styles.secondaryText, styles.margin]}>
+              <Text style={[styles.secondaryText, styles.columnSize]}>
                 Aktivity:{" "}
               </Text>
-              <Ionicons
-                name={this.state.aktivity_icon}
-                size={25}
-                color={colors.PrimaryAccentColor}
-                style={[styles.margin, styles.padding]}
-              />
-              <Text>{this.state.aktivity_name}</Text>
+              {!!this.state.aktivity_name && (
+                <View style={styles.containerHorizontal}>
+                  <Ionicons
+                    name={this.state.aktivity_icon}
+                    size={25}
+                    color={colors.PrimaryAccentColor}
+                  />
+                  <Text
+                    style={[styles.normalText, styles.padding, styles.margin]}
+                  >
+                    {this.state.aktivity_name}
+                  </Text>
+                </View>
+              )}
               <TextButton
-                text="Wähle Aktivität"
+                text="Ändere Aktivität"
                 onPress={() => {
                   this.props.navigation.navigate("AktivityChooserGoal", {
                     target: "ChangeGoal",
