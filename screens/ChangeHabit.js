@@ -19,6 +19,7 @@ import BackButton from "./components/BackButton.js";
 import TextfieldAndLabel from "./components/TextfieldAndLabel.js";
 import Textfield from "./components/Textfield.js";
 import TextButton from "./components/TextButton.js";
+import IconRowWithChange from "./components/IconRowWithChange.js";
 // for usage: https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage
 // open the database for adding the habits
 const db = SQLite.openDatabase("habits.db");
@@ -267,23 +268,14 @@ class ChangeHabit extends React.Component {
           label="Name: "
           width="50%"
         />
-        <View style={[styles.containerHorizontal]}>
-          <Text style={[styles.secondaryText, styles.margin]}>Icon: </Text>
-          <Ionicons
-            name={this.state.icon}
-            size={25}
-            color={global.color}
-            style={[styles.margin, styles.padding]}
-          />
-          <TextButton
-            text="Wähle Icon"
-            onPress={() => {
-              this.props.navigation.navigate("IconChooserHabits", {
-                target: "ChangeHabit",
-              });
-            }}
-          />
-        </View>
+        <IconRowWithChange
+          onPress={() => {
+            this.props.navigation.navigate("IconChooserHabits", {
+              target: "ChangeHabit",
+            });
+          }}
+          icon={this.state.icon}
+        />
         <Text style={[styles.secondaryText, styles.margin]}>
           Wie oft möchtest du sie erfüllen?{" "}
         </Text>

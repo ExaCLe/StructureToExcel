@@ -9,6 +9,7 @@ import BackButton from "./components/BackButton.js";
 import TextfieldAndLabel from "./components/TextfieldAndLabel.js";
 import TextButton from "./components/TextButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
+import IconRowWithChange from "./components/IconRowWithChange.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AddAktivity extends React.Component {
@@ -175,36 +176,27 @@ class AddAktivity extends React.Component {
           label={"Name: "}
           width={"50%"}
         />
-        <View style={[styles.containerHorizontal]}>
-          <Text style={[styles.secondaryText, styles.margin]}>Icon: </Text>
-          <Ionicons
-            name={this.state.icon}
-            size={25}
-            color={global.color}
-            style={[styles.margin, styles.padding]}
-          />
-          <TextButton
-            onPress={() => {
-              if (this.props.route.params.target === "AktivityDetails")
-                this.props.navigation.navigate("IconChooserTracking", {
-                  target: "ChangeAktivity",
-                });
-              else if (this.props.route.params.target == "AktivityChooserGoal")
-                this.props.navigation.navigate("IconChooserGoals", {
-                  target: "ChangeAktivityGoals",
-                });
-              else if (this.props.route.params.target == "AktivityChooser")
-                this.props.navigation.navigate("IconChooserTracking", {
-                  target: "ChangeAktivity",
-                });
-              else
-                this.props.navigation.navigate("IconChooserTracking", {
-                  target: "ChangeAktivity",
-                });
-            }}
-            text="Wähle Icon"
-          />
-        </View>
+        <IconRowWithChange
+          icon={this.state.icon}
+          onPress={() => {
+            if (this.props.route.params.target === "AktivityDetails")
+              this.props.navigation.navigate("IconChooserTracking", {
+                target: "ChangeAktivity",
+              });
+            else if (this.props.route.params.target == "AktivityChooserGoal")
+              this.props.navigation.navigate("IconChooserGoals", {
+                target: "ChangeAktivityGoals",
+              });
+            else if (this.props.route.params.target == "AktivityChooser")
+              this.props.navigation.navigate("IconChooserTracking", {
+                target: "ChangeAktivity",
+              });
+            else
+              this.props.navigation.navigate("IconChooserTracking", {
+                target: "ChangeAktivity",
+              });
+          }}
+        />
         <PrimaryButton
           onPress={() => {
             this.handleSave();

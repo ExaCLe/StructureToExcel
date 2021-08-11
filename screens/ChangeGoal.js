@@ -21,6 +21,7 @@ import Textfield from "./components/Textfield.js";
 import TextButton from "./components/TextButton.js";
 import InformationRow from "./components/InformationRow.js";
 import * as fonts from "./../assets/fonts/fonts.js";
+import IconRowWithChange from "./components/IconRowWithChange.js";
 const db = SQLite.openDatabase("goals.db");
 const habits = SQLite.openDatabase("habits.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
@@ -239,20 +240,14 @@ class ChangeGoal extends React.Component {
           label={"Name: "}
           width={"50%"}
         />
-
-        <View style={[styles.containerHorizontal]}>
-          <Text style={[styles.secondaryText, styles.columnSize]}>Icon: </Text>
-          <Ionicons name={this.state.icon} size={25} color={global.color} />
-          <TextButton
-            text="Wähle Icon"
-            onPress={() => {
-              this.props.navigation.navigate("IconChooserGoals", {
-                target: "ChangeGoal",
-              });
-            }}
-            style={styles.margin}
-          />
-        </View>
+        <IconRowWithChange
+          icon={this.state.icon}
+          onPress={() => {
+            this.props.navigation.navigate("IconChooserGoals", {
+              target: "ChangeGoal",
+            });
+          }}
+        />
 
         <InformationRow
           content={this.intervall[this.state.intervall - 1]}
