@@ -27,6 +27,9 @@ class TrackingOverview extends React.Component {
     //     (txObj, error) => {}
     //   );
     // });
+    this.createDatabases();
+  }
+  createDatabases = () => {
     db.transaction((tx) => {
       tx.executeSql(
         "CREATE TABLE IF NOT EXISTS activities (id INTEGER PRIMARY KEY, name TEXT, icon TEXT, color TEXT, deleted BOOLEAN DEFAULT 0, object_id TEXT, version INTEGER DEFAULT 0);",
@@ -50,7 +53,7 @@ class TrackingOverview extends React.Component {
     });
     // get the activities from the database
     this.fetchData();
-  }
+  };
   // gets the data for the activitys out of the database
   fetchData = () => {
     console.log("Fetching data for aktivitys...");
@@ -62,8 +65,7 @@ class TrackingOverview extends React.Component {
           console.log(_array);
           this.setState({ aktivitys: _array });
         },
-        (txObj, error) =>
-          console.error("Fehler beim Lesen der Aktivitäten. " + error)
+        (txObj, error) => this.createDatabases()
       );
     });
   };

@@ -18,6 +18,9 @@ export default class HabitOverview extends React.Component {
     this.state = {
       habits: [],
     };
+    this.createDatabases();
+  }
+  createDatabases = () => {
     db.transaction((tx) => {
       tx.executeSql(
         "CREATE TABLE habits (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, queue BOOLEAN, object_id TEXT, deleted BOOLEAN, updatedAt DATETIME, version INTEGER NOT NULL DEFAULT 0);",
@@ -37,7 +40,7 @@ export default class HabitOverview extends React.Component {
 
     // get the habits from the database
     this.fetchData();
-  }
+  };
   componentWillUnmount() {
     this._unsubscribe();
   }
@@ -85,8 +88,7 @@ export default class HabitOverview extends React.Component {
         (txObj, { rows: { _array } }) => {
           this.setState({ habits: _array }, this.calculateScore);
         },
-        (txObj, error) =>
-          console.error("Fehler beim Lesen der Gewohnheiten. ", error)
+        (txObj, error) => this.createDatabases()
       );
     });
     db.transaction((tx) => {

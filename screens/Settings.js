@@ -901,6 +901,49 @@ class Settings extends React.Component {
           }}
           text={"logout"}
         />
+        <PrimaryButton
+          text="Clear Habits Database"
+          onPress={() => {
+            habits.transaction((tx) => {
+              tx.executeSql("DROP TABLE habits", null, null, (txObj, error) =>
+                console.log(error)
+              );
+              tx.executeSql("DROP TABLE checkHabits", null, () => {
+                alert("Deleted Database.", (txObj, error) =>
+                  console.log(error)
+                );
+              });
+            });
+          }}
+        />
+        <PrimaryButton
+          text="Clear Goals Database"
+          onPress={() => {
+            goals.transaction((tx) => {
+              tx.executeSql("DROP TABLE goals", null, () => {
+                alert("Deleted database. ", (txObj, error) =>
+                  console.log(error)
+                );
+              });
+            });
+          }}
+        />
+        <PrimaryButton
+          text="Clear Aktivities Databasse"
+          onPress={() => {
+            aktivities.transaction((tx) => {
+              tx.executeSql(
+                "DROP TABLE activities",
+                null,
+                null,
+                (txObj, error) => console.log(error)
+              );
+              tx.executeSql("DROP TABLE trackings", null, () => {
+                alert("Database deleted.");
+              });
+            });
+          }}
+        />
       </ScrollView>
     );
   }

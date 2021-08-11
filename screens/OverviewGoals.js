@@ -26,6 +26,9 @@ class OverviewGoals extends React.Component {
     //     (txObj, error) => {}
     //   );
     // });
+    this.createDatabases();
+  }
+  createDatabases = () => {
     db.transaction((tx) => {
       tx.executeSql(
         "CREATE TABLE IF NOT EXISTS goals (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, progress INT, time BOOLEAN, version INTEGER NOT NULL DEFAULT 0, object_id TEXT, deleted BOOLEAN DEFAULT 0, archive BOOLEAN, act_id INTEGER);",
@@ -42,7 +45,7 @@ class OverviewGoals extends React.Component {
     });
     // get the goals from the database
     this.fetchData();
-  }
+  };
   // gets the data for the goals out of the database
   fetchData = () => {
     console.log("Fetching data for goals...");
@@ -91,7 +94,7 @@ class OverviewGoals extends React.Component {
           });
           this.setState({ goals: _array });
         },
-        (txObj, error) => console.error("Fehler beim Lesen der Ziele. ", error)
+        (txObj, error) => this.createDatabases()
       );
     });
   };

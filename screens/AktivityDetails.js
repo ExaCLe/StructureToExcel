@@ -126,9 +126,7 @@ class AktivityDetails extends React.Component {
                             this.props.route.params.version + 1,
                             this.props.route.params.id,
                           ],
-                          () => {
-                            this.props.navigation.goBack();
-                          },
+                          () => {},
                           (txObj, error) => {
                             console.log(error);
                           }
@@ -140,7 +138,7 @@ class AktivityDetails extends React.Component {
                             this.props.route.params.id,
                           ],
                           () => {
-                            this.props.navigation.goBack();
+                            this.props.navigation.navigate("TrackingOverview");
                           },
                           (txObj, error) => {
                             console.log(error);
