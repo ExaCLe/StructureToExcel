@@ -162,6 +162,7 @@ class ChangeGoal extends React.Component {
         );
       });
     }
+
     // decide on the right sql command
     let sql, values;
     if (!this.state.edit) {
@@ -178,6 +179,7 @@ class ChangeGoal extends React.Component {
         this.state.act_id,
       ];
     } else {
+      const version = this.state.version + 1;
       sql =
         "UPDATE goals SET name=?, intervall=?, priority=?, repetitions=?, icon=?, progress=?, time=? , act_id = ?, version=? WHERE id = ?";
       values = [
@@ -189,7 +191,7 @@ class ChangeGoal extends React.Component {
         this.state.progress,
         this.state.time,
         this.state.act_id,
-        this.state.version + 1,
+        version,
         this.state.id,
       ];
     }
