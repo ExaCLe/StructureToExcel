@@ -83,7 +83,7 @@ class PomodoroSettings extends React.Component {
   }
   render() {
     return (
-      <View style={styles.margin}>
+      <View style={styles.mainContainer}>
         <TextfieldAndLabel
           label="Arbeitsintervalllänge in Minuten: "
           onChangeText={(text) => {

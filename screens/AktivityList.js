@@ -80,7 +80,7 @@ class AktivityList extends React.Component {
   render() {
     if (!this.state.loaded) return null;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.mainContainer}>
         {/* Help on empty screen */}
         {this.state.aktivitys.length === 0 && <TrackingHelp />}
 

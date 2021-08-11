@@ -73,7 +73,7 @@ function Settings() {
 }
 function Habit() {
   return (
-    <StackHabits.Navigator>
+    <StackHabits.Navigator initialRouteName="ChangeHabit">
       <StackHabits.Screen
         name="HabitOverview"
         component={HabitOverview}
@@ -198,7 +198,7 @@ function Pomodoro() {
 }
 function Goals() {
   return (
-    <StackGoals.Navigator initialRouteName="ChangeGoal">
+    <StackGoals.Navigator>
       <StackGoals.Screen
         name="OverviewGoals"
         component={OverviewGoals}
@@ -381,7 +381,7 @@ export default class App extends React.Component {
       return (
         <NavigationContainer>
           <Tab.Navigator
-            initialRouteName="Goals"
+            initialRouteName="Habits"
             screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName;

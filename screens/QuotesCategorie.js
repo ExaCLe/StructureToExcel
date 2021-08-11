@@ -136,7 +136,13 @@ class QuotesCategorie extends React.Component {
         return quote["key"] === this.state.favorites[this.state.count].id + "";
       });
       return (
-        <View style={[styles.margin, styles.flexContainer, styles.spaceAround]}>
+        <View
+          style={[
+            styles.mainContainer,
+            styles.flexContainer,
+            styles.spaceAround,
+          ]}
+        >
           <Zitat {...quote} />
           <SmallPrimaryButton
             icon={"caret-back"}

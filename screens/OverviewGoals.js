@@ -179,7 +179,7 @@ class OverviewGoals extends React.Component {
     return (
       <View
         style={[
-          styles.margin,
+          styles.mainContainer,
           styles.flexContainer,
           {
             paddingBottom: 15,

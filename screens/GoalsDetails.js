@@ -124,7 +124,7 @@ class GoalsDetails extends React.Component {
   render() {
     console.log(this.props.route.params);
     return (
-      <View style={styles.margin}>
+      <View style={styles.mainContainer}>
         <View style={styles.containerHorizontal}>
           <Text style={[styles.secondaryText, styles.columnSize]}>Name: </Text>
           <Text

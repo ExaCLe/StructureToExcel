@@ -238,7 +238,7 @@ export default class HabitOverview extends React.Component {
 
   render() {
     return (
-      <View style={[styles.margin, styles.flex, { flex: 1 }]}>
+      <View style={styles.mainContainer}>
         <AppStatusBar />
         {this.state.habits.length === 0 && (
           <View

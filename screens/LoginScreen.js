@@ -48,7 +48,7 @@ class Settings extends React.Component {
   };
   render() {
     return (
-      <View style={styles.margin}>
+      <View style={styles.mainContainer}>
         <TextfieldAndLabel
           label="Username:"
           onChangeText={(username) => {

@@ -108,7 +108,7 @@ class TrackingOverview extends React.Component {
   render() {
     console.log(this.state.aktivitys.length === 0);
     return (
-      <View style={{ flex: 1, display: "flex" }}>
+      <View style={[styles.mainContainer, { display: "flex" }]}>
         <ScrollView>
           {this.state.aktivitys.length === 0 && (
             <View

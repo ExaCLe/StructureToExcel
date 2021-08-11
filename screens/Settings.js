@@ -858,7 +858,7 @@ class Settings extends React.Component {
   render() {
     return (
       <ScrollView
-        style={{ flex: 1 }}
+        style={styles.mainContainer}
         refreshControl={
           <RefreshControl
             refreshing={this.state.state === SYNCING}

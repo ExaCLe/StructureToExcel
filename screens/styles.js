@@ -13,6 +13,12 @@ const styles = (() => {
     fullSize: {
       flex: 1,
     },
+    mainContainer: {
+      margin: 0,
+      padding: 20,
+      backgroundColor: colors.BackgroundColor,
+      flex: 1,
+    },
     fullHeight: {
       height: "100%",
     },

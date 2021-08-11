@@ -162,7 +162,10 @@ class AddAktivity extends React.Component {
   render() {
     console.log("RENDERING", this.state.change);
     return (
-      <ScrollView style={styles.margin} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        style={styles.mainContainer}
+        keyboardShouldPersistTaps="handled"
+      >
         <TextfieldAndLabel
           onChangeText={(text) => {
             this.setState({ name: text, change: true });

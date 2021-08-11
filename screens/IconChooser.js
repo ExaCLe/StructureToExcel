@@ -56,12 +56,15 @@ class IconChooser extends React.Component {
   render() {
     return (
       <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+        style={[
+          styles.mainContainer,
+          {
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+          },
+        ]}
       >
         <SectionList
           contentContainerStyle={{

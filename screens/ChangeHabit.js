@@ -28,7 +28,9 @@ const tracking = SQLite.openDatabase("aktivitys.db");
 class ChangeHabit extends React.Component {
   constructor(props) {
     super(props);
-    const edit = props.route.params.edit;
+    let edit;
+    if (props.route.params) edit = props.route.params.edit;
+    else edit = false;
     this.state = {
       change: false,
       edit: edit,
@@ -57,7 +59,9 @@ class ChangeHabit extends React.Component {
       version: (() => {
         return edit ? props.route.params.version : 0;
       })(),
-      id: props.route.params.id,
+      id: (() => {
+        return edit ? props.route.params.id : undefined;
+      })(),
     };
   }
   componentWillUnmount() {
@@ -253,7 +257,7 @@ class ChangeHabit extends React.Component {
     const addHabit = this.addHabit;
     return (
       <ScrollView
-        style={[styles.backgroundColor, styles.padding]}
+        style={[styles.mainContainer]}
         keyboardShouldPersistTaps="handled"
       >
         <TextfieldAndLabel

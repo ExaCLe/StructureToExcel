@@ -91,7 +91,7 @@ class AktivityChooser extends React.Component {
   render() {
     if (!this.state.loaded) return null;
     return (
-      <View stlye={styles.fullScreen}>
+      <View stlye={styles.mainContainer}>
         <FlatList
           data={this.state.aktivitys}
           renderItem={this.renderItem}

@@ -174,7 +174,7 @@ class ChangeTracking extends React.Component {
   render() {
     console.log(this.state);
     return (
-      <View style={styles.backgroundColor}>
+      <View style={styles.mainContainer}>
         <View style={[styles.containerHorizontal]}>
           <Text style={[styles.secondaryText, styles.margin]}>Aktivity: </Text>
           <Ionicons

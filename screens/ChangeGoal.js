@@ -226,7 +226,10 @@ class ChangeGoal extends React.Component {
 
   render() {
     return (
-      <ScrollView style={styles.margin} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        style={[styles.mainContainer]}
+        keyboardShouldPersistTaps="handled"
+      >
         <TextfieldAndLabel
           onChangeText={(text) => {
             this.setState({ name: text, change: true });

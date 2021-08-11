@@ -237,7 +237,7 @@ class AktivityDetails extends React.Component {
     if (!this.state.loaded) return null;
     console.log(this.state.state);
     return (
-      <View style={styles.margin}>
+      <View style={styles.mainContainer}>
         <PopUp
           visible={this.state.showModalToday}
           close={() =>

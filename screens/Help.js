@@ -362,18 +362,7 @@ class Help extends React.Component {
       );
     }
 
-    return (
-      <ScrollView
-        style={[
-          { flex: 1 },
-          styles.padding,
-          styles.margin,
-          { marginBottom: 0 },
-        ]}
-      >
-        {elements}
-      </ScrollView>
-    );
+    return <ScrollView style={[styles.mainContainer]}>{elements}</ScrollView>;
   }
 }
 

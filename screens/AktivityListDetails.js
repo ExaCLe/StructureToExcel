@@ -81,7 +81,7 @@ class AktivityListDetails extends React.Component {
 
   render() {
     return (
-      <View style={styles.margin}>
+      <View style={styles.mainContainer}>
         <InformationRow
           label="Aktivity Name: "
           content={this.props.route.params.name}

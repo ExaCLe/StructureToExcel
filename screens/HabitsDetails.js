@@ -225,7 +225,7 @@ class HabitsDetails extends React.Component {
   render() {
     const changeQueueState = this.changeQueueState;
     return (
-      <ScrollView style={styles.margin}>
+      <ScrollView style={styles.mainContainer}>
         <View style={styles.containerHorizontal}>
           <Text style={[styles.secondaryText, styles.columnSize]}>Name: </Text>
           <Text

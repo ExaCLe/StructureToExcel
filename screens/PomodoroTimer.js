@@ -109,7 +109,7 @@ class PomodoroTimer extends React.Component {
   render() {
     if (this.state.data_loaded) {
       return (
-        <View style={[styles.margin, styles.flexContainer]}>
+        <View style={[styles.mainContainer, styles.flexContainer]}>
           <Text
             style={[styles.veryBigText, { color: global.color }, styles.center]}
           >

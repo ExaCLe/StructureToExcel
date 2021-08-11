@@ -42,7 +42,9 @@ class CategorieOverview extends React.Component {
   }
   render() {
     return (
-      <View style={[styles.extraMargin, styles.flexContainer]}>
+      <View
+        style={[styles.extraMargin, styles.mainContainer, styles.flexContainer]}
+      >
         <PrimaryButton
           onPress={() =>
             this.props.navigation.navigate("Categorie", {

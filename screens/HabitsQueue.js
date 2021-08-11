@@ -76,7 +76,7 @@ class HabitsQueue extends React.Component {
 
   render() {
     return (
-      <View style={[styles.margin, styles.flex]}>
+      <View style={styles.mainContainer}>
         <FlatList
           data={this.state.habits}
           renderItem={this.renderItem}
