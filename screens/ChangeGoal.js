@@ -163,30 +163,41 @@ class ChangeGoal extends React.Component {
       });
     }
     // decide on the right sql command
-    let sql;
+    let sql, values;
     if (!this.state.edit) {
       sql =
         "INSERT INTO goals (name, intervall, priority, repetitions, icon, progress, time, act_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
+      values = [
+        this.state.name,
+        this.state.intervall,
+        this.state.priority,
+        this.state.repetitions,
+        this.state.icon,
+        this.state.progress,
+        this.state.time,
+        this.state.act_id,
+      ];
     } else {
       sql =
         "UPDATE goals SET name=?, intervall=?, priority=?, repetitions=?, icon=?, progress=?, time=? , act_id = ?, version=? WHERE id = ?";
+      values = [
+        this.state.name,
+        this.state.intervall,
+        this.state.priority,
+        this.state.repetitions,
+        this.state.icon,
+        this.state.progress,
+        this.state.time,
+        this.state.act_id,
+        this.state.version + 1,
+        this.state.id,
+      ];
     }
     // execute the sql
     db.transaction((tx) => {
       tx.executeSql(
         sql,
-        [
-          this.state.name,
-          this.state.intervall,
-          this.state.priority,
-          this.state.repetitions,
-          this.state.icon,
-          this.state.progress,
-          this.state.time,
-          this.state.act_id,
-          this.state.version + 1,
-          this.state.id,
-        ],
+        values,
         () => {
           if (this.state.edit)
             this.props.navigation.navigate("GoalsDetails", { ...this.state });
