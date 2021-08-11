@@ -19,6 +19,7 @@ const styles = (() => {
       backgroundColor: colors.BackgroundColor,
       flex: 1,
     },
+    dateTimePicker: { color: colors.PrimaryAccentColor },
     topDownMargin: {
       marginTop: 10,
       marginBottom: 10,

@@ -73,7 +73,7 @@ function Settings() {
 }
 function Habit() {
   return (
-    <StackHabits.Navigator initialRouteName="ChangeHabit">
+    <StackHabits.Navigator>
       <StackHabits.Screen
         name="HabitOverview"
         component={HabitOverview}
@@ -264,7 +264,7 @@ function Goals() {
 }
 function Tracking() {
   return (
-    <StackTracking.Navigator>
+    <StackTracking.Navigator initialRouteName="ChangeTracking">
       <StackTracking.Screen
         name="TrackingOverview"
         component={TrackingOverview}
@@ -381,7 +381,7 @@ export default class App extends React.Component {
       return (
         <NavigationContainer>
           <Tab.Navigator
-            initialRouteName="Habits"
+            initialRouteName="Tracking"
             screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName;

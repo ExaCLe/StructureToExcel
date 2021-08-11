@@ -7,7 +7,11 @@ const PrimaryButton = (props) => {
     <View style={props.style}>
       <TouchableOpacity
         onPress={() => props.onPress()}
-        style={[styles.buttonPrimary, { backgroundColor: global.color }]}
+        style={[
+          styles.buttonPrimary,
+          { backgroundColor: global.color },
+          props.style,
+        ]}
       >
         <Text style={styles.primaryButtonText}>{props.text}</Text>
       </TouchableOpacity>

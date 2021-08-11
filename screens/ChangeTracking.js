@@ -2,16 +2,12 @@ import React from "react";
 import { View, Alert, Text, TouchableOpacity, Platform } from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import * as colors from "../assets/colors.js";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import PrimaryButton from "./components/PrimaryButton.js";
 import BackButton from "./components/BackButton.js";
-import TextButton from "./components/TextButton.js";
 import AktivityRow from "./components/AktivityRow.js";
+import TimeAndDatePicker from "./components/TimeAndDatePicker.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
-const tracking = SQLite.openDatabase("aktivitys.db");
 
 class ChangeTracking extends React.Component {
   constructor(props) {
@@ -21,12 +17,6 @@ class ChangeTracking extends React.Component {
     else edit = false;
     this.state = {
       change: false,
-      show_start_time: false,
-      show_start_date: false,
-      show_end_time: false,
-      show_end_time: false,
-      mode_start: "date",
-      mode_end: "date",
       edit: edit,
       name: (() => {
         return edit ? props.route.params.name : "";
@@ -70,27 +60,30 @@ class ChangeTracking extends React.Component {
         return (
           <BackButton
             onPress={() => {
-              if (this.state.change && this.state.edit)
-                Alert.alert(
-                  "Abort Changes",
-                  "Möchtest du wirklich die Veränderungen verwerfen?",
-                  [
-                    { text: "Nein" },
-                    {
-                      text: "Ja",
-                      onPress: () => {
-                        this.props.navigation.goBack();
-                      },
-                    },
-                  ]
-                );
-              else this.props.navigation.goBack();
+              this.confirmAbort();
             }}
           />
         );
       },
     });
   }
+  confirmAbort = () => {
+    if (this.state.change && this.state.edit)
+      Alert.alert(
+        "Abort Changes",
+        "Möchtest du wirklich die Veränderungen verwerfen?",
+        [
+          { text: "Nein" },
+          {
+            text: "Ja",
+            onPress: () => {
+              this.props.navigation.goBack();
+            },
+          },
+        ]
+      );
+    else this.props.navigation.goBack();
+  };
   handleSave = () => {
     if (!this.state.act_id) {
       alert("Bitte Aktivität auswählen");
@@ -144,7 +137,6 @@ class ChangeTracking extends React.Component {
   onChangeStartDate = (event, selectedDate) => {
     const currentDate = selectedDate || this.state.start_time;
     this.setState({
-      show_start_date: Platform.OS === "ios",
       start_time: currentDate,
       change: true,
     });
@@ -152,7 +144,6 @@ class ChangeTracking extends React.Component {
   onChangeStartTime = (event, selectedDate) => {
     const currentDate = selectedDate || this.state.start_time;
     this.setState({
-      show_start_time: Platform.OS === "ios",
       start_time: currentDate,
       change: true,
     });
@@ -160,7 +151,6 @@ class ChangeTracking extends React.Component {
   onChangeEndDate = (event, selectedDate) => {
     const currentDate = selectedDate || this.state.end_time;
     this.setState({
-      show_end_date: Platform.OS === "ios",
       end_time: currentDate,
       change: true,
     });
@@ -168,14 +158,12 @@ class ChangeTracking extends React.Component {
   onChangeEndTime = (event, selectedDate) => {
     const currentDate = selectedDate || this.state.end_time;
     this.setState({
-      show_end_time: Platform.OS === "ios",
       end_time: currentDate,
       change: true,
     });
   };
 
   render() {
-    console.log(this.state);
     return (
       <View style={styles.mainContainer}>
         <AktivityRow
@@ -187,122 +175,26 @@ class ChangeTracking extends React.Component {
           icon={this.state.icon}
           name={this.state.name}
         />
-        <Text style={styles.secondaryText}>Startzeit: </Text>
-        <View>
-          <TouchableOpacity
-            onPress={() =>
-              this.setState((prevState) => ({
-                show_start_date: !prevState.show_start_date,
-              }))
-            }
-          >
-            <Text style={[styles.normalText, styles.padding]}>
-              {this.state.start_time.getDate() +
-                "." +
-                (this.state.start_time.getMonth() + 1)}
-            </Text>
-          </TouchableOpacity>
-          {this.state.show_start_date && (
-            <DateTimePicker
-              testID="startDateTimePicker"
-              value={this.state.start_time}
-              mode={"date"}
-              is24Hour={true}
-              maximumDate={this.state.end_time}
-              display={Platform.OS === "ios" ? "compact" : "calendar"}
-              onChange={this.onChangeStartDate}
-            />
-          )}
-        </View>
-        <View>
-          <TouchableOpacity
-            onPress={() =>
-              this.setState((prevState) => ({
-                show_start_time: !prevState.show_start_time,
-              }))
-            }
-          >
-            <Text style={[styles.normalText, styles.padding]}>
-              {this.state.start_time.getHours() +
-                ":" +
-                (this.state.start_time.getMinutes() < 10
-                  ? "0" + this.state.start_time.getMinutes()
-                  : this.state.start_time.getMinutes())}
-            </Text>
-          </TouchableOpacity>
-          {this.state.show_start_time && (
-            <DateTimePicker
-              testID="startDateTimePicker"
-              value={this.state.start_time}
-              mode={"time"}
-              is24Hour={true}
-              maximumDate={this.state.end_time}
-              display={Platform.OS === "ios" ? "spinner" : "clock"}
-              onChange={this.onChangeStartTime}
-            />
-          )}
-        </View>
-        <Text style={styles.secondaryText}>Endzeit:</Text>
-        <View>
-          <TouchableOpacity
-            onPress={() =>
-              this.setState((prevState) => ({
-                show_end_date: !prevState.show_end_date,
-              }))
-            }
-          >
-            <Text style={[styles.normalText, styles.padding]}>
-              {this.state.end_time.getDate() +
-                "." +
-                (this.state.end_time.getMonth() + 1)}
-            </Text>
-          </TouchableOpacity>
-          {this.state.show_end_date && (
-            <DateTimePicker
-              testID="startDateTimePicker"
-              value={this.state.end_time}
-              mode={"date"}
-              is24Hour={true}
-              display={Platform.OS === "ios" ? "compact" : "calendar"}
-              minimumDate={this.state.start_time}
-              onChange={this.onChangeEndDate}
-            />
-          )}
-        </View>
-
-        <View>
-          <TouchableOpacity
-            onPress={() =>
-              this.setState((prevState) => ({
-                show_end_time: !prevState.show_end_time,
-              }))
-            }
-          >
-            <Text style={[styles.normalText, styles.padding]}>
-              {this.state.end_time.getHours() +
-                ":" +
-                (this.state.end_time.getMinutes() < 10
-                  ? "0" + this.state.end_time.getMinutes()
-                  : this.state.end_time.getMinutes())}
-            </Text>
-          </TouchableOpacity>
-          {this.state.show_end_time && (
-            <DateTimePicker
-              testID="startDateTimePicker"
-              value={this.state.end_time}
-              mode={"time"}
-              is24Hour={true}
-              minimumDate={this.state.start_time}
-              display={Platform.OS === "ios" ? "spinner" : "clock"}
-              onChange={this.onChangeEndTime}
-            />
-          )}
-        </View>
+        <TimeAndDatePicker
+          label="Startzeit:"
+          time={this.state.start_time}
+          maxTime={this.state.end_time}
+          onChangeDate={this.onChangeStartDate}
+          onChangeTime={this.onChangeStartTime}
+        />
+        <TimeAndDatePicker
+          label="Endzeit"
+          time={this.state.end_time}
+          onChangeDate={this.onChangeEndDate}
+          onChangeTime={this.onChangeEndTime}
+          minTime={this.state.start_time}
+        />
         <PrimaryButton
           text={"Speichern"}
           onPress={() => {
             this.handleSave();
           }}
+          style={styles.topDownMargin}
         />
       </View>
     );

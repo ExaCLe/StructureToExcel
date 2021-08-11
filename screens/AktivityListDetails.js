@@ -4,7 +4,7 @@ import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import BackButton from "./components/BackButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
-import { extractTimeDetailed, toTime } from "../helpers/Time.js";
+import { extractTimeAndDateDetailed, toTime } from "../helpers/Time.js";
 import InformationRow from "./components/InformationRow.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
@@ -96,11 +96,13 @@ class AktivityListDetails extends React.Component {
         />
         <InformationRow
           label="Start"
-          content={extractTimeDetailed(this.props.route.params.start_time)}
+          content={extractTimeAndDateDetailed(
+            this.props.route.params.start_time
+          )}
         />
         <InformationRow
           label="Ende"
-          content={extractTimeDetailed(this.props.route.params.end_time)}
+          content={extractTimeAndDateDetailed(this.props.route.params.end_time)}
         />
       </View>
     );
