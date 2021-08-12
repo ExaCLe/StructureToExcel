@@ -1,18 +1,10 @@
 import React from "react";
-import { Text, View, TouchableOpacity, TextInput } from "react-native";
-import AktivityTracker from "./components/AktivityTracker.js";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { View } from "react-native";
 import styles from "./styles.js";
-import * as colors from "../assets/colors.js";
-import * as SQLite from "expo-sqlite";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ColorPicker, fromHsv } from "react-native-color-picker";
 import PrimaryButton from "./components/PrimaryButton.js";
 import Parse from "parse/react-native";
 import BackButton from "./components/BackButton.js";
 import TextfieldAndLabel from "./components/TextfieldAndLabel.js";
-
-const habits = SQLite.openDatabase("habits.db");
 
 class Settings extends React.Component {
   constructor(props) {
