@@ -12,6 +12,7 @@ import Quotes from "../assets/Quotes.js";
 import SmallPrimaryButton from "./components/SmallPrimaryButton.js";
 import BackButton from "./components/BackButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
+import LoadingScreen from "./components/LoadingScreen.js";
 
 class QuotesCategorie extends React.Component {
   constructor(props) {
@@ -128,52 +129,104 @@ class QuotesCategorie extends React.Component {
       },
     });
   }
-  getRandomBackground = () => {
-    const number = Math.floor(Math.random() * 4);
-    switch (number) {
-      case 0:
-        return require("./../assets/wallpapers/b-1.jpg");
-      case 1:
-        return require("./../assets/wallpapers/b-2.jpg");
-      case 2:
-        return require("./../assets/wallpapers/b-3.jpg");
-      case 3:
-        return require("./../assets/wallpapers/b-4.jpg");
+  getBackgroundImage = () => {
+    return require("./../assets/wallpapers/b-4.jpg");
+  };
+  forward = () => {
+    if (this.props.route.params.categorie === categories.FAVORITES) {
+      if (this.state.count + 1 === this.state.favorites.length)
+        this.setCount(0);
+      else this.setCount(this.state.count + 1);
+    } else {
+      if (
+        this.state.count + 1 ===
+        Quotes[this.props.route.params.categorie].length
+      )
+        this.setCount(0);
+      else this.setCount(this.state.count + 1);
+    }
+  };
+  random = () => {
+    if (this.props.route.params.categorie === categories.FAVORITES) {
+      this.setState({
+        count: Math.floor(Math.random() * this.state.favorites.length),
+      });
+    } else {
+    }
+  };
+  backward = () => {
+    if (this.props.route.params.categorie === categories.FAVORITES) {
+      if (this.state.count === 0)
+        this.setCount(this.state.favorites.length - 1);
+      else this.setCount(this.state.count - 1);
+    } else {
+      if (this.state.count === 0)
+        this.setCount(Quotes[this.props.route.params.categorie].length - 1);
+      else this.setCount(this.state.count - 1);
     }
   };
   render() {
     const deviceWidth = Dimensions.get("window").width;
-    if (this.props.route.params.categorie === categories.FAVORITES) {
-      if (this.state.favorites.length <= this.state.count) return null;
-      if (this.state.favorites.length === 0) return null;
-      const quote = Quotes[
-        this.state.favorites[this.state.count].categorie
-      ].find((quote) => {
-        return quote["key"] === this.state.favorites[this.state.count].id + "";
-      });
-      return (
-        <View
-          style={[
-            styles.mainContainer,
-            styles.flexContainer,
-            styles.spaceAround,
-          ]}
+    if (
+      this.props.route.params.categorie === categories.FAVORITES &&
+      (this.state.favorites.length <= this.state.count ||
+        this.state.favorites.length === 0)
+    )
+      return <LoadingScreen />;
+    let quote;
+    if (this.props.route.params.categorie === categories.FAVORITES)
+      quote = Quotes[this.state.favorites[this.state.count].categorie].find(
+        (quote) => {
+          return (
+            quote["key"] === this.state.favorites[this.state.count].id + ""
+          );
+        }
+      );
+    else quote = Quotes[this.props.route.params.categorie][this.state.count];
+
+    return (
+      <View
+        style={[
+          styles.flexContainer,
+          {
+            height: "100%",
+            backgroundColor: colors.BackgroundColor,
+            padding: 0,
+            margin: 0,
+          },
+        ]}
+      >
+        <ImageBackground
+          source={this.getBackgroundImage()}
+          style={[styles.imageBackground, { width: deviceWidth }]}
+          resizeMode="cover"
+          blurRadius={Platform.OS === "ios" ? 8 : 2}
         >
           <Zitat {...quote} />
+        </ImageBackground>
+        <View
+          style={[
+            styles.containerHorizontal,
+            {
+              position: "absolute",
+              bottom: 5,
+              width: "100%",
+              justifyContent: "center",
+            },
+          ]}
+        >
           <SmallPrimaryButton
             icon={"caret-back"}
             onPress={() => {
-              if (this.state.count + 1 === this.state.favorites.length)
-                this.setCount(0);
-              else this.setCount(this.state.count + 1);
+              this.backward();
             }}
+            style={{ width: "33%" }}
+            width="95%"
           />
           <SmallPrimaryButton
             icon={"help"}
             onPress={() => {
-              this.setState({
-                count: Math.floor(Math.random() * this.state.favorites.length),
-              });
+              this.random();
             }}
             style={{ width: "33%" }}
             width="95%"
@@ -181,88 +234,14 @@ class QuotesCategorie extends React.Component {
           <SmallPrimaryButton
             icon={"caret-forward"}
             onPress={() => {
-              if (this.state.count === 0)
-                this.setCount(this.state.favorites.length - 1);
-              else this.setCount(this.state.count - 1);
+              this.forward();
             }}
+            style={{ width: "33%" }}
+            width="95%"
           />
         </View>
-      );
-    } else
-      return (
-        <View
-          style={[
-            styles.flexContainer,
-            {
-              height: "100%",
-              backgroundColor: colors.BackgroundColor,
-              padding: 0,
-              margin: 0,
-            },
-          ]}
-        >
-          <ImageBackground
-            source={this.getRandomBackground()}
-            style={[styles.imageBackground, { width: deviceWidth }]}
-            resizeMode="cover"
-            blurRadius={Platform.OS === "ios" ? 8 : 2}
-          >
-            <Zitat
-              {...Quotes[this.props.route.params.categorie][this.state.count]}
-            />
-          </ImageBackground>
-          <View
-            style={[
-              styles.containerHorizontal,
-              {
-                position: "absolute",
-                bottom: 5,
-                width: "100%",
-                justifyContent: "center",
-              },
-            ]}
-          >
-            <SmallPrimaryButton
-              icon={"caret-back"}
-              onPress={() => {
-                if (this.state.count === 0)
-                  this.setCount(
-                    Quotes[this.props.route.params.categorie].length - 1
-                  );
-                else this.setCount(this.state.count - 1);
-              }}
-              style={{ width: "33%" }}
-              width="95%"
-            />
-            <SmallPrimaryButton
-              icon={"help"}
-              onPress={() => {
-                this.setState({
-                  count: Math.floor(
-                    Math.random() *
-                      Quotes[this.props.route.params.categorie].length
-                  ),
-                });
-              }}
-              style={{ width: "33%" }}
-              width="95%"
-            />
-            <SmallPrimaryButton
-              icon={"caret-forward"}
-              onPress={() => {
-                if (
-                  this.state.count + 1 ===
-                  Quotes[this.props.route.params.categorie].length
-                )
-                  this.setCount(0);
-                else this.setCount(this.state.count + 1);
-              }}
-              style={{ width: "33%" }}
-              width="95%"
-            />
-          </View>
-        </View>
-      );
+      </View>
+    );
   }
 }
 
