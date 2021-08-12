@@ -13,6 +13,7 @@ if (Platform.OS === "android") {
   );
   Parse.serverURL = "https://parseapi.back4app.com/";
 } else {
+  // Open Dashboard: parse-dashboard --dev --appId myAppId --masterKey master --serverURL "https://test-parse-server-for-app.herokuapp.com/parse" --appName ParseServerTest
   Parse.initialize("myAppId");
   Parse.serverURL = "https://test-parse-server-for-app.herokuapp.com/parse";
 }
