@@ -1,6 +1,5 @@
 import React from "react";
-import { View, FlatList, TouchableOpacity, Text } from "react-native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { View, FlatList, Text } from "react-native";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
@@ -10,12 +9,16 @@ import styles from "./styles.js";
 import * as colors from "../assets/colors.js";
 import HeaderIcon from "./components/HeaderIcon.js";
 import AppStatusBar from "./components/StatusBar.js";
+import LoadingScreen from "./components/LoadingScreen.js";
 const db = SQLite.openDatabase("habits.db");
 
 export default class HabitOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loaded: false,
+      scores: 0,
+      streaks: 0,
       habits: [],
     };
     this.createDatabases();
@@ -48,7 +51,10 @@ export default class HabitOverview extends React.Component {
     this._unsubscribe = this.props.navigation.addListener(
       "focus",
       (payload) => {
-        this.fetchData();
+        if (this.state.loaded) {
+          this.setState({ loaded: false });
+          this.fetchData();
+        }
       }
     );
     this.props.navigation.setOptions({
@@ -80,7 +86,6 @@ export default class HabitOverview extends React.Component {
 
   // gets the data for the habits out of the database
   fetchData = () => {
-    console.log("Fetching data...");
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM habits WHERE (queue IS NULL OR queue = 0) AND (deleted = 0 OR deleted IS NULL) ORDER BY priority",
@@ -117,14 +122,20 @@ export default class HabitOverview extends React.Component {
             if (_array.length == 0) {
               this.setState((prevState) => {
                 prevState.habits[i].score = 0;
-                return { habits: prevState.habits };
+                return {
+                  habits: prevState.habits,
+                  scores: prevState.scores + 1,
+                };
               });
             } else {
               const value = _array.length - expected / 2;
               const score = 1 / (1 + Math.exp(-value * 0.2));
               this.setState((prevState) => {
                 prevState.habits[i].score = score;
-                return { habits: prevState.habits };
+                return {
+                  habits: prevState.habits,
+                  scores: prevState.scores + 1,
+                };
               });
             }
           },
@@ -148,7 +159,7 @@ export default class HabitOverview extends React.Component {
             if (_array.length === 0) {
               this.setState((prevState) => {
                 prevState.habits[i].streak = 0;
-                return prevState;
+                return { ...prevState, streaks: prevState.streaks + 1 };
               });
               return;
             }
@@ -187,7 +198,7 @@ export default class HabitOverview extends React.Component {
             }
             this.setState((prevState) => {
               prevState.habits[i].streak = count;
-              return prevState;
+              return { ...prevState, streaks: prevState.streaks + 1 };
             });
           },
           (txObj, error) => {
@@ -236,10 +247,24 @@ export default class HabitOverview extends React.Component {
     );
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.loaded) return true;
+    else if (
+      nextState.streaks === nextState.habits.length &&
+      nextState.scores === nextState.habits.length
+    ) {
+      this.setState({ loaded: true });
+      return false;
+    }
+    return false;
+  }
+
   render() {
+    if (!this.state.loaded) return <LoadingScreen />;
     return (
       <View style={styles.mainContainer}>
         <AppStatusBar />
+        {/* Help on empty screen */}
         {this.state.habits.length === 0 && (
           <View
             style={[
@@ -249,22 +274,25 @@ export default class HabitOverview extends React.Component {
               { flexWrap: "wrap" },
             ]}
           >
-            <Text style={styles.secondaryText}>Füge über </Text>
-            <Ionicons
-              name={"add"}
-              size={30}
-              color={colors.SecondaryTextColor}
-            />
-            <Text style={styles.secondaryText}>neue Gewohnheiten ein.</Text>
-            <Text style={styles.secondaryText}>Hilfe kannst du über </Text>
-            <Ionicons
-              name={"help"}
-              size={30}
-              color={colors.SecondaryTextColor}
-            />
-            <Text style={styles.secondaryText}>erhalten</Text>
+            <Text style={styles.secondaryText}>
+              Füge über{" "}
+              <Ionicons
+                name={"add"}
+                size={30}
+                color={colors.SecondaryTextColor}
+              />
+              neue Gewohnheiten ein. Hilfe kannst du über
+              <Ionicons
+                name={"help"}
+                size={30}
+                color={colors.SecondaryTextColor}
+              />
+              erhalten
+            </Text>
           </View>
         )}
+
+        {/* Habits on not empty screen */}
         <FlatList
           data={this.state.habits}
           renderItem={this.renderItem}
