@@ -1,13 +1,12 @@
 import React from "react";
-import { Text, View, TouchableOpacity, Button, Vibration } from "react-native";
+import { Text, View, Vibration } from "react-native";
 import styles from "./styles.js";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import PrimaryButton from "./components/PrimaryButton.js";
 import TextButton from "./components/TextButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
 import LoadingScreen from "./components/LoadingScreen.js";
+
 const db = SQLite.openDatabase("pomodoro.db");
 
 const WORK = "working";
@@ -53,7 +52,6 @@ class PomodoroTimer extends React.Component {
 
   // fetches the settings from the db
   fetchData = (refresh) => {
-    console.log("Fetching data for pomodoro...");
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM pomodoroSettings ORDER BY id LIMIT 1",
@@ -80,7 +78,7 @@ class PomodoroTimer extends React.Component {
     this._unsubscribe = this.props.navigation.addListener(
       "focus",
       (payload) => {
-        this.fetchData(true);
+        if (this.state.data_loaded) this.fetchData(true);
       }
     );
     this.props.navigation.setOptions({
