@@ -52,7 +52,7 @@ export default class HabitOverview extends React.Component {
       "focus",
       (payload) => {
         if (this.state.loaded) {
-          this.setState({ loaded: false });
+          this.setState({ loaded: false, streaks: 0, scores: 0 });
           this.fetchData();
         }
       }
