@@ -1,8 +1,6 @@
 import React from "react";
-import { FlatList, View, TouchableOpacity, StyleSheet } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { FlatList, View } from "react-native";
 import styles from "./styles.js";
-import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import Habit from "./components/Habit.js";
 import BackButton from "./components/BackButton.js";
