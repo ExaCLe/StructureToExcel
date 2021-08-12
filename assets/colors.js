@@ -1,4 +1,5 @@
 export const PrimaryAccentColor = "#F00943";
+export const LightPrimaryAccentColor = "#FDC0CF";
 export const PrimaryTextColor = "#ffffff";
 export const SecondaryTextColor = "#A1A1A1";
 export const SecondaryAccentColor = "#d4d4d4";

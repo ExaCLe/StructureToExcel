@@ -6,6 +6,7 @@ import PrimaryButton from "./components/PrimaryButton.js";
 import TextButton from "./components/TextButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
 import LoadingScreen from "./components/LoadingScreen.js";
+import * as colors from "./../assets/colors.js";
 
 const db = SQLite.openDatabase("pomodoro.db");
 
@@ -106,18 +107,52 @@ class PomodoroTimer extends React.Component {
       });
   };
   render() {
+    console.log(
+      (this.state.time /
+        (this.state.interval === WORK
+          ? this.state.workingInterval * 60
+          : this.state.breakInterval * 60)) *
+        100
+    );
     if (this.state.data_loaded) {
       return (
         <View style={[styles.mainContainer, styles.flexContainer]}>
-          <Text
-            style={[styles.veryBigText, { color: global.color }, styles.center]}
-          >
+          <Text style={[styles.pomTimer, styles.center]}>
             {Math.floor(this.state.time / 60) +
               ":" +
               (this.state.time % 60 < 10
                 ? "0" + (this.state.time % 60)
                 : this.state.time % 60)}
           </Text>
+          <View
+            style={{
+              width: "100%",
+              height: 20,
+              marginBottom: 20,
+              backgroundColor: colors.LightPrimaryAccentColor,
+              borderRadius: 10,
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
+            }}
+          >
+            <View
+              style={{
+                width: `${
+                  100 -
+                  (this.state.time /
+                    (this.state.interval === WORK
+                      ? this.state.workingInterval * 60
+                      : this.state.breakInterval * 60)) *
+                    100
+                }%`,
+                height: "100%",
+                backgroundColor: colors.PrimaryAccentColor,
+                borderRadius: 10,
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
+              }}
+            ></View>
+          </View>
           <PrimaryButton
             text={this.state.state === PAUSE ? "Starten" : "Pausieren"}
             onPress={() => {

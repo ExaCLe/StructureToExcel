@@ -61,6 +61,15 @@ const styles = (() => {
       elevation: 6,
       shadowOffset: { width: 5, height: 5 },
     },
+    pomTimer: {
+      color: global.color,
+      fontSize: 140,
+      shadowColor: "grey",
+      shadowRadius: 1,
+      shadowOpacity: 0.3,
+      elevation: 6,
+      shadowOffset: { width: 5, height: 5 },
+    },
     paddingBottom: {
       paddingBottom: 10,
     },
