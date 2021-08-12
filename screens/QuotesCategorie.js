@@ -13,31 +13,36 @@ import SmallPrimaryButton from "./components/SmallPrimaryButton.js";
 import BackButton from "./components/BackButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
 import LoadingScreen from "./components/LoadingScreen.js";
+import FavoritesHelp from "./components/FavoritesHelp.js";
 
 class QuotesCategorie extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { count: 0, favorites: [], fetchedData: false, number: 4 };
+    this.state = {
+      count: 0,
+      favorites: [],
+      fetchedData: false,
+      favoriteEvaluated: false,
+      number: 4,
+    };
     this.fetchData();
   }
   setCount = (number) => {
-    this.setState(
-      { count: number, number: Math.floor(Math.random() * 4) },
-      this.favorite
-    );
+    if (number < 0) number = 0;
+    this.setState({ count: number, favoriteEvaluated: false }, this.favorite);
   };
   favorite = () => {
     if (this.props.route.params.categorie === categories.FAVORITES) {
-      this.setState({ favorite: true });
+      this.setState({ favorite: true, favoriteEvaluated: true });
       return;
     }
     const id = parseInt(
       Quotes[this.props.route.params.categorie][this.state.count]["key"]
     );
     if (this.state.favorites.find((ele) => ele.id === id)) {
-      this.setState({ favorite: true });
+      this.setState({ favorite: true, favoriteEvaluated: true });
     } else {
-      this.setState({ favorite: false });
+      this.setState({ favorite: false, favoriteEvaluated: true });
     }
   };
   // gets the data for the goals out of the database
@@ -70,14 +75,19 @@ class QuotesCategorie extends React.Component {
   setHeaderHeart = () => {
     this.props.navigation.setOptions({
       headerRight: () => {
+        if (
+          this.props.route.params.categorie === categories.FAVORITES &&
+          this.state.favorites.length === 0
+        )
+          return null;
         return (
           <View style={styles.row}>
             <HeaderIcon
-              name="heart"
+              name={this.state.favorite ? "heart" : "heart-outline"}
               onPress={() => {
                 const categorie = this.props.route.params.categorie;
                 const sql = this.state.favorite
-                  ? "UPDATE favorites WHERE id=?"
+                  ? "DELETE FROM favorites WHERE id=?"
                   : "INSERT INTO favorites (id, categorie) VALUES (?, ?) ";
                 const key =
                   this.props.route.params.categorie === categories.FAVORITES
@@ -95,7 +105,10 @@ class QuotesCategorie extends React.Component {
                         this.props.route.params.categorie ===
                         categories.FAVORITES
                       ) {
-                        if (this.state.count === 0)
+                        if (
+                          this.state.count === 0 &&
+                          this.state.favorites.length !== 0
+                        )
                           this.setCount(this.state.favorites.length - 2);
                         else this.setCount(this.state.count - 1);
                       }
@@ -128,6 +141,9 @@ class QuotesCategorie extends React.Component {
         );
       },
     });
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.fetchedData && nextState.favoriteEvaluated;
   }
   getBackgroundImage = () => {
     return require("./../assets/wallpapers/b-4.jpg");
@@ -166,13 +182,16 @@ class QuotesCategorie extends React.Component {
     }
   };
   render() {
+    if (!(this.state.fetchedData && this.state.favoriteEvaluated))
+      return <LoadingScreen />;
+    console.log("UPDATING", this.state);
     const deviceWidth = Dimensions.get("window").width;
     if (
       this.props.route.params.categorie === categories.FAVORITES &&
       (this.state.favorites.length <= this.state.count ||
         this.state.favorites.length === 0)
     )
-      return <LoadingScreen />;
+      return <FavoritesHelp />;
     let quote;
     if (this.props.route.params.categorie === categories.FAVORITES)
       quote = Quotes[this.state.favorites[this.state.count].categorie].find(
