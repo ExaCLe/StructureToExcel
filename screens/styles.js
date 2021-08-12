@@ -15,8 +15,10 @@ const styles = (() => {
     },
     mainContainer: {
       margin: 0,
-      padding: 20,
+      paddingLeft: 20,
       backgroundColor: colors.BackgroundColor,
+      paddingTop: 20,
+      paddingRight: 20,
       flex: 1,
     },
     dateTimePicker: { color: colors.PrimaryAccentColor },
