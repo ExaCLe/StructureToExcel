@@ -42,19 +42,13 @@ class Goal extends React.Component {
     return (
       <View>
         <TouchableOpacity
-          style={{
-            height: 75,
-            marginBottom: 10,
-            marginTop: 10,
-            marginRight: 10,
-            marginLeft: 10,
-            borderRadius: 10,
-            backgroundColor:
-              colors.SecondaryPriorityColors[this.props.goal.priority - 1],
-            justifyContent: "center",
-            alignContent: "center",
-            display: "flex",
-          }}
+          style={[
+            styles.habitContainer,
+            {
+              backgroundColor:
+                colors.SecondaryPriorityColors[this.props.goal.priority - 1],
+            },
+          ]}
           onPress={() =>
             this.props.navigation.navigate("GoalsDetails", {
               ...this.props.goal,

@@ -1,31 +1,21 @@
 import React from "react";
-import { Text, View, Button, TouchableOpacity, FlatList } from "react-native";
+import { Text, View, FlatList } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
 import Goal from "./components/Goal.js";
 import * as SQLite from "expo-sqlite";
 import { DAY, WEEK, MONTH } from "../assets/intervals.js";
-import PrimaryButton from "./components/PrimaryButton.js";
 import BackButton from "./components/BackButton.js";
 import SmallPrimaryButton from "./components/SmallPrimaryButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
+import LoadingScreen from "./components/LoadingScreen.js";
 const db = SQLite.openDatabase("goals.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
-
 class OverviewGoals extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { goals: [], period: DAY };
-    // create a table for the habits if not existing already
-    // db.transaction((tx) => {
-    //   tx.executeSql(
-    //     "DROP TABLE goals ;",
-    //     null,
-    //     () => {},
-    //     (txObj, error) => {}
-    //   );
-    // });
+    this.state = { goals: [], period: DAY, loaded: false, workedGoals: 0 };
     this.createDatabases();
   }
   createDatabases = () => {
@@ -34,21 +24,17 @@ class OverviewGoals extends React.Component {
         "CREATE TABLE IF NOT EXISTS goals (id INTEGER PRIMARY KEY, name TEXT, priority INTEGER, intervall INTEGER, repetitions INTEGER, icon TEXT, progress INT, time BOOLEAN, version INTEGER NOT NULL DEFAULT 0, object_id TEXT, deleted BOOLEAN DEFAULT 0, archive BOOLEAN, act_id INTEGER);",
         null,
         // success
-        () => {
-          console.log("success");
-        },
+        () => {},
         // error
         (txObj, error) => {
           console.log(error);
         }
       );
     });
-    // get the goals from the database
     this.fetchData();
   };
   // gets the data for the goals out of the database
   fetchData = () => {
-    console.log("Fetching data for goals...");
     const sql =
       !this.props.route.params || !this.props.route.params.archive
         ? "SELECT * FROM goals WHERE intervall = ? AND (archive = 0 OR archive is NULL) AND (deleted=0 OR deleted IS NULL) ORDER BY priority"
@@ -58,7 +44,6 @@ class OverviewGoals extends React.Component {
         sql,
         [this.state.period],
         async (txObj, { rows: { _array } }) => {
-          console.log(_array);
           _array.map((ele, index) => {
             if (ele.time)
               tracking.transaction((tt) => {
@@ -86,15 +71,23 @@ class OverviewGoals extends React.Component {
                     });
                     this.setState((prev) => {
                       prev.goals[index].progress = time;
-                      return { goals: prev.goals };
+                      return {
+                        goals: prev.goals,
+                        workedGoals: prev.workedGoals + 1,
+                      };
                     });
                   }
                 );
               });
+            else {
+              this.setState((prevState) => {
+                return { workedGoals: prevState.workedGoals + 1 };
+              });
+            }
           });
           this.setState({ goals: _array });
         },
-        (txObj, error) => this.createDatabases()
+        (txObj, error) => console.log(error)
       );
     });
   };
@@ -105,7 +98,7 @@ class OverviewGoals extends React.Component {
     this._unsubscribe = this.props.navigation.addListener(
       "focus",
       (payload) => {
-        this.fetchData();
+        if (this.state.loaded) this.fetchData();
       }
     );
     this.props.navigation.setOptions({
@@ -168,13 +161,21 @@ class OverviewGoals extends React.Component {
   }
   // changes the view to DAY, WEEK or MONTH given by the argument
   changeView = (view) => {
-    this.setState({ period: view });
+    this.setState({ period: view, loaded: false });
   };
   // renders an habit entry in the flat list
   renderItem = (obj) => {
     return <Goal goal={obj.item} navigation={this.props.navigation} />;
   };
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.loaded) return true;
+    if (nextState.workedGoals === nextState.goals.length) {
+      this.setState({ loaded: true, workedGoals: 0 });
+    }
+    return false;
+  }
   render() {
+    if (!this.state.loaded) return <LoadingScreen />;
     const changeView = this.changeView;
     return (
       <View
@@ -188,15 +189,9 @@ class OverviewGoals extends React.Component {
           },
         ]}
       >
+        {/* Help on empty screen */}
         {this.state.goals.length === 0 && (
-          <View
-            style={[
-              styles.containerHorizontal,
-              styles.margin,
-              styles.padding,
-              { flexWrap: "wrap" },
-            ]}
-          >
+          <View style={[styles.containerHorizontal, { flexWrap: "wrap" }]}>
             <Text style={styles.secondaryText}>Füge über </Text>
             <Ionicons
               name={"add"}
@@ -213,14 +208,30 @@ class OverviewGoals extends React.Component {
             <Text style={styles.secondaryText}>erhalten</Text>
           </View>
         )}
+
+        {/* Goals in FlatList otherwise */}
         <View>
           <FlatList
             data={this.state.goals}
             renderItem={this.renderItem}
             keyExtractor={(item) => String(item.id)}
+            style={{ height: "100%" }}
           />
         </View>
-        <View style={[styles.containerHorizontal]}>
+
+        {/* View Changing Buttons */}
+        <View
+          style={[
+            styles.containerHorizontal,
+            {
+              position: "absolute",
+              bottom: 5,
+              width: "100%",
+              left: 20,
+              justifyContent: "center",
+            },
+          ]}
+        >
           <SmallPrimaryButton
             text={"Tag"}
             onPress={() => {
