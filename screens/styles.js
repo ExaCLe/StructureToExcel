@@ -24,6 +24,9 @@ const styles = (() => {
       marginTop: 10,
       marginBottom: 10,
     },
+    downMargin: {
+      marginBottom: 200,
+    },
     fullHeight: {
       height: "100%",
     },

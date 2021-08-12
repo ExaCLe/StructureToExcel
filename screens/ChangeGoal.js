@@ -123,7 +123,11 @@ class ChangeGoal extends React.Component {
       alert("Bitte ein Intervall auswählen");
       return;
     }
-    if (!this.state.repetitions) {
+    if (
+      !this.state.repetitions &&
+      this.state.repetitions !== "0" &&
+      this.state.repetitions !== 0
+    ) {
       alert("Bitte eine Ziel-Zahl eintragen");
       return;
     }
@@ -135,7 +139,12 @@ class ChangeGoal extends React.Component {
       alert("Bitte eine Aktivität ausfüllen");
       return;
     }
-    if (!this.state.progress && !this.state.time) {
+    if (
+      !this.state.progress &&
+      this.state.progress !== "0" &&
+      this.state.progress !== 0 &&
+      !this.state.time
+    ) {
       alert("Bitte einen Fortschritt eintragen");
       return;
     }
@@ -359,7 +368,9 @@ class ChangeGoal extends React.Component {
             <Textfield
               placeholder="6"
               value={
-                this.state.progress || this.state.progress === "0"
+                this.state.progress ||
+                this.state.progress === "0" ||
+                this.state.progress === 0
                   ? this.state.progress + ""
                   : ""
               }
@@ -374,7 +385,13 @@ class ChangeGoal extends React.Component {
             <Text style={[styles.secondaryText, styles.margin]}>von</Text>
             <Textfield
               placeholder="12"
-              value={this.state.repetitions ? this.state.repetitions + "" : ""}
+              value={
+                this.state.repetitions ||
+                this.state.repetitions === 0 ||
+                this.state.repetitions === "0"
+                  ? this.state.repetitions + ""
+                  : ""
+              }
               onChangeText={(text) => {
                 if (+text || text === "")
                   this.setState({ repetitions: text, change: true });
@@ -424,6 +441,7 @@ class ChangeGoal extends React.Component {
           onPress={() => {
             this.handleSave();
           }}
+          style={[styles.extraMargin, styles.downMargin]}
         />
       </ScrollView>
     );

@@ -142,7 +142,7 @@ class ChangeHabit extends React.Component {
             this.state.name,
             this.state.goalIntervall,
             this.state.priority,
-            0,
+            this.state.repetitions,
             this.state.icon,
             0,
             false,
