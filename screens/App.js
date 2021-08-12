@@ -425,6 +425,6 @@ export default class App extends React.Component {
           </Tab.Navigator>
         </NavigationContainer>
       );
-    } else return <LoadingScreen />;
+    } else return null;
   }
 }
