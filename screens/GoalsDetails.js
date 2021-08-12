@@ -9,6 +9,7 @@ import { toTime } from "../helpers/Time.js";
 import PrimaryButton from "./components/PrimaryButton.js";
 import BackButton from "./components/BackButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
+import InformationRow from "./components/InformationRow.js";
 
 const db = SQLite.openDatabase("goals.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
@@ -113,92 +114,69 @@ class GoalsDetails extends React.Component {
       );
     });
   };
+  handleArchive = () => {
+    if (!this.props.route.params.archive)
+      Alert.alert(
+        "Archive Goal",
+        "Möchtest du das Ziel wirklich archivieren? Dann ist es nur noch über das Archiv einsehbar.",
+        [
+          { text: "Nein" },
+          {
+            text: "Ja",
+            onPress: () => {
+              this.archiveGoal(true);
+            },
+          },
+        ]
+      );
+    else
+      Alert.alert(
+        "Revive Goal",
+        "Möchtest du das Ziel wirklich wieder aktivieren? ",
+        [
+          { text: "Nein" },
+          {
+            text: "Ja",
+            onPress: () => {
+              this.archiveGoal(false);
+            },
+          },
+        ]
+      );
+  };
+  intervall = ["Tag", "Woche", "Monat"];
 
   render() {
-    console.log(this.props.route.params);
     return (
       <View style={styles.mainContainer}>
-        <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText, styles.columnSize]}>Name: </Text>
-          <Text
-            style={[{ color: global.color }, styles.textBig, styles.margin]}
-          >
-            {this.props.route.params.name}
-          </Text>
-        </View>
-        <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText, styles.columnSize]}>
-            Priorität:{" "}
-          </Text>
-          <Text
-            style={[{ color: global.color }, styles.textBig, styles.margin]}
-          >
-            {this.props.route.params.priority}
-          </Text>
-        </View>
-        <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText, styles.columnSize]}>
-            Interval:{" "}
-          </Text>
-          <Text
-            style={[{ color: global.color }, styles.textBig, styles.margin]}
-          >
-            {this.props.route.params.intervall === DAY
-              ? "Tag"
-              : this.props.route.params.intervall === MONTH
-              ? "Monat"
-              : "Woche"}
-          </Text>
-        </View>
-        <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText, styles.columnSize]}>
-            Fortschritt:{" "}
-          </Text>
-          <Text
-            style={[{ color: global.color }, styles.textBig, styles.margin]}
-          >
-            {this.props.route.params.time
+        <InformationRow content={this.props.route.params.name} label="Name:" />
+        <InformationRow
+          content={this.props.route.params.priority}
+          label="Priorität:"
+        />
+        <InformationRow
+          content={this.intervall[this.props.route.params.intervall - 1]}
+          label="Intervall:"
+        />
+        <InformationRow
+          content={
+            this.props.route.params.time
               ? toTime(this.props.route.params.progress) +
                 " / " +
                 this.props.route.params.repetitions +
                 " h"
               : this.props.route.params.progress +
                 " von " +
-                this.props.route.params.repetitions}
-          </Text>
-        </View>
+                this.props.route.params.repetitions
+          }
+          label="Fortschritt:"
+        />
         <PrimaryButton
           text={this.props.route.params.archive ? "Reanimieren" : "Archivieren"}
           onPress={() => {
-            if (!this.props.route.params.archive)
-              Alert.alert(
-                "Archive Goal",
-                "Möchtest du das Ziel wirklich archivieren? Dann ist es nur noch über das Archiv einsehbar.",
-                [
-                  { text: "Nein" },
-                  {
-                    text: "Ja",
-                    onPress: () => {
-                      this.archiveGoal(true);
-                    },
-                  },
-                ]
-              );
-            else
-              Alert.alert(
-                "Revive Goal",
-                "Möchtest du das Ziel wirklich wieder aktivieren? ",
-                [
-                  { text: "Nein" },
-                  {
-                    text: "Ja",
-                    onPress: () => {
-                      this.archiveGoal(false);
-                    },
-                  },
-                ]
-              );
+            this.handleArchive();
           }}
+          style={styles.topDownMargin}
         />
       </View>
     );

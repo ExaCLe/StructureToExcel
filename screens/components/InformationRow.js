@@ -6,7 +6,7 @@ import * as colors from "../../assets/colors.js";
 
 const InformationRow = (props) => {
   return (
-    <View style={styles.containerHorizontal}>
+    <View style={[styles.containerHorizontal, styles.topDownMargin]}>
       <Text style={[styles.secondaryText, styles.columnSize]}>
         {props.label}
       </Text>
