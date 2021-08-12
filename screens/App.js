@@ -32,6 +32,7 @@ import SettingsScreen from "./Settings.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoginScreen from "./LoginScreen.js";
 import Help from "./Help.js";
+import LoadingScreen from "./components/LoadingScreen.js";
 
 const StackHabits = createStackNavigator();
 
@@ -264,7 +265,7 @@ function Goals() {
 }
 function Tracking() {
   return (
-    <StackTracking.Navigator initialRouteName="ChangeTracking">
+    <StackTracking.Navigator>
       <StackTracking.Screen
         name="TrackingOverview"
         component={TrackingOverview}
@@ -381,7 +382,7 @@ export default class App extends React.Component {
       return (
         <NavigationContainer>
           <Tab.Navigator
-            initialRouteName="Tracking"
+            initialRouteName="Habits"
             screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName;
@@ -424,6 +425,6 @@ export default class App extends React.Component {
           </Tab.Navigator>
         </NavigationContainer>
       );
-    } else return null;
+    } else return <LoadingScreen />;
   }
 }

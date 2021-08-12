@@ -7,6 +7,7 @@ import * as SQLite from "expo-sqlite";
 import PrimaryButton from "./components/PrimaryButton.js";
 import TextButton from "./components/TextButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
+import LoadingScreen from "./components/LoadingScreen.js";
 const db = SQLite.openDatabase("pomodoro.db");
 
 const WORK = "working";
@@ -159,7 +160,7 @@ class PomodoroTimer extends React.Component {
           />
         </View>
       );
-    } else return null;
+    } else return <LoadingScreen />;
   }
 }
 

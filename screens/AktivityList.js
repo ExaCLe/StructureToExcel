@@ -7,6 +7,7 @@ import AktivityListObject from "./components/AktivityListObject.js";
 import BackButton from "./components/BackButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
 import TrackingHelp from "./components/TrackingHelp.js";
+import LoadingScreen from "./components/LoadingScreen.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AktivityList extends React.Component {
@@ -78,7 +79,7 @@ class AktivityList extends React.Component {
     );
   };
   render() {
-    if (!this.state.loaded) return null;
+    if (!this.state.loaded) return <LoadingScreen />;
     return (
       <View style={styles.mainContainer}>
         {/* Help on empty screen */}

@@ -10,6 +10,7 @@ import HeaderIcon from "./components/HeaderIcon.js";
 import { toTime } from "../helpers/Time.js";
 import Last5Statistics from "./components/Last5Statistics.js";
 import InformationRow from "./components/InformationRow.js";
+import LoadingScreen from "./components/LoadingScreen.js";
 
 const db = SQLite.openDatabase("aktivitys.db");
 const SHOWING = "showing";
@@ -234,7 +235,7 @@ class AktivityDetails extends React.Component {
     return true;
   }
   render() {
-    if (!this.state.loaded) return null;
+    if (!this.state.loaded) return <LoadingScreen />;
     console.log(this.state.state);
     return (
       <View style={styles.mainContainer}>

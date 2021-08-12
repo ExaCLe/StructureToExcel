@@ -7,6 +7,7 @@ import * as SQLite from "expo-sqlite";
 import BackButton from "./components/BackButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
 import Divider from "./components/Divider.js";
+import LoadingScreen from "./components/LoadingScreen.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class AktivityChooser extends React.Component {
@@ -89,7 +90,7 @@ class AktivityChooser extends React.Component {
     );
   };
   render() {
-    if (!this.state.loaded) return null;
+    if (!this.state.loaded) return <LoadingScreen />;
     return (
       <View stlye={styles.mainContainer}>
         <FlatList
