@@ -905,7 +905,7 @@ class Settings extends React.Component {
           text="Clear Habits Database"
           onPress={() => {
             habits.transaction((tx) => {
-              tx.executeSql("DELTE FROM habits", null, null, (txObj, error) =>
+              tx.executeSql("DELETE FROM habits", null, null, (txObj, error) =>
                 console.log(error)
               );
               tx.executeSql("DELETE FROM checkHabits", null, () => {
