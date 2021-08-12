@@ -1,17 +1,10 @@
 import React from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  BackHandler,
-} from "react-native";
+import { View } from "react-native";
 import styles from "./styles.js";
-import * as colors from "../assets/colors.js";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import BackButton from "./components/BackButton.js";
 import TextfieldAndLabel from "./components/TextfieldAndLabel.js";
+
 const db = SQLite.openDatabase("pomodoro.db");
 
 class PomodoroSettings extends React.Component {
@@ -28,8 +21,6 @@ class PomodoroSettings extends React.Component {
   }
   // fetches the settings from the db
   fetchData = async () => {
-    console.log("Fetching data for pomodoro-settings...");
-    let result;
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM pomodoroSettings ORDER BY id LIMIT 1",
@@ -85,16 +76,17 @@ class PomodoroSettings extends React.Component {
     return (
       <View style={styles.mainContainer}>
         <TextfieldAndLabel
-          label="Arbeitsintervalllänge in Minuten: "
+          label="Intervall in min: "
           onChangeText={(text) => {
             if (+text || text === "" || text === "0" || text === "0.")
               this.setState({ workingInterval: text });
           }}
           keyboardType="numeric"
           value={"" + this.state.workingInterval}
-          width="30%"
+          width="70%"
           textAlign="center"
           labelWidth="30%"
+          style={styles.topDownMargin}
         />
         <TextfieldAndLabel
           value={this.state.breakInterval + ""}
@@ -102,21 +94,11 @@ class PomodoroSettings extends React.Component {
             if (+text || text === "") this.setState({ breakInterval: text });
           }}
           keyboardType="numeric"
-          width="30%"
+          width="70%"
           textAlign="center"
-          label="Pausenintervalllänge in Minuten: "
+          label="Pause in min: "
           labelWidth="30%"
-        />
-        <TextfieldAndLabel
-          keyboardType="numeric"
-          width="30%"
-          textAlign="center"
-          label="Lange Pause nach (Intervallen): "
-          value={this.state.longBreakAfter + ""}
-          onChangeText={(text) => {
-            if (+text || text === "") this.setState({ longBreakAfter: text });
-          }}
-          labelWidth="30%"
+          style={styles.topDownMargin}
         />
       </View>
     );
