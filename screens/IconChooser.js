@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
-import * as colors from "../assets/colors.js";
 import icons from "../assets/icons.js";
 import BackButton from "./components/BackButton.js";
 
@@ -34,7 +33,7 @@ class IconChooser extends React.Component {
     return <Text style={[styles.secondaryText, styles.padding]}>{title}</Text>;
   };
   renderSectionListItem = ({ item }) => {
-    return <FlatList data={item} numColumns={8} renderItem={this.renderItem} />;
+    return <FlatList data={item} numColumns={7} renderItem={this.renderItem} />;
   };
   // renders an habit entry in the flat list
   renderItem = (obj) => {
@@ -77,7 +76,7 @@ class IconChooser extends React.Component {
           sections={icons}
           renderItem={this.renderSectionListItem}
           renderSectionHeader={this.renderHeader}
-          numColumns={8}
+          numColumns={7}
         />
       </View>
     );
