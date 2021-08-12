@@ -905,10 +905,10 @@ class Settings extends React.Component {
           text="Clear Habits Database"
           onPress={() => {
             habits.transaction((tx) => {
-              tx.executeSql("DROP TABLE habits", null, null, (txObj, error) =>
+              tx.executeSql("DELTE FROM habits", null, null, (txObj, error) =>
                 console.log(error)
               );
-              tx.executeSql("DROP TABLE checkHabits", null, () => {
+              tx.executeSql("DELETE FROM checkHabits", null, () => {
                 alert("Deleted Database.", (txObj, error) =>
                   console.log(error)
                 );
@@ -920,7 +920,7 @@ class Settings extends React.Component {
           text="Clear Goals Database"
           onPress={() => {
             goals.transaction((tx) => {
-              tx.executeSql("DROP TABLE goals", null, () => {
+              tx.executeSql("DELETE FROM goals", null, () => {
                 alert("Deleted database. ", (txObj, error) =>
                   console.log(error)
                 );
@@ -933,12 +933,12 @@ class Settings extends React.Component {
           onPress={() => {
             aktivities.transaction((tx) => {
               tx.executeSql(
-                "DROP TABLE activities",
+                "DELETE FROM activities",
                 null,
                 null,
                 (txObj, error) => console.log(error)
               );
-              tx.executeSql("DROP TABLE trackings", null, () => {
+              tx.executeSql("DELETE FROM trackings", null, () => {
                 alert("Database deleted.");
               });
             });
