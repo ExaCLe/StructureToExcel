@@ -14,6 +14,7 @@ if (Platform.OS === "android") {
   Parse.serverURL = "https://parseapi.back4app.com/";
 } else {
   // Open Dashboard: parse-dashboard --dev --appId myAppId --masterKey master --serverURL "https://test-parse-server-for-app.herokuapp.com/parse" --appName ParseServerTest
+  // See free Dyno Hours: heroku ps -a test-parse-server-for-app
   Parse.initialize("myAppId");
   Parse.serverURL = "https://test-parse-server-for-app.herokuapp.com/parse";
 }
