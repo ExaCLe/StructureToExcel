@@ -20,7 +20,6 @@ class GoalsDetails extends React.Component {
     if (props.route.params.time) this.fetchAktivity();
   }
   fetchAktivity = () => {
-    console.log("Fetching");
     tracking.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM activities WHERE id = ? AND (deleted=0 OR deleted IS NULL)",
@@ -39,16 +38,7 @@ class GoalsDetails extends React.Component {
       );
     });
   };
-  componentWillUnmount() {
-    this._unsubscribe();
-  }
   componentDidMount() {
-    this._unsubscribe = this.props.navigation.addListener(
-      "focus",
-      (payload) => {
-        this.render();
-      }
-    );
     // add the button to the top
     this.props.navigation.setOptions({
       title: this.props.route.params.name + " Details",
@@ -76,39 +66,42 @@ class GoalsDetails extends React.Component {
           <HeaderIcon
             name="trash"
             onPress={() => {
-              Alert.alert(
-                "Delete Goal",
-                "Möchtest du das Ziel wirklich löschen? Dieser Vorgang ist unwiederruflich.",
-                [
-                  { text: "Nein" },
-                  {
-                    text: "Ja",
-                    onPress: () => {
-                      db.transaction((tx) => {
-                        tx.executeSql(
-                          "UPDATE goals SET deleted=1, version=? WHERE id=?",
-                          [
-                            this.props.route.params.version + 1,
-                            this.props.route.params.id,
-                          ],
-                          () => {
-                            this.props.navigation.goBack();
-                          },
-                          (txObj, error) => {
-                            console.log(error);
-                          }
-                        );
-                      });
-                    },
-                  },
-                ]
-              );
+              this.confirmDelete();
             }}
           />
         </View>
       ),
     });
   }
+  confirmDelete = () => {
+    Alert.alert(
+      "Delete Goal",
+      "Möchtest du das Ziel wirklich löschen? Dieser Vorgang ist unwiederruflich.",
+      [
+        { text: "Nein" },
+        {
+          text: "Ja",
+          onPress: () => {
+            db.transaction((tx) => {
+              tx.executeSql(
+                "UPDATE goals SET deleted=1, version=? WHERE id=?",
+                [
+                  this.props.route.params.version + 1,
+                  this.props.route.params.id,
+                ],
+                () => {
+                  this.props.navigation.goBack();
+                },
+                (txObj, error) => {
+                  console.log(error);
+                }
+              );
+            });
+          },
+        },
+      ]
+    );
+  };
   archiveGoal = (bool) => {
     db.transaction((tx) => {
       tx.executeSql(
