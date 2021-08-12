@@ -78,7 +78,7 @@ class PomodoroSettings extends React.Component {
         <TextfieldAndLabel
           label="Intervall in min: "
           onChangeText={(text) => {
-            if (+text || text === "" || text === "0" || text === "0.")
+            if (+text || text === "" || text === "0")
               this.setState({ workingInterval: text });
           }}
           keyboardType="numeric"

@@ -107,13 +107,6 @@ class PomodoroTimer extends React.Component {
       });
   };
   render() {
-    console.log(
-      (this.state.time /
-        (this.state.interval === WORK
-          ? this.state.workingInterval * 60
-          : this.state.breakInterval * 60)) *
-        100
-    );
     if (this.state.data_loaded) {
       return (
         <View style={[styles.mainContainer, styles.flexContainer]}>
