@@ -21,6 +21,9 @@ const styles = (() => {
       paddingRight: 20,
       flex: 1,
     },
+    textAlignCenter: {
+      textAlign: "center",
+    },
     dateTimePicker: { color: colors.PrimaryAccentColor },
     topDownMargin: {
       marginTop: 10,
@@ -187,6 +190,8 @@ const styles = (() => {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
+      flexWrap: "wrap",
+      maxWidth: 378,
     },
     containerHorizontal: {
       display: "flex",
@@ -224,7 +229,11 @@ const styles = (() => {
     textCenter: {
       textAlign: "center",
     },
-
+    alignItemsCenter: {
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+    },
     accentColorText: {
       color: global.color,
     },
@@ -273,6 +282,10 @@ const styles = (() => {
     },
     flexContainer: {
       display: "flex",
+    },
+    habitStatEntry: {
+      display: "flex",
+      alignItems: "center",
     },
     center: {
       alignSelf: "center",

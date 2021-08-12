@@ -40,4 +40,14 @@ export const extractTimeDetailed = (time) => {
   )} Uhr`;
 };
 
+const daysOfTheWeek = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+
+export const extractDateWithDayOfWeek = (time) => {
+  const date = new Date(time);
+  const day = date.getDay();
+  return `${daysOfTheWeek[day]}. ${zeroPad(date.getDate())}.${zeroPad(
+    date.getMonth()
+  )}`;
+};
+
 const zeroPad = (num) => String(num).padStart(2, "0");

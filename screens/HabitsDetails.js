@@ -9,6 +9,8 @@ import BackButton from "./components/BackButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
 import InformationRow from "./components/InformationRow.js";
 import LoadingScreen from "./components/LoadingScreen.js";
+import { extractDateWithDayOfWeek } from "./../helpers/Time.js";
+import HabitStats from "./components/HabitStats.js";
 
 const db = SQLite.openDatabase("habits.db");
 
@@ -190,19 +192,15 @@ class HabitsDetails extends React.Component {
     const result = this.props.route.params.repetitions + " Mal pro " + interval;
     return result;
   };
-  calculateDate = (index) => {
-    const time = this.state.now - 1000 * 86400 * index;
-    const date = new Date(time);
-    return date.getDate() + "." + (date.getMonth() + 1);
-  };
+
   addCheck = (index, bool) => {
     if (!bool) {
-      this.confirmAdd();
+      this.confirmAdd(index);
     } else {
-      this.confirmDeleteEntry();
+      this.confirmDeleteEntry(index);
     }
   };
-  confirmDeleteEntry = () => {
+  confirmDeleteEntry = (index) => {
     Alert.alert(
       "Löschen",
       "Möchtest du wirklich den Eintrag der Gewohnheit löschen?",
@@ -234,7 +232,7 @@ class HabitsDetails extends React.Component {
       ]
     );
   };
-  confirmAdd = () => {
+  confirmAdd = (index) => {
     Alert.alert(
       "Nachtragen",
       "Möchtest du wirklich die Gewohnheit nachtragen?",
@@ -285,57 +283,27 @@ class HabitsDetails extends React.Component {
           content={Math.round(this.state.score * 100) + " %"}
           label="Score"
         />
-        <InformationRow label="Letzten 7 Tage:" />
-        <View style={styles.containerHorizontalStats}>
-          {!this.state.lastSevenDays && <LoadingScreen />}
-          {this.state.lastSevenDays &&
-            this.state.lastSevenDays.map((bool, index) => {
-              const name = bool ? "checkmark-circle" : "close-circle";
-              const color = bool ? global.color : colors.SecondaryTextColor;
-              return (
-                <View key={index + 1000}>
-                  <TouchableOpacity
-                    onLongPress={() => {
-                      this.addCheck(index, bool);
-                    }}
-                  >
-                    <Ionicons name={name} size={50} color={color} />
-                  </TouchableOpacity>
-                  <Text style={[styles.secondaryText, styles.textSmall]}>
-                    {this.calculateDate(index)}
-                  </Text>
-                </View>
-              );
-            })}
-        </View>
-        <InformationRow label="Letzten 30 Tage:" />
-        <View
-          style={[
-            styles.containerHorizontalStats,
-            { display: "flex", flexWrap: "wrap" },
-          ]}
-        >
-          {!this.state.lastThirtyDays && <LoadingScreen />}
-          {this.state.lastThirtyDays &&
-            this.state.lastThirtyDays.map((bool, index) => {
-              const name = bool ? "checkmark-circle" : "close-circle";
-              const color = bool ? global.color : colors.SecondaryTextColor;
-              return (
-                <View key={index + 1000}>
-                  <TouchableOpacity
-                    onLongPress={() => {
-                      this.addCheck(index, bool);
-                    }}
-                  >
-                    <Ionicons name={name} size={50} color={color} />
-                  </TouchableOpacity>
-                  <Text style={[styles.secondaryText, styles.textSmall]}>
-                    {this.calculateDate(index)}
-                  </Text>
-                </View>
-              );
-            })}
-        </View>
+
+        {/* 7 Tage Stats */}
+        <Text style={[styles.secondaryText, styles.topDownMargin]}>
+          Letzten 7 Tage:
+        </Text>
+        <HabitStats
+          entrys={this.state.lastSevenDays}
+          onLongPress={this.addCheck}
+          now={this.state.now}
+        />
+
+        {/* 30 Tage Stats */}
+        <Text style={[styles.secondaryText, styles.topDownMargin]}>
+          Letzten 30 Tage:
+        </Text>
+        <HabitStats
+          entrys={this.state.lastThirtyDays}
+          onLongPress={this.addCheck}
+          now={this.state.now}
+        />
+
         <PrimaryButton
           text={this.props.route.params.queue ? "To Habits" : "To Queue"}
           onPress={() => {
@@ -343,6 +311,7 @@ class HabitsDetails extends React.Component {
               ? changeQueueState(0)
               : changeQueueState(1);
           }}
+          style={[styles.extraMargin, styles.downMargin]}
         />
       </ScrollView>
     );
