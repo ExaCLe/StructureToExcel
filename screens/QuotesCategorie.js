@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, Text } from "react-native";
+import { View, ImageBackground, Dimensions } from "react-native";
 import styles from "./styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as colors from "../assets/colors.js";
@@ -16,11 +16,14 @@ import HeaderIcon from "./components/HeaderIcon.js";
 class QuotesCategorie extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { count: 0, favorites: [], fetchedData: false };
+    this.state = { count: 0, favorites: [], fetchedData: false, number: 4 };
     this.fetchData();
   }
   setCount = (number) => {
-    this.setState({ count: number }, this.favorite);
+    this.setState(
+      { count: number, number: Math.floor(Math.random() * 4) },
+      this.favorite
+    );
   };
   favorite = () => {
     if (this.props.route.params.categorie === categories.FAVORITES) {
@@ -38,7 +41,6 @@ class QuotesCategorie extends React.Component {
   };
   // gets the data for the goals out of the database
   fetchData = () => {
-    console.log("Fetching data for favorites...");
     const sql =
       this.props.route.params.categorie === categories.FAVORITES
         ? "SELECT * FROM favorites"
@@ -126,7 +128,21 @@ class QuotesCategorie extends React.Component {
       },
     });
   }
+  getRandomBackground = () => {
+    const number = Math.floor(Math.random() * 4);
+    switch (number) {
+      case 0:
+        return require("./../assets/wallpapers/b-1.jpg");
+      case 1:
+        return require("./../assets/wallpapers/b-2.jpg");
+      case 2:
+        return require("./../assets/wallpapers/b-3.jpg");
+      case 3:
+        return require("./../assets/wallpapers/b-4.jpg");
+    }
+  };
   render() {
+    const deviceWidth = Dimensions.get("window").width;
     if (this.props.route.params.categorie === categories.FAVORITES) {
       if (this.state.favorites.length <= this.state.count) return null;
       if (this.state.favorites.length === 0) return null;
@@ -176,16 +192,36 @@ class QuotesCategorie extends React.Component {
       return (
         <View
           style={[
-            styles.margin,
             styles.flexContainer,
-            styles.spaceAround,
-            { height: "100%", backgroundColor: "blue" },
+            {
+              height: "100%",
+              backgroundColor: colors.BackgroundColor,
+              padding: 0,
+              margin: 0,
+            },
           ]}
         >
-          <Zitat
-            {...Quotes[this.props.route.params.categorie][this.state.count]}
-          />
-          <View style={[styles.containerHorizontal]}>
+          <ImageBackground
+            source={this.getRandomBackground()}
+            style={{ width: deviceWidth, height: "100%", display: "flex" }}
+            resizeMode="cover"
+            blurRadius={Platform.OS === "ios" ? 8 : 2}
+          >
+            <Zitat
+              {...Quotes[this.props.route.params.categorie][this.state.count]}
+            />
+          </ImageBackground>
+          <View
+            style={[
+              styles.containerHorizontal,
+              {
+                position: "absolute",
+                bottom: 5,
+                width: "100%",
+                justifyContent: "center",
+              },
+            ]}
+          >
             <SmallPrimaryButton
               icon={"caret-back"}
               onPress={() => {
