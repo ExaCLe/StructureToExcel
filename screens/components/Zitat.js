@@ -8,7 +8,6 @@ import {
   Platform,
 } from "react-native";
 import * as colors from "./../../assets/colors.js";
-import * as fonts from "./../../assets/fonts/fonts.js";
 
 import styles from "../styles.js";
 
@@ -34,63 +33,14 @@ const Zitat = (props) => {
         }}
       >
         <Image
-          style={[
-            styles.image,
-            styles.marginBottom,
-            {
-              borderRadius: 100,
-              height: 200,
-              width: 200,
-              resizeMode: "cover",
-              overflow: "hidden",
-              alignSelf: "flex-end",
-              marginRight: 20,
-              marginTop: 40,
-            },
-          ]}
+          style={[styles.image, styles.marginBottom]}
           source={selectImage(props.from)}
         />
       </View>
 
       <View style={{ alignSelf: "center", marginTop: 10 }}>
-        <Text
-          style={[
-            styles.quote,
-            {
-              color: colors.PrimaryTextColor,
-              textAlign: "center",
-              paddingLeft: 15,
-              paddingRight: 15,
-              fontFamily: fonts.primaryFont,
-              fontSize: 40,
-              shadowColor: "black",
-              shadowRadius: 1,
-              shadowOpacity: 1,
-              elevation: 100,
-              shadowOffset: { width: 3, height: 3 },
-            },
-          ]}
-        >
-          "{props.quote}"
-        </Text>
-        <Text
-          style={
-            (styles.quoteAppend,
-            {
-              color: colors.PrimaryTextColor,
-              textAlign: "center",
-              fontFamily: fonts.primaryFont,
-              fontSize: 20,
-              shadowColor: "black",
-              shadowRadius: 1,
-              shadowOpacity: 1,
-              elevation: 6,
-              shadowOffset: { width: 3, height: 3 },
-            })
-          }
-        >
-          ~ {props.from}
-        </Text>
+        <Text style={[styles.quote]}>"{props.quote}"</Text>
+        <Text style={styles.quoteAppend}>~ {props.from}</Text>
       </View>
     </View>
   );

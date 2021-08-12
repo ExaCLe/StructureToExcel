@@ -203,7 +203,7 @@ class QuotesCategorie extends React.Component {
         >
           <ImageBackground
             source={this.getRandomBackground()}
-            style={{ width: deviceWidth, height: "100%", display: "flex" }}
+            style={[styles.imageBackground, { width: deviceWidth }]}
             resizeMode="cover"
             blurRadius={Platform.OS === "ios" ? 8 : 2}
           >
