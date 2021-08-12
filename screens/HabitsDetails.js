@@ -7,6 +7,8 @@ import * as colors from "../assets/colors.js";
 import PrimaryButton from "./components/PrimaryButton.js";
 import BackButton from "./components/BackButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
+import InformationRow from "./components/InformationRow.js";
+import LoadingScreen from "./components/LoadingScreen.js";
 
 const db = SQLite.openDatabase("habits.db");
 
@@ -14,6 +16,7 @@ class HabitsDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      score: null,
       frequency: this.createFrequencyString(),
       dates: [],
     };
@@ -21,7 +24,7 @@ class HabitsDetails extends React.Component {
   }
 
   fetchData = () => {
-    console.log("Fetching information for details....");
+    this.calculateScore();
     // get the fullfilled dates out of the db
     db.transaction((tx) => {
       tx.executeSql(
@@ -83,48 +86,80 @@ class HabitsDetails extends React.Component {
           <HeaderIcon
             name="trash"
             onPress={() => {
-              Alert.alert(
-                "Delete Habit",
-                "Möchtest du die Gewohnheit wirklich löschen? Das ist ein unwiderruflicher Vorgang.",
-                [
-                  { text: "Nein" },
-                  {
-                    text: "Ja",
-                    onPress: () => {
-                      db.transaction((tx) => {
-                        tx.executeSql(
-                          "UPDATE habits SET deleted = 1, version = ? WHERE id=?",
-                          [
-                            this.props.route.params.version + 2,
-                            this.props.route.params.id,
-                          ],
-                          () => {},
-                          null
-                        );
-                      });
-                      db.transaction((tx) => {
-                        tx.executeSql(
-                          "UPDATE checkHabits SET deleted = 1, version = 1 WHERE habit_id=?",
-                          [this.props.route.params.id],
-                          () => {
-                            this.props.navigation.goBack();
-                          },
-                          (txObj, error) => {
-                            console.log(error);
-                          }
-                        );
-                      });
-                    },
-                  },
-                ]
-              );
+              this.confirmDelete();
             }}
           />
         </View>
       ),
     });
   }
-
+  calculateScore = () => {
+    const expected = 30;
+    const length_intervall =
+      Math.round(30 / this.props.route.params.repetitions) *
+      this.props.route.params.intervall;
+    const sql = `SELECT * FROM checkHabits WHERE habit_id = ? AND date > DATE('now', '-${length_intervall} day') AND (deleted = 0 OR deleted IS NULL)`;
+    db.transaction((tx) => {
+      tx.executeSql(
+        sql,
+        [this.props.route.params.id],
+        (txObj, { rows: { _array } }) => {
+          const length = _array.length;
+          if (length == 0) {
+            this.setState({
+              scores: 0,
+            });
+          } else {
+            const value = length - expected / 2;
+            const score = 1 / (1 + Math.exp(-value * 0.2));
+            this.setState({
+              score: score,
+            });
+          }
+        },
+        (txObj, error) => {
+          console.log(error);
+        }
+      );
+    });
+  };
+  confirmDelete = () => {
+    Alert.alert(
+      "Delete Habit",
+      "Möchtest du die Gewohnheit wirklich löschen? Das ist ein unwiderruflicher Vorgang.",
+      [
+        { text: "Nein" },
+        {
+          text: "Ja",
+          onPress: () => {
+            db.transaction((tx) => {
+              tx.executeSql(
+                "UPDATE habits SET deleted = 1, version = ? WHERE id=?",
+                [
+                  this.props.route.params.version + 2,
+                  this.props.route.params.id,
+                ],
+                () => {},
+                null
+              );
+            });
+            db.transaction((tx) => {
+              tx.executeSql(
+                "UPDATE checkHabits SET deleted = 1, version = 1 WHERE habit_id=?",
+                [this.props.route.params.id],
+                () => {
+                  this.props.navigation.goBack();
+                },
+                (txObj, error) => {
+                  console.log(error);
+                }
+              );
+            });
+          },
+        },
+      ]
+    );
+  };
   // changes the state of the queue boolean in the db to the given value
   changeQueueState = (value) => {
     db.transaction((tx) => {
@@ -162,111 +197,97 @@ class HabitsDetails extends React.Component {
   };
   addCheck = (index, bool) => {
     if (!bool) {
-      Alert.alert(
-        "Nachtragen",
-        "Möchtest du wirklich die Gewohnheit nachtragen?",
-        [
-          {
-            text: "Ja",
-            onPress: () => {
-              const sql = `INSERT INTO checkHabits (habit_id, date) VALUES (?, date('now', '-${index} day'))`;
-              console.log(sql);
-              db.transaction((tx) => {
-                tx.executeSql(
-                  sql,
-                  [this.props.route.params.id],
-                  (txObj, result) => {},
-                  (txObj, error) => {
-                    console.log(error);
-                  }
-                );
-              });
-              this.fetchData();
-            },
-          },
-          {
-            text: "Nein",
-          },
-        ]
-      );
+      this.confirmAdd();
     } else {
-      Alert.alert(
-        "Löschen",
-        "Möchtest du wirklich den Eintrag der Gewohnheit löschen?",
-        [
-          {
-            text: "Ja",
-            onPress: () => {
-              const sql = `UPDATE checkHabits SET deleted = 1, version=? WHERE habit_id = ? AND date = date('now', '-${index} day')`;
-              console.log(sql);
-              db.transaction((tx) => {
-                tx.executeSql(
-                  sql,
-                  [
-                    this.props.route.params.version + 1,
-                    this.props.route.params.id,
-                  ],
-                  (txObj, result) => {},
-                  (txObj, error) => {
-                    console.log(error);
-                  }
-                );
-              });
-              this.fetchData();
-            },
-          },
-          {
-            text: "Nein",
-          },
-        ]
-      );
+      this.confirmDeleteEntry();
     }
+  };
+  confirmDeleteEntry = () => {
+    Alert.alert(
+      "Löschen",
+      "Möchtest du wirklich den Eintrag der Gewohnheit löschen?",
+      [
+        {
+          text: "Ja",
+          onPress: () => {
+            const sql = `UPDATE checkHabits SET deleted = 1, version=? WHERE habit_id = ? AND date = date('now', '-${index} day')`;
+            console.log(sql);
+            db.transaction((tx) => {
+              tx.executeSql(
+                sql,
+                [
+                  this.props.route.params.version + 1,
+                  this.props.route.params.id,
+                ],
+                (txObj, result) => {},
+                (txObj, error) => {
+                  console.log(error);
+                }
+              );
+            });
+            this.fetchData();
+          },
+        },
+        {
+          text: "Nein",
+        },
+      ]
+    );
+  };
+  confirmAdd = () => {
+    Alert.alert(
+      "Nachtragen",
+      "Möchtest du wirklich die Gewohnheit nachtragen?",
+      [
+        {
+          text: "Ja",
+          onPress: () => {
+            const sql = `INSERT INTO checkHabits (habit_id, date) VALUES (?, date('now', '-${index} day'))`;
+            console.log(sql);
+            db.transaction((tx) => {
+              tx.executeSql(
+                sql,
+                [this.props.route.params.id],
+                (txObj, result) => {},
+                (txObj, error) => {
+                  console.log(error);
+                }
+              );
+            });
+            this.fetchData();
+          },
+        },
+        {
+          text: "Nein",
+        },
+      ]
+    );
   };
   render() {
     const changeQueueState = this.changeQueueState;
     return (
       <ScrollView style={styles.mainContainer}>
-        <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText, styles.columnSize]}>Name: </Text>
-          <Text
-            style={[{ color: global.color }, styles.textBig, styles.margin]}
-          >
-            {this.props.route.params.name}
-          </Text>
-        </View>
-        <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText, styles.columnSize]}>
-            Priorität:{" "}
-          </Text>
-          <Text
-            style={[{ color: global.color }, styles.textBig, styles.margin]}
-          >
-            {this.props.route.params.priority}
-          </Text>
-        </View>
-        <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText, styles.columnSize]}>
-            Häufigkeit:{" "}
-          </Text>
-          <Text
-            style={[{ color: global.color }, styles.textBig, styles.margin]}
-          >
-            {this.props.route.params.repetitions +
-              " Mal in " +
-              this.props.route.params.intervall +
-              " Tagen"}
-          </Text>
-        </View>
-        <View style={styles.containerHorizontal}>
-          <Text style={[styles.secondaryText, styles.columnSize]}>Score: </Text>
-          <Text
-            style={[{ color: global.color }, styles.textBig, styles.margin]}
-          >
-            {Math.round(this.props.route.params.score * 100) + " %"}
-          </Text>
-        </View>
-        <Text style={styles.secondaryText}>Letzten 7 Tage:</Text>
+        <InformationRow content={this.props.route.params.name} label="Name:" />
+        <InformationRow
+          content={this.props.route.params.priority}
+          label="Priorität:"
+        />
+        <InformationRow
+          content={
+            this.props.route.params.repetitions +
+            " Mal in " +
+            this.props.route.params.intervall +
+            " Tagen"
+          }
+          label="Häufigkeit"
+        />
+        <InformationRow
+          content={Math.round(this.state.score * 100) + " %"}
+          label="Score"
+        />
+        <InformationRow label="Letzten 7 Tage:" />
         <View style={styles.containerHorizontalStats}>
+          {!this.state.lastSevenDays && <LoadingScreen />}
           {this.state.lastSevenDays &&
             this.state.lastSevenDays.map((bool, index) => {
               const name = bool ? "checkmark-circle" : "close-circle";
@@ -287,13 +308,14 @@ class HabitsDetails extends React.Component {
               );
             })}
         </View>
-        <Text style={styles.secondaryText}>Letzten 30 Tage:</Text>
+        <InformationRow label="Letzten 30 Tage:" />
         <View
           style={[
             styles.containerHorizontalStats,
             { display: "flex", flexWrap: "wrap" },
           ]}
         >
+          {!this.state.lastThirtyDays && <LoadingScreen />}
           {this.state.lastThirtyDays &&
             this.state.lastThirtyDays.map((bool, index) => {
               const name = bool ? "checkmark-circle" : "close-circle";
