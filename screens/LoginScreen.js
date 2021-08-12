@@ -48,6 +48,7 @@ class Settings extends React.Component {
           }}
           width="50%"
           labelWidth="10%"
+          style={styles.topDownMargin}
         />
         <TextfieldAndLabel
           secureTextEntry={true}
@@ -57,18 +58,21 @@ class Settings extends React.Component {
           }}
           width="50%"
           labelWidth="10%"
+          style={styles.topDownMargin}
         />
         <PrimaryButton
           text={"Login"}
           onPress={() => {
             this.logIn();
           }}
+          style={styles.topDownMargin}
         />
         <PrimaryButton
           text={"Registrieren"}
           onPress={() => {
             this.register();
           }}
+          style={styles.topDownMargin}
         />
       </View>
     );

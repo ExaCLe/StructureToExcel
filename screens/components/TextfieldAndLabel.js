@@ -8,7 +8,7 @@ const TextfieldAndLabel = (props) => {
   let labelWidth = {};
   if (props.labelWidth) labelWidth = { width: props.labelWidth };
   return (
-    <View style={[styles.containerHorizontal]}>
+    <View style={[styles.containerHorizontal, props.style]}>
       <Text style={[styles.secondaryText, styles.columnSize, labelWidth]}>
         {props.label}
       </Text>
