@@ -14,6 +14,7 @@ import BackButton from "./components/BackButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
 import LoadingScreen from "./components/LoadingScreen.js";
 import FavoritesHelp from "./components/FavoritesHelp.js";
+import { toHsv } from "react-native-color-picker";
 
 class QuotesCategorie extends React.Component {
   constructor(props) {
@@ -168,6 +169,12 @@ class QuotesCategorie extends React.Component {
         count: Math.floor(Math.random() * this.state.favorites.length),
       });
     } else {
+      let length = Quotes[this.props.route.params.categorie].length;
+      let number = Math.floor(Math.random() * length);
+      if (number === this.state.count && this.state.count === length - 1)
+        number--;
+      else if (number === this.state.count) number++;
+      this.setCount(number);
     }
   };
   backward = () => {
@@ -184,7 +191,6 @@ class QuotesCategorie extends React.Component {
   render() {
     if (!(this.state.fetchedData && this.state.favoriteEvaluated))
       return <LoadingScreen />;
-    console.log("UPDATING", this.state);
     const deviceWidth = Dimensions.get("window").width;
     if (
       this.props.route.params.categorie === categories.FAVORITES &&
