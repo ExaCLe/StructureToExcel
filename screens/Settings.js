@@ -214,7 +214,7 @@ class Settings extends React.Component {
           onChangeText={this.handleInputChange}
           label="App Hauptfarbe:"
           value={this.state.color}
-          width="70%"
+          width="50%"
           style={styles.topDownMargin}
         />
         <TextButton

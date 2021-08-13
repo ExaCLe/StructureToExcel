@@ -47,7 +47,6 @@ class Settings extends React.Component {
             this.setState({ username: username });
           }}
           width="50%"
-          labelWidth="10%"
           style={styles.topDownMargin}
         />
         <TextfieldAndLabel
@@ -57,7 +56,6 @@ class Settings extends React.Component {
             this.setState({ password: password });
           }}
           width="50%"
-          labelWidth="10%"
           style={styles.topDownMargin}
         />
         <PrimaryButton
