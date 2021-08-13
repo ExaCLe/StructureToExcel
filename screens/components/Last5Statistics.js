@@ -12,42 +12,45 @@ const Last5Statistics = (props) => {
   });
   console.log("LAST FIVE", props.lastFive);
   return (
-    <View
-      style={{
-        height: "100%",
-        display: "flex",
-        alignSelf: "center",
-        flexDirection: "row",
-      }}
-    >
-      {props.lastFive.map((ele, index) => {
-        return (
-          <View
-            key={index}
-            style={[
-              styles.margin,
-              {
-                display: "flex",
-                justifyContent: "flex-end",
-              },
-            ]}
-          >
-            <AnimatedBar height={(ele / max) * 92} />
-            <Text style={[styles.primaryAccentColor, styles.textVerySmall]}>
-              {toTime(ele)}
-            </Text>
-            <Text
+    <View>
+      <Text style={[styles.h1, { textAlign: "center" }]}>{props.title}</Text>
+      <View
+        style={{
+          height: "90%",
+          display: "flex",
+          alignSelf: "center",
+          flexDirection: "row",
+        }}
+      >
+        {props.lastFive.map((ele, index) => {
+          return (
+            <View
+              key={index}
               style={[
-                styles.primaryAccentColor,
-                styles.textVerySmall,
-                { alignSelf: "center" },
+                styles.margin,
+                {
+                  display: "flex",
+                  justifyContent: "flex-end",
+                },
               ]}
             >
-              {index + 1}
-            </Text>
-          </View>
-        );
-      })}
+              <AnimatedBar height={(ele / max) * 92} />
+              <Text style={[styles.primaryAccentColor, styles.textVerySmall]}>
+                {toTime(ele)}
+              </Text>
+              <Text
+                style={[
+                  styles.primaryAccentColor,
+                  styles.textVerySmall,
+                  { alignSelf: "center" },
+                ]}
+              >
+                {index + 1}
+              </Text>
+            </View>
+          );
+        })}
+      </View>
     </View>
   );
 };

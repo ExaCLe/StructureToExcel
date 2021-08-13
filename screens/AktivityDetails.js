@@ -167,16 +167,19 @@ class AktivityDetails extends React.Component {
     if (period === "today") {
       this.setState((prevState) => {
         prevState.lastFive[0] = prevState.today;
+        prevState.title = "Letzten 5 Tage";
         return prevState;
       });
     } else if (period === "week") {
       this.setState((prevState) => {
         prevState.lastFive[0] = prevState.lastWeek;
+        prevState.title = "Letzten 5 Wochen";
         return prevState;
       });
     } else if (period === "month") {
       this.setState((prevState) => {
         prevState.lastFive[0] = prevState.lastMonth;
+        prevState.title = "Letzten 5 Monate";
         return prevState;
       });
     }
@@ -249,7 +252,10 @@ class AktivityDetails extends React.Component {
             })
           }
         >
-          <Last5Statistics lastFive={this.state.lastFive} />
+          <Last5Statistics
+            lastFive={this.state.lastFive}
+            title={this.state.title}
+          />
         </PopUp>
         <InformationRow label="Name: " content={this.props.route.params.name} />
         <InformationRow label="Heute: " content={toTime(this.state.today)} />

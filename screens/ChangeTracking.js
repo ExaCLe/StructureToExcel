@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Alert, Text, TouchableOpacity, Platform } from "react-native";
+import {
+  ScrollView,
+  Alert,
+  Text,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import * as SQLite from "expo-sqlite";
 import styles from "./styles.js";
 import PrimaryButton from "./components/PrimaryButton.js";
@@ -121,12 +127,7 @@ class ChangeTracking extends React.Component {
         sql,
         values,
         () => {
-          this.props.navigation.navigate("AktivityListDetails", {
-            ...this.state,
-            start_time: this.state.start_time.toISOString(),
-            end_time: this.state.end_time.toISOString(),
-            duration_s: duration,
-          });
+          this.props.navigation.navigate("AktivityList");
         },
         (txObj, err) => {
           console.log("Fehler beim Einfügen " + err);
@@ -165,7 +166,7 @@ class ChangeTracking extends React.Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
+      <ScrollView style={styles.mainContainer}>
         <AktivityRow
           onPress={() => {
             this.props.navigation.navigate("AktivityChooser", {
@@ -196,7 +197,7 @@ class ChangeTracking extends React.Component {
           }}
           style={styles.topDownMargin}
         />
-      </View>
+      </ScrollView>
     );
   }
 }

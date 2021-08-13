@@ -101,9 +101,14 @@ const styles = (() => {
     },
     modal: {
       width: "95%",
-      height: "40%",
+      height: "50%",
       backgroundColor: "white",
       borderRadius: 20,
+      shadowColor: "black",
+      shadowRadius: 1,
+      shadowOpacity: 0.3,
+      elevation: 6,
+      shadowOffset: { width: 5, height: 5 },
     },
     smallPrimaryButton: {
       textAlign: "center",
@@ -310,6 +315,7 @@ const styles = (() => {
     },
     textVerySmall: {
       fontSize: 10,
+      fontFamily: fonts.primaryFont,
     },
     textBig: {
       fontSize: 30,
