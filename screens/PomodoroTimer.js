@@ -110,7 +110,9 @@ class PomodoroTimer extends React.Component {
     if (this.state.data_loaded) {
       return (
         <View style={[styles.mainContainer, styles.flexContainer]}>
-          <Text style={[styles.pomTimer, styles.center]}>
+          <Text
+            style={[styles.pomTimer, styles.center, { color: global.color }]}
+          >
             {Math.floor(this.state.time / 60) +
               ":" +
               (this.state.time % 60 < 10
