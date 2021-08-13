@@ -6,27 +6,13 @@ import styles from "./styles.js";
 import * as colors from "../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 import HeaderIcon from "./components/HeaderIcon.js";
+import LoadingScreen from "./components/LoadingScreen.js";
 const db = SQLite.openDatabase("aktivitys.db");
 
 class TrackingOverview extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { aktivitys: [] };
-    // create a table for the activities if not existing already
-    // db.transaction((tx) => {
-    //   tx.executeSql(
-    //     "DROP TABLE activities ;",
-    //     null,
-    //     () => {},
-    //     (txObj, error) => {}
-    //   );
-    //   tx.executeSql(
-    //     "DROP TABLE trackings ;",
-    //     null,
-    //     () => {},
-    //     (txObj, error) => {}
-    //   );
-    // });
+    this.state = { aktivitys: [], loaded: false };
     this.createDatabases();
   }
   createDatabases = () => {
@@ -56,14 +42,12 @@ class TrackingOverview extends React.Component {
   };
   // gets the data for the activitys out of the database
   fetchData = () => {
-    console.log("Fetching data for aktivitys...");
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM activities WHERE (deleted=0 OR deleted IS NULL)",
         null,
         (txObj, { rows: { _array } }) => {
-          console.log(_array);
-          this.setState({ aktivitys: _array });
+          this.setState({ aktivitys: _array, loaded: true });
         },
         (txObj, error) => this.createDatabases()
       );
@@ -76,7 +60,7 @@ class TrackingOverview extends React.Component {
     this._unsubscribe = this.props.navigation.addListener(
       "focus",
       (payload) => {
-        this.fetchData();
+        if (this.state.loaded) this.fetchData();
       }
     );
     this.props.navigation.setOptions({
@@ -106,7 +90,7 @@ class TrackingOverview extends React.Component {
     });
   }
   render() {
-    console.log(this.state.aktivitys.length === 0);
+    if (!this.state.loaded) return <LoadingScreen />;
     return (
       <View style={[styles.mainContainer, { display: "flex" }]}>
         <ScrollView>
