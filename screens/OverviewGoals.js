@@ -162,13 +162,14 @@ class OverviewGoals extends React.Component {
   }
   // changes the view to DAY, WEEK or MONTH given by the argument
   changeView = (view) => {
-    this.setState({ period: view, loaded: false });
+    this.setState({ period: view, loaded: false, workedGoals: 0 });
   };
   // renders an habit entry in the flat list
   renderItem = (obj) => {
     return <Goal goal={obj.item} navigation={this.props.navigation} />;
   };
   shouldComponentUpdate(nextProps, nextState) {
+    console.log("NextState", nextState);
     if (nextState.loaded) return true;
     if (nextState.workedGoals === nextState.goals.length) {
       this.setState({ loaded: true, workedGoals: 0 });
