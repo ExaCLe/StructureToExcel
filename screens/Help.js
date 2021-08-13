@@ -25,7 +25,7 @@ class Help extends React.Component {
     let elements;
     if (screen === "aktivities") {
       elements = (
-        <View>
+        <View style={styles.downMargin}>
           <View style={styles.paragraphContainer}>
             <Text style={styles.h1}>Aktivitäten tracken.</Text>
             <Text style={styles.paragraph}>
@@ -112,7 +112,7 @@ class Help extends React.Component {
       );
     } else if (screen === "tracking") {
       elements = (
-        <View>
+        <View style={styles.downMargin}>
           <View style={styles.paragraphContainer}>
             <Text style={styles.h1}>Trackings</Text>
             <Text style={styles.paragraph}>
@@ -167,7 +167,7 @@ class Help extends React.Component {
       );
     } else if (screen === "goals") {
       elements = (
-        <View>
+        <View style={styles.downMargin}>
           <View style={styles.paragraphContainer}>
             <Text style={styles.h1}>Ziele</Text>
             <Text style={styles.paragraph}>
@@ -272,7 +272,7 @@ class Help extends React.Component {
       );
     } else if (screen === "habits") {
       elements = (
-        <View>
+        <View style={styles.downMargin}>
           <View style={styles.paragraphContainer}>
             <Text style={styles.h1}>Gewohnheiten</Text>
             <Text style={styles.paragraph}>
