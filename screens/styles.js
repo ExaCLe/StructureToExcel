@@ -59,7 +59,7 @@ const styles = (() => {
       shadowRadius: 1,
       shadowOpacity: 0.3,
       elevation: 6,
-      shadowOffset: { width: 5, height: 5 },
+      shadowOffset: { width: 4, height: 4 },
     },
     imageBackground: { height: "100%", display: "flex" },
     pomTimer: {
@@ -69,7 +69,7 @@ const styles = (() => {
       shadowRadius: 1,
       shadowOpacity: 0.1,
       elevation: 3,
-      shadowOffset: { width: 5, height: 5 },
+      shadowOffset: { width: 4, height: 4 },
     },
     paddingBottom: {
       paddingBottom: 10,
@@ -95,7 +95,7 @@ const styles = (() => {
       shadowRadius: 1,
       shadowOpacity: 0.3,
       elevation: 6,
-      shadowOffset: { width: 5, height: 5 },
+      shadowOffset: { width: 4, height: 4 },
     },
     modalContainer: {
       flex: 1,
@@ -111,7 +111,7 @@ const styles = (() => {
       shadowRadius: 1,
       shadowOpacity: 0.3,
       elevation: 6,
-      shadowOffset: { width: 5, height: 5 },
+      shadowOffset: { width: 4, height: 4 },
     },
     smallPrimaryButton: {
       textAlign: "center",
@@ -128,7 +128,7 @@ const styles = (() => {
       shadowRadius: 1,
       shadowOpacity: 0.3,
       elevation: 6,
-      shadowOffset: { width: 5, height: 5 },
+      shadowOffset: { width: 4, height: 4 },
     },
     primaryButtonText: {
       fontFamily: fonts.primaryFont,
@@ -193,7 +193,7 @@ const styles = (() => {
       shadowRadius: 1,
       shadowOpacity: 0.3,
       elevation: 6,
-      shadowOffset: { width: 5, height: 5 },
+      shadowOffset: { width: 4, height: 4 },
     },
     primaryTextColor: {
       color: colors.PrimaryTextColor,

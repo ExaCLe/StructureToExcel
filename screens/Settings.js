@@ -310,6 +310,40 @@ class Settings extends React.Component {
           }}
           style={styles.smallDownMargin}
         />
+        <PrimaryButton
+          text="Reset All"
+          onPress={() => {
+            aktivities.transaction((tx) => {
+              tx.executeSql(
+                "DROP  TABLE activities",
+                null,
+                null,
+                (txObj, error) => console.log(error)
+              );
+              tx.executeSql("DROP TABLE trackings", null, () => {
+                alert("Database deleted.");
+              });
+            });
+            goals.transaction((tx) => {
+              tx.executeSql("DROP TABLE goals", null, () => {
+                alert("Deleted database. ", (txObj, error) =>
+                  console.log(error)
+                );
+              });
+            });
+            habits.transaction((tx) => {
+              tx.executeSql("DROP TABLE habits", null, null, (txObj, error) =>
+                console.log(error)
+              );
+              tx.executeSql("DELETE FROM checkHabits", null, () => {
+                alert("Deleted Database.", (txObj, error) =>
+                  console.log(error)
+                );
+              });
+            });
+          }}
+          style={styles.smallDownMargin}
+        />
       </ScrollView>
     );
   }

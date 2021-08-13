@@ -281,7 +281,7 @@ export default class HabitOverview extends React.Component {
                 size={30}
                 color={colors.SecondaryTextColor}
               />
-              neue Gewohnheiten ein. Hilfe kannst du über
+              neue Gewohnheiten hinzu. Hilfe kannst du über
               <Ionicons
                 name={"help"}
                 size={30}

@@ -23,7 +23,7 @@ class PomodoroSettings extends React.Component {
   fetchData = async () => {
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM pomodoroSettings ORDER BY id LIMIT 1",
+        "SELECT workingInterval, breakInterval FROM pomodoroSettings ORDER BY id LIMIT 1",
         null,
         (txObj, { rows: { _array } }) => {
           this.setState({

@@ -25,3 +25,5 @@ export const SecondaryPriorityColors = [
   "#D7E972",
   "#7EF1B4",
 ];
+
+export const color1 = "#3589a6";
