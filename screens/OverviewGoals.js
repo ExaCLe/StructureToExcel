@@ -44,34 +44,29 @@ class OverviewGoals extends React.Component {
         sql,
         [this.state.period],
         (txObj, { rows: { _array } }) => {
-          console.log(_array);
           _array.map((ele, index) => {
-            if (ele.time)
+            if (ele.time) {
+              let sql;
+              if (ele.intervall === 1)
+                sql =
+                  "SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL) AND start_time > DATE('now', 'start of day')";
+              else if (ele.intervall === 2)
+                sql =
+                  "SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL) AND start_time > DATE('now', '-7 days', 'weekday 1')";
+              else if (ele.intervall === 3)
+                sql =
+                  "SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL) AND start_time > DATE('now', 'start of month')";
               tracking.transaction((tt) => {
                 tt.executeSql(
-                  "SELECT * FROM trackings WHERE act_id = ? AND (deleted=0 OR deleted IS NULL)",
+                  sql,
                   [ele.act_id],
                   (txObj, { rows: { _array } }) => {
-                    let time = 0;
-                    const now = new Date();
-                    const todayStart = new Date(
-                      now.getFullYear(),
-                      now.getMonth(),
-                      now.getDate()
-                    );
-                    _array.map((entry) => {
-                      const end = new Date(entry.end_time);
-                      const start = new Date(entry.start_time);
-                      if (end - todayStart >= 0) {
-                        if (start - todayStart >= 0) {
-                          time += entry.duration_s;
-                        } else {
-                          time += (end - todayStart) / 1000;
-                        }
-                      }
+                    let sum = 0;
+                    _array.map((ele) => {
+                      sum += ele.duration_s;
                     });
                     this.setState((prev) => {
-                      prev.goals[index].progress = time;
+                      prev.goals[index].progress = sum;
                       return {
                         goals: prev.goals,
                         workedGoals: prev.workedGoals + 1,
@@ -80,7 +75,7 @@ class OverviewGoals extends React.Component {
                   }
                 );
               });
-            else {
+            } else {
               this.setState((prevState) => {
                 return { workedGoals: prevState.workedGoals + 1 };
               });
@@ -169,7 +164,6 @@ class OverviewGoals extends React.Component {
     return <Goal goal={obj.item} navigation={this.props.navigation} />;
   };
   shouldComponentUpdate(nextProps, nextState) {
-    console.log("NextState", nextState);
     if (nextState.loaded) return true;
     if (nextState.workedGoals === nextState.goals.length) {
       this.setState({ loaded: true, workedGoals: 0 });
