@@ -16,6 +16,7 @@ import { saveTrackings } from "../helpers/synchronize/Trackings.js";
 import { saveHabitChecks } from "../helpers/synchronize/HabitEntrys.js";
 import TextButton from "./components/TextButton.js";
 import TextfieldAndLabel from "./components/TextfieldAndLabel.js";
+import PopUp from "./components/PopUp.js";
 
 const habits = SQLite.openDatabase("habits.db");
 const goals = SQLite.openDatabase("goals.db");
@@ -218,26 +219,26 @@ class Settings extends React.Component {
           style={styles.topDownMargin}
         />
         <TextButton
-          text={
-            this.state.showColorPicker
-              ? "Hide Color Picker"
-              : "Show Color Picker"
-          }
-          onPress={() =>
-            this.setState((prevState) => {
-              return { showColorPicker: !prevState.showColorPicker };
+          text={"Show Color Picker"}
+          onPress={() => this.setState({ showColorPicker: true })}
+        />
+        <PopUp
+          visible={this.state.showColorPicker}
+          close={() =>
+            this.setState({
+              showColorPicker: false,
             })
           }
-        />
-        {this.state.showColorPicker && (
+        >
           <ColorPicker
             color={this.state.color}
             onColorChange={(color) => {
               this.setState({ color: fromHsv(color) });
             }}
-            style={{ height: 500 }}
+            style={{ height: 400 }}
           />
-        )}
+        </PopUp>
+
         <PrimaryButton
           onPress={this.save}
           text={"Farbe Speichern"}
