@@ -249,7 +249,7 @@ class QuotesCategorie extends React.Component {
             width="95%"
           />
           <SmallPrimaryButton
-            icon={"help"}
+            fontAwesome={"random"}
             onPress={() => {
               this.random();
             }}
