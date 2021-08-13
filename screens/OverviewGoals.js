@@ -43,7 +43,8 @@ class OverviewGoals extends React.Component {
       tx.executeSql(
         sql,
         [this.state.period],
-        async (txObj, { rows: { _array } }) => {
+        (txObj, { rows: { _array } }) => {
+          console.log(_array);
           _array.map((ele, index) => {
             if (ele.time)
               tracking.transaction((tt) => {
