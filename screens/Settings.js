@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  RefreshControl,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { RefreshControl, ScrollView, Text, TextInput } from "react-native";
 import AktivityTracker from "./components/AktivityTracker.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
@@ -19,6 +14,8 @@ import { saveAktivities } from "../helpers/synchronize/Aktivities.js";
 import { saveGoals } from "../helpers/synchronize/Goals.js";
 import { saveTrackings } from "../helpers/synchronize/Trackings.js";
 import { saveHabitChecks } from "../helpers/synchronize/HabitEntrys.js";
+import TextButton from "./components/TextButton.js";
+import TextfieldAndLabel from "./components/TextfieldAndLabel.js";
 
 const habits = SQLite.openDatabase("habits.db");
 const goals = SQLite.openDatabase("goals.db");
@@ -212,27 +209,47 @@ class Settings extends React.Component {
           />
         }
       >
-        <TextInput
-          style={[
-            styles.normalText,
-            styles.padding,
-            styles.margin,
-            styles.textInputLarge,
-            { borderColor: global.color, color: global.color },
-          ]}
-          placeholder="#"
+        <Text style={styles.h1}>Verändern des Designs:</Text>
+        <TextfieldAndLabel
           onChangeText={this.handleInputChange}
+          label="App Hauptfarbe:"
           value={this.state.color}
-        ></TextInput>
-        <ColorPicker
-          color={this.state.color}
-          onColorChange={(color) => {
-            this.setState({ color: fromHsv(color) });
-          }}
-          style={{ height: 500 }}
+          width="70%"
+          style={styles.topDownMargin}
         />
-        <PrimaryButton onPress={this.save} text={"Speichern"} />
-        <PrimaryButton onPress={this.syncronize} text={"Synchronisieren"} />
+        <TextButton
+          text={
+            this.state.showColorPicker
+              ? "Hide Color Picker"
+              : "Show Color Picker"
+          }
+          onPress={() =>
+            this.setState((prevState) => {
+              return { showColorPicker: !prevState.showColorPicker };
+            })
+          }
+        />
+        {this.state.showColorPicker && (
+          <ColorPicker
+            color={this.state.color}
+            onColorChange={(color) => {
+              this.setState({ color: fromHsv(color) });
+            }}
+            style={{ height: 500 }}
+          />
+        )}
+        <PrimaryButton
+          onPress={this.save}
+          text={"Farbe Speichern"}
+          style={[styles.topDownMargin, styles.smallDownMargin]}
+        />
+
+        <Text style={[styles.h1]}>Synchronisieren mit der Cloud:</Text>
+        <PrimaryButton
+          onPress={this.syncronize}
+          text={"Synchronisieren"}
+          style={styles.topDownMargin}
+        />
         <PrimaryButton
           onPress={async () => {
             try {
@@ -243,8 +260,11 @@ class Settings extends React.Component {
               alert("Error when loggin out.");
             }
           }}
-          text={"logout"}
+          text={"Ausloggen"}
+          style={styles.smallDownMargin}
         />
+
+        <Text style={[styles.h1]}>Löschen der Daten:</Text>
         <PrimaryButton
           text="Clear Habits Database"
           onPress={() => {
@@ -259,6 +279,7 @@ class Settings extends React.Component {
               });
             });
           }}
+          style={styles.topDownMargin}
         />
         <PrimaryButton
           text="Clear Goals Database"
@@ -287,6 +308,7 @@ class Settings extends React.Component {
               });
             });
           }}
+          style={styles.smallDownMargin}
         />
       </ScrollView>
     );

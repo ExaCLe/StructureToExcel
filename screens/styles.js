@@ -67,8 +67,8 @@ const styles = (() => {
       fontSize: 140,
       shadowColor: "black",
       shadowRadius: 1,
-      shadowOpacity: 0.3,
-      elevation: 6,
+      shadowOpacity: 0.1,
+      elevation: 3,
       shadowOffset: { width: 5, height: 5 },
     },
     paddingBottom: {
@@ -77,6 +77,9 @@ const styles = (() => {
     headerText: {
       fontFamily: fonts.headerFont,
       color: colors.PrimaryTextColor,
+    },
+    smallDownMargin: {
+      marginBottom: 50,
     },
     buttonPrimary: {
       backgroundColor: global.color,
