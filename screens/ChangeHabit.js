@@ -201,14 +201,14 @@ class ChangeHabit extends React.Component {
         [
           this.state.name,
           this.state.intervall,
-          this.state.valuePriority,
+          this.state.priority,
           this.state.repetitions,
           this.state.icon,
           this.state.version + 1,
           this.state.id,
         ],
         (txObj, resultSet) => {
-          console.log(resultSet);
+          console.log(this.state);
           this.props.navigation.navigate("HabitDetails", {
             ...this.state,
           });
