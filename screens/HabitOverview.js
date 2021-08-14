@@ -75,8 +75,7 @@ export default class HabitOverview extends React.Component {
             name="add"
           />
           <HeaderIcon
-            name="queue"
-            type="MaterialIcons"
+            name="time-outline"
             onPress={() => this.props.navigation.navigate("HabitsQueue")}
           />
         </View>
