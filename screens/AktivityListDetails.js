@@ -18,7 +18,7 @@ class AktivityListDetails extends React.Component {
   componentDidMount() {
     // add the button to the top
     this.props.navigation.setOptions({
-      title: "Tracking Details",
+      title: "Aufzeichnungs Details",
       headerLeft: () => {
         return (
           <BackButton

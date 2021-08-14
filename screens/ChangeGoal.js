@@ -82,6 +82,11 @@ class ChangeGoal extends React.Component {
       }
     );
     this.props.navigation.setOptions({
+      title: (() => {
+        if (this.props.route.params && this.props.route.params.edit)
+          return "Edit " + this.state.name;
+        else return "Ziel hinzufügen";
+      })(),
       headerLeft: () => {
         return (
           <BackButton

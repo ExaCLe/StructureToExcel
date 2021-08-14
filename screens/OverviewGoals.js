@@ -99,10 +99,10 @@ class OverviewGoals extends React.Component {
     );
     this.props.navigation.setOptions({
       title: (() => {
-        const prefix =
-          !this.props.route.params || !this.props.route.params.archive
-            ? "Zielübersicht"
-            : "Archiv";
+        let prefix;
+        if (this.props.route.params && this.props.route.params.archive)
+          prefix = "Archiv ";
+        else prefix = "Zielübersicht";
         if (this.state.period === DAY) return prefix + " Tag";
         else if (this.state.period === WEEK) return prefix + " Woche";
         else return prefix + " Monat";
@@ -149,9 +149,13 @@ class OverviewGoals extends React.Component {
   componentDidUpdate() {
     this.props.navigation.setOptions({
       title: (() => {
-        if (this.state.period === DAY) return "Zielübersicht Tag";
-        else if (this.state.period === WEEK) return "Zielübersicht Woche";
-        else return "Zielübersicht Monat";
+        let prefix;
+        if (this.props.route.params && this.props.route.params.archive)
+          prefix = "Archiv ";
+        else prefix = "Zielübersicht";
+        if (this.state.period === DAY) return prefix + " Tag";
+        else if (this.state.period === WEEK) return prefix + " Woche";
+        else return prefix + " Monat";
       })(),
     });
   }

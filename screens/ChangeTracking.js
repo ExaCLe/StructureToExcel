@@ -60,7 +60,9 @@ class ChangeTracking extends React.Component {
     );
     this.props.navigation.setOptions({
       title: (() => {
-        return this.state.edit ? "Edit Tracking" : "Tracking hinzufügen";
+        return this.state.edit
+          ? "Aufzeichnung bearbeiten"
+          : "Aufzeichnung hinzufügen";
       })(),
       headerLeft: () => {
         return (

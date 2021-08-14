@@ -43,6 +43,7 @@ class AktivityList extends React.Component {
       }
     );
     this.props.navigation.setOptions({
+      title: "Übersicht Aufzeichnungen",
       headerLeft: () => {
         return (
           <BackButton

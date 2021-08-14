@@ -18,6 +18,7 @@ class IconChooser extends React.Component {
   }
   componentDidMount() {
     this.props.navigation.setOptions({
+      title: "Wähle ein Icon",
       headerLeft: () => {
         return (
           <BackButton

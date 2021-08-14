@@ -40,6 +40,7 @@ class AktivityChooser extends React.Component {
       }
     );
     this.props.navigation.setOptions({
+      title: "Aktivität wählen",
       headerLeft: () => {
         return (
           <BackButton

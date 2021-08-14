@@ -204,7 +204,6 @@ function Goals() {
         name="OverviewGoals"
         component={OverviewGoals}
         options={{
-          title: "Zielübersicht",
           headerStyle: [styles.header, { backgroundColor: global.color }],
           headerTitleStyle: styles.headerText,
         }}

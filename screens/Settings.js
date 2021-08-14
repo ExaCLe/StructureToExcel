@@ -52,6 +52,9 @@ class Settings extends React.Component {
           this.syncronize();
       }
     );
+    this.props.navigation.setOptions({
+      title: "Einstellungen",
+    });
   }
   handleInputChange = (input) => {
     if (input.length <= 7) {
