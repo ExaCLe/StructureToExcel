@@ -1,5 +1,11 @@
 import React from "react";
-import { RefreshControl, ScrollView, Text, TextInput } from "react-native";
+import {
+  Alert,
+  RefreshControl,
+  ScrollView,
+  Text,
+  TextInput,
+} from "react-native";
 import AktivityTracker from "./components/AktivityTracker.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import styles from "./styles.js";
@@ -233,6 +239,24 @@ class Settings extends React.Component {
       });
     });
   };
+  generateAlert = (accept, type) => {
+    let message = "";
+    if (type === "all")
+      message = "Möchtest du wirklich alle Datenbanken löschen?";
+    else if (type === "goals")
+      message = "Möchtest du wirklich die Ziele Datenbank löschen?";
+    else if (type === "habits")
+      message = "Möchtest du wirklich die Gewohnheiten Datenbank löschen? ";
+    else if (type === "aktivities")
+      message = "Möchtest du wirklich die Aktivitäten Datenbank löschen? ";
+    Alert.alert("Löschen", message, [
+      {
+        text: "Ja",
+        onPress: () => accept(),
+      },
+      { text: "Nein" },
+    ]);
+  };
 
   render() {
     return (
@@ -314,23 +338,30 @@ class Settings extends React.Component {
         <PrimaryButton
           text="Clear All Databases"
           onPress={() => {
-            this.clearAktivityDatabase();
-            this.clearGoalsDatabase();
-            this.clearHabitsDatabase();
+            this.generateAlert(() => {
+              this.clearAktivityDatabase();
+              this.clearGoalsDatabase();
+              this.clearHabitsDatabase();
+            }, "all");
           }}
           style={styles.topDownMargin}
         />
         <PrimaryButton
           text="Clear Habits Database"
           onPress={() => {
-            this.clearHabitsDatabase();
+            this.generateAlert(this.clearHabitsDatabase, "habits");
           }}
         />
-        <PrimaryButton text="Clear Goals Database" onPress={() => {}} />
+        <PrimaryButton
+          text="Clear Goals Database"
+          onPress={() => {
+            this.generateAlert(this.clearGoalsDatabase, "goals");
+          }}
+        />
         <PrimaryButton
           text="Clear Aktivities Databasse"
           onPress={() => {
-            this.clearAktivityDatabase();
+            this.generateAlert(this.clearAktivityDatabase, "aktivities");
           }}
           style={styles.smallDownMargin}
         />
