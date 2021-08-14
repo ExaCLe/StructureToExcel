@@ -374,6 +374,7 @@ class ChangeHabit extends React.Component {
             onPress={() => {
               addHabit(1);
             }}
+            style={styles.downMargin}
           />
         )}
       </ScrollView>
