@@ -254,7 +254,7 @@ class ChangeGoal extends React.Component {
           icon={this.state.icon}
           onPress={() => {
             this.props.navigation.navigate("IconChooserGoals", {
-              target: "ChangeGoal",
+              targetIconChooser: "ChangeGoal",
             });
           }}
         />
@@ -327,7 +327,7 @@ class ChangeGoal extends React.Component {
               icon={this.state.aktivity_icon}
               onPress={() => {
                 this.props.navigation.navigate("AktivityChooserGoal", {
-                  target: "ChangeGoal",
+                  targetAktivity: "ChangeGoal",
                 });
               }}
             />

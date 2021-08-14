@@ -4,7 +4,7 @@ import * as colors from "../assets/colors.js";
 import * as fonts from "../assets/fonts/fonts.js";
 
 const styles = (() => {
-  console.log("Asking for styles");
+  console.log("Asking for styles", global.color);
   return StyleSheet.create({
     backgroundColor: {
       backgroundColor: colors.BackgroundColor,
@@ -177,6 +177,7 @@ const styles = (() => {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
+      width: 220,
     },
     primaryText: {
       fontSize: 24,

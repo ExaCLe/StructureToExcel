@@ -108,7 +108,7 @@ class AktivityDetails extends React.Component {
               this.props.navigation.navigate("ChangeAktivity", {
                 ...this.props.route.params,
                 edit: true,
-                target: "AktivityDetails",
+                targetAktivity: "AktivityDetails",
               });
             }}
           />

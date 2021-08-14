@@ -44,7 +44,9 @@ class AktivityChooser extends React.Component {
         return (
           <BackButton
             onPress={() =>
-              this.props.navigation.navigate(this.props.route.params.target)
+              this.props.navigation.navigate(
+                this.props.route.params.targetAktivity
+              )
             }
           />
         );
@@ -53,15 +55,17 @@ class AktivityChooser extends React.Component {
         <View style={styles.row}>
           <HeaderIcon
             onPress={() => {
-              if (this.props.route.params.target === "ChangeGoal")
+              if (this.props.route.params.targetAktivity === "ChangeGoal")
                 this.props.navigation.navigate("ChangeAktivityGoals", {
                   edit: false,
-                  target: "AktivityChooserGoal",
+                  targetChange: "AktivityChooserGoal",
                 });
-              else if (this.props.route.params.target === "ChangeTracking")
+              else if (
+                this.props.route.params.targetAktivity === "ChangeTracking"
+              )
                 this.props.navigation.navigate("ChangeAktivity", {
                   edit: false,
-                  target: "AktivityChooser",
+                  targetChange: "AktivityChooser",
                 });
             }}
             name="add"
@@ -76,9 +80,13 @@ class AktivityChooser extends React.Component {
       <View style={styles.paddingBottom}>
         <TouchableOpacity
           onPress={() => {
-            this.props.navigation.navigate(this.props.route.params.target, {
-              aktivity: obj.item,
-            });
+            console.log(this.props.route.params);
+            this.props.navigation.navigate(
+              this.props.route.params.targetAktivity,
+              {
+                aktivity: obj.item,
+              }
+            );
           }}
         >
           <View style={[styles.containerHorizontal]}>

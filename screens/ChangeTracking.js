@@ -170,7 +170,7 @@ class ChangeTracking extends React.Component {
         <AktivityRow
           onPress={() => {
             this.props.navigation.navigate("AktivityChooser", {
-              target: "ChangeTracking",
+              targetAktivity: "ChangeTracking",
             });
           }}
           icon={this.state.icon}

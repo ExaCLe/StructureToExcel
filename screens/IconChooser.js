@@ -41,10 +41,13 @@ class IconChooser extends React.Component {
       <View style={{ display: "flex", flexDirection: "row" }}>
         <TouchableOpacity
           onPress={() => {
-            this.props.navigation.navigate(this.props.route.params.target, {
-              icon: obj.item.name,
-              changeIcon: true,
-            });
+            this.props.navigation.navigate(
+              this.props.route.params.targetIconChooser,
+              {
+                icon: obj.item.name,
+                changeIcon: true,
+              }
+            );
           }}
         >
           <Ionicons name={obj.item.name} size={50} color={global.color} />

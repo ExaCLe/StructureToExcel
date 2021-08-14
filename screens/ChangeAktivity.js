@@ -112,12 +112,12 @@ class AddAktivity extends React.Component {
           {
             text: "Ja",
             onPress: () => {
-              this.props.navigation.navigate(this.props.route.params.target);
+              this.props.navigation.goBack();
             },
           },
         ]
       );
-    else this.props.navigation.navigate(this.props.route.params.target);
+    else this.props.navigation.goBack();
   };
   handleSave = () => {
     // decide on the right sql command
@@ -150,7 +150,7 @@ class AddAktivity extends React.Component {
         sql,
         variables,
         () => {
-          this.props.navigation.navigate(this.props.route.params.target, {
+          this.props.navigation.navigate(this.props.route.params.targetChange, {
             ...this.state,
           });
         },
@@ -179,21 +179,23 @@ class AddAktivity extends React.Component {
         <IconRowWithChange
           icon={this.state.icon}
           onPress={() => {
-            if (this.props.route.params.target === "AktivityDetails")
+            if (this.props.route.params.targetChange === "AktivityDetails")
               this.props.navigation.navigate("IconChooserTracking", {
-                target: "ChangeAktivity",
+                targetIconChooser: "ChangeAktivity",
               });
-            else if (this.props.route.params.target == "AktivityChooserGoal")
+            else if (
+              this.props.route.params.targetChange === "AktivityChooserGoal"
+            )
               this.props.navigation.navigate("IconChooserGoals", {
-                target: "ChangeAktivityGoals",
+                targetIconChooser: "ChangeAktivityGoals",
               });
-            else if (this.props.route.params.target == "AktivityChooser")
+            else if (this.props.route.params.targetChange === "AktivityChooser")
               this.props.navigation.navigate("IconChooserTracking", {
-                target: "ChangeAktivity",
+                targetIconChooser: "ChangeAktivity",
               });
             else
               this.props.navigation.navigate("IconChooserTracking", {
-                target: "ChangeAktivity",
+                targetIconChooser: "ChangeAktivity",
               });
           }}
         />
