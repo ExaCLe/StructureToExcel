@@ -16,7 +16,7 @@ const Quotes = {
     {
       from: "Harvey Specter",
       quote:
-        "In school you're given the lessen then the test. In life you're given the test then the lesson.",
+        "In school you're given the lesson then the test. In life you're given the test then the lesson.",
       key: "3",
     },
     {
