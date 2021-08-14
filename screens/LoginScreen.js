@@ -5,17 +5,24 @@ import PrimaryButton from "./components/PrimaryButton.js";
 import Parse from "parse/react-native";
 import BackButton from "./components/BackButton.js";
 import TextfieldAndLabel from "./components/TextfieldAndLabel.js";
+import TextButton from "./components/TextButton.js";
 
 class Settings extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: "", password: "" };
+    this.state = { username: "", password: "", register: false };
   }
   componentDidMount() {
     this.props.navigation.setOptions({
+      title: "Login",
       headerLeft: () => {
         return <BackButton onPress={() => this.props.navigation.goBack()} />;
       },
+    });
+  }
+  componentDidUpdate() {
+    this.props.navigation.setOptions({
+      title: this.state.register ? "Registrieren" : "Login",
     });
   }
   logIn = async () => {
@@ -59,18 +66,19 @@ class Settings extends React.Component {
           style={styles.topDownMargin}
         />
         <PrimaryButton
-          text={"Login"}
+          text={this.state.register ? "Registrieren" : "Login"}
           onPress={() => {
-            this.logIn();
+            if (this.state.register) this.register();
+            else this.logIn();
           }}
           style={styles.topDownMargin}
         />
-        <PrimaryButton
-          text={"Registrieren"}
+        <TextButton
+          text={this.state.register ? "Login" : "Registrieren"}
           onPress={() => {
-            this.register();
+            this.setState((prevState) => ({ register: !prevState.register }));
           }}
-          style={styles.topDownMargin}
+          style={[styles.topDownMargin, { alignSelf: "center" }]}
         />
       </View>
     );
