@@ -113,7 +113,7 @@ export default class HabitOverview extends React.Component {
       const length_intervall =
         Math.round(30 / this.state.habits[i].repetitions) *
         this.state.habits[i].intervall;
-      const sql = `SELECT * FROM checkHabits WHERE habit_id = ? AND date > DATE('now', '-${length_intervall} day') AND (deleted = 0 OR deleted IS NULL)`;
+      const sql = `SELECT * FROM checkHabits WHERE habit_id = ? AND date > DATE('now', '-${length_intervall} day') AND (deleted = 0 OR deleted IS NULL) GROUP BY habit_id, date`;
       db.transaction((tx) => {
         tx.executeSql(
           sql,
@@ -153,7 +153,7 @@ export default class HabitOverview extends React.Component {
       // get all the entrys from the db
       db.transaction((tx) => {
         tx.executeSql(
-          "SELECT * FROM checkHabits WHERE habit_id = ? AND (deleted = 0 OR deleted IS NULL) ORDER BY date DESC",
+          "SELECT * FROM checkHabits WHERE habit_id = ? AND (deleted = 0 OR deleted IS NULL) GROUP BY habit_id, date ORDER BY date DESC ",
           [habit.id],
           (txObj, { rows: { _array } }) => {
             if (_array.length === 0) {
