@@ -3,6 +3,8 @@ import { Text, View, Modal, TouchableOpacity } from "react-native";
 import styles from "../styles";
 
 const PopUp = (props) => {
+  let addStyle = {};
+  if (props.height) addStyle = { height: props.height };
   return (
     <View>
       <Modal
@@ -14,13 +16,13 @@ const PopUp = (props) => {
         }}
       >
         <TouchableOpacity
-          style={styles.modalContainer}
+          style={[styles.modalContainer]}
           onPress={() => {
             props.close();
           }}
         >
           <TouchableOpacity
-            style={styles.modal}
+            style={[styles.modal, addStyle]}
             onPress={() => {}}
             activeOpacity={1}
           >

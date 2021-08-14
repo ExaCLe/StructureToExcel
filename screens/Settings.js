@@ -263,6 +263,7 @@ class Settings extends React.Component {
               showColorPicker: false,
             })
           }
+          height={520}
         >
           <ColorPicker
             color={this.state.color}
@@ -270,6 +271,11 @@ class Settings extends React.Component {
               this.setState({ color: fromHsv(color) });
             }}
             style={{ height: 400 }}
+          />
+          <PrimaryButton
+            onPress={this.save}
+            text={"Farbe Speichern"}
+            style={[styles.topDownMargin, styles.smallDownMargin]}
           />
         </PopUp>
 
