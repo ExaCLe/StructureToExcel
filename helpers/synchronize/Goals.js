@@ -28,6 +28,7 @@ export const saveGoals = async (_array, currentUser) => {
     Goal.set("act_id", goal.act_id);
     Goal.set("archive", goal.archive);
     Goal.set("progress", goal.progress);
+    Goal.set("archive", goal.archive);
     try {
       const savedGoal = await Goal.save();
       count++;
