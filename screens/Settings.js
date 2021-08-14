@@ -31,11 +31,13 @@ class Settings extends React.Component {
     this.state = {
       color: "ffffff",
       state: IDLE,
+      showColorPicker: false,
       updatedHabits: null,
       updatedHabitEntrys: null,
       updatedGoals: null,
       updatedAktivities: null,
       updatedTrackings: null,
+      loggedIn: false,
     };
     this.loadData();
   }
@@ -110,9 +112,11 @@ class Settings extends React.Component {
     const currentUser = await Parse.User.currentAsync();
     if (currentUser === null) {
       this.props.navigation.navigate("Login");
-      this.setState({ state: IDLE });
+      this.setState({ state: IDLE, loggedIn: false });
       return;
     }
+    this.setState({ loggedIn: true });
+    this.props.navigation.setParams({ synchronize: false });
     /* start with the habits */
     habits.transaction((tx) => {
       tx.executeSql(
@@ -197,6 +201,36 @@ class Settings extends React.Component {
     }
   }
 
+  clearHabitsDatabase = () => {
+    habits.transaction((tx) => {
+      tx.executeSql("DELETE FROM habits", null, null, (txObj, error) =>
+        console.log(error)
+      );
+      tx.executeSql("DELETE FROM checkHabits", null, () => {
+        alert("Deleted Database.", (txObj, error) => console.log(error));
+      });
+    });
+  };
+
+  clearAktivityDatabase = () => {
+    aktivities.transaction((tx) => {
+      tx.executeSql("DELETE FROM activities", null, null, (txObj, error) =>
+        console.log(error)
+      );
+      tx.executeSql("DELETE FROM trackings", null, () => {
+        alert("Database deleted.");
+      });
+    });
+  };
+
+  clearGoalsDatabase = () => {
+    goals.transaction((tx) => {
+      tx.executeSql("DELETE FROM goals", null, () => {
+        alert("Deleted database. ", (txObj, error) => console.log(error));
+      });
+    });
+  };
+
   render() {
     return (
       <ScrollView
@@ -256,6 +290,8 @@ class Settings extends React.Component {
             try {
               await Parse.User.logOut();
               const currentUser = await Parse.User.currentAsync();
+              this.setState({ loggedIn: false });
+              this.props.navigation.setParams({ synchronize: false });
               if (currentUser === null) alert("Successfully logged out.");
             } catch (error) {
               alert("Error when loggin out.");
@@ -267,47 +303,25 @@ class Settings extends React.Component {
 
         <Text style={[styles.h1]}>Löschen der Daten:</Text>
         <PrimaryButton
-          text="Clear Habits Database"
+          text="Clear All Databases"
           onPress={() => {
-            habits.transaction((tx) => {
-              tx.executeSql("DELETE FROM habits", null, null, (txObj, error) =>
-                console.log(error)
-              );
-              tx.executeSql("DELETE FROM checkHabits", null, () => {
-                alert("Deleted Database.", (txObj, error) =>
-                  console.log(error)
-                );
-              });
-            });
+            this.clearAktivityDatabase();
+            this.clearGoalsDatabase();
+            this.clearHabitsDatabase();
           }}
           style={styles.topDownMargin}
         />
         <PrimaryButton
-          text="Clear Goals Database"
+          text="Clear Habits Database"
           onPress={() => {
-            goals.transaction((tx) => {
-              tx.executeSql("DELETE FROM goals", null, () => {
-                alert("Deleted database. ", (txObj, error) =>
-                  console.log(error)
-                );
-              });
-            });
+            this.clearHabitsDatabase();
           }}
         />
+        <PrimaryButton text="Clear Goals Database" onPress={() => {}} />
         <PrimaryButton
           text="Clear Aktivities Databasse"
           onPress={() => {
-            aktivities.transaction((tx) => {
-              tx.executeSql(
-                "DELETE FROM activities",
-                null,
-                null,
-                (txObj, error) => console.log(error)
-              );
-              tx.executeSql("DELETE FROM trackings", null, () => {
-                alert("Database deleted.");
-              });
-            });
+            this.clearAktivityDatabase();
           }}
           style={styles.smallDownMargin}
         />
