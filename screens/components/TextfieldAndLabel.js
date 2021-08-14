@@ -12,7 +12,7 @@ const TextfieldAndLabel = (props) => {
       <Text style={[styles.secondaryText, styles.columnSize, labelWidth]}>
         {props.label}
       </Text>
-      <View style={{ width: props.width, marginLeft: 10 }}>
+      <View style={{ width: props.width }}>
         <Textfield
           secureTextEntry={props.secureTextEntry}
           placeholder={props.placeholder}
