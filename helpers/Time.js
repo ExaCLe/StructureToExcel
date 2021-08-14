@@ -14,7 +14,7 @@ export const extractTime = (time) => {
   const date = new Date(time);
   return `${zeroPad(date.getHours())}:${zeroPad(date.getMinutes())} ${zeroPad(
     date.getDate()
-  )}.${zeroPad(date.getMonth())}.${date.getFullYear()}`;
+  )}.${zeroPad(date.getMonth() + 1)}.${date.getFullYear()}`;
 };
 
 export const extractTimeAndDateDetailed = (time) => {
@@ -22,14 +22,14 @@ export const extractTimeAndDateDetailed = (time) => {
   return `${zeroPad(date.getHours())}:${zeroPad(date.getMinutes())}:${zeroPad(
     date.getSeconds()
   )} Uhr ${zeroPad(date.getDate())}.${zeroPad(
-    date.getMonth()
+    date.getMonth() + 1
   )}.${date.getFullYear()}`;
 };
 
 export const extractDate = (time) => {
   const date = new Date(time);
   return `${zeroPad(date.getDate())}.${zeroPad(
-    date.getMonth()
+    date.getMonth() + 1
   )}.${date.getFullYear()}`;
 };
 
@@ -46,7 +46,7 @@ export const extractDateWithDayOfWeek = (time) => {
   const date = new Date(time);
   const day = date.getDay();
   return `${daysOfTheWeek[day]}. ${zeroPad(date.getDate())}.${zeroPad(
-    date.getMonth()
+    date.getMonth() + 1
   )}`;
 };
 

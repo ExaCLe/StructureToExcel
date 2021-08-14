@@ -10,6 +10,7 @@ import PrimaryButton from "./components/PrimaryButton.js";
 import BackButton from "./components/BackButton.js";
 import HeaderIcon from "./components/HeaderIcon.js";
 import InformationRow from "./components/InformationRow.js";
+import TextButton from "./components/TextButton.js";
 
 const db = SQLite.openDatabase("goals.db");
 const tracking = SQLite.openDatabase("aktivitys.db");
@@ -171,12 +172,12 @@ class GoalsDetails extends React.Component {
           }
           label="Fortschritt:"
         />
-        <PrimaryButton
+        <TextButton
           text={this.props.route.params.archive ? "Reanimieren" : "Archivieren"}
           onPress={() => {
             this.handleArchive();
           }}
-          style={styles.topDownMargin}
+          style={[styles.topDownMargin, { alignSelf: "center" }]}
         />
       </View>
     );

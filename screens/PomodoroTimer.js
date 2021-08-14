@@ -133,6 +133,7 @@ class PomodoroTimer extends React.Component {
                           : this.state.breakInterval * 60)) *
                         100
                     }%`,
+                    backgroundColor: global.color,
                   },
                 ]}
               ></View>
@@ -140,7 +141,7 @@ class PomodoroTimer extends React.Component {
           </View>
 
           <PrimaryButton
-            text={this.state.state === PAUSE ? "Starten" : "Pausieren"}
+            text={this.state.state === PAUSE ? "Starten" : "Unterbrechen"}
             onPress={() => {
               if (this.state.state === PAUSE) {
                 this.setState((prevState) => ({ time: prevState.time - 1 }));

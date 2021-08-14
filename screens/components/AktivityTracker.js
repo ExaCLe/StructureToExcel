@@ -2,6 +2,7 @@ import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import styles from "../styles.js";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Entypo from "react-native-vector-icons/Entypo";
 import * as colors from "../../assets/colors.js";
 import * as SQLite from "expo-sqlite";
 const db = SQLite.openDatabase("aktivitys.db");
@@ -86,12 +87,7 @@ class AktivityTracker extends React.Component {
                   this.startTimer();
                 }}
               >
-                <Ionicons
-                  style={styles.padding}
-                  name="play"
-                  size={25}
-                  color={colors.PrimaryTextColor}
-                />
+                <Entypo name="controller-record" size={30} color={"red"} />
               </TouchableOpacity>
             )}
             {/* This is the END button when not running and the time*/}

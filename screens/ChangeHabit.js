@@ -261,7 +261,7 @@ class ChangeHabit extends React.Component {
         <IconRowWithChange
           onPress={() => {
             this.props.navigation.navigate("IconChooserHabits", {
-              target: "ChangeHabit",
+              targetIconChooser: "ChangeHabit",
             });
           }}
           icon={this.state.icon}

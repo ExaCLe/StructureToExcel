@@ -11,6 +11,7 @@ import InformationRow from "./components/InformationRow.js";
 import LoadingScreen from "./components/LoadingScreen.js";
 import { extractDateWithDayOfWeek } from "./../helpers/Time.js";
 import HabitStats from "./components/HabitStats.js";
+import TextButton from "./components/TextButton.js";
 
 const db = SQLite.openDatabase("habits.db");
 
@@ -304,14 +305,22 @@ class HabitsDetails extends React.Component {
           now={this.state.now}
         />
 
-        <PrimaryButton
-          text={this.props.route.params.queue ? "To Habits" : "To Queue"}
+        <TextButton
+          text={
+            this.props.route.params.queue
+              ? "Zu den Gewohnheiten"
+              : "Zur Warteschlange"
+          }
           onPress={() => {
             this.props.route.params.queue
               ? changeQueueState(0)
               : changeQueueState(1);
           }}
-          style={[styles.extraMargin, styles.downMargin]}
+          style={[
+            styles.extraMargin,
+            styles.downMargin,
+            { alignSelf: "center" },
+          ]}
         />
       </ScrollView>
     );
