@@ -24,22 +24,6 @@ class CategorieOverview extends React.Component {
       );
     });
   }
-  componentDidMount() {
-    this.props.navigation.setOptions({
-      headerRight: () => (
-        <View style={styles.container}>
-          <HeaderIcon
-            name="heart"
-            onPress={() =>
-              this.props.navigation.navigate("Categorie", {
-                categorie: categories.FAVORITES,
-              })
-            }
-          />
-        </View>
-      ),
-    });
-  }
   render() {
     return (
       <View
@@ -68,6 +52,14 @@ class CategorieOverview extends React.Component {
             })
           }
           text={"Klassiker"}
+        />
+        <PrimaryButton
+          text="Favoriten"
+          onPress={() => {
+            this.props.navigation.navigate("Categorie", {
+              categorie: categories.FAVORITES,
+            });
+          }}
         />
       </View>
     );
