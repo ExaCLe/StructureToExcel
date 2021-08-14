@@ -307,26 +307,10 @@ class ChangeHabit extends React.Component {
             this.setState({ priority: itemValue })
           }
         >
-          <Picker.Item
-            label="Priorität 1"
-            value="1"
-            color={colors.PrimaryAccentColor}
-          />
-          <Picker.Item
-            label="Priorität 2"
-            value="2"
-            color={colors.PrimaryAccentColor}
-          />
-          <Picker.Item
-            label="Priorität 3"
-            value="3"
-            color={colors.PrimaryAccentColor}
-          />
-          <Picker.Item
-            label="Priorität 4"
-            value="4"
-            color={colors.PrimaryAccentColor}
-          />
+          <Picker.Item label="Priorität 1" value="1" color={global.color} />
+          <Picker.Item label="Priorität 2" value="2" color={global.color} />
+          <Picker.Item label="Priorität 3" value="3" color={global.color} />
+          <Picker.Item label="Priorität 4" value="4" color={global.color} />
         </Picker>
         {!this.state.edit && (
           <View style={{ zIndex: -3 }}>
@@ -356,21 +340,9 @@ class ChangeHabit extends React.Component {
                     this.setState({ goalIntervall: itemValue })
                   }
                 >
-                  <Picker.Item
-                    label="Tag"
-                    value="1"
-                    color={colors.PrimaryAccentColor}
-                  />
-                  <Picker.Item
-                    label="Woche"
-                    value="2"
-                    color={colors.PrimaryAccentColor}
-                  />
-                  <Picker.Item
-                    label="Monat"
-                    value="3"
-                    color={colors.PrimaryAccentColor}
-                  />
+                  <Picker.Item label="Tag" value="1" color={global.color} />
+                  <Picker.Item label="Woche" value="2" color={global.color} />
+                  <Picker.Item label="Monat" value="3" color={global.color} />
                 </Picker>
               </View>
             )}

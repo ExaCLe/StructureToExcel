@@ -5,10 +5,7 @@ import * as colors from "./../../assets/colors.js";
 
 const AppStatusBar = () => {
   return (
-    <StatusBar
-      barStyle={"light-content"}
-      backgroundColor={colors.PrimaryAccentColor}
-    />
+    <StatusBar barStyle={"light-content"} backgroundColor={global.color} />
   );
 };
 

@@ -21,7 +21,7 @@ const AnimatedBar = (props) => {
     <Animated.View
       style={[
         {
-          backgroundColor: colors.PrimaryAccentColor,
+          backgroundColor: global.color,
           height: progressPercent,
           borderRadius: 10,
           borderBottomLeftRadius: 0,

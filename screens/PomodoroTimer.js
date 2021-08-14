@@ -141,7 +141,7 @@ class PomodoroTimer extends React.Component {
                     100
                 }%`,
                 height: "100%",
-                backgroundColor: colors.PrimaryAccentColor,
+                backgroundColor: global.color,
                 borderRadius: 10,
                 borderTopLeftRadius: 0,
                 borderBottomLeftRadius: 0,

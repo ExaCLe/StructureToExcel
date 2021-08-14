@@ -11,11 +11,7 @@ const AktivityRow = (props) => {
       <Text style={[styles.secondaryText, styles.columnSize]}>Aktivity: </Text>
       {!!props.name && (
         <View style={styles.containerHorizontal}>
-          <Ionicons
-            name={props.icon}
-            size={25}
-            color={colors.PrimaryAccentColor}
-          />
+          <Ionicons name={props.icon} size={25} color={global.color} />
           <Text style={[styles.normalText, styles.padding, styles.margin]}>
             {props.name}
           </Text>

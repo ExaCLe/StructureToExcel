@@ -38,7 +38,7 @@ const TimeAndDatePicker = (props) => {
               if (Platform.OS === "android") setShowDate(false);
             }}
             style={styles.dateTimePicker}
-            textColor={colors.PrimaryAccentColor}
+            textColor={global.color}
           />
         )}
       </View>
@@ -58,7 +58,7 @@ const TimeAndDatePicker = (props) => {
             }}
             minimumDate={props.minTime}
             style={styles.dateTimePicker}
-            textColor={colors.PrimaryAccentColor}
+            textColor={global.color}
           />
         )}
       </View>

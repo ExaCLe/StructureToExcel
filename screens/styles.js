@@ -24,7 +24,7 @@ const styles = (() => {
     textAlignCenter: {
       textAlign: "center",
     },
-    dateTimePicker: { color: colors.PrimaryAccentColor },
+    dateTimePicker: { color: global.color },
     topDownMargin: {
       marginTop: 10,
       marginBottom: 10,
@@ -142,7 +142,7 @@ const styles = (() => {
     normalText: {
       fontSize: 24,
       fontFamily: fonts.primaryFont,
-      color: colors.PrimaryAccentColor,
+      color: global.color,
     },
     statsText: {
       fontSize: 18,
@@ -159,7 +159,7 @@ const styles = (() => {
     primaryText: {
       fontSize: 24,
       fontFamily: fonts.primaryFont,
-      color: colors.PrimaryAccentColor,
+      color: global.color,
       padding: 10,
     },
     secondaryText: {
@@ -175,7 +175,7 @@ const styles = (() => {
     h1: {
       fontSize: 20,
       fontFamily: fonts.headerFont,
-      color: colors.PrimaryAccentColor,
+      color: global.color,
       width: "100%",
       marginBottom: 10,
       marginTop: 10,
@@ -277,7 +277,7 @@ const styles = (() => {
     },
     divider: {
       height: 1,
-      backgroundColor: colors.PrimaryAccentColor,
+      backgroundColor: global.color,
     },
     text: {
       paddingLeft: 5,

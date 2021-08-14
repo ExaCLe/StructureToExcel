@@ -19,7 +19,7 @@ const InformationRow = (props) => {
         <Ionicons
           style={styles.margin}
           name={props.icon}
-          color={colors.PrimaryAccentColor}
+          color={global.color}
           size={35}
         />
       )}
