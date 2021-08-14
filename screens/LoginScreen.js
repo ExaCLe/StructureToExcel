@@ -25,7 +25,15 @@ class Settings extends React.Component {
       title: this.state.register ? "Registrieren" : "Login",
     });
   }
+  checkEntry = () => {
+    if (!this.state.user) {
+      alert("Bitte Username angeben");
+      return false;
+    } else if (this.state.password === "" || this.state.password === null)
+      return false;
+  };
   logIn = async () => {
+    if (!this.checkEntry()) return;
     try {
       await Parse.User.logIn(this.state.username, this.state.password);
       this.props.navigation.navigate("Settings", { synchronize: true });
@@ -34,6 +42,7 @@ class Settings extends React.Component {
     }
   };
   register = async () => {
+    if (!this.checkEntry()) return;
     try {
       const created_user = await Parse.User.signUp(
         this.state.username,
