@@ -7,10 +7,18 @@ import BackButton from "./components/BackButton.js";
 import TextfieldAndLabel from "./components/TextfieldAndLabel.js";
 import TextButton from "./components/TextButton.js";
 
+const CONNECTING = "connecting";
+const WAITING = "waiting";
+
 class Settings extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: "", password: "", register: false };
+    this.state = {
+      username: "",
+      password: "",
+      register: false,
+      state: WAITING,
+    };
   }
   componentDidMount() {
     this.props.navigation.setOptions({
@@ -34,15 +42,20 @@ class Settings extends React.Component {
   };
   logIn = async () => {
     if (!this.checkEntry()) return;
+    if (this.state === CONNECTING) return;
+    this.setState({ state: CONNECTING });
     try {
       await Parse.User.logIn(this.state.username, this.state.password);
       this.props.navigation.navigate("Settings", { synchronize: true });
     } catch (error) {
+      this.setState({ state: WAITING });
       alert(error);
     }
   };
   register = async () => {
     if (!this.checkEntry()) return;
+    if (this.state === CONNECTING) return;
+    this.setState({ state: CONNECTING });
     try {
       const created_user = await Parse.User.signUp(
         this.state.username,
@@ -50,6 +63,7 @@ class Settings extends React.Component {
       );
       this.props.navigation.navigate("Settings", { synchronize: true });
     } catch (error) {
+      this.setState({ state: WAITING });
       alert(error);
       console.log("Error when registering: ", error);
     }
