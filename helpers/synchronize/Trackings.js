@@ -78,6 +78,7 @@ const factorInTrackings = async (array, count) => {
                       );
                       return;
                     }
+                    count++;
                     tx.executeSql(
                       "INSERT INTO trackings (act_id, start_time, end_time, duration_s, object_id_tracking, version) VALUES (?, ?, ?, ?, ?, ?);",
                       [
@@ -89,7 +90,6 @@ const factorInTrackings = async (array, count) => {
                         tracking.get("version"),
                       ],
                       () => {
-                        count++;
                         console.log("Inserted ", tracking.id);
                       },
                       (txObj, error) => {
@@ -105,7 +105,8 @@ const factorInTrackings = async (array, count) => {
                 );
               });
           } else {
-            if (_array[0].version < tracking.get("version"))
+            if (_array[0].version < tracking.get("version")) {
+              count++;
               aktivities.transaction((tx) => {
                 tx.executeSql(
                   "SELECT id FROM activities WHERE object_id = ?",
@@ -139,6 +140,7 @@ const factorInTrackings = async (array, count) => {
                   }
                 );
               });
+            }
           }
         }
       );

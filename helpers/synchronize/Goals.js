@@ -66,6 +66,7 @@ const facotrInGoals = async (array, count) => {
         (txObj, { rows: { _array } }) => {
           console.log(_array);
           if (_array.length === 0) {
+            count++;
             goals.transaction((tx) => {
               tx.executeSql(
                 "INSERT INTO goals (name, priority, intervall, repetitions, icon, time, progress, act_id, object_id, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
@@ -82,7 +83,6 @@ const facotrInGoals = async (array, count) => {
                   goal.get("version"),
                 ],
                 () => {
-                  count++;
                   console.log("Inserted ", goal.get("name"));
                 },
                 (txObj, error) => {
@@ -91,7 +91,8 @@ const facotrInGoals = async (array, count) => {
               );
             });
           } else {
-            if (_array[0].version < goal.get("version"))
+            if (_array[0].version < goal.get("version")) {
+              count++;
               goals.transaction((tx) => {
                 tx.executeSql(
                   "UPDATE goals SET name=?, intervall=?, priority=?, repetitions=?, icon=?, progress=?, time=?, act_id=?, version=?, deleted=? WHERE object_id=?",
@@ -109,7 +110,6 @@ const facotrInGoals = async (array, count) => {
                     goal.id,
                   ],
                   () => {
-                    count++;
                     console.log("Updated ", goal.get("name"));
                   },
                   (txObj, error) => {
@@ -122,6 +122,7 @@ const facotrInGoals = async (array, count) => {
                   }
                 );
               });
+            }
           }
         }
       );

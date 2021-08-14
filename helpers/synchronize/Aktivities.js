@@ -60,6 +60,7 @@ const factorInAktivitys = async (array, count) => {
         [aktivity.id],
         (txObj, { rows: { _array } }) => {
           if (_array.length === 0) {
+            count++;
             if (!aktivity.get("deleted"))
               aktivities.transaction((tx) => {
                 tx.executeSql(
@@ -72,7 +73,6 @@ const factorInAktivitys = async (array, count) => {
                     aktivity.get("version"),
                   ],
                   () => {
-                    count++;
                     console.log("Inserted ", aktivity.get("name"));
                   },
                   (txObj, error) => {
@@ -86,7 +86,8 @@ const factorInAktivitys = async (array, count) => {
                 );
               });
           } else {
-            if (_array[0].version < aktivity.get("version"))
+            if (_array[0].version < aktivity.get("version")) {
+              count++;
               aktivities.transaction((tx) => {
                 tx.executeSql(
                   "UPDATE activities SET name=?, icon=?, color=?, version=?, deleted=? WHERE object_id=?",
@@ -99,7 +100,6 @@ const factorInAktivitys = async (array, count) => {
                     aktivity.id,
                   ],
                   () => {
-                    count++;
                     console.log("Updated ", aktivity.get("name"));
                   },
                   (txObj, error) => {
@@ -112,6 +112,7 @@ const factorInAktivitys = async (array, count) => {
                   }
                 );
               });
+            }
           }
         }
       );

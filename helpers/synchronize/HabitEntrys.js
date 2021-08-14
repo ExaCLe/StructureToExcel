@@ -75,6 +75,7 @@ const factorInHabitEntrys = async (array, count) => {
                       );
                       return;
                     }
+                    count++;
                     tx.executeSql(
                       "INSERT INTO checkHabits (habit_id, date, object_id_check, version) VALUES (?, ?, ?, ?);",
                       [
@@ -84,7 +85,6 @@ const factorInHabitEntrys = async (array, count) => {
                         habit_entry.get("version"),
                       ],
                       () => {
-                        count++;
                         console.log("Inserted ", habit_entry.id);
                       },
                       (txObj, error) => {
@@ -112,6 +112,7 @@ const factorInHabitEntrys = async (array, count) => {
                       );
                       return;
                     }
+                    count++;
                     tx.executeSql(
                       "UPDATE checkHabits SET date=?, habit_id=?, version=?, deleted=? WHERE object_id_check=?",
                       [
@@ -122,7 +123,6 @@ const factorInHabitEntrys = async (array, count) => {
                         habit_entry.id,
                       ],
                       () => {
-                        count++;
                         console.log("Updated ", habit_entry.id);
                       },
                       (txObj, error) => {

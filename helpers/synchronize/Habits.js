@@ -48,7 +48,7 @@ export const saveHabits = async (_array, currentUser) => {
     let query = new Parse.Query("Habit");
     query.equalTo("user", currentUser);
     let queryResults = await query.find();
-    return factorInHabits(queryResults, count);
+    return await factorInHabits(queryResults, count);
   } catch (error) {
     console.error(error);
   }
@@ -63,6 +63,7 @@ export const factorInHabits = async (array, count) => {
         [habit.id],
         (txObj, { rows: { _array } }) => {
           if (_array.length === 0) {
+            count++;
             habits.transaction((tx) => {
               tx.executeSql(
                 "INSERT INTO habits (name, priority, intervall, repetitions, icon, queue, object_id, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
@@ -77,7 +78,6 @@ export const factorInHabits = async (array, count) => {
                   habit.get("version"),
                 ],
                 () => {
-                  count++;
                   console.log("Inserted ", habit.get("name"));
                 },
                 (txObj, error) => {
@@ -91,7 +91,8 @@ export const factorInHabits = async (array, count) => {
               );
             });
           } else {
-            if (_array[0].version < habit.get("version"))
+            if (_array[0].version < habit.get("version")) {
+              count++;
               habits.transaction((tx) => {
                 tx.executeSql(
                   "UPDATE habits SET name=?, intervall=?, priority=?, repetitions=?, icon=?, queue=?, version=?, deleted=? WHERE object_id=?",
@@ -107,7 +108,6 @@ export const factorInHabits = async (array, count) => {
                     habit.id,
                   ],
                   () => {
-                    count++;
                     console.log("Updated ", habit.get("name"));
                   },
                   (txObj, error) => {
@@ -120,6 +120,7 @@ export const factorInHabits = async (array, count) => {
                   }
                 );
               });
+            }
           }
         }
       );
