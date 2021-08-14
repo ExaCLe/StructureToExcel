@@ -187,7 +187,10 @@ class ChangeGoal extends React.Component {
     }
 
     // decide on the right sql command
-    let sql, values;
+    let sql, values, repetitions;
+    if (this.state.time)
+      repetitions = Math.floor(parseFloat(this.state.repetitions));
+    else repetitions = this.state.repetitions;
     if (!this.state.edit) {
       sql =
         "INSERT INTO goals (name, intervall, priority, repetitions, icon, progress, time, act_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
@@ -195,7 +198,7 @@ class ChangeGoal extends React.Component {
         this.state.name,
         this.state.intervall,
         this.state.priority,
-        this.state.repetitions,
+        repetitions,
         this.state.icon,
         this.state.progress,
         this.state.time,
@@ -203,13 +206,14 @@ class ChangeGoal extends React.Component {
       ];
     } else {
       const version = this.state.version + 1;
+
       sql =
         "UPDATE goals SET name=?, intervall=?, priority=?, repetitions=?, icon=?, progress=?, time=? , act_id = ?, version=? WHERE id = ?";
       values = [
         this.state.name,
         this.state.intervall,
         this.state.priority,
-        this.state.repetitions,
+        repetitions,
         this.state.icon,
         this.state.progress,
         this.state.time,
@@ -317,11 +321,19 @@ class ChangeGoal extends React.Component {
         {this.state.time && (
           <View>
             <TextfieldAndLabel
-              placeholder="12 h"
-              value={this.state.repetitions ? this.state.repetitions + "" : ""}
+              placeholder="12"
+              value={this.state.repetitions + ""}
               onChangeText={(text) => {
-                if (+text || text === "")
-                  this.setState({ repetitions: text, change: true });
+                if (+text || text === "0" || text === "0.") {
+                  this.setState({
+                    repetitions: text,
+                    change: true,
+                  });
+                } else if (text === "")
+                  this.setState({
+                    repetitions: "",
+                    change: true,
+                  });
               }}
               keyboardType="numeric"
               width="50%"

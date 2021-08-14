@@ -9,6 +9,16 @@ export const toTime = (time) => {
     " s"
   );
 };
+export const toTimeShort = (time) => {
+  console.log(time);
+  if (!time && time !== 0) return "";
+  return (
+    zeroPad(Math.floor(time / 60)) +
+    " h " +
+    zeroPad(Math.floor(time % 60)) +
+    " min "
+  );
+};
 
 export const extractTime = (time) => {
   const date = new Date(time);
