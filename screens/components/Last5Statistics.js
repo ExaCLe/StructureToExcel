@@ -10,10 +10,11 @@ const Last5Statistics = (props) => {
   props.lastFive.map((ele) => {
     if (max < ele) max = ele;
   });
-  console.log("LAST FIVE", props.lastFive);
   return (
     <View>
-      <Text style={[styles.h1, { textAlign: "center" }]}>{props.title}</Text>
+      <Text style={[styles.h1, { textAlign: "center", color: global.color }]}>
+        {props.title}
+      </Text>
       <View
         style={{
           height: "90%",
@@ -35,14 +36,20 @@ const Last5Statistics = (props) => {
               ]}
             >
               <AnimatedBar height={(ele / max) * 92} />
-              <Text style={[styles.primaryAccentColor, styles.textVerySmall]}>
+              <Text
+                style={[
+                  styles.primaryAccentColor,
+                  styles.textVerySmall,
+                  { color: global.color },
+                ]}
+              >
                 {toTime(ele)}
               </Text>
               <Text
                 style={[
                   styles.primaryAccentColor,
                   styles.textVerySmall,
-                  { alignSelf: "center" },
+                  { alignSelf: "center", color: global.color },
                 ]}
               >
                 {index + 1}

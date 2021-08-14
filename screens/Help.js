@@ -27,7 +27,9 @@ class Help extends React.Component {
       elements = (
         <View style={styles.downMargin}>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Aktivitäten tracken.</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Aktivitäten tracken.
+            </Text>
             <Text style={styles.paragraph}>
               Hier kannst du verfolgen wie viel Zeit du mit den
               unterschiedlichen Tätigkeiten verbringst.
@@ -35,7 +37,7 @@ class Help extends React.Component {
           </View>
 
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Hinzufügen</Text>
+            <Text style={[styles.h1, { color: global.color }]}>Hinzufügen</Text>
             <Text style={styles.paragraph}>
               Neue Aktivitäten kannst du über das{" "}
               <Ionicons
@@ -48,7 +50,9 @@ class Help extends React.Component {
             </Text>
           </View>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Warum ist dies sinnvoll?</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Warum ist dies sinnvoll?
+            </Text>
             <Text style={styles.paragraph}>
               Dies kann sinnvoll sein, um bewusster mit deiner Zeit umzugehen
               oder um deine täglichen Arbeitsziele nicht mehr output sondern
@@ -57,7 +61,9 @@ class Help extends React.Component {
             </Text>
           </View>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Bearbeiten der Aktivität</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Bearbeiten der Aktivität
+            </Text>
             <Text style={styles.paragraph}>
               Öffne dazu einfach die Details indem du die Aktivität anklickst
               und dann kannst du über
@@ -70,7 +76,9 @@ class Help extends React.Component {
             </Text>
           </View>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Löschen der Aktivität</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Löschen der Aktivität
+            </Text>
             <Text style={styles.paragraph}>
               Öffne dazu einfach die Details indem du die Aktivität anklickst
               und dann kannst du über
@@ -83,7 +91,9 @@ class Help extends React.Component {
             </Text>
           </View>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Starten einer Aufzeichnung</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Starten einer Aufzeichnung
+            </Text>
             <Text style={styles.paragraph}>
               Tippe dazu einfach das Symbol
               <Ionicons
@@ -95,7 +105,7 @@ class Help extends React.Component {
             </Text>
           </View>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>
+            <Text style={[styles.h1, { color: global.color }]}>
               Stoppen und Speichern einer Aufzeichnung
             </Text>
             <Text style={styles.paragraph}>
@@ -114,7 +124,7 @@ class Help extends React.Component {
       elements = (
         <View style={styles.downMargin}>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Trackings</Text>
+            <Text style={[styles.h1, { color: global.color }]}>Trackings</Text>
             <Text style={styles.paragraph}>
               Hier sind alle Aufzeichungen deiner Aktivitäten eingetragen. Du
               kannst sie bearbeiten, ansehen, löschen oder ganz neue Einträge
@@ -123,7 +133,7 @@ class Help extends React.Component {
           </View>
 
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Hinzufügen</Text>
+            <Text style={[styles.h1, { color: global.color }]}>Hinzufügen</Text>
             <Text style={styles.paragraph}>
               Neue Ziele kannst du über das{" "}
               <Ionicons
@@ -137,7 +147,7 @@ class Help extends React.Component {
             </Text>
           </View>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Bearbeiten</Text>
+            <Text style={[styles.h1, { color: global.color }]}>Bearbeiten</Text>
             <Text style={styles.paragraph}>
               Um einen Eintrag zu bearbeiten musst du ihn einfach antippen und
               dann in den Bearbeitunsmodus über das Symbol
@@ -151,7 +161,9 @@ class Help extends React.Component {
             </Text>
           </View>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Löschen des Eintrages</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Löschen des Eintrages
+            </Text>
             <Text style={styles.paragraph}>
               Tippe dazu einfach den Eintrag an, um die Details zu sehen und
               tippe dann auf das Symbol
@@ -169,7 +181,7 @@ class Help extends React.Component {
       elements = (
         <View style={styles.downMargin}>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Ziele</Text>
+            <Text style={[styles.h1, { color: global.color }]}>Ziele</Text>
             <Text style={styles.paragraph}>
               Hier kannst du Ziele hinzufügen und deinen Fortschritt bei der
               Erfüllung verfolgen.
@@ -177,7 +189,7 @@ class Help extends React.Component {
           </View>
 
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Hinzufügen</Text>
+            <Text style={[styles.h1, { color: global.color }]}>Hinzufügen</Text>
             <Text style={styles.paragraph}>
               Neue Ziele kannst du über das{" "}
               <Ionicons
@@ -193,7 +205,9 @@ class Help extends React.Component {
             </Text>
           </View>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Updaten des Fortschritts</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Updaten des Fortschritts
+            </Text>
             <Text style={styles.paragraph}>
               Wenn du bei einem Ziel Fortschritt erzielt hast, dann kannst du
               diesen über das Symbol
@@ -208,7 +222,9 @@ class Help extends React.Component {
             </Text>
           </View>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Bearbeiten des Ziels</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Bearbeiten des Ziels
+            </Text>
             <Text style={styles.paragraph}>
               Öffne dazu einfach die Details indem du das Ziel anklickst und
               dann kannst du über
@@ -221,7 +237,9 @@ class Help extends React.Component {
             </Text>
           </View>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Löschen des Ziels</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Löschen des Ziels
+            </Text>
             <Text style={styles.paragraph}>
               Öffne dazu einfach die Details indem du das Ziel anklickst und
               dann kannst du über
@@ -234,7 +252,9 @@ class Help extends React.Component {
             </Text>
           </View>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Ansicht Wechseln</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Ansicht Wechseln
+            </Text>
             <Text style={styles.paragraph}>
               Je nachdem welches Intervall du gewählt hast, musst die die
               Ansicht der Ziele wechseln, damit dein Ziel sichtbar ist. Drücke
@@ -244,7 +264,7 @@ class Help extends React.Component {
             </Text>
           </View>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Zeitziele</Text>
+            <Text style={[styles.h1, { color: global.color }]}>Zeitziele</Text>
             <Text style={styles.paragraph}>
               Du kannst auch Zeitziele anlegen, wobei du hier dann den
               Fortschritt mithilfe des Trackens im Tracking-Tab verfolgen
@@ -274,7 +294,9 @@ class Help extends React.Component {
       elements = (
         <View style={styles.downMargin}>
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Gewohnheiten</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Gewohnheiten
+            </Text>
             <Text style={styles.paragraph}>
               Hier kannst du Gewohnheiten hinzufügen und dann einmal täglich
               diese erfüllen.
@@ -282,7 +304,7 @@ class Help extends React.Component {
           </View>
 
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Hinzufügen</Text>
+            <Text style={[styles.h1, { color: global.color }]}>Hinzufügen</Text>
             <Text style={styles.paragraph}>
               Neue Gewohnheiten kannst du über das{" "}
               <Ionicons
@@ -299,7 +321,9 @@ class Help extends React.Component {
           </View>
 
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Warteschlange</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Warteschlange
+            </Text>
             <Text style={styles.paragraph}>
               Grundsätzlich ist es nicht sinnvoll, alle Gewohnheiten auf einmal
               zu implementieren, weshalb es eine Warteschlange gibt, die
@@ -318,7 +342,9 @@ class Help extends React.Component {
           </View>
 
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Detailansicht</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Detailansicht
+            </Text>
             <Text style={styles.paragraph}>
               Zur Detailansicht einer Gewohnheit gelangst du, indem du sie
               einfach antippst.
@@ -326,7 +352,9 @@ class Help extends React.Component {
           </View>
 
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Abhaken/Erfüllen</Text>
+            <Text style={[styles.h1, { color: global.color }]}>
+              Abhaken/Erfüllen
+            </Text>
             <Text style={styles.paragraph}>
               Du kannst Gewohnheiten abhaken, indem du auf das{" "}
               <Ionicons
@@ -339,7 +367,7 @@ class Help extends React.Component {
           </View>
 
           <View style={styles.paragraphContainer}>
-            <Text style={styles.h1}>Nachtragen</Text>
+            <Text style={[styles.h1, { color: global.color }]}>Nachtragen</Text>
             <Text style={styles.paragraph}>
               Über die Monatsansicht einer Gewohnheit kannst du die Gewohnheiten
               noch bis zu 30 Tage lang nachtragen oder wieder löschen, indem du
