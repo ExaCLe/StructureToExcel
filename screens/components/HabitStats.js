@@ -26,6 +26,9 @@ const HabitStats = (props) => {
                   onLongPress={() => {
                     props.onLongPress(index, bool);
                   }}
+                  onPress={() => {
+                    props.onPress(index, bool);
+                  }}
                 >
                   <Ionicons name={name} size={50} color={color} />
                 </TouchableOpacity>

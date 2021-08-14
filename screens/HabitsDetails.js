@@ -196,12 +196,43 @@ class HabitsDetails extends React.Component {
 
   addCheck = (index, bool) => {
     if (!bool) {
-      this.confirmAdd(index);
+      const sql = `INSERT INTO checkHabits (habit_id, date) VALUES (?, date('now', '-${index} day'))`;
+      console.log(sql);
+      db.transaction((tx) => {
+        tx.executeSql(
+          sql,
+          [this.props.route.params.id],
+          (txObj, result) => {},
+          (txObj, error) => {
+            console.log(error);
+          }
+        );
+      });
+      this.fetchData();
     } else {
-      this.confirmDeleteEntry(index);
+      const sql = `UPDATE checkHabits SET deleted = 1, version=? WHERE habit_id = ? AND date = date('now', '-${index} day')`;
+      console.log(sql);
+      db.transaction((tx) => {
+        tx.executeSql(
+          sql,
+          [this.props.route.params.version + 1, this.props.route.params.id],
+          (txObj, result) => {},
+          (txObj, error) => {
+            console.log(error);
+          }
+        );
+      });
+      this.fetchData();
     }
   };
-  confirmDeleteEntry = (index) => {
+  addCheckWithAlert = (index, bool) => {
+    if (!bool) {
+      this.confirmAdd(index, bool);
+    } else {
+      this.confirmDeleteEntry(index, bool);
+    }
+  };
+  confirmDeleteEntry = (index, bool) => {
     Alert.alert(
       "Löschen",
       "Möchtest du wirklich den Eintrag der Gewohnheit löschen?",
@@ -209,22 +240,7 @@ class HabitsDetails extends React.Component {
         {
           text: "Ja",
           onPress: () => {
-            const sql = `UPDATE checkHabits SET deleted = 1, version=? WHERE habit_id = ? AND date = date('now', '-${index} day')`;
-            console.log(sql);
-            db.transaction((tx) => {
-              tx.executeSql(
-                sql,
-                [
-                  this.props.route.params.version + 1,
-                  this.props.route.params.id,
-                ],
-                (txObj, result) => {},
-                (txObj, error) => {
-                  console.log(error);
-                }
-              );
-            });
-            this.fetchData();
+            this.addCheck(index, bool);
           },
         },
         {
@@ -233,7 +249,7 @@ class HabitsDetails extends React.Component {
       ]
     );
   };
-  confirmAdd = (index) => {
+  confirmAdd = (index, bool) => {
     Alert.alert(
       "Nachtragen",
       "Möchtest du wirklich die Gewohnheit nachtragen?",
@@ -241,19 +257,7 @@ class HabitsDetails extends React.Component {
         {
           text: "Ja",
           onPress: () => {
-            const sql = `INSERT INTO checkHabits (habit_id, date) VALUES (?, date('now', '-${index} day'))`;
-            console.log(sql);
-            db.transaction((tx) => {
-              tx.executeSql(
-                sql,
-                [this.props.route.params.id],
-                (txObj, result) => {},
-                (txObj, error) => {
-                  console.log(error);
-                }
-              );
-            });
-            this.fetchData();
+            this.addCheck(index, bool);
           },
         },
         {
@@ -292,6 +296,7 @@ class HabitsDetails extends React.Component {
         <HabitStats
           entrys={this.state.lastSevenDays}
           onLongPress={this.addCheck}
+          onPress={this.addCheckWithAlert}
           now={this.state.now}
         />
 
@@ -302,6 +307,7 @@ class HabitsDetails extends React.Component {
         <HabitStats
           entrys={this.state.lastThirtyDays}
           onLongPress={this.addCheck}
+          onPress={this.addCheckWithAlert}
           now={this.state.now}
         />
 
