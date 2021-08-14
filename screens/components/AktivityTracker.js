@@ -87,7 +87,8 @@ class AktivityTracker extends React.Component {
                   this.startTimer();
                 }}
               >
-                <Entypo name="controller-record" size={30} color={"red"} />
+                {/* <Entypo name="controller-record" size={30} color={"red"} /> */}
+                <View style={styles.recordButton}></View>
               </TouchableOpacity>
             )}
             {/* This is the END button when not running and the time*/}
