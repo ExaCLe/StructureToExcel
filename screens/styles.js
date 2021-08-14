@@ -21,6 +21,28 @@ const styles = (() => {
       paddingRight: 20,
       flex: 1,
     },
+    pomAnimationContainer: {
+      width: "100%",
+      height: 20,
+      overflow: "hidden",
+      borderRadius: 10,
+      marginBottom: 20,
+    },
+    pomAnimationBackground: {
+      width: "100%",
+      height: 20,
+      backgroundColor: colors.LightPrimaryAccentColor,
+      borderRadius: 10,
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+    },
+    pomAnimationBar: {
+      height: "100%",
+      backgroundColor: global.color,
+      borderRadius: 10,
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+    },
     textAlignCenter: {
       textAlign: "center",
     },

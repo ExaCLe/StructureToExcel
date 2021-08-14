@@ -119,35 +119,26 @@ class PomodoroTimer extends React.Component {
                 ? "0" + (this.state.time % 60)
                 : this.state.time % 60)}
           </Text>
-          <View
-            style={{
-              width: "100%",
-              height: 20,
-              marginBottom: 20,
-              backgroundColor: colors.LightPrimaryAccentColor,
-              borderRadius: 10,
-              borderTopLeftRadius: 0,
-              borderBottomLeftRadius: 0,
-            }}
-          >
-            <View
-              style={{
-                width: `${
-                  100 -
-                  (this.state.time /
-                    (this.state.interval === WORK
-                      ? this.state.workingInterval * 60
-                      : this.state.breakInterval * 60)) *
-                    100
-                }%`,
-                height: "100%",
-                backgroundColor: global.color,
-                borderRadius: 10,
-                borderTopLeftRadius: 0,
-                borderBottomLeftRadius: 0,
-              }}
-            ></View>
+          <View style={styles.pomAnimationContainer}>
+            <View style={styles.pomAnimationBackground}>
+              <View
+                style={[
+                  styles.pomAnimationBar,
+                  {
+                    width: `${
+                      100 -
+                      (this.state.time /
+                        (this.state.interval === WORK
+                          ? this.state.workingInterval * 60
+                          : this.state.breakInterval * 60)) *
+                        100
+                    }%`,
+                  },
+                ]}
+              ></View>
+            </View>
           </View>
+
           <PrimaryButton
             text={this.state.state === PAUSE ? "Starten" : "Pausieren"}
             onPress={() => {
