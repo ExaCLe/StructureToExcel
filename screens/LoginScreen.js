@@ -34,11 +34,13 @@ class Settings extends React.Component {
     });
   }
   checkEntry = () => {
-    if (!this.state.user) {
+    if (!this.state.username) {
       alert("Bitte Username angeben");
       return false;
-    } else if (this.state.password === "" || this.state.password === null)
+    } else if (this.state.password === "" || this.state.password === null) {
+      alert("Bitte Passwort eingeben");
       return false;
+    } else return true;
   };
   logIn = async () => {
     if (!this.checkEntry()) return;
@@ -69,6 +71,7 @@ class Settings extends React.Component {
     }
   };
   render() {
+    console.log(this.state);
     return (
       <View style={styles.mainContainer}>
         <TextfieldAndLabel

@@ -9,7 +9,9 @@ export const saveTrackings = async (_array, currentUser) => {
     const tracking = _array[i];
     let Tracking = new Parse.Object("Tracking");
     if (tracking.object_id === null) {
-      alert("Something went wrong. Please try again.");
+      alert(
+        "Something went wrong with the trackings. Please try again. Code 2"
+      );
       return;
     }
     if (tracking.object_id_tracking) {
@@ -74,7 +76,7 @@ const factorInTrackings = async (array, count) => {
                   (txObj, { rows: { _array } }) => {
                     if (_array.length === 0) {
                       alert(
-                        "Something went wrong with the trackings. Please try again."
+                        "Something went wrong with the trackings. Please try again. Code: 1"
                       );
                       return;
                     }
@@ -114,7 +116,7 @@ const factorInTrackings = async (array, count) => {
                   (txObj, { rows: { _array } }) => {
                     if (_array.length === 0) {
                       alert(
-                        "Something went wrong with the trackings. Please try again."
+                        "Something went wrong with the trackings. Please try again. Code: 3s"
                       );
                       return;
                     }

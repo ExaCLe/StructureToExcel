@@ -1,5 +1,6 @@
 import * as SQLite from "expo-sqlite";
 import Parse, { User } from "parse/react-native";
+import { ForceTouchGestureHandler } from "react-native-gesture-handler";
 
 const habits = SQLite.openDatabase("habits.db");
 
@@ -9,7 +10,7 @@ export const saveHabitChecks = async (_array, currentUser) => {
     const habit_entry = _array[i];
     let Habit_Entry = new Parse.Object("Habit_Entry");
     if (habit_entry.object_id === null) {
-      alert("Something went wrong. Please try again.");
+      alert("Something went wrong with the habit entries. Please try again.");
       return;
     }
     if (habit_entry.object_id_check) {
@@ -54,7 +55,7 @@ export const saveHabitChecks = async (_array, currentUser) => {
   }
 };
 
-const factorInHabitEntrys = async (array, count) => {
+const factorInHabitEntrys = async (array, count, times = 0) => {
   for (let i = 0; i < array.length; i++) {
     const habit_entry = array[i];
     habits.transaction((tx) => {
@@ -70,6 +71,9 @@ const factorInHabitEntrys = async (array, count) => {
                   [habit_entry.get("habit").id],
                   (txObj, { rows: { _array } }) => {
                     if (_array.length === 0) {
+                      if (times < 5) {
+                        factorInHabitEntrys(array, count, ++times);
+                      }
                       alert(
                         "Something went wrong with the Habit Entrys. Please try again."
                       );
