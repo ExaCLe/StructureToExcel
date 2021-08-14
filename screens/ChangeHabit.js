@@ -35,14 +35,11 @@ class ChangeHabit extends React.Component {
       addToTracking: false,
       priority: false,
       intervall: (() => {
-        return edit ? "" + props.route.params.intervall : "";
-      })(),
-      valuePriority: (() => {
-        return edit ? "" + props.route.params.priority : "";
+        return edit ? "" + props.route.params.intervall : "7";
       })(),
       goalIntervall: 1,
       repetitions: (() => {
-        return edit ? "" + props.route.params.repetitions : "";
+        return edit ? "" + props.route.params.repetitions : "7";
       })(),
       priority: (() => {
         return edit ? props.route.params.priority : 1;
